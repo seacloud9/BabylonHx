@@ -41,7 +41,11 @@ class BaseTexture {
 		
         return false;
     }
-	
+
+	public function getScene():Scene {
+            return this._scene;
+    }
+
 	public function getSize():Dynamic {
         if (this._texture._width != -1) {
             return { width: this._texture._width, height: this._texture._height };

@@ -596,6 +596,12 @@ class Engine {
         this._currentEffect = effect;
     }
 
+    inline public function setArray(uniform:GLUniformLocation = null, array:Array<Float>){
+            if (uniform != null){
+                GL.uniform1fv(uniform, array);
+            }
+    }
+
     inline public function setMatrices(uniform:GLUniformLocation = null, matrices: #if html5 Float32Array #else Array<Float> #end ) {
         if (uniform != null) {
 			GL.uniformMatrix4fv(uniform, false, #if html5 matrices #else new Float32Array(matrices) #end );

@@ -282,6 +282,11 @@ class Effect {
         this._engine.setMatrices(this.getUniform(uniformName), matrices);
     }
 
+    inline public function setArray(uniformName:String,  array:Array<Float>): Effect {
+            this._engine.setArray(this.getUniform(uniformName), array);
+            return this;
+     }
+
     inline public function setMatrix(uniformName:String, matrix:Matrix) {
         //if (this._valueCache[uniformName] && this._valueCache[uniformName].equals(matrix))
         //    return;

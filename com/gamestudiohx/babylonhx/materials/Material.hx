@@ -58,6 +58,10 @@ class Material {
         return this._effect;
     }
 	
+	public function getScene():Scene {
+            return this._scene;
+    }
+
 	public function needAlphaBlending():Bool {
         return (this.alpha < 1.0);
     }
