@@ -27,7 +27,7 @@ import com.gamestudiohx.babylonhx.materials.textures.CubeTexture;
 
 class ShaderMaterial extends Material {
 
-		private var _shaderPath:String;
+		private var _shaderPath:Dynamic;
         private var _options:Dynamic;
         private var _textures:Map<String, Texture>;
         private var _floats:Map<String, Float>;
@@ -39,7 +39,7 @@ class ShaderMaterial extends Material {
         private var _matrices:Map<String, Matrix>;
         private var _cachedWorldViewMatrix:Matrix;
 
-	public function new(name:String, scene:Scene, shaderPath:String, options:Dynamic) {
+	public function new(name:String, scene:Scene, shaderPath:Dynamic, options:Dynamic) {
 		    super(name, scene);
             this._shaderPath = shaderPath;
             if(options.needAlphaBlending == null){

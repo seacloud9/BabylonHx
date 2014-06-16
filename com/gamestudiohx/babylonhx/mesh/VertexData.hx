@@ -3,18 +3,19 @@ package com.gamestudiohx.babylonhx.mesh;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
 import openfl.utils.Float32Array;
-import haxe.Math;
 
 
-
-    export interface IGetSetVerticesData {
-        isVerticesDataPresent(kind: string): Bool;
-        getVerticesData(kind: string): Array<Float>;
+    /*
+    class IGetSetVerticesData {
+        isVerticesDataPresent(kind:String): Bool;
+        getVerticesData(kind:String): Array<Float>;
         getIndices(): Array<Float>;
-        setVerticesData(kind: string, data: Array<Float>, updatable?: Bool): void;
-        updateVerticesData(kind: string, data: Array<Float>, updateExtends?: Bool, makeItUnique?: Bool): void;
+        setVerticesData(kind: String, data: Array<Float>, updatable?: Bool): void;
+        updateVerticesData(kind: String, data: Array<Float>, updateExtends?: Bool, makeItUnique?: Bool): void;
         setIndices(indices: Array<Float>): void;
     }
+
+    */
 
     class VertexData {
         public var positions : Array<Float>;
@@ -28,27 +29,20 @@ import haxe.Math;
 
         public function set(data:Array<Float>, kind:String ) {
             switch (kind) {
-                case VertexBuffer.PositionKind
+                case VertexBuffer.PositionKind:
                 this.positions = data;
-                break;
-                case VertexBuffer.NormalKind
+                case VertexBuffer.NormalKind:
                 this.normals = data;
-                break;
-                case VertexBuffer.UVKind
+                case VertexBuffer.UVKind:
                 this.uvs = data;
-                break;
-                case VertexBuffer.UV2Kind
+                case VertexBuffer.UV2Kind:
                 this.uv2s = data;
-                break;
-                case VertexBuffer.ColorKind
+                case VertexBuffer.ColorKind:
                 this.colors = data;
-                break;
-                case VertexBuffer.MatricesIndicesKind
+                case VertexBuffer.MatricesIndicesKind:
                 this.matricesIndices = data;
-                break;
-                case VertexBuffer.MatricesWeightsKind
+                case VertexBuffer.MatricesWeightsKind:
                 this.matricesWeights = data;
-                break;
             }
         }
 
@@ -180,8 +174,13 @@ import haxe.Math;
                     this.indices = [];
                 }
 
-                var offset = this.positions ? this.positions.
-                public var length / 3  :  0;
+                //var offset = this.positions ? this.positions.length / 3  :  0;
+                if(this.positions != null){
+                    var offset = this.positions.length / 3;
+                }else{
+                    var offset = 0;
+                }
+
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < other.indices.length; index++)
                 var index = 0;
@@ -301,7 +300,7 @@ import haxe.Math;
             return VertexData._ExtractFrom(geometry);
         }
 
-        static function _ExtractFrom(meshOrGeometry:IGetSetVerticesData ) : VertexData {
+        static function _ExtractFrom(meshOrGeometry:Dynamic ) : VertexData {
             var result = new VertexData();
 
             if (meshOrGeometry.isVerticesDataPresent(VertexBuffer.PositionKind)) {
@@ -506,9 +505,12 @@ import haxe.Math;
                 return new Vector3(dx, 0, dz);
             };
 
-            var createCylinderCap = isTop => {
-                var radius =
-                public var isTop ? radiusTop  : radiusBottom;
+            var createCylinderCap  = function (isTop:Bool) {
+                if(isTop){
+                    var radius = radiusTop;
+                    }else{
+                    var radius = radiusBottom;
+                }
 
                 if (radius == 0) {
                     return;
@@ -876,7 +878,7 @@ import haxe.Math;
 
         // based on http://code.google.com/p/away3d/source/browse/trunk/fp10/Away3D/src/away3d/primitives/TorusKnot.as?spec=svn2473&r=2473
 
-        static function CreateTorusKnot(radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float,  p:number,q:Float ) : VertexData {
+        static function CreateTorusKnot(radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float,  p:Float, q:Float ) : VertexData {
             var indices = [];
             var positions = [];
             var normals = [];

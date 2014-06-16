@@ -11,7 +11,6 @@ import flash.display.BitmapData;
 
 class DynamicTexture extends Texture{
         private var _generateMipMaps:Bool;
-        private var _canvas :BitmapData;
         //private var _context : CanvasRenderingContext2D;
 
         public function new(name:String, options:Dynamic, scene:Scene, generateMipMaps:Bool) {
@@ -44,6 +43,10 @@ class DynamicTexture extends Texture{
         /*public function getContext():CanvasRenderingContext2D {
             return this._context;
         }*/
+
+        public function getCanvas():BitmapData{
+            return this._canvas;
+        }
 
         public function update(invertY:Int = 1){
             this.getScene().getEngine().updateDynamicTexture(this._texture, this._canvas, invertY);

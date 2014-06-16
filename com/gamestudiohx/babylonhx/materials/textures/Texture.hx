@@ -7,6 +7,8 @@ import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.animations.Animation;
 import flash.Lib;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import openfl.gl.GLFramebuffer;
 import openfl.gl.GLRenderbuffer;
 import openfl.gl.GLTexture;
@@ -106,6 +108,7 @@ class Texture extends BaseTexture {
 	public var _cachedCoordinatesMode:Float;
     public var anisotropicFilteringLevel:Float;
 	public var _cachedAnisotropicFilteringLevel:Float;
+	public var _canvas:BitmapData;
 	
 	public var _rowGenerationMatrix:Matrix;
 	public var _cachedTextureMatrix:Matrix;
