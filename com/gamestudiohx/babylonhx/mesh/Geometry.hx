@@ -1,7 +1,9 @@
 package com.gamestudiohx.babylonhx.mesh;
 
+import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.VertexData;
+import com.gamestudiohx.babylonhx.mesh.VertexBuffer;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
 import openfl.utils.Float32Array;
 
@@ -9,26 +11,25 @@ import openfl.utils.Float32Array;
     class Geometry {
         //
         //public var Members
-        public id : String;
-        public delayLoadState = BABYLON.Engine.DELAYLOADSTATE_NONE;
+        public var id:String;
+        public var delayLoadState:Int = Engine.DELAYLOADSTATE_NONE;
         public var delayLoadingFile : String;
 
         //
         //public var Private
-        private _engine : Engine;
-        private var _meshes : Mesh[];
-        private _totalVertices = 0;
-        private _indices = [];
-        private _vertexBuffers;
-        private _delayInfo; //ANY
-        private _indexBuffer;
-        private var _boundingInfo : BoundingInfo;
-        private _delayLoadingFunction: (any, Geometry) => void;
+        private var _engine : Engine;
+        private var _meshes : Array<Mesh>;
+        private var _totalVertices:Int = 0;
+        private var _indices:Array<Int> = new Array<Int>();
+        private var _vertexBuffers:Array<VertexBuffer>;
+        private var _delayInfo:Array<String>; //ANY
+        private var _indexBuffer:BabylonGLBuffer;
+        private var _boundingInfo:BoundingInfo;
 
-        public function new(id:String, engine:Engine, ?vertexData:VertexData, ?updatable:boolean, ?mesh:Mesh ) {
+        public function new(id:String, engine:Engine, ?vertexData:VertexData, ?updatable:Bool, ?mesh:Mesh ) {
             this.id = id;
             this._engine = engine;
-            this._meshes = [];
+            this._meshes = new Array<Mesh>();
 
             // vertexData
             if (vertexData) {
@@ -36,7 +37,7 @@ import openfl.utils.Float32Array;
             }
             else {
                 this._totalVertices = 0;
-                this._indices = [];
+                this._indices = new Array<Int>();
             }
 
             // applyToMesh
@@ -49,15 +50,15 @@ import openfl.utils.Float32Array;
             return this._engine;
         }
 
-        public function isReady() : boolean {
-            return this.delayLoadState == BABYLON.Engine.DELAYLOADSTATE_LOADED || this.delayLoadState == BABYLON.Engine.DELAYLOADSTATE_NONE;
+        public function isReady() : Bool {
+            return this.delayLoadState == Engine.DELAYLOADSTATE_LOADED || this.delayLoadState == Engine.DELAYLOADSTATE_NONE;
         }
 
-        public function setAllVerticesData(vertexData:VertexData, ?updatable:boolean ) : Void {
+        public function setAllVerticesData(vertexData:VertexData, ?updatable:Bool ) : Void {
             vertexData.applyToGeometry(this, updatable);
         }
 
-        public function setVerticesData(kind:String, data:Float[], ?updatable:boolean ) : Void {
+        public function setVerticesData(kind:String, data:Array<Float>, ?updatable:Bool ) : Void {
             this._vertexBuffers = this._vertexBuffers || {};
 
             if (this._vertexBuffers[kind]) {
@@ -66,12 +67,12 @@ import openfl.utils.Float32Array;
 
             this._vertexBuffers[kind] = new VertexBuffer(this._engine, data, kind, updatable, this._meshes.length == 0);
 
-            if (kind == BABYLON.VertexBuffer.PositionKind) {
+            if (kind == VertexBuffer.PositionKind) {
                 var stride = this._vertexBuffers[kind].getStrideSize();
 
                 this._totalVertices = data.length / stride;
 
-                var extend = BABYLON.Tools.ExtractMinAndMax(data, 0, this._totalVertices);
+                var extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
 
                 var meshes = this._meshes;
                 var numOfMeshes = meshes.length;
@@ -81,7 +82,7 @@ import openfl.utils.Float32Array;
                 while( index < numOfMeshes)  {
                     var mesh = meshes[index];
                     mesh._resetPointsArrayCache();
-                    mesh._boundingInfo = new BABYLON.BoundingInfo(extend.minimum, extend.maximum);
+                    mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
                     mesh._createGlobalSubMesh();
                     mesh.computeWorldMatrix(true);
                  index++;
@@ -90,7 +91,7 @@ import openfl.utils.Float32Array;
             }
         }
 
-        public function updateVerticesData(kind:String, data:Float[], ?updateExtends:boolean ) : Void {
+        public function updateVerticesData(kind:String, data:Array<Float>, ?updateExtends:Bool ) : Void {
             var vertexBuffer = this.getVertexBuffer(kind);
 
             if (!vertexBuffer) {
@@ -99,14 +100,14 @@ import openfl.utils.Float32Array;
 
             vertexBuffer.update(data);
 
-            if (kind == BABYLON.VertexBuffer.PositionKind) {
+            if (kind == VertexBuffer.PositionKind) {
 
                 var extend;
 
                 if (updateExtends) {
                     var stride = vertexBuffer.getStrideSize();
                     this._totalVertices = data.length / stride;
-                    extend = BABYLON.Tools.ExtractMinAndMax(data, 0, this._totalVertices);
+                    extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
                 }
 
                 var meshes = this._meshes;
@@ -118,7 +119,7 @@ import openfl.utils.Float32Array;
                     var mesh = meshes[index];
                     mesh._resetPointsArrayCache();
                     if (updateExtends) {
-                        mesh._boundingInfo = new BABYLON.BoundingInfo(extend.minimum, extend.maximum);
+                        mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
                     }
                  index++;
 
@@ -134,7 +135,7 @@ import openfl.utils.Float32Array;
             return this._totalVertices;
         }
 
-        public function getVerticesData(kind:String ) : Float[] {
+        public function getVerticesData(kind:String ) : Array<Float> {
             var vertexBuffer = this.getVertexBuffer(kind);
             if (!vertexBuffer) {
                 return null;
@@ -149,34 +150,29 @@ import openfl.utils.Float32Array;
             return this._vertexBuffers[kind];
         }
 
-        public function getVertexBuffers() : VertexBuffer[] {
+        public function getVertexBuffers() : Array<VertexBuffer> {
             if (!this.isReady()) {
                 return null;
             }
             return this._vertexBuffers;
         }
 
-        public function isVerticesDataPresent(kind:String ) : boolean {
+        public function isVerticesDataPresent(kind:String ) : Bool {
             if (!this._vertexBuffers) {
-                if (this._delayInfo) {
-                    return this._delayInfo.indexOf(kind) !== -1;
+                if (this._delayInfo.indexOf(kind) != -1) {
+                    return true;
                 }
                 return false;
             }
-            return this._vertexBuffers[kind] !== undefined;
+            return this._vertexBuffers[kind] != null;
         }
 
-        public function getVerticesDataKinds() : String[] {
-            var result = [];
+        public function getVerticesDataKinds():Array<String> {
+            var result = new Array<String>();
             if (!this._vertexBuffers && this._delayInfo) {
-                // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-                //  for (var kind in this._delayInfo)
-                var kind in this._delayInfo);
-                while()  {
-                    result.push(kind);
-                ;
-
-            }
+                for (kind in this._delayInfo) {
+                     result.push(kind);
+                }
             } else {
                 for (kind in this._vertexBuffers) {
                     result.push(kind);
@@ -186,13 +182,13 @@ import openfl.utils.Float32Array;
             return result;
         }
 
-        public function setIndices(indices:Float[] ) : Void {
+        public function setIndices(indices:Array<Float> ) : Void {
             if (this._indexBuffer) {
                 this._engine._releaseBuffer(this._indexBuffer);
             }
 
             this._indices = indices;
-            if (this._meshes.length !== 0 && this._indices) {
+            if (this._meshes.length != 0 && this._indices) {
                 this._indexBuffer = this._engine.createIndexBuffer(this._indices);
             }
 
@@ -215,7 +211,7 @@ import openfl.utils.Float32Array;
             return this._indices.length;
         }
 
-        public function getIndices() : Float[] {
+        public function getIndices() : Array<Float> {
             if (!this.isReady()) {
                 return null;
             }
@@ -238,11 +234,8 @@ import openfl.utils.Float32Array;
             }
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            var kind in this._vertexBuffers);
-            while()  {
+            for(kind in this._vertexBuffers){
                 this._vertexBuffers[kind].dispose();
-            ;
-
             }
 
             if (this._indexBuffer && this._engine._releaseBuffer(this._indexBuffer)) {
@@ -287,23 +280,20 @@ import openfl.utils.Float32Array;
             // vertexBuffers
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            var kind in this._vertexBuffers);
-            while()  {
+            for(kind in this._vertexBuffers){
                 if (numOfMeshes == 1) {
                     this._vertexBuffers[kind].create();
                 }
                 this._vertexBuffers[kind]._buffer.references = numOfMeshes;
 
-                if (kind == BABYLON.VertexBuffer.PositionKind) {
+                if (kind == VertexBuffer.PositionKind) {
                     mesh._resetPointsArrayCache();
 
-                    var extend = BABYLON.Tools.ExtractMinAndMax(this._vertexBuffers[kind].getData(), 0, this._totalVertices);
-                    mesh._boundingInfo = new BABYLON.BoundingInfo(extend.minimum, extend.maximum);
+                    var extend = Tools.ExtractMinAndMax(this._vertexBuffers[kind].getData(), 0, this._totalVertices);
+                    mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
 
                     mesh._createGlobalSubMesh();
                 }
-            ;
-
             }
 
             // indexBuffer
@@ -315,8 +305,8 @@ import openfl.utils.Float32Array;
             }
         }
 
-        public function load(scene:Scene,  onLoaded?: () => void) : Void {
-            if (this.delayLoadState == BABYLON.Engine.DELAYLOADSTATE_LOADING) {
+        public function load(scene:Scene,  ?onLoaded:Dynamic):Void {
+            if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
                 return;
             }
 
@@ -327,14 +317,14 @@ import openfl.utils.Float32Array;
                 return;
             }
 
-            this.delayLoadState = BABYLON.Engine.DELAYLOADSTATE_LOADING;
+            this.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
 
             scene._addPendingData(this);
-            BABYLON.Tools.LoadFile(this.delayLoadingFile, data => {
+            Tools.LoadFile(this.delayLoadingFile, function(data:Array<Float>){
                 this._delayLoadingFunction(JSON.parse(data), this);
 
-                this.delayLoadState = BABYLON.Engine.DELAYLOADSTATE_LOADED;
-                this._delayInfo = [];
+                this.delayLoadState = Engine.DELAYLOADSTATE_LOADED;
+                this._delayInfo = new Array<String>();
 
                 scene._removePendingData(this);
 
@@ -348,11 +338,10 @@ import openfl.utils.Float32Array;
                  index++;
 
             }
-
                 if (onLoaded) {
                     onLoaded();
                 }
-            }, () => { }, scene.database);
+            }, function (){}, scene.database);
         }
 
         public function dispose() : Void {
@@ -366,36 +355,33 @@ import openfl.utils.Float32Array;
              index++;
 
             }
-            this._meshes = [];
+            this._meshes = new Array<Mesh>();
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            var kind in this._vertexBuffers);
-            while()  {
+            for(kind in this._vertexBuffers){
                 this._vertexBuffers[kind].dispose();
-            ;
-
             }
-            this._vertexBuffers = [];
+            this._vertexBuffers = new Array<VertexBuffer>();
             this._totalVertices = 0;
 
             if (this._indexBuffer) {
                 this._engine._releaseBuffer(this._indexBuffer);
             }
             this._indexBuffer = null;
-            this._indices = [];
+            this._indices = new Array<Int>();
 
-            this.delayLoadState = BABYLON.Engine.DELAYLOADSTATE_NONE;
+            this.delayLoadState = Engine.DELAYLOADSTATE_NONE;
             this.delayLoadingFile = null;
             this._delayLoadingFunction = null;
-            this._delayInfo = [];
+            this._delayInfo = new Array<String>();
 
             this._boundingInfo = null; // todo: .dispose()
         }
 
         public function copy(id:String ) : Geometry {
-            var vertexData = new BABYLON.VertexData();
+            var vertexData = new VertexData();
 
-            vertexData.indices = [];
+            vertexData.indices = new Array<Int>();
 
             var indices = this.getIndices();
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
@@ -411,32 +397,31 @@ import openfl.utils.Float32Array;
             var stopChecking = false;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            var kind in this._vertexBuffers);
-            while()  {
+            for(kind in this._vertexBuffers){
                 vertexData.set(this.getVerticesData(kind), kind);
-
                 if (!stopChecking) {
                     updatable = this.getVertexBuffer(kind).isUpdatable();
                     stopChecking = !updatable;
                 }
-            ;
 
             }
 
-            var geometry = new BABYLON.Geometry(id, this._engine, vertexData, updatable, null);
+            var geometry = new Geometry(id, this._engine, vertexData, updatable, null);
 
             geometry.delayLoadState = this.delayLoadState;
             geometry.delayLoadingFile = this.delayLoadingFile;
             geometry._delayLoadingFunction = this._delayLoadingFunction;
 
             for (kind in this._delayInfo) {
-                geometry._delayInfo = geometry._delayInfo || [];
+                if(geometry._delayInfo == null){
+                   geometry._delayInfo = new Array<String>();
+                }
                 geometry._delayInfo.push(kind);
             }
 
             // Bounding info
-            var extend = BABYLON.Tools.ExtractMinAndMax(this.getVerticesData(BABYLON.VertexBuffer.PositionKind), 0, this.getTotalVertices());
-            geometry._boundingInfo = new BABYLON.BoundingInfo(extend.minimum, extend.maximum);
+            var extend = Tools.ExtractMinAndMax(this.getVerticesData(VertexBuffer.PositionKind), 0, this.getTotalVertices());
+            geometry._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
 
             return geometry;
         }
@@ -456,12 +441,23 @@ import openfl.utils.Float32Array;
         // from http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#answer-2117523
         // be aware Math.
 
-        public function random() : couldcausecollisionspublicstaticRandomId()String {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
+        public function RandomId():String {
+            var CHARS:Array<String> = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
+            var chars = CHARS, uuid = new Array(), rnd = 0, r;
+            for (i in 0...36) {
+             if (i==8 || i==13 ||  i==18 || i==23) {
+               uuid[i] = "-";
+              } else if (i==14) {
+                 uuid[i] = "4";
+              } else {
+              if (rnd <= 0x02) rnd = 0x2000000 + Std.parseInt( Std.string(Math.random() * Std.parseFloat(Std.string(0x1000000)))) | 0;
+                r = rnd & 0xf;
+                rnd = rnd >> 4;
+               uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+              }
+             }
+            return uuid.join("");
+          }
     }
 
  
