@@ -4,6 +4,7 @@ import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.VertexData;
 import com.gamestudiohx.babylonhx.mesh.VertexBuffer;
+import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
 import openfl.utils.Float32Array;
 
@@ -59,7 +60,9 @@ import openfl.utils.Float32Array;
         }
 
         public function setVerticesData(kind:String, data:Array<Float>, ?updatable:Bool ) : Void {
-            this._vertexBuffers = this._vertexBuffers || {};
+            if(this._vertexBuffers == null){
+                this._vertexBuffers = new Array<VertexBuffer>();
+            }
 
             if (this._vertexBuffers[kind]) {
                 this._vertexBuffers[kind].dispose();

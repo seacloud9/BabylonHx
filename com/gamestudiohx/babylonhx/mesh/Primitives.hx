@@ -44,28 +44,28 @@ import openfl.utils.Float32Array;
                 super.setAllVerticesData(vertexData, false);
             }
 
-            public function setVerticesData(kind:String, data:Float[], ?updatable:Bool ) : Void {
+            public function setVerticesData(kind:String, data:Array<Float>, ?updatable:Bool ) : Void {
                 if (!this._beingRegenerated) {
                     return;
                 }
                 super.setVerticesData(kind, data, false);
             }
 
-            public _regenerateVertexData():VertexData {
-                throw new Error("Abstract method");
+            public function _regenerateVertexData():Void {
+                trace("Abstract method");
             }
 
-            public copy(id: String):Geometry{
-                throw new Error("Must be overriden in sub-classes.");
+            public function copy(id: String):Void{
+                trace("Must be overriden in sub-classes.");
             }
 
     }
 
 
-    class Box extends Primitive {
+    class Box extends Primitives {
             //
             //public var Members
-            public size : Float;
+            public var size : Float;
 
             public function new(id:String, engine:Engine, size:Float, ?canBeRegenerated:Bool, ?mesh:Mesh ) {
                 this.size = size;
@@ -82,10 +82,10 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class Sphere extends Primitive {
+    class Sphere extends Primitives {
             //
             //public var Members
-            public segments : Float;
+            public var segments : Float;
             public var diameter : Float;
 
             public function new(id:String, engine:Engine, segments:Float, diameter:Float, ?canBeRegenerated:Bool, ?mesh:Mesh ) {
@@ -104,10 +104,10 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class Cylinder extends Primitive {
+    class Cylinder extends Primitives {
             //
             //public var Members
-            public height : Float;
+            public var height : Float;
             public var diameterTop : Float;
             public var diameterBottom : Float;
             public var tessellation : Float;
@@ -130,10 +130,10 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class Torus extends Primitive {
+    class Torus extends Primitives {
             //
             //public var Members
-            public diameter : Float;
+            public var diameter : Float;
             public var thickness : Float;
             public var tessellation : Float;
 
@@ -154,10 +154,10 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class Ground extends Primitive {
+    class Ground extends Primitives {
             //
             //public var Members
-            public width : Float;
+            public var width : Float;
             public var height : Float;
             public var subdivisions : Float;
 
@@ -178,10 +178,10 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class Plane extends Primitive {
+    class Plane extends Primitives {
             //
             //public var Members
-            public size : Float;
+            public var size : Float;
 
             public function new(id:String, engine:Engine, size:Float, ?canBeRegenerated:Bool, ?mesh:Mesh ) {
                 this.size = size;
@@ -198,15 +198,15 @@ import openfl.utils.Float32Array;
             }
     }
 
-    class TorusKnot extends Primitive {
+    class TorusKnot extends Primitives {
             //
             //public var Members
-            public radius : Float;
+            public var radius : Float;
             public var tube : Float;
             public var radialSegments : Float;
             public var tubularSegments : Float;
-            public var public p : Float;
-            public var public q : Float;
+            public var p : Float;
+            public var q : Float;
 
             public function new(id:String, engine:Engine, radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float,  p:Float,q:Float, ?canBeRegenerated:Bool, ?mesh:Mesh ) {
                 this.radius = radius;

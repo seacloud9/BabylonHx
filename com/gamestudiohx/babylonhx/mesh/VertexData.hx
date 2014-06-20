@@ -1,8 +1,14 @@
 package com.gamestudiohx.babylonhx.mesh;
 
+import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
+import openfl.utils.ArrayBufferView;
 import openfl.utils.Float32Array;
+import openfl.utils.Int16Array;
+import openfl.utils.Int32Array;
+import openfl.utils.UInt8Array;
+
 
 
     /*
@@ -62,70 +68,70 @@ import openfl.utils.Float32Array;
             this._update(geometry);
         }
 
-        private function _applyTo(meshOrGeometry:IGetSetVerticesData, ?updatable:Bool ) {
-            if (this.positions) {
+        private function _applyTo(meshOrGeometry:Geometry, ?updatable:Bool ) {
+            if (this.positions.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.PositionKind, this.positions, updatable);
             }
 
-            if (this.normals) {
+            if (this.normals.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.NormalKind, this.normals, updatable);
             }
 
-            if (this.uvs) {
+            if (this.uvs.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.UVKind, this.uvs, updatable);
             }
 
-            if (this.uv2s) {
+            if (this.uv2s.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.UV2Kind, this.uv2s, updatable);
             }
 
-            if (this.colors) {
+            if (this.colors.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.ColorKind, this.colors, updatable);
             }
 
-            if (this.matricesIndices) {
+            if (this.matricesIndices.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.MatricesIndicesKind, this.matricesIndices, updatable);
             }
 
-            if (this.matricesWeights) {
+            if (this.matricesWeights.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.MatricesWeightsKind, this.matricesWeights, updatable);
             }
 
-            if (this.indices) {
+            if (this.indices.length > 0) {
                 meshOrGeometry.setIndices(this.indices);
             }
         }
 
-        private function _update(meshOrGeometry:IGetSetVerticesData, ?updateExtends:Bool, ?makeItUnique:Bool ) {
-            if (this.positions) {
+        private function _update(meshOrGeometry:Geometry, ?updateExtends:Bool, ?makeItUnique:Bool ) {
+            if (this.positions.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.PositionKind, this.positions, updateExtends, makeItUnique);
             }
 
-            if (this.normals) {
+            if (this.normals.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.NormalKind, this.normals, updateExtends, makeItUnique);
             }
 
-            if (this.uvs) {
+            if (this.uvs.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.UVKind, this.uvs, updateExtends, makeItUnique);
             }
 
-            if (this.uv2s) {
+            if (this.uv2s.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.UV2Kind, this.uv2s, updateExtends, makeItUnique);
             }
 
-            if (this.colors) {
+            if (this.colors.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.ColorKind, this.colors, updateExtends, makeItUnique);
             }
 
-            if (this.matricesIndices) {
+            if (this.matricesIndices.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.MatricesIndicesKind, this.matricesIndices, updateExtends, makeItUnique);
             }
 
-            if (this.matricesWeights) {
+            if (this.matricesWeights.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.MatricesWeightsKind, this.matricesWeights, updateExtends, makeItUnique);
             }
 
-            if (this.indices) {
+            if (this.indices.length > 0) {
                 meshOrGeometry.setIndices(this.indices);
             }
         }
@@ -133,12 +139,12 @@ import openfl.utils.Float32Array;
         public function transform(matrix:Matrix ) : Void {
             var transformed = Vector3.Zero();
 
-            if (this.positions) {
+            if (this.positions.length > 0) {
                 var position = Vector3.Zero();
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < this.positions.length; index += 3)
                 var index = 0;
-                while( index < this.positions.length)  {
+                while( index < this.positions.length > 0)  {
                     Vector3.FromArrayToRef(this.positions, index, position);
 
                     Vector3.TransformCoordinatesToRef(position, matrix, transformed);
@@ -150,12 +156,12 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (this.normals) {
+            if (this.normals.length > 0) {
                 var normal = Vector3.Zero();
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < this.normals.length; index += 3)
                 index = 0;
-                while( index < this.normals.length)  {
+                while( index < this.normals.length > 0)  {
                     Vector3.FromArrayToRef(this.normals, index, normal);
 
                     Vector3.TransformNormalToRef(normal, matrix, transformed);
@@ -169,7 +175,7 @@ import openfl.utils.Float32Array;
         }
 
         public function merge(other:VertexData ) : Void {
-            if (other.indices) {
+            if (other.indices.length > 0) {
                 if (!this.indices) {
                     this.indices = [];
                 }
@@ -191,7 +197,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.positions) {
+            if (other.positions.length > 0) {
                 if (!this.positions) {
                     this.positions = [];
                 }
@@ -205,7 +211,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.normals) {
+            if (other.normals.length > 0) {
                 if (!this.normals) {
                     this.normals = [];
                 }
@@ -219,7 +225,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.uvs) {
+            if (other.uvs.length > 0) {
                 if (!this.uvs) {
                     this.uvs = [];
                 }
@@ -233,7 +239,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.uv2s) {
+            if (other.uv2s.length > 0) {
                 if (!this.uv2s) {
                     this.uv2s = [];
                 }
@@ -247,7 +253,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.matricesIndices) {
+            if (other.matricesIndices.length > 0) {
                 if (!this.matricesIndices) {
                     this.matricesIndices = [];
                 }
@@ -261,7 +267,7 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.matricesWeights) {
+            if (other.matricesWeights.length > 0) {
                 if (!this.matricesWeights) {
                     this.matricesWeights = [];
                 }
@@ -275,14 +281,14 @@ import openfl.utils.Float32Array;
                 }
             }
 
-            if (other.colors) {
+            if (other.colors.length > 0) {
                 if (!this.colors) {
                     this.colors = [];
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.colors.length; index++)
                 index = 0;
-                while( index < other.colors.length)  {
+                while( index < other.colors.length > 0)  {
                     this.colors.push(other.colors[index]);
                  index++;
 
@@ -300,7 +306,7 @@ import openfl.utils.Float32Array;
             return VertexData._ExtractFrom(geometry);
         }
 
-        static function _ExtractFrom(meshOrGeometry:Dynamic ) : VertexData {
+        static function _ExtractFrom(meshOrGeometry:Geometry ) : VertexData {
             var result = new VertexData();
 
             if (meshOrGeometry.isVerticesDataPresent(VertexBuffer.PositionKind)) {
@@ -357,7 +363,7 @@ import openfl.utils.Float32Array;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var index = 0; index < normalsSource.length; index++)
             var index = 0;
-            while( index < normalsSource.length)  {
+            while( index < normalsSource.length > 0)  {
                 var normal = normalsSource[index];
 
                 // Get two vectors perpendicular to the face normal and to each other.
@@ -751,12 +757,12 @@ import openfl.utils.Float32Array;
             return vertexData;
         }
 
-        static function CreateGroundFromHeightMap(width:Float, height:Float, subdivisions:Float, minHeight:Float, maxHeight:Float, buffer:Uint8Array, bufferWidth:Float, bufferHeight:Float ) : VertexData {
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
-            var row, col;
+        public function CreateGroundFromHeightMap(width:Float, height:Float, subdivisions:Float, minHeight:Float, maxHeight:Float, buffer:UInt8Array, bufferWidth:Float, bufferHeight:Float ) : VertexData {
+            var indices = new Array<Float>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
+            var row:Float, col:Float;
 
             // Vertices
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
