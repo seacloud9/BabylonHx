@@ -22,7 +22,7 @@ import openfl.utils.Float32Array;
         private var _meshes : Array<Mesh>;
         private var _totalVertices:Int = 0;
         private var _indices:Array<Int> = new Array<Int>();
-        private var _vertexBuffers:Array<VertexBuffer>;
+        private var _vertexBuffers:Map<String, VertexBuffer>;
         private var _delayInfo:Array<String>; //ANY
         private var _indexBuffer:BabylonGLBuffer;
         private var _boundingInfo:BoundingInfo;
@@ -61,17 +61,17 @@ import openfl.utils.Float32Array;
 
         public function setVerticesData(kind:String, data:Array<Float>, ?updatable:Bool ) : Void {
             if(this._vertexBuffers == null){
-                this._vertexBuffers = new Array<VertexBuffer>();
+                this._vertexBuffers = new Map<String, VertexBuffer>();
             }
 
-            if (this._vertexBuffers[kind]) {
-                this._vertexBuffers[kind].dispose();
+            if (this._vertexBuffers.get(kind) != null) {
+                this._vertexBuffers.get(kind).dispose();
             }
 
-            this._vertexBuffers[kind] = new VertexBuffer(this._engine, data, kind, updatable, this._meshes.length == 0);
+            this._vertexBuffers.set(kind, new VertexBuffer(this._engine, data, kind, updatable));
 
             if (kind == VertexBuffer.PositionKind) {
-                var stride = this._vertexBuffers[kind].getStrideSize();
+                var stride = this._vertexBuffers.get(kind).getStrideSize();
 
                 this._totalVertices = data.length / stride;
 
@@ -150,7 +150,7 @@ import openfl.utils.Float32Array;
             if (!this.isReady()) {
                 return null;
             }
-            return this._vertexBuffers[kind];
+            return this._vertexBuffers.get(kind);
         }
 
         public function getVertexBuffers() : Array<VertexBuffer> {
@@ -167,7 +167,8 @@ import openfl.utils.Float32Array;
                 }
                 return false;
             }
-            return this._vertexBuffers[kind] != null;
+
+            return this._vertexBuffers.get(kind) != null;
         }
 
         public function getVerticesDataKinds():Array<String> {
@@ -238,7 +239,7 @@ import openfl.utils.Float32Array;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
             for(kind in this._vertexBuffers){
-                this._vertexBuffers[kind].dispose();
+                this._vertexBuffers.get(kind).dispose();
             }
 
             if (this._indexBuffer && this._engine._releaseBuffer(this._indexBuffer)) {
@@ -285,14 +286,14 @@ import openfl.utils.Float32Array;
             //  for (var kind in this._vertexBuffers)
             for(kind in this._vertexBuffers){
                 if (numOfMeshes == 1) {
-                    this._vertexBuffers[kind].create();
+                    this._vertexBuffers.get(kind).create();
                 }
-                this._vertexBuffers[kind]._buffer.references = numOfMeshes;
+                this._vertexBuffers.get(kind)._buffer.references = numOfMeshes;
 
                 if (kind == VertexBuffer.PositionKind) {
                     mesh._resetPointsArrayCache();
 
-                    var extend = Tools.ExtractMinAndMax(this._vertexBuffers[kind].getData(), 0, this._totalVertices);
+                    var extend = Tools.ExtractMinAndMax(this._vertexBuffers.get(kind).getData(), 0, this._totalVertices);
                     mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
 
                     mesh._createGlobalSubMesh();
@@ -362,7 +363,7 @@ import openfl.utils.Float32Array;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
             for(kind in this._vertexBuffers){
-                this._vertexBuffers[kind].dispose();
+                this._vertexBuffers.get(kind).dispose();
             }
             this._vertexBuffers = new Array<VertexBuffer>();
             this._totalVertices = 0;

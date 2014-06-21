@@ -32,9 +32,15 @@ class VertexBuffer {
 	public var _strideSize:Int;
 	
 
-	public function new(mesh:Mesh, data:Array<Float>, kind:String, updatable:Bool) {
-		this._mesh = mesh;
-        this._engine = mesh.getScene().getEngine();
+	public function new(mesh:Dynamic, data:Array<Float>, kind:String, updatable:Bool) {
+        if (Std.is(mesh, Mesh)) { // old versions of BABYLON.VertexBuffer accepted 'mesh' instead of 'engine'
+            this._mesh = mesh;
+            this._engine = mesh.getScene().getEngine();
+        }else{
+            this._engine = mesh;
+        }
+		//this._mesh = mesh;
+        //this._engine = mesh.getScene().getEngine();
         this._updatable = updatable;
         
         if (updatable) {
