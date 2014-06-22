@@ -1,19 +1,20 @@
 package com.gamestudiohx.babylonhx.mesh;
 
-import com.gamestudiohx.babylonhx.mesh.Mesh;
+
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.VertexData;
 import com.gamestudiohx.babylonhx.mesh.VertexBuffer;
 import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
+import com.gamestudiohx.babylonhx.tools.Tools;
 import openfl.utils.Float32Array;
 
 
-    class Geometry {
+    class Geometry implements IGetSetVerticesData{
         //
         //public var Members
         public var id:String;
-        public var delayLoadState:Int = Engine.DELAYLOADSTATE_NONE;
+        public var delayLoadState:Int;
         public var delayLoadingFile : String;
 
         //
@@ -21,7 +22,7 @@ import openfl.utils.Float32Array;
         private var _engine : Engine;
         private var _meshes : Array<Mesh>;
         private var _totalVertices:Int = 0;
-        private var _indices:Array<Int> = new Array<Int>();
+        private var _indices:Array<Int>;
         private var _vertexBuffers:Map<String, VertexBuffer>;
         private var _delayInfo:Array<String>; //ANY
         private var _indexBuffer:BabylonGLBuffer;
@@ -31,6 +32,7 @@ import openfl.utils.Float32Array;
             this.id = id;
             this._engine = engine;
             this._meshes = new Array<Mesh>();
+            this.delayLoadState = _engine.DELAYLOADSTATE_NONE;
 
             // vertexData
             if (vertexData) {
@@ -73,7 +75,7 @@ import openfl.utils.Float32Array;
             if (kind == VertexBuffer.PositionKind) {
                 var stride = this._vertexBuffers.get(kind).getStrideSize();
 
-                this._totalVertices = data.length / stride;
+                this._totalVertices = Std.int(data.length / stride);
 
                 var extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
 
@@ -97,7 +99,7 @@ import openfl.utils.Float32Array;
         public function updateVerticesData(kind:String, data:Array<Float>, ?updateExtends:Bool ) : Void {
             var vertexBuffer = this.getVertexBuffer(kind);
 
-            if (!vertexBuffer) {
+            if (vertexBuffer != null) {
                 return;
             }
 
@@ -109,7 +111,7 @@ import openfl.utils.Float32Array;
 
                 if (updateExtends) {
                     var stride = vertexBuffer.getStrideSize();
-                    this._totalVertices = data.length / stride;
+                    this._totalVertices = Std.int(data.length / stride);
                     extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
                 }
 
@@ -161,7 +163,7 @@ import openfl.utils.Float32Array;
         }
 
         public function isVerticesDataPresent(kind:String ) : Bool {
-            if (!this._vertexBuffers) {
+            if (this._vertexBuffers != null) {
                 if (this._delayInfo.indexOf(kind) != -1) {
                     return true;
                 }
@@ -186,13 +188,13 @@ import openfl.utils.Float32Array;
             return result;
         }
 
-        public function setIndices(indices:Array<Float> ) : Void {
-            if (this._indexBuffer) {
+        public function setIndices(indices:Array<Int> ) : Void {
+            if (this._indexBuffer  != null) {
                 this._engine._releaseBuffer(this._indexBuffer);
             }
 
             this._indices = indices;
-            if (this._meshes.length != 0 && this._indices) {
+            if (this._meshes.length != 0 && this._indices.length > 0) {
                 this._indexBuffer = this._engine.createIndexBuffer(this._indices);
             }
 
@@ -208,14 +210,14 @@ import openfl.utils.Float32Array;
             }
         }
 
-        public function getTotalIndices() : Float {
+        public function getTotalIndices() : Int {
             if (!this.isReady()) {
                 return 0;
             }
             return this._indices.length;
         }
 
-        public function getIndices() : Array<Float> {
+        public function getIndices() : Array<Int> {
             if (!this.isReady()) {
                 return null;
             }

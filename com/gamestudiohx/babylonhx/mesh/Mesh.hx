@@ -19,6 +19,7 @@ import com.gamestudiohx.babylonhx.tools.math.Ray;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
+import com.gamestudiohx.babylonhx.mesh.VertexData;
 import flash.display.BitmapData;
 import haxe.io.BufferInput;
 
@@ -53,7 +54,7 @@ class BabylonGLBuffer {
 	
 }
  
-class Mesh extends Node {
+class Mesh extends Node implements IGetSetVerticesData{
 	
 	public static var BILLBOARDMODE_NONE:Int = 0;
 	public static var BILLBOARDMODE_X:Int = 1;

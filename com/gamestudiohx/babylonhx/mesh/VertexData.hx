@@ -1,6 +1,9 @@
 package com.gamestudiohx.babylonhx.mesh;
 
+import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
+import com.gamestudiohx.babylonhx.mesh.Mesh;
+import com.gamestudiohx.babylonhx.mesh.Geometry;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.Mesh.BabylonGLBuffer;
 import openfl.utils.ArrayBufferView;
@@ -11,17 +14,17 @@ import openfl.utils.UInt8Array;
 
 
 
-    /*
-    class IGetSetVerticesData {
-        isVerticesDataPresent(kind:String): Bool;
-        getVerticesData(kind:String): Array<Float>;
-        getIndices(): Array<Float>;
-        setVerticesData(kind: String, data: Array<Float>, updatable?: Bool): void;
-        updateVerticesData(kind: String, data: Array<Float>, updateExtends?: Bool, makeItUnique?: Bool): void;
-        setIndices(indices: Array<Float>): void;
+
+    interface IGetSetVerticesData {
+        function isVerticesDataPresent(kind:String): Bool;
+        function getVerticesData(kind:String): Array<Float>;
+        function getIndices(): Array<Int>;
+        function setVerticesData(kind: String, data: Array<Float>, ?updatable: Bool):Void;
+        function updateVerticesData(kind: String, data: Array<Float>, ?updateExtends: Bool, ?makeItUnique: Bool):Void;
+        function setIndices(indices: Array<Int>):Void;
     }
 
-    */
+
 
     class VertexData {
         public var positions : Array<Float>;
@@ -31,7 +34,11 @@ import openfl.utils.UInt8Array;
         public var colors : Array<Float>;
         public var matricesIndices : Array<Float>;
         public var matricesWeights : Array<Float>;
-        public var indices : Array<Float>;
+        public var indices : Array<Int>;
+
+        public function new(){
+
+        }
 
         public function set(data:Array<Float>, kind:String ) {
             switch (kind) {
@@ -68,7 +75,7 @@ import openfl.utils.UInt8Array;
             this._update(geometry);
         }
 
-        private function _applyTo(meshOrGeometry:Geometry, ?updatable:Bool ) {
+        private function _applyTo(meshOrGeometry:IGetSetVerticesData, ?updatable:Bool ) {
             if (this.positions.length > 0) {
                 meshOrGeometry.setVerticesData(VertexBuffer.PositionKind, this.positions, updatable);
             }
@@ -102,7 +109,7 @@ import openfl.utils.UInt8Array;
             }
         }
 
-        private function _update(meshOrGeometry:Geometry, ?updateExtends:Bool, ?makeItUnique:Bool ) {
+        private function _update(meshOrGeometry:IGetSetVerticesData, ?updateExtends:Bool, ?makeItUnique:Bool ) {
             if (this.positions.length > 0) {
                 meshOrGeometry.updateVerticesData(VertexBuffer.PositionKind, this.positions, updateExtends, makeItUnique);
             }
@@ -138,13 +145,13 @@ import openfl.utils.UInt8Array;
 
         public function transform(matrix:Matrix ) : Void {
             var transformed = Vector3.Zero();
-
+            var index = 0;
             if (this.positions.length > 0) {
                 var position = Vector3.Zero();
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < this.positions.length; index += 3)
-                var index = 0;
-                while( index < this.positions.length > 0)  {
+                
+                while( index < this.positions.length)  {
                     Vector3.FromArrayToRef(this.positions, index, position);
 
                     Vector3.TransformCoordinatesToRef(position, matrix, transformed);
@@ -161,7 +168,7 @@ import openfl.utils.UInt8Array;
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < this.normals.length; index += 3)
                 index = 0;
-                while( index < this.normals.length > 0)  {
+                while( index < this.normals.length)  {
                     Vector3.FromArrayToRef(this.normals, index, normal);
 
                     Vector3.TransformNormalToRef(normal, matrix, transformed);
@@ -175,9 +182,11 @@ import openfl.utils.UInt8Array;
         }
 
         public function merge(other:VertexData ) : Void {
+            var index = 0;
+            var offset = 0;
             if (other.indices.length > 0) {
-                if (!this.indices) {
-                    this.indices = [];
+                if (this.indices != null) {
+                    this.indices = new Array<Int>();
                 }
 
                 //var offset = this.positions ? this.positions.length / 3  :  0;
@@ -189,7 +198,7 @@ import openfl.utils.UInt8Array;
 
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < other.indices.length; index++)
-                var index = 0;
+            
                 while( index < other.indices.length)  {
                     this.indices.push(other.indices[index] + offset);
                  index++;
@@ -198,8 +207,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.positions.length > 0) {
-                if (!this.positions) {
-                    this.positions = [];
+                if (this.positions != null) {
+                    this.positions = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.positions.length; index++)
@@ -212,8 +221,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.normals.length > 0) {
-                if (!this.normals) {
-                    this.normals = [];
+                if (this.normals != null) {
+                    this.normals = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.normals.length; index++)
@@ -226,8 +235,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.uvs.length > 0) {
-                if (!this.uvs) {
-                    this.uvs = [];
+                if (this.uvs != null) {
+                    this.uvs = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.uvs.length; index++)
@@ -240,8 +249,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.uv2s.length > 0) {
-                if (!this.uv2s) {
-                    this.uv2s = [];
+                if (this.uv2s != null) {
+                    this.uv2s = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.uv2s.length; index++)
@@ -254,8 +263,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.matricesIndices.length > 0) {
-                if (!this.matricesIndices) {
-                    this.matricesIndices = [];
+                if (this.matricesIndices != null) {
+                    this.matricesIndices = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.matricesIndices.length; index++)
@@ -268,8 +277,8 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.matricesWeights.length > 0) {
-                if (!this.matricesWeights) {
-                    this.matricesWeights = [];
+                if (this.matricesWeights != null) {
+                    this.matricesWeights = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.matricesWeights.length; index++)
@@ -282,13 +291,13 @@ import openfl.utils.UInt8Array;
             }
 
             if (other.colors.length > 0) {
-                if (!this.colors) {
-                    this.colors = [];
+                if (this.colors != null) {
+                    this.colors = new Array<Float>();
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (index = 0; index < other.colors.length; index++)
                 index = 0;
-                while( index < other.colors.length > 0)  {
+                while( index < other.colors.length)  {
                     this.colors.push(other.colors[index]);
                  index++;
 
@@ -306,7 +315,7 @@ import openfl.utils.UInt8Array;
             return VertexData._ExtractFrom(geometry);
         }
 
-        static function _ExtractFrom(meshOrGeometry:Geometry ) : VertexData {
+        static function _ExtractFrom(meshOrGeometry:IGetSetVerticesData ) : VertexData {
             var result = new VertexData();
 
             if (meshOrGeometry.isVerticesDataPresent(VertexBuffer.PositionKind)) {
@@ -342,7 +351,7 @@ import openfl.utils.UInt8Array;
             return result;
         }
 
-        static function CreateBox(size:Float ) : VertexData {
+        static function CreateBox(size:Float = 1 ) : VertexData {
             var normalsSource = [
                 new Vector3(0, 0, 1),
                 new Vector3(0, 0, -1),
@@ -352,18 +361,16 @@ import openfl.utils.UInt8Array;
                 new Vector3(0, -1, 0)
             ];
 
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
-
-            size = size || 1;
+            var indices = new Array<Int>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
 
             // Create each face in turn.
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var index = 0; index < normalsSource.length; index++)
             var index = 0;
-            while( index < normalsSource.length > 0)  {
+            while( index < normalsSource.length)  {
                 var normal = normalsSource[index];
 
                 // Get two vectors perpendicular to the face normal and to each other.
@@ -371,7 +378,7 @@ import openfl.utils.UInt8Array;
                 var side2 = Vector3.Cross(normal, side1);
 
                 // Six indices (two triangles) per face.
-                var verticesLength = positions.length / 3;
+                var verticesLength = Std.int(positions.length / 3);
                 indices.push(verticesLength);
                 indices.push(verticesLength + 1);
                 indices.push(verticesLength + 2);
@@ -382,24 +389,44 @@ import openfl.utils.UInt8Array;
 
                 // Four vertices per face.
                 var vertex = normal.subtract(side1).subtract(side2).scale(size / 2);
-                positions.push(vertex.x, vertex.y, vertex.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(1.0, 1.0);
+                positions.push(vertex.x);
+                positions.push(vertex.y);
+                positions.push(vertex.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(1.0);
+                uvs.push(1.0);
 
                 vertex = normal.subtract(side1).add(side2).scale(size / 2);
-                positions.push(vertex.x, vertex.y, vertex.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(0.0, 1.0);
+                positions.push(vertex.x);
+                positions.push(vertex.y);
+                positions.push(vertex.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(0.0);
+                uvs.push(1.0);
 
                 vertex = normal.add(side1).add(side2).scale(size / 2);
-                positions.push(vertex.x, vertex.y, vertex.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(0.0, 0.0);
+                positions.push(vertex.x);
+                positions.push(vertex.y);
+                positions.push(vertex.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(0.0);
+                uvs.push(0.0);
 
                 vertex = normal.add(side1).subtract(side2).scale(size / 2);
-                positions.push(vertex.x, vertex.y, vertex.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(1.0, 0.0);
+                positions.push(vertex.x);
+                positions.push(vertex.y);
+                positions.push(vertex.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(1.0);
+                uvs.push(0.0);
              index++;
 
                 }
@@ -415,20 +442,18 @@ import openfl.utils.UInt8Array;
             return vertexData;
         }
 
-        static function CreateSphere(segments:Float, diameter:Float ) : VertexData {
+        static function CreateSphere(segments:Float = 32, diameter:Float = 1) : VertexData {
 
-            segments = segments || 32;
-            diameter = diameter || 1;
 
             var radius = diameter / 2;
 
             var totalZRotationSteps = 2 + segments;
             var totalYRotationSteps = 2 * totalZRotationSteps;
 
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
+            var indices = new Array<Int>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var zRotationStep = 0; zRotationStep <= totalZRotationSteps; zRotationStep++)
             var zRotationStep = 0;
@@ -451,9 +476,14 @@ import openfl.utils.UInt8Array;
                     var vertex = complete.scale(radius);
                     var normal = Vector3.Normalize(vertex);
 
-                    positions.push(vertex.x, vertex.y, vertex.z);
-                    normals.push(normal.x, normal.y, normal.z);
-                    uvs.push(normalizedZ, normalizedY);
+                    positions.push(vertex.x);
+                    positions.push(vertex.y);
+                    positions.push(vertex.z);
+                    normals.push(normal.x);
+                    normals.push(normal.y);
+                    normals.push(normal.z);
+                    uvs.push(normalizedZ);
+                    uvs.push(normalizedY);
                  yRotationStep++;
 
                 }
@@ -464,13 +494,13 @@ import openfl.utils.UInt8Array;
                     //  for (var firstIndex = verticesCount - 2 * (totalYRotationSteps + 1); (firstIndex + totalYRotationSteps + 2) < verticesCount; firstIndex++)
                     var firstIndex = verticesCount - 2 * (totalYRotationSteps + 1);
                     while( (firstIndex + totalYRotationSteps + 2) < verticesCount)  {
-                        indices.push((firstIndex));
-                        indices.push((firstIndex + 1));
-                        indices.push(firstIndex + totalYRotationSteps + 1);
+                        indices.push(Std.int(firstIndex));
+                        indices.push(Std.int(firstIndex + 1));
+                        indices.push(Std.int(firstIndex + totalYRotationSteps + 1));
 
-                        indices.push((firstIndex + totalYRotationSteps + 1));
-                        indices.push((firstIndex + 1));
-                        indices.push((firstIndex + totalYRotationSteps + 2));
+                        indices.push(Std.int(firstIndex + totalYRotationSteps + 1));
+                        indices.push(Std.int(firstIndex + 1));
+                        indices.push(Std.int(firstIndex + totalYRotationSteps + 2));
                      firstIndex++;
 
                 }
@@ -490,18 +520,19 @@ import openfl.utils.UInt8Array;
             return vertexData;
         }
 
-        static function CreateCylinder(height:Float, diameterTop:Float, diameterBottom:Float, tessellation:Float ) : VertexData {
+        static function CreateCylinder(height:Float = 1, diameterTop:Float = 0.5, diameterBottom:Float = 1, tessellation:Float = 16 ) : VertexData {
             var radiusTop = diameterTop / 2;
             var radiusBottom = diameterBottom / 2;
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
+            var indices = new Array<Int>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
 
+            /*
             height = height || 1;
             diameterTop = diameterTop || 0.5;
             diameterBottom = diameterBottom || 1;
-            tessellation = tessellation || 16;
+            tessellation = tessellation || 16;*/
 
             var getCircleVector = i => {
                 var angle = (i * 2.0 * Math.PI / tessellation);
@@ -562,9 +593,15 @@ import openfl.utils.UInt8Array;
                     var position = circleVector.scale(radius).add(normal.scale(height));
                     var textureCoordinate = new Vector2(circleVector.x * textureScale.x + 0.5, circleVector.z * textureScale.y + 0.5);
 
-                    positions.push(position.x, position.y, position.z);
-                    normals.push(normal.x, normal.y, normal.z);
-                    uvs.push(textureCoordinate.x, textureCoordinate.y);
+                    positions.push(position.x);
+                    positions.push(position.y);
+                    positions.push(position.z);
+                    normals.push(normal.x);
+                    normals.push(normal.y);
+                    normals.push(normal.z);
+
+                    uvs.push(textureCoordinate.x);
+                    uvs.push(textureCoordinate.y);
                  i++;
 
                 }
@@ -587,15 +624,25 @@ import openfl.utils.UInt8Array;
                 var textureCoordinate = new Vector2(i / tessellation, 0);
 
                 var position = sideOffsetBottom.add(topOffset);
-                positions.push(position.x, position.y, position.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(textureCoordinate.x, textureCoordinate.y);
+                positions.push(position.x);
+                positions.push(position.y);
+                positions.push(position.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(textureCoordinate.x);
+                uvs.push(textureCoordinate.y);
 
                 position = sideOffsetTop.subtract(topOffset);
                 textureCoordinate.y += 1;
-                positions.push(position.x, position.y, position.z);
-                normals.push(normal.x, normal.y, normal.z);
-                uvs.push(textureCoordinate.x, textureCoordinate.y);
+                positions.push(position.x);
+                positions.push(position.y);
+                positions.push(position.z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                uvs.push(textureCoordinate.x);
+                uvs.push(textureCoordinate.y);
 
                 indices.push(i * 2);
                 indices.push((i * 2 + 2) % (stride * 2));
@@ -623,15 +670,16 @@ import openfl.utils.UInt8Array;
             return vertexData;
         }
 
-        static function CreateTorus(diameter, thickness, tessellation) {
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
+        static function CreateTorus(diameter:Float = 1, thickness:Float = 0.5, tessellation:Float = 16):VertexData {
+            var indices = new Array<Int>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
 
+            /*
             diameter = diameter || 1;
             thickness = thickness || 0.5;
-            tessellation = tessellation || 16;
+            tessellation = tessellation || 16;*/
 
             var stride = tessellation + 1;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
@@ -661,9 +709,14 @@ import openfl.utils.UInt8Array;
                     position = Vector3.TransformCoordinates(position, transform);
                     normal = Vector3.TransformNormal(normal, transform);
 
-                    positions.push(position.x, position.y, position.z);
-                    normals.push(normal.x, normal.y, normal.z);
-                    uvs.push(textureCoordinate.x, textureCoordinate.y);
+                    positions.push(position.x);
+                    positions.push(position.y);
+                    positions.push(position.z);
+                    normals.push(normal.x);
+                    normals.push(normal.y);
+                    normals.push(normal.z);
+                    uvs.push(textureCoordinate.x);
+                    uvs.push(textureCoordinate.y);
 
                     // And create indices for two triangles.
                     var nextI = (i + 1) % stride;
@@ -694,16 +747,17 @@ import openfl.utils.UInt8Array;
             return vertexData;
         }
 
-        static function CreateGround(width:Float, height:Float, subdivisions:Float ) : VertexData {
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
-            var row, col;
+        static function CreateGround(width:Float = 1, height:Float = 1, subdivisions:Float = 1 ) : VertexData {
+            var indices = new Array<Int>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
+            var row:Int, col:Int;
 
+            /*
             width = width || 1;
             height = height || 1;
-            subdivisions = subdivisions || 1;
+            subdivisions = subdivisions || 1;*/
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (row = 0; row <= subdivisions; row++)
             row = 0;
@@ -715,9 +769,14 @@ import openfl.utils.UInt8Array;
                     var position = new Vector3((col * width) / subdivisions - (width / 2.0), 0, ((subdivisions - row) * height) / subdivisions - (height / 2.0));
                     var normal = new Vector3(0, 1.0, 0);
 
-                    positions.push(position.x, position.y, position.z);
-                    normals.push(normal.x, normal.y, normal.z);
-                    uvs.push(col / subdivisions, 1.0 - row / subdivisions);
+                    positions.push(position.x);
+                    positions.push(position.y);
+                    positions.push(position.z);
+                    normals.push(normal.x);
+                    normals.push(normal.y);
+                    normals.push(normal.z);
+                    uvs.push(col / subdivisions);
+                    uvs.push(1.0 - row / subdivisions);
                  col++;
 
                 }
@@ -789,9 +848,14 @@ import openfl.utils.UInt8Array;
                     position.y = minHeight + (maxHeight - minHeight) * gradient;
 
                     // Add  vertex
-                    positions.push(position.x, position.y, position.z);
-                    normals.push(0, 0, 0);
-                    uvs.push(col / subdivisions, 1.0 - row / subdivisions);
+                    positions.push(position.x);
+                    positions.push(position.y);
+                    positions.push(position.z);
+                    normals.push(0);
+                    normals.push(0);
+                    normals.push(0);
+                    uvs.push(col / subdivisions);
+                    uvs.push(1.0 - row / subdivisions);
                  col++;
 
                 }
@@ -836,32 +900,52 @@ import openfl.utils.UInt8Array;
             return vertexData;
         }
 
-        static function CreatePlane(size:Float ) : VertexData {
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
+        static function CreatePlane(size:Float = 1 ) : VertexData {
+            var indices = new Array<Float>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
 
-            size = size || 1;
+            //size = size || 1;
 
             // Vertices
             var halfSize = size / 2.0;
-            positions.push(-halfSize, -halfSize, 0);
-            normals.push(0, 0, -1.0);
-            uvs.push(0.0, 0.0);
+            positions.push(-halfSize);
+            positions.push(-halfSize);
+            positions.push(0);
+            normals.push(0);
+            normals.push(0);
+            normals.push(-1.0);
+            uvs.push(0.0);
+            uvs.push(0.0);
 
-            positions.push(halfSize, -halfSize, 0);
-            normals.push(0, 0, -1.0);
-            uvs.push(1.0, 0.0);
+            positions.push(halfSize);
+            positions.push(-halfSize);
+            positions.push(0);
+            normals.push(0);
+            normals.push(0);
+            normals.push(-1.0);
+            uvs.push(1.0);
+            uvs.push(0.0);
 
-            positions.push(halfSize, halfSize, 0);
-            normals.push(0, 0, -1.0);
-            uvs.push(1.0, 1.0);
+            positions.push(halfSize);
+            positions.push(halfSize);
+            positions.push(0);
+            normals.push(0);
+            normals.push(0);
+            normals.push(-1.0);
+            uvs.push(1.0);
+            uvs.push(1.0);
 
-            positions.push(-halfSize, halfSize, 0);
-            normals.push(0, 0, -1.0);
-            uvs.push(0.0, 1.0);
 
+            positions.push(-halfSize);
+            positions.push(halfSize);
+            positions.push(0);
+            normals.push(0);
+            normals.push(0);
+            normals.push(-1.0);
+            uvs.push(0.0);
+            uvs.push(1.0);
             // Indices
             indices.push(0);
             indices.push(1);
@@ -884,18 +968,20 @@ import openfl.utils.UInt8Array;
 
         // based on http://code.google.com/p/away3d/source/browse/trunk/fp10/Away3D/src/away3d/primitives/TorusKnot.as?spec=svn2473&r=2473
 
-        static function CreateTorusKnot(radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float,  p:Float, q:Float ) : VertexData {
-            var indices = [];
-            var positions = [];
-            var normals = [];
-            var uvs = [];
+        static function CreateTorusKnot(radius:Float = 2, tube:Float = 0.5, radialSegments:Float = 32, tubularSegments:Float = 32,  p:Float = 2, q:Float = 3) : VertexData {
+            var indices = new Array<Float>();
+            var positions = new Array<Float>();
+            var normals = new Array<Float>();
+            var uvs = new Array<Float>();
 
+            /*
             radius = radius || 2;
             tube = tube || 0.5;
             radialSegments = radialSegments || 32;
             tubularSegments = tubularSegments || 32;
             p = p || 2;
             q = q || 3;
+            */
 
             // Helper
             var getPos = (angle) => {
@@ -938,12 +1024,13 @@ import openfl.utils.UInt8Array;
                     var cx = -tube * Math.cos(v);
                     var cy = tube * Math.sin(v);
 
-                    positions.push(p1.x + cx * n.x + cy * bitan.x);
-                    positions.push(p1.y + cx * n.y + cy * bitan.y);
-                    positions.push(p1.z + cx * n.z + cy * bitan.z);
+                    positions.push(new Vector3(p1.x + cx * n.x + cy * bitan.x));
+                    positions.push(new Vector3(p1.y + cx * n.y + cy * bitan.y));
+                    positions.push(new Vector3(p1.z + cx * n.z + cy * bitan.z));
 
                     uvs.push(i / radialSegments);
                     uvs.push(j / tubularSegments);
+                    //uvs.push(j / tubularSegments);
                  j++;
 
                 }
@@ -990,8 +1077,8 @@ import openfl.utils.UInt8Array;
         // Tools
 
         static function ComputeNormals(positions:Array<Float>, indices:Array<Float>, normals:Array<Float> ) {
-            var positionVectors = [];
-            var facesOfVertices = [];
+            var positionVectors = new Array<Float>();
+            var facesOfVertices = new Array<Float>();
             var index;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (index = 0; index < positions.length; index += 3)
