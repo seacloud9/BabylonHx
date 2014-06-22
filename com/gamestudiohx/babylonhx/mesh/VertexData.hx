@@ -1,6 +1,7 @@
 package com.gamestudiohx.babylonhx.mesh;
 
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
+import com.gamestudiohx.babylonhx.tools.math.Vector2;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.mesh.Geometry;
@@ -534,7 +535,7 @@ import openfl.utils.UInt8Array;
             diameterBottom = diameterBottom || 1;
             tessellation = tessellation || 16;*/
 
-            var getCircleVector = i => {
+            var getCircleVector = function(i:Int):Vector3{
                 var angle = (i * 2.0 * Math.PI / tessellation);
                 var dx = Math.sin(angle);
                 var dz = Math.cos(angle);
@@ -543,10 +544,11 @@ import openfl.utils.UInt8Array;
             };
 
             var createCylinderCap  = function (isTop:Bool) {
+                var radius:Float;
                 if(isTop){
-                    var radius = radiusTop;
+                    radius = radiusTop;
                     }else{
-                    var radius = radiusBottom;
+                    radius = radiusBottom;
                 }
 
                 if (radius == 0) {
@@ -568,9 +570,9 @@ import openfl.utils.UInt8Array;
                     }
 
                     var vbase = positions.length / 3;
-                    indices.push(vbase);
-                    indices.push(vbase + i1);
-                    indices.push(vbase + i2);
+                    indices.push(Std.int(vbase));
+                    indices.push(Std.int(vbase + i1));
+                    indices.push(Std.int(vbase + i2));
                  i++;
 
                 }
@@ -644,13 +646,13 @@ import openfl.utils.UInt8Array;
                 uvs.push(textureCoordinate.x);
                 uvs.push(textureCoordinate.y);
 
-                indices.push(i * 2);
-                indices.push((i * 2 + 2) % (stride * 2));
-                indices.push(i * 2 + 1);
+                indices.push(Std.int(i * 2));
+                indices.push(Std.int((i * 2 + 2) % (stride * 2)));
+                indices.push(Std.int(i * 2 + 1));
 
-                indices.push(i * 2 + 1);
-                indices.push((i * 2 + 2) % (stride * 2));
-                indices.push((i * 2 + 3) % (stride * 2));
+                indices.push(Std.int(i * 2 + 1));
+                indices.push(Std.int((i * 2 + 2) % (stride * 2)));
+                indices.push(Std.int((i * 2 + 3) % (stride * 2)));
              i++;
 
                 }
@@ -722,13 +724,13 @@ import openfl.utils.UInt8Array;
                     var nextI = (i + 1) % stride;
                     var nextJ = (j + 1) % stride;
 
-                    indices.push(i * stride + j);
-                    indices.push(i * stride + nextJ);
-                    indices.push(nextI * stride + j);
+                    indices.push(Std.int(i * stride + j));
+                    indices.push((Std.int(i * stride + nextJ)));
+                    indices.push((Std.int(nextI * stride + j)));
 
-                    indices.push(i * stride + nextJ);
-                    indices.push(nextI * stride + nextJ);
-                    indices.push(nextI * stride + j);
+                    indices.push((Std.int(i * stride + nextJ)));
+                    indices.push((Std.int(nextI * stride + nextJ)));
+                    indices.push((Std.int(nextI * stride + j)));
                  j++;
 
                 }
@@ -791,13 +793,13 @@ import openfl.utils.UInt8Array;
                 //  for (col = 0; col < subdivisions; col++)
                 col = 0;
                 while( col < subdivisions)  {
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + row * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
+                    indices.push(Std.int(col + 1 + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + 1 + row * (subdivisions + 1)));
+                    indices.push(Std.int(col + row * (subdivisions + 1)));
 
-                    indices.push(col + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
+                    indices.push(Std.int(col + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + 1 + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + row * (subdivisions + 1)));
                  col++;
 
                 }
@@ -817,7 +819,7 @@ import openfl.utils.UInt8Array;
         }
 
         public function CreateGroundFromHeightMap(width:Float, height:Float, subdivisions:Float, minHeight:Float, maxHeight:Float, buffer:UInt8Array, bufferWidth:Float, bufferHeight:Float ) : VertexData {
-            var indices = new Array<Float>();
+            var indices = new Array<Int>();
             var positions = new Array<Float>();
             var normals = new Array<Float>();
             var uvs = new Array<Float>();
@@ -835,13 +837,14 @@ import openfl.utils.UInt8Array;
                     var position = new Vector3((col * width) / subdivisions - (width / 2.0), 0, ((subdivisions - row) * height) / subdivisions - (height / 2.0));
 
                     // Compute height
-                    var heightMapX = (((position.x + width / 2) / width) * (bufferWidth - 1)) | 0;
-                    var heightMapY = ((1.0 - (position.z + height / 2) / height) * (bufferHeight - 1)) | 0;
 
-                    var pos = (heightMapX + heightMapY * bufferWidth) * 4;
-                    var r = buffer[pos] / 255.0;
-                    var g = buffer[pos + 1] / 255.0;
-                    var b = buffer[pos + 2] / 255.0;
+                    var heightMapX = Std.int(((position.x + width / 2) / width) * (bufferWidth - 1)) | 0;
+                    var heightMapY = Std.int(((1.0 - (position.z + height / 2) / height) * (bufferHeight - 1))) | 0;
+
+                    var pos = Std.int((heightMapX + heightMapY * bufferWidth) * 4);
+                    var r = Std.int(buffer[pos] / 255.0);
+                    var g = Std.int(buffer[pos + 1] / 255.0);
+                    var b = Std.int(buffer[pos + 2] / 255.0);
 
                     var gradient = r * 0.3 + g * 0.59 + b * 0.11;
 
@@ -872,13 +875,13 @@ import openfl.utils.UInt8Array;
                 //  for (col = 0; col < subdivisions; col++)
                 col = 0;
                 while( col < subdivisions)  {
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + row * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
+                    indices.push(Std.int(col + 1 + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + 1 + row * (subdivisions + 1)));
+                    indices.push(Std.int(col + row * (subdivisions + 1)));
 
-                    indices.push(col + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
+                    indices.push(Std.int(col + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + 1 + (row + 1) * (subdivisions + 1)));
+                    indices.push(Std.int(col + row * (subdivisions + 1)));
                  col++;
 
                 }
@@ -901,7 +904,7 @@ import openfl.utils.UInt8Array;
         }
 
         static function CreatePlane(size:Float = 1 ) : VertexData {
-            var indices = new Array<Float>();
+            var indices = new Array<Int>();
             var positions = new Array<Float>();
             var normals = new Array<Float>();
             var uvs = new Array<Float>();
@@ -969,10 +972,11 @@ import openfl.utils.UInt8Array;
         // based on http://code.google.com/p/away3d/source/browse/trunk/fp10/Away3D/src/away3d/primitives/TorusKnot.as?spec=svn2473&r=2473
 
         static function CreateTorusKnot(radius:Float = 2, tube:Float = 0.5, radialSegments:Float = 32, tubularSegments:Float = 32,  p:Float = 2, q:Float = 3) : VertexData {
-            var indices = new Array<Float>();
+            var indices = new Array<Int>();
             var positions = new Array<Float>();
             var normals = new Array<Float>();
             var uvs = new Array<Float>();
+            var j = 0;
 
             /*
             radius = radius || 2;
@@ -984,7 +988,7 @@ import openfl.utils.UInt8Array;
             */
 
             // Helper
-            var getPos = (angle) => {
+            var getPos = function(angle:Float){
 
                 var cu = Math.cos(angle);
                 var su = Math.sin(angle);
@@ -1017,16 +1021,16 @@ import openfl.utils.UInt8Array;
                 n.normalize();
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var j = 0; j < tubularSegments; j++)
-                var j = 0;
+                
                 while( j < tubularSegments)  {
                     var modJ = j % tubularSegments;
                     var v = modJ / tubularSegments * 2 * Math.PI;
                     var cx = -tube * Math.cos(v);
                     var cy = tube * Math.sin(v);
 
-                    positions.push(new Vector3(p1.x + cx * n.x + cy * bitan.x));
-                    positions.push(new Vector3(p1.y + cx * n.y + cy * bitan.y));
-                    positions.push(new Vector3(p1.z + cx * n.z + cy * bitan.z));
+                    positions.push(p1.x + cx * n.x + cy * bitan.x);
+                    positions.push(p1.y + cx * n.y + cy * bitan.y);
+                    positions.push(p1.z + cx * n.z + cy * bitan.z);
 
                     uvs.push(i / radialSegments);
                     uvs.push(j / tubularSegments);
@@ -1051,8 +1055,8 @@ import openfl.utils.UInt8Array;
                     var c = (i + 1) * tubularSegments + jNext;
                     var d = i * tubularSegments + jNext;
 
-                    indices.push(d); indices.push(b); indices.push(a);
-                    indices.push(d); indices.push(c); indices.push(b);
+                    indices.push(Std.int(d)); indices.push(Std.int(b)); indices.push(Std.int(a));
+                    indices.push(Std.int(d)); indices.push(Std.int(c)); indices.push(Std.int(b));
                  j++;
 
                 }
@@ -1076,9 +1080,9 @@ import openfl.utils.UInt8Array;
 
         // Tools
 
-        static function ComputeNormals(positions:Array<Float>, indices:Array<Float>, normals:Array<Float> ) {
-            var positionVectors = new Array<Float>();
-            var facesOfVertices = new Array<Float>();
+        static function ComputeNormals(positions:Array<Float>, indices:Array<Int>, normals:Array<Float> ) {
+            var positionVectors = new Array<Vector3>();
+            var facesOfVertices = new Array<Array<Int>>();
             var index;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (index = 0; index < positions.length; index += 3)
@@ -1086,7 +1090,7 @@ import openfl.utils.UInt8Array;
             while( index < positions.length)  {
                 var vector3 = new Vector3(positions[index], positions[index + 1], positions[index + 2]);
                 positionVectors.push(vector3);
-                facesOfVertices.push([]);
+                facesOfVertices.push(new Array<Int>());
              index += 3;
 
                 }
@@ -1100,17 +1104,17 @@ import openfl.utils.UInt8Array;
                 var i2 = indices[index * 3 + 1];
                 var i3 = indices[index * 3 + 2];
 
-                var p1 = positionVectors[i1];
-                var p2 = positionVectors[i2];
-                var p3 = positionVectors[i3];
+                var p1 = positionVectors[Std.int(i1)];
+                var p2 = positionVectors[Std.int(i2)];
+                var p3 = positionVectors[Std.int(i3)];
 
                 var p1p2 = p1.subtract(p2);
                 var p3p2 = p3.subtract(p2);
 
                 facesNormals[index] = Vector3.Normalize(Vector3.Cross(p1p2, p3p2));
-                facesOfVertices[i1].push(index);
-                facesOfVertices[i2].push(index);
-                facesOfVertices[i3].push(index);
+                facesOfVertices[Std.int(i1)].push(index);
+                facesOfVertices[Std.int(i2)].push(index);
+                facesOfVertices[Std.int(i3)].push(index);
              index++;
 
                 }
