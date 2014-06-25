@@ -133,7 +133,7 @@ import openfl.utils.Float32Array;
             }
         }
 
-        public function getTotalVertices() : Float {
+        public function getTotalVertices() : Int {
             if (!this.isReady()) {
                 return 0;
             }
@@ -176,12 +176,12 @@ import openfl.utils.Float32Array;
 
         public function getVerticesDataKinds():Array<String> {
             var result = new Array<String>();
-            if (!this._vertexBuffers && this._delayInfo) {
+            if (this._vertexBuffers == null && this._delayInfo != null) {
                 for (kind in this._delayInfo) {
                      result.push(kind);
                 }
             } else {
-                for (kind in this._vertexBuffers) {
+                for (kind in this._vertexBuffers.keys()) {
                     result.push(kind);
                 }
             }
@@ -241,11 +241,11 @@ import openfl.utils.Float32Array;
             }
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            for(kind in this._vertexBuffers){
+            for(kind in this._vertexBuffers.keys()){
                 this._vertexBuffers.get(kind).dispose();
             }
 
-            if (this._indexBuffer && this._engine._releaseBuffer(this._indexBuffer)) {
+            if (this._indexBuffer != null && this._engine._releaseBuffer(this._indexBuffer) != null) {
                 this._indexBuffer = null;
             }
 
@@ -261,7 +261,7 @@ import openfl.utils.Float32Array;
             }
 
             var previousGeometry = mesh._geometry;
-            if (previousGeometry) {
+            if (previousGeometry != null) {
                 previousGeometry.releaseForMesh(mesh);
             }
 
@@ -288,7 +288,7 @@ import openfl.utils.Float32Array;
             // vertexBuffers
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            for(kind in this._vertexBuffers){
+            for(kind in this._vertexBuffers.keys()){
                 if (numOfMeshes == 1) {
                     this._vertexBuffers.get(kind).create();
                 }
@@ -305,10 +305,10 @@ import openfl.utils.Float32Array;
             }
 
             // indexBuffer
-            if (numOfMeshes == 1 && this._indices) {
+            if (numOfMeshes == 1 && this._indices.length > 0) {
                 this._indexBuffer = this._engine.createIndexBuffer(this._indices);
             }
-            if (this._indexBuffer) {
+            if (this._indexBuffer != null) {
                 this._indexBuffer.references = numOfMeshes;
             }
         }
@@ -366,7 +366,7 @@ import openfl.utils.Float32Array;
             this._meshes = new Array<Mesh>();
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
-            for(kind in this._vertexBuffers){
+            for(kind in this._vertexBuffers.keys()){
                 this._vertexBuffers.get(kind).dispose();
             }
             this._vertexBuffers = new Array<VertexBuffer>();
@@ -406,7 +406,7 @@ import openfl.utils.Float32Array;
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
             //  for (var kind in this._vertexBuffers)
             //this._vertexBuffers.get(kind);
-            for(kind in this._vertexBuffers){
+            for(kind in this._vertexBuffers.keys()){
                 vertexData.set(this.getVerticesData(kind), kind);
                 if (!stopChecking) {
                     updatable = this.getVertexBuffer(kind).isUpdatable();

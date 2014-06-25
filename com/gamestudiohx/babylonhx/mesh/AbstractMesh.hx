@@ -116,7 +116,7 @@ class AbstractMesh extends Node{
 	
 	public var _vertexBuffers:Map<String, VertexBuffer>;			// TODO - this can be both VertexBuffer and BabylonGLBuffer
 	public var _vertexBuffersB:Map<String, BabylonGLBuffer>;		// so this one is created to separate these two ...
-	//public var _delayInfo:Array<String>;
+	public var _delayInfo:Dynamic;
 	public var _indexBuffer:BabylonGLBuffer;
 	
 	public var parentId(get, null):String;
@@ -959,6 +959,17 @@ class AbstractMesh extends Node{
 
         return result;
 	}
+
+
+	public function releaseSubMeshes():Void {
+            if (this.subMeshes != null) {
+                while (this.subMeshes.length > 0) {
+                    this.subMeshes[0].dispose();
+                }
+            } else {
+                this.subMeshes = new Array<SubMesh>();
+            }
+     }
 
 	public function dispose(doNotRecurse:Bool = false) {
 		if (this._vertexBuffers != null) {

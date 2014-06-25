@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="BabylonHx" package="com.example.ds.babylonhx" version="1.0.0" company="Company Name" />
+	<meta title="BabylonHx" package="com.example.ds.babylonhx" version="1.0.0" company="Satan Loves Bacon" />
 	<app main="Main" path="Export" file="BabylonHx" />
 	<haxelib name="openfl" />
-	<source path="path to BabylonHx source" />
+	<source path="../../" />
 	<source path="Source" />
 	
 	

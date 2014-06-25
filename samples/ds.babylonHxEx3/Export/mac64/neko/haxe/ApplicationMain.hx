@@ -16,7 +16,7 @@ class ApplicationMain {
 	
 	public static function main () {
 		
-		flash.Lib.setPackage ("Company Name", "BabylonHx", "com.example.ds.babylonhx", "1.0.0");
+		flash.Lib.setPackage ("Satan Loves Bacon", "BabylonHx", "com.example.ds.babylonhx", "1.0.0");
 		
 		
 		#if ios
@@ -294,7 +294,7 @@ class ApplicationMain {
 	public static function main () {
 		
 		#if openfl
-		flash.Lib.setPackage ("Company Name", "BabylonHx", "com.example.ds.babylonhx", "1.0.0");
+		flash.Lib.setPackage ("Satan Loves Bacon", "BabylonHx", "com.example.ds.babylonhx", "1.0.0");
 		
 		#end
 		

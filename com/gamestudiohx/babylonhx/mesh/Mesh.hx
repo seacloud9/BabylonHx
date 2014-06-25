@@ -26,6 +26,7 @@ import openfl.utils.Float32Array;
         public var mustReturn:Bool = false;
         public var visibleInstances : Array<InstancedMesh>;
         public var renderSelf:Bool = true;
+        public function new(){}
     }
 
     class Mesh extends AbstractMesh implements IGetSetVerticesData {
@@ -38,7 +39,7 @@ import openfl.utils.Float32Array;
         // public var Private
         public var _geometry : Geometry;
         private var _onBeforeRenderCallbacks = new Array<Dynamic>();
-        private var _delayInfo:Dynamic; //ANY
+        //private var _delayInfo:Dynamic; //ANY
         //private var _delayLoadingFunction: (any, Mesh) => void;
         private var _delayLoadingFunction:String;
         public var _visibleInstances : Dynamic;
@@ -52,7 +53,7 @@ import openfl.utils.Float32Array;
             super(name, scene);
         }
 
-        public function getTotalVertices() : Float {
+        public function getTotalVertices() :Int {
             if (this._geometry == null) {
                 return 0;
             }
@@ -99,7 +100,7 @@ import openfl.utils.Float32Array;
             return this._geometry.getVerticesDataKinds();
         }
 
-        public function getTotalIndices() : Float {
+        public function getTotalIndices() : Int {
             if (this._geometry == null) {
                 return 0;
             }
@@ -169,7 +170,7 @@ import openfl.utils.Float32Array;
 
         public function _createGlobalSubMesh() : SubMesh {
             var totalVertices = this.getTotalVertices();
-            if (totalVertices == 0 || this.getIndices() == 0) {
+            if (totalVertices == 0 || this.getIndices().length == 0) {
                 return null;
             }
 
@@ -281,8 +282,8 @@ import openfl.utils.Float32Array;
             engine.bindMultiBuffers(this._geometry.getVertexBuffers(), indexToBind, effect);
         }
 
-        public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Float ) : Void {
-            if (this._geometry == null || this._geometry.getVertexBuffers() == 0 || this._geometry.getIndexBuffer() == 0) {
+        public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Int ) : Void {
+            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == 0) {
                 return;
             }
 
@@ -424,16 +425,23 @@ import openfl.utils.Float32Array;
             var world:Matrix = this.getWorldMatrix();
 
             // Material
-            var effectiveMaterial = subMesh.getMaterial();
-            if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
-                return;
-            }
+            //var effectiveMaterial = subMesh.getMaterial();
+            //if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
+              //  return;
+            //}
+            var effect = effectiveMaterial.getEffect();
+            var wireFrame = engine.forceWireframe || effectiveMaterial.wireframe;
+            this._bind(subMesh, effect, wireFrame);
 
             if(Std.is(effectiveMaterial, Material)) {
                 effectiveMaterial._preBind();
                 effectiveMaterial.bind(world, this);
             }
-        
+
+            
+
+
+
             /*
             // Bind
             var wireFrame = engine.forceWireframe || effectiveMaterial.wireframe;
@@ -451,8 +459,7 @@ import openfl.utils.Float32Array;
                     // Draw
                     this._draw(subMesh, !wireFrame);
                 }
-
-                if (batch.visibleInstances) {
+                if (batch.visibleInstances != null) {
                     // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                     //  for (var instanceIndex = 0; instanceIndex < batch.visibleInstances.length; instanceIndex++)
                     var instanceIndex = 0;

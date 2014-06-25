@@ -9,6 +9,7 @@ import com.gamestudiohx.babylonhx.culling.octrees.Octree;
 import com.gamestudiohx.babylonhx.culling.octrees.OctreeBlock;
 import com.gamestudiohx.babylonhx.layer.Layer;
 import com.gamestudiohx.babylonhx.lights.Light;
+import com.gamestudiohx.babylonhx.mesh.Geometry;
 import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.tools.math.Plane;
@@ -112,6 +113,7 @@ class Scene {
 	public var _activeAnimatables:Array<_Animatable>;
 	public var lensFlareSystems:Array<LensFlareSystem>;
 	public var _renderingManager:RenderingManager;
+	private var _geometries = new Array<Geometry>();
 
 	public var lightsEnabled:Bool;
 	public var lights:Array<Light>;
@@ -945,6 +947,26 @@ class Scene {
 
         this._engine.wipeCaches();
 	}
+
+	public function getGeometryByID(id:String): Geometry {
+            for (index in 0...this._geometries.length) {
+                if (this._geometries[index].id == id) {
+                    return this._geometries[index];
+                }
+            }
+
+            return null;
+    }
+
+	public function pushGeometry(geometry: Geometry, force:Bool = false): Bool {
+            if (!force && this.getGeometryByID(geometry.id) != null) {
+                return false;
+            }
+
+            this._geometries.push(geometry);
+
+            return true;
+     }
 	
 	inline public function _getNewPosition(position:Vector3, velocity:Vector3, collider:Collider, maximumRetry:Int, finalPosition:Vector3) {
 		position.divideToRef(collider.radius, this._scaledPosition);

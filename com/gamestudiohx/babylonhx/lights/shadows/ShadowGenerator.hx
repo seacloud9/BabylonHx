@@ -6,7 +6,7 @@ import com.gamestudiohx.babylonhx.lights.DirectionalLight;
 import com.gamestudiohx.babylonhx.materials.Effect;
 import com.gamestudiohx.babylonhx.materials.textures.RenderTargetTexture;
 import com.gamestudiohx.babylonhx.materials.textures.Texture;
-import com.gamestudiohx.babylonhx.mesh.Mesh;
+import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.mesh.VertexBuffer;
 import com.gamestudiohx.babylonhx.Scene;
@@ -56,7 +56,7 @@ class ShadowGenerator {
                 
         // Custom render function
         var renderSubMesh = function (subMesh:SubMesh) {
-            var mesh:Mesh = subMesh.getMesh();
+            var mesh:AbstractMesh = subMesh.getMesh();
             var world:Matrix = mesh.getWorldMatrix();
             var engine:Engine = this._scene.getEngine();
 
@@ -98,7 +98,7 @@ class ShadowGenerator {
 		this.useVarianceShadowMap = true;
 	}
 	
-	public function isReady(mesh:Mesh):Bool {
+	public function isReady(mesh:AbstractMesh):Bool {
         var defines:Array<String> = [];
         
         if (this.useVarianceShadowMap) {

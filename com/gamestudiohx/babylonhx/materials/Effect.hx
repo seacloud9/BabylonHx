@@ -112,6 +112,11 @@ class Effect {
 	public function isReady():Bool {
         return this._isReady;
     }
+
+    public function getAttributeLocationByName(name:String):Int {
+            var index = this._attributesNames.indexOf(name);
+            return this._attributes[index];
+    }
 	
 	public function getProgram():GLProgram {
         return this._program;

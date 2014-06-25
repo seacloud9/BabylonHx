@@ -3,7 +3,7 @@ package com.gamestudiohx.babylonhx.rendering;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.Scene;
-import com.gamestudiohx.babylonhx.mesh.Mesh;
+import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.sprites.SpriteManager;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.SmartArray;
@@ -31,7 +31,7 @@ class RenderingManager {
 		_depthBufferAlreadyCleaned = false;
 	}
 	
-	inline public function _renderParticles(index:Int, activeMeshes:Array<Mesh>) {
+	inline public function _renderParticles(index:Int, activeMeshes:Array<AbstractMesh>) {
         if (this._scene._activeParticleSystems.length != 0) {
             // Particles
 			var beforeParticlesDate = Lib.getTimer();
@@ -77,7 +77,7 @@ class RenderingManager {
         this._depthBufferAlreadyCleaned = true;
     }
 	
-	inline public function render(customRenderFunction:SmartArray->SmartArray->SmartArray->Dynamic->Bool, activeMeshes:Array<Mesh>, renderParticles:Bool, renderSprites:Bool) {    
+	inline public function render(customRenderFunction:SmartArray->SmartArray->SmartArray->Dynamic->Bool, activeMeshes:Array<AbstractMesh>, renderParticles:Bool, renderSprites:Bool) {    
         for (index in 0...RenderingManager.MAX_RENDERINGGROUPS) {
             this._depthBufferAlreadyCleaned = index == 0;
             var renderingGroup:RenderingGroup = this._renderingGroups[index];
@@ -108,7 +108,7 @@ class RenderingManager {
     }
 	
 	inline public function dispatch(subMesh:SubMesh) {
-        var mesh:Mesh = subMesh.getMesh();
+        var mesh:AbstractMesh = subMesh.getMesh();
         var renderingGroupId = mesh.renderingGroupId;
 
         if (this._renderingGroups.length <= renderingGroupId) {

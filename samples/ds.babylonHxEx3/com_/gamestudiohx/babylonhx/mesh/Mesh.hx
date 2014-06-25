@@ -26,6 +26,7 @@ import openfl.utils.Float32Array;
         public var mustReturn:Bool = false;
         public var visibleInstances : Array<InstancedMesh>;
         public var renderSelf:Bool = true;
+        public function new(){}
     }
 
     class Mesh extends AbstractMesh implements IGetSetVerticesData {
@@ -282,7 +283,7 @@ import openfl.utils.Float32Array;
         }
 
         public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Float ) : Void {
-            if (this._geometry == null || this._geometry.getVertexBuffers() == 0 || this._geometry.getIndexBuffer() == 0) {
+            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == 0) {
                 return;
             }
 

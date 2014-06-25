@@ -1,7 +1,7 @@
 package com.gamestudiohx.babylonhx.rendering;
 
 import com.gamestudiohx.babylonhx.materials.Material;
-import com.gamestudiohx.babylonhx.mesh.Mesh;
+import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
@@ -112,7 +112,7 @@ class RenderingGroup {
 	
 	public function dispatch(subMesh:SubMesh) {
         var material = subMesh.getMaterial();
-        var mesh:Mesh = subMesh.getMesh();
+        var mesh:AbstractMesh = subMesh.getMesh();
         if (Std.is(material, Material) && material.needAlphaBlending() || mesh.visibility < 1.0) { // Transparent
             if (material.alpha > 0 || mesh.visibility < 1.0) {
                 this._transparentSubMeshes.push(subMesh);

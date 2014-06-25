@@ -45,19 +45,19 @@ import openfl.utils.Float32Array;
         // Methods
         //public get
 
-        public function receiveShadows() :Bool {
+        override function receiveShadows() :Bool {
             return this._sourceMesh.receiveShadows;
         }
 
         //public get
 
-        public function material() : Material {
+        override function material() : Material {
             return this._sourceMesh.material;
         }
 
         //public get
 
-        public function visibility() : Float {
+        override function visibility() : Float {
             return this._sourceMesh.visibility;
         }
 
@@ -67,7 +67,7 @@ import openfl.utils.Float32Array;
             return this._sourceMesh.skeleton;
         }
 
-        public function getTotalVertices() : Float {
+        override function getTotalVertices() : Float {
             return this._sourceMesh.getTotalVertices();
         }
 
@@ -77,21 +77,21 @@ import openfl.utils.Float32Array;
             return this._sourceMesh;
         }
 
-        public function getVerticesData(kind:String ) : Array<Float> {
+        override function getVerticesData(kind:String ) : Array<Float> {
             return this._sourceMesh.getVerticesData(kind);
         }
 
-        public function isVerticesDataPresent(kind:String ) : Bool {
+        override function isVerticesDataPresent(kind:String ) : Bool {
             return this._sourceMesh.isVerticesDataPresent(kind);
         }
 
-        public function getIndices() : Array<Int>{
+        override function getIndices() : Array<Int>{
             return this._sourceMesh.getIndices();
         }
 
         //public get
 
-        public function _positions() : Array<Vector3> {
+        override function _positions() : Array<Vector3> {
             return this._sourceMesh._positions;
         }
 
@@ -122,13 +122,13 @@ import openfl.utils.Float32Array;
                 }
         }
 
-        public function _generatePointsArray() :Bool {
+        override function _generatePointsArray() :Bool {
             return this._sourceMesh._generatePointsArray();
         }
 
         // Clone
 
-        public function clone(name:String, newParent:Node, ?doNotCloneChildren:Bool ) : InstancedMesh {
+        override function clone(name:String, newParent:Node, ?doNotCloneChildren:Bool ) : InstancedMesh {
             var result = this._sourceMesh.createInstance(name);
 
             // Deep copy
@@ -165,7 +165,7 @@ import openfl.utils.Float32Array;
 
         // Dispoe
 
-        public function dispose(?doNotRecurse:Bool ) : Void {
+        override function dispose(?doNotRecurse:Bool ) : Void {
 
             // Remove from mesh
             var index = this._sourceMesh.instances.indexOf(this);

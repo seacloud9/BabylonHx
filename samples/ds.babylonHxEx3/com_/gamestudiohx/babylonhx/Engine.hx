@@ -502,6 +502,35 @@ class Engine {
         }
     }
 
+
+    public function deleteInstancesBuffer(buffer: BabylonGLBuffer): Void {
+            GL.deleteBuffer(buffer);
+     }
+
+    //TODO html5 float32Array/float
+    public function updateAndBindInstancesBuffer(instancesBuffer: BabylonGLBuffer, data: Float32Array, offsetLocations:Array<Int>): Void {
+            GL.bindBuffer(GL.ARRAY_BUFFER, instancesBuffer.buffer);
+            GL.bufferSubData(GL.ARRAY_BUFFER, 0, data);
+
+            for (index in  0...4) {
+                var offsetLocation = offsetLocations[index];
+                GL.enableVertexAttribArray(offsetLocation);
+                GL.vertexAttribPointer(offsetLocation, 4, GL.FLOAT, false, 64, index * 16);
+                this._caps.instancedArrays.vertexAttribDivisorANGLE(offsetLocation, 1);
+            }
+    }
+
+    public function unBindInstancesBuffer(instancesBuffer: BabylonGLBuffer, offsetLocations:Array<Int>): Void {
+            GL.bindBuffer(this._gl.ARRAY_BUFFER, instancesBuffer.buffer);
+            for (index in  0...4) {
+                var offsetLocation = offsetLocations[index];
+                GL.disableVertexAttribArray(offsetLocation);
+                this._caps.instancedArrays.vertexAttribDivisorANGLE(offsetLocation, 0);
+            }
+        }
+
+
+
     public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int) {
         GL.drawElements(useTriangles ? GL.TRIANGLES : GL.LINES, indexCount, GL.UNSIGNED_SHORT, indexStart * 2);
     }

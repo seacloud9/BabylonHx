@@ -34,7 +34,7 @@ class VertexBuffer {
 	public var _strideSize:Int;
 	
 
-	public function new(mesh:Dynamic, data:Array<Float>, kind:String, updatable:Bool) {
+	public function new(mesh:Dynamic, data:Array<Float>, kind:String, updatable:Bool, postponeInternalCreation:Bool = false) {
         if (Std.is(mesh, Mesh)) { // old versions of BABYLON.VertexBuffer accepted 'mesh' instead of 'engine'
             this._mesh = mesh;
             this._engine = mesh.getScene().getEngine();
@@ -53,7 +53,13 @@ class VertexBuffer {
         }
 
         this._data = data;
+        if (!postponeInternalCreation) { // by default
+                this.create();
+        }
+
         this._kind = kind;
+
+        
 
         switch (kind) {
             case VertexBuffer.PositionKind:
@@ -87,6 +93,30 @@ class VertexBuffer {
     public function getStrideSize():Int {
         return this._strideSize;
     }
+
+    public function create(?data: Array<Float>): Void {
+            if (data == null && this._buffer != null) {
+                return; // nothing to do
+            }
+
+            if(data == null){
+               data = this._data;
+            }
+
+            if (this._buffer == null) { // create buffer
+                if (this._updatable) {
+                    this._buffer = this._engine.createDynamicVertexBuffer(data.length * 4);
+                } else {
+                    this._buffer = this._engine.createVertexBuffer(data);
+                }
+            }
+
+            if (this._updatable) { // update buffer
+                this._engine.updateDynamicVertexBuffer(this._buffer, data);
+                this._data = data;
+            }
+    }
+
     
     public function update(data:Array<Float>) {
         this._engine.updateDynamicVertexBuffer(this._buffer, data);

@@ -1,5 +1,12 @@
 BabylonHx
 =========
+WIP
+Update this version BabylonHx is under rapid development so if you download this and want to use it as a lib for one of the examples it will break. 
+But all Examples except Ex3 have a stable version of BabylonHx.  That being said if you want to help please do.
+
+I am trying to get this version to catch up to the new version of BabylonJS.  Complete with PostProcessing Rendering, Shader Materials, Geometry Class etc...
+
+=========
 
 BabylonHx is a direct port of BabylonJs engine to Haxe/OpenFL. 
 It supports (almost) all features of the original.

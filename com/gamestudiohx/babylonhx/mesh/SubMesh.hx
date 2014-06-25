@@ -171,6 +171,17 @@ class SubMesh {
 	public function clone(newMesh:Mesh):SubMesh {
         return new SubMesh(this.materialIndex, this.verticesStart, this.verticesCount, this.indexStart, this.indexCount, newMesh);
     }
+
+    public function dispose() {
+            if (this._linesIndexBuffer != null) {
+                this._mesh.getScene().getEngine()._releaseBuffer(this._linesIndexBuffer);
+                this._linesIndexBuffer = null;
+            }
+
+            // Remove from mesh
+            var index = this._mesh.subMeshes.indexOf(this);
+            this._mesh.subMeshes.splice(index, 1);
+    }
 	
 	public static function CreateFromIndices(materialIndex:Int, startIndex:Int, indexCount:Int, mesh: AbstractMesh):SubMesh {
         var minVertexIndex = Math.POSITIVE_INFINITY;

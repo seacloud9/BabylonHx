@@ -494,15 +494,54 @@ class Engine {
         }
     }
 
-    public function _releaseBuffer(buffer:BabylonGLBuffer) {
+    public function _releaseBuffer(buffer:BabylonGLBuffer):Bool {
         buffer.references--;
 
         if (buffer.references == 0) {
             GL.deleteBuffer(buffer.buffer);
+            return true;
         }
+        return false;
     }
 
-    public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int) {
+
+    public function deleteInstancesBuffer(buffer: BabylonGLBuffer): Void {
+            GL.deleteBuffer(buffer);
+     }
+
+    //TODO html5 float32Array/float
+    public function updateAndBindInstancesBuffer(instancesBuffer: BabylonGLBuffer, data: Float32Array, offsetLocations:Array<Int>): Void {
+            GL.bindBuffer(GL.ARRAY_BUFFER, instancesBuffer.buffer);
+            GL.bufferSubData(GL.ARRAY_BUFFER, 0, data);
+
+            for (index in  0...4) {
+                var offsetLocation = offsetLocations[index];
+                GL.enableVertexAttribArray(offsetLocation);
+                GL.vertexAttribPointer(offsetLocation, 4, GL.FLOAT, false, 64, index * 16);
+                //todo
+                // https://www.khronos.org/registry/gles/extensions/ANGLE/ANGLE_instanced_arrays.txt might be needed for html5
+                //this._caps.instancedArrays.vertexAttribDivisorANGLE(offsetLocation, 1);
+            }
+    }
+
+    public function unBindInstancesBuffer(instancesBuffer: BabylonGLBuffer, offsetLocations:Array<Int>): Void {
+            GL.bindBuffer(GL.ARRAY_BUFFER, instancesBuffer.buffer);
+            for (index in  0...4) {
+                var offsetLocation = offsetLocations[index];
+                GL.disableVertexAttribArray(offsetLocation);
+                //this._caps.instancedArrays.vertexAttribDivisorANGLE(offsetLocation, 0);
+            }
+        }
+
+
+
+    public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int, ?instancesCount:Int) {
+         //html5 todo
+         /*if (instancesCount) {
+                this._caps.instancedArrays.drawElementsInstancedANGLE(useTriangles ? this._gl.TRIANGLES : this._gl.LINES, indexCount, this._gl.UNSIGNED_SHORT, indexStart * 2, instancesCount);
+                return;
+         }*/
+
         GL.drawElements(useTriangles ? GL.TRIANGLES : GL.LINES, indexCount, GL.UNSIGNED_SHORT, indexStart * 2);
     }
 	
