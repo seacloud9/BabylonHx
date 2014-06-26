@@ -10,6 +10,7 @@ import com.gamestudiohx.babylonhx.culling.octrees.OctreeBlock;
 import com.gamestudiohx.babylonhx.layer.Layer;
 import com.gamestudiohx.babylonhx.lights.Light;
 import com.gamestudiohx.babylonhx.mesh.Geometry;
+import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.tools.math.Plane;
@@ -114,13 +115,15 @@ class Scene {
 	public var lensFlareSystems:Array<LensFlareSystem>;
 	public var _renderingManager:RenderingManager;
 	private var _geometries = new Array<Geometry>();
+	 // Database
+    public var database:Dynamic; //ANY
 
 	public var lightsEnabled:Bool;
 	public var lights:Array<Light>;
 	public var cameras:Array<Camera>;
 	public var activeCamera:Camera;
 	public var activeCameras:Array<Camera>;
-	public var meshes:Array<Mesh>;
+	public var meshes:Array<AbstractMesh>;
 	public var materials:Array<Material>;
 	public var multiMaterials:Array<MultiMaterial>;
 	public var defaultMaterial:StandardMaterial;
@@ -475,7 +478,7 @@ class Scene {
         return null;
 	}
 	
-	public function getMeshByID(id:String):Mesh {
+	public function getMeshByID(id:String):AbstractMesh {
 		for (index in 0...this.meshes.length) {
             if (this.meshes[index].id == id) {
                 return this.meshes[index];
@@ -485,7 +488,7 @@ class Scene {
         return null;
 	}
 	
-	public function getLastMeshByID(id:String):Mesh {
+	public function getLastMeshByID(id:String):AbstractMesh {
 		var index:Int = this.meshes.length - 1;
 		while(index >= 0) {
             if (this.meshes[index].id == id) {
@@ -525,7 +528,7 @@ class Scene {
         return null;
     }
 	
-	public function getMeshByName(name:String):Mesh {
+	public function getMeshByName(name:String):AbstractMesh {
 		for (index in 0...this.meshes.length) {
             if (this.meshes[index].name == name) {
                 return this.meshes[index];
@@ -535,7 +538,7 @@ class Scene {
         return null;
 	}
 	
-	public function isActiveMesh(mesh:Mesh):Bool {
+	public function isActiveMesh(mesh:AbstractMesh):Bool {
 		return (this._activeMeshes.indexOf(mesh) != -1);
 	}
 	
@@ -571,7 +574,7 @@ class Scene {
         return null;
 	}
 
-	inline public function _evaluateSubMesh(subMesh:SubMesh, mesh:Mesh) {
+	inline public function _evaluateSubMesh(subMesh:SubMesh, mesh:AbstractMesh) {
 		if (mesh.subMeshes.length == 1 || subMesh.isInFrustrum(this._frustumPlanes)) {
             var material = subMesh.getMaterial();
 
@@ -613,7 +616,7 @@ class Scene {
                 var block:OctreeBlock = selection[blockIndex]; // selection.data[blockIndex];     TODO - this should be smart array
 
                 for (meshIndex in 0...block.meshes.length) {
-                    var mesh:Mesh = block.meshes[meshIndex];
+                    var mesh:AbstractMesh = block.meshes[meshIndex];
 
                     if (mesh._renderId != this._renderId) {		// Math.abs ??    TODO
                         this._totalVertices += mesh.getTotalVertices();
@@ -656,7 +659,7 @@ class Scene {
             }
         } else { // Full scene traversal
             for (meshIndex in 0...this.meshes.length) {
-                var mesh:Mesh = this.meshes[meshIndex];
+                var mesh:AbstractMesh = this.meshes[meshIndex];
 
                 this._totalVertices += mesh.getTotalVertices();
 
@@ -992,7 +995,7 @@ class Scene {
 
 			// Check all meshes
 			for (index in 0...this.meshes.length) {
-				var mesh:Mesh = this.meshes[index];
+				var mesh:AbstractMesh = this.meshes[index];
 				if (mesh.isEnabled() && mesh.checkCollisions) {
 					mesh._checkCollision(collider);
 				}
@@ -1042,7 +1045,7 @@ class Scene {
         var min = new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY);
         var max = new Vector3(Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY);
         for (index in 0...this.meshes.length) {
-            var mesh:Mesh = this.meshes[index];
+            var mesh:AbstractMesh = this.meshes[index];
 
             mesh.computeWorldMatrix();
             var minBox = mesh.getBoundingInfo().boundingBox.minimumWorld;
@@ -1073,11 +1076,11 @@ class Scene {
         return Ray.CreateNew(x, y, viewport.width, viewport.height, world != null ? world : Matrix.Identity(), camera.getViewMatrix(), camera.getProjectionMatrix());
 	}
 	
-	inline public function _internalPick(rayFunction:Matrix->Ray, predicate:Mesh->Bool, fastCheck:Bool):PickingInfo {
+	inline public function _internalPick(rayFunction:Matrix->Ray, predicate:AbstractMesh->Bool, fastCheck:Bool):PickingInfo {
 		var pickingInfo:PickingInfo = null;
 
         for (meshIndex in 0...this.meshes.length) {
-            var mesh:Mesh = this.meshes[meshIndex];
+            var mesh:AbstractMesh = this.meshes[meshIndex];
 
             if (predicate != null) {
                 if (!predicate(mesh)) {
@@ -1107,13 +1110,13 @@ class Scene {
         return pickingInfo == null ? new PickingInfo() : pickingInfo;
 	}
 	
-	public function pick(x:Float, y:Float, predicate:Mesh->Bool, fastCheck:Bool, camera:Camera):PickingInfo {
+	public function pick(x:Float, y:Float, predicate:AbstractMesh->Bool, fastCheck:Bool, camera:Camera):PickingInfo {
         return this._internalPick(function(world:Matrix):Ray {
             return this.createPickingRay(x, y, world, camera);
         }, predicate, fastCheck);
     }
 	
-	public function pickWithRay(ray:Ray, predicate:Mesh->Bool, fastCheck:Bool):PickingInfo {
+	public function pickWithRay(ray:Ray, predicate:AbstractMesh->Bool, fastCheck:Bool):PickingInfo {
 		function param(world:Matrix):Ray {
             if (this._pickWithRayInverseMatrix == null) {
                 this._pickWithRayInverseMatrix = Matrix.Identity();

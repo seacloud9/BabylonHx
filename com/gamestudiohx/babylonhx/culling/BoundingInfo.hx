@@ -17,11 +17,14 @@ typedef BoundingInfoMinMax = {
 }
 
 class BoundingInfo {
-	
+	public var minimum:Vector3;
+    public var maximum:Vector3;
 	public var boundingBox:BoundingBox;
 	public var boundingSphere:BoundingSphere;
 
 	public function new(minimum:Vector3, maximum:Vector3) {
+        this.minimum = minimum;
+        this.maximum = maximum;
 		this.boundingBox = new BoundingBox(minimum, maximum);
         this.boundingSphere = new BoundingSphere(minimum, maximum);
 	}
@@ -60,7 +63,7 @@ class BoundingInfo {
         if (!this.boundingSphere.isInFrustrum(frustumPlanes))
             return false;
 
-        return this.boundingBox._isInFrustrum(frustumPlanes);
+        return this.boundingBox.isInFrustrum(frustumPlanes);
     }
 	
 	public function _checkCollision(collider:Collider):Bool {
@@ -81,6 +84,13 @@ class BoundingInfo {
         }
 
         return true;
+    }
+
+    public function isInFrustum(frustumPlanes: Array<Plane>):Bool {
+            if (this.boundingSphere.isInFrustrum(frustumPlanes) == null)
+                return false;
+
+            return this.boundingBox.isInFrustrum(frustumPlanes);
     }
 	
 	public function intersects(boundingInfo:BoundingInfo, precise:Bool) {

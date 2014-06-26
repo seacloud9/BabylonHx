@@ -116,7 +116,7 @@ class AbstractMesh extends Node{
 	
 	public var _vertexBuffers:Map<String, VertexBuffer>;			// TODO - this can be both VertexBuffer and BabylonGLBuffer
 	public var _vertexBuffersB:Map<String, BabylonGLBuffer>;		// so this one is created to separate these two ...
-	public var _delayInfo:Dynamic;
+	public var _delayInfo:Array<String>;
 	public var _indexBuffer:BabylonGLBuffer;
 	
 	public var parentId(get, null):String;
@@ -356,7 +356,7 @@ class AbstractMesh extends Node{
 	
 	public function isVerticesDataPresent(kind:String):Bool {
 		if (this._vertexBuffers == null && this._delayInfo != null) {            
-            return Lambda.indexOf(this._delayInfo, kind) != -1;
+            return this._delayInfo.indexOf(kind) != -1;
         }
 
         return this._vertexBuffers.get(kind) != null;
@@ -910,8 +910,9 @@ class AbstractMesh extends Node{
         return pickingInfo;
 	}
 	
-	public function clone(name:String, newParent:Mesh, doNotCloneChildren:Bool = false):Mesh {
-		var result:Mesh = new Mesh(name, this._scene);
+	public function clone(name:String, newParent:Mesh, doNotCloneChildren:Bool = false):AbstractMesh {
+		return null;
+		/*var result:Mesh = new Mesh(name, this._scene);
 
         // Buffers
         result._vertexBuffers = this._vertexBuffers;
@@ -957,7 +958,7 @@ class AbstractMesh extends Node{
             }
         }
 
-        return result;
+        return result;*/
 	}
 
 

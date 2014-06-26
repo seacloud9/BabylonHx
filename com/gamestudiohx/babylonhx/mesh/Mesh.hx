@@ -3,6 +3,7 @@ package com.gamestudiohx.babylonhx.mesh;
 import com.gamestudiohx.babylonhx.mesh.VertexData;
 import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.mesh.AbstractMesh.BabylonGLBuffer;
+import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.mesh.Geometry;
 import com.gamestudiohx.babylonhx.mesh.InstancedMesh;
@@ -43,7 +44,7 @@ import openfl.utils.Float32Array;
         //private var _delayLoadingFunction: (any, Mesh) => void;
         private var _delayLoadingFunction:String;
         public var _visibleInstances : Dynamic;
-        private var _renderIdForInstances:Int = -1;
+        public var _renderIdForInstances:Int = -1;
         private var _batchCache:InstancesBatch = new InstancesBatch();
         private var _worldMatricesInstancesBuffer : BabylonGLBuffer;
         private var _worldMatricesInstancesArray : Float32Array;
@@ -69,14 +70,14 @@ import openfl.utils.Float32Array;
 
         public function getVertexBuffer(kind) : VertexBuffer {
             if (this._geometry == null) {
-                return undefined;
+                return null;
             }
             return this._geometry.getVertexBuffer(kind);
         }
 
         public function isVerticesDataPresent(kind:String ) : Bool {
             if (this._geometry == null) {
-                if (this._delayInfo) {
+                if (this._delayInfo.length > 0) {
                     return this._delayInfo.indexOf(kind) != -1;
                 }
                 return false;
@@ -87,7 +88,7 @@ import openfl.utils.Float32Array;
         public function getVerticesDataKinds() : Array<String> {
             if (this._geometry == null) {
                 var result = new Array<String>();
-                if (this._delayInfo) {
+                if (this._delayInfo.length > 0) {
                     // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                     //  for (var kind in this._delayInfo)
                     for(kind in this._delayInfo) {
@@ -132,7 +133,7 @@ import openfl.utils.Float32Array;
             this._visibleInstances = null;
         }
 
-        public function _registerInstanceForRenderId(instance:InstancedMesh, renderId:Float ) {
+        public function _registerInstanceForRenderId(instance:InstancedMesh, renderId:Int ) {
             if (this._visibleInstances != null) {
                 this._visibleInstances = {};
                 this._visibleInstances.defaultRenderId = renderId;
@@ -149,12 +150,12 @@ import openfl.utils.Float32Array;
         public function refreshBoundingInfo() : Void {
             var data = this.getVerticesData(VertexBuffer.PositionKind);
 
-            if (data) {
+            if (data.length > 0) {
                 var extend = Tools.ExtractMinAndMax(data, 0, this.getTotalVertices());
                 this._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
             }
 
-            if (this.subMeshes) {
+            if (this.subMeshes.length > 0) {
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < this.subMeshes.length; index++)
                 var index = 0;
@@ -184,7 +185,7 @@ import openfl.utils.Float32Array;
             }
 
             var totalIndices = this.getTotalIndices();
-            var subdivisionSize = (totalIndices / count) | 0;
+            var subdivisionSize = Std.int(totalIndices / count) | 0;
             var offset = 0;
 
             // Ensure that subdivisionSize is a multiple of 3
@@ -201,7 +202,7 @@ import openfl.utils.Float32Array;
                     break;
                 }
 
-                SubMesh.CreateFromIndices(0, offset, Math.min(subdivisionSize, totalIndices - offset), this);
+                SubMesh.CreateFromIndices(0, offset, Std.int(Math.min(subdivisionSize, totalIndices - offset)), this);
 
                 offset += subdivisionSize;
              index++;
@@ -217,7 +218,7 @@ import openfl.utils.Float32Array;
                 data = kind;
                 kind = temp;
 
-                Tools.Warn("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).");
+                trace("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).");
             }
 
             if (this._geometry == null) {
@@ -226,7 +227,7 @@ import openfl.utils.Float32Array;
 
                 var scene = this.getScene();
 
-                new Geometry(Geometry.RandomId(), scene, vertexData, updatable, this);
+                new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
             }
             else {
                 this._geometry.setVerticesData(kind, data, updatable);
@@ -261,7 +262,7 @@ import openfl.utils.Float32Array;
 
                 var scene = this.getScene();
 
-                new Geometry(Geometry.RandomId(), scene, vertexData, false, this);
+                new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, false, this);
             }
             else {
                 this._geometry.setIndices(indices);
@@ -538,7 +539,7 @@ import openfl.utils.Float32Array;
             var that = this;
             var scene = this.getScene();
 
-            if (this._geometry) {
+            if (this._geometry != null) {
                 this._geometry.load(scene);
             }
             else if (that.delayLoadState == Engine.DELAYLOADSTATE_NOTLOADED) {
@@ -553,23 +554,34 @@ import openfl.utils.Float32Array;
                     scene._removePendingData(this);
                 }, () => { }, scene.database);*/
                 
-                Tool.LoadFile(_delayLoadingFunction);
+                Tools.LoadFile(_delayLoadingFunction);
             }
         }
+
+
+        public function isInFrustum(frustumPlanes:Array<Plane>):Bool {
+            if (this._boundingInfo.isInFrustum(frustumPlanes) == null) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /*
 
         public function isInFrustum(frustumPlanes:Array<Plane> ) : Bool {
             if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
                 return false;
             }
 
-            if (!super.isInFrustum(frustumPlanes)) {
+            if (!super.LoadFile(frustumPlanes)) {
                 return false;
             }
 
             this._checkDelayState();
 
             return true;
-        }
+        }*/
 
         public function setMaterialByID(id:String ) : Void {
             var materials = this.getScene().materials;
@@ -660,14 +672,16 @@ import openfl.utils.Float32Array;
         }
 
         public function _generatePointsArray() : Bool {
-            if (this._positions)
+            if (this._positions != null){
                 return true;
+            }
+                
 
             this._positions = new Array<Vector3>();
 
             var data = this.getVerticesData(VertexBuffer.PositionKind);
 
-            if (!data) {
+            if (data == null) {
                 return false;
             }
             // haxe does not support for loops with C/JS syntaxt ... unfolding : 
@@ -686,6 +700,7 @@ import openfl.utils.Float32Array;
 
         public function clone(name:String, newParent:Node, ?doNotCloneChildren:Bool ) : Mesh {
             var result = new Mesh(name, this.getScene());
+            var index = 0;
 
             // Geometry
             this._geometry.applyToMesh(result);
@@ -697,7 +712,7 @@ import openfl.utils.Float32Array;
             result.material = this.material;
 
             // Parent
-            if (newParent) {
+            if (newParent != null) {
                 result.parent = newParent;
             }
 
@@ -705,7 +720,7 @@ import openfl.utils.Float32Array;
                 // Children
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < this.getScene().meshes.length; index++)
-                var index = 0;
+                
                 while( index < this.getScene().meshes.length)  {
                     var mesh = this.getScene().meshes[index];
 
@@ -714,7 +729,7 @@ import openfl.utils.Float32Array;
                     }
                  index++;
 
-            }
+                }
             }
 
             // Particles
@@ -739,17 +754,19 @@ import openfl.utils.Float32Array;
         // Dispose
 
         public function dispose(?doNotRecurse:Bool ) : Void {
-            if (this._geometry) {
-                this._geometry.releaseForMesh(this, true);
+            if (this._geometry != null) {
+                // todo investigate 
+               // this._geometry.releaseForMesh(this, true);
+                this._geometry.releaseForMesh(this);
             }
 
             // Instances
-            if (this._worldMatricesInstancesBuffer) {
-                this.getEngine()._releaseBuffer(this._worldMatricesInstancesBuffer);
+            if (this._worldMatricesInstancesBuffer != null) {
+                this.getScene().getEngine()._releaseBuffer(this._worldMatricesInstancesBuffer);
                 this._worldMatricesInstancesBuffer = null;
             }
 
-            while (this.instances.length) {
+            while (this.instances.length > 0) {
                 this.instances[0].dispose();
             }
 

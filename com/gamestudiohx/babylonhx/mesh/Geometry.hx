@@ -28,6 +28,7 @@ import openfl.utils.Float32Array;
         private var _delayInfo:Array<String>; //ANY
         private var _indexBuffer:BabylonGLBuffer;
         private var _boundingInfo:BoundingInfo;
+        private var _delayLoadingFunction:String->Geometry->Void;
 
         public function new(id:String, engine:Engine, ?vertexData:VertexData, ?updatable:Bool, ?mesh:Mesh ) {
             this.id = id;
@@ -328,8 +329,8 @@ import openfl.utils.Float32Array;
             this.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
 
             scene._addPendingData(this);
-            Tools.LoadFile(this.delayLoadingFile, function(data:Array<Float>){
-                this._delayLoadingFunction(JSON.parse(data), this);
+            Tools.LoadFile(this.delayLoadingFile, function(data:String){
+                this._delayLoadingFunction(data, this);
 
                 this.delayLoadState = Engine.DELAYLOADSTATE_LOADED;
                 this._delayInfo = new Array<String>();
@@ -369,10 +370,10 @@ import openfl.utils.Float32Array;
             for(kind in this._vertexBuffers.keys()){
                 this._vertexBuffers.get(kind).dispose();
             }
-            this._vertexBuffers = new Array<VertexBuffer>();
+            this._vertexBuffers = new Map<String, VertexBuffer>();
             this._totalVertices = 0;
 
-            if (this._indexBuffer) {
+            if (this._indexBuffer != null) {
                 this._engine._releaseBuffer(this._indexBuffer);
             }
             this._indexBuffer = null;
@@ -440,7 +441,7 @@ import openfl.utils.Float32Array;
         static function ExtractFromMesh(mesh:Mesh, id:String ) : Geometry {
             var geometry = mesh._geometry;
 
-            if (!geometry) {
+            if (geometry == null) {
                 return null;
             }
 
@@ -450,7 +451,7 @@ import openfl.utils.Float32Array;
         // from http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#answer-2117523
         // be aware Math.
 
-        public function RandomId():String {
+        public static function RandomId():String {
             var CHARS:Array<String> = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
             var chars = CHARS, uuid = new Array(), rnd = 0, r;
             for (i in 0...36) {

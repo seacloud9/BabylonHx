@@ -101,7 +101,7 @@ class BoundingBox {
         Vector3.FromArrayToRef(world.m, 8, this.directions[2]);
     }
 	
-	public function _isInFrustrum(frustumPlanes:Array<Plane>):Bool { 
+	public function isInFrustrum(frustumPlanes:Array<Plane>):Bool { 
         return BoundingBox.IsInFrustum(this.vectorsWorld, frustumPlanes);
     }
 	

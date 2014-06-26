@@ -68,22 +68,61 @@ class Tools {
         var num:Float = a - b;
         return -1.401298E-45 <= num && num <= 1.401298E-45;
     }
-	
-	public static function LoadFile(url:String, callbackFn:String->Void) {
-		#if html5		// Assets.getText doesn't work in html5 -> Chrome ????
-		var loader:URLLoader = new URLLoader();
-		loader.addEventListener(Event.COMPLETE, function(data) {
-			callbackFn(loader.data);
-		});
-		loader.load(new URLRequest(url));
-		#else
-        if (Assets.exists(url)) {
-			var file:String = Assets.getText(url);
-			callbackFn(file);
-		} else {
-			trace("File: " + url + " doesn't exist !");
-		}
-		#end
+
+     public static function LoadFile(url:String , ?callbackFn:String->Void, ?progressCallBack:Dynamic, ?database:Dynamic, useArrayBuffer:Bool = false): Void {
+            //url = Tools.CleanUrl(url);
+            // 
+            #if html5       // Assets.getText doesn't work in html5 -> Chrome ????
+            var loader:URLLoader = new URLLoader();
+            loader.addEventListener(Event.COMPLETE, function(data) {
+                callbackFn(loader.data);
+            });
+            loader.load(new URLRequest(url));
+            #else
+            if (Assets.exists(url)) {
+                var file:String = Assets.getText(url);
+                callbackFn(file);
+            } else {
+                trace("File: " + url + " doesn't exist !");
+            }
+            #end
+
+            /*
+            var noIndexedDB = () => {
+                var request = new XMLHttpRequest();
+                var loadUrl = Tools.BaseUrl + url;
+                request.open('GET', loadUrl, true);
+
+                if (useArrayBuffer) {
+                    request.responseType = "arraybuffer";
+                }
+
+                request.onprogress = progressCallBack;
+
+                request.onreadystatechange = () => {
+                    if (request.readyState == 4) {
+                        if (request.status == 200) {
+                            callback(!useArrayBuffer ? request.responseText : request.response);
+                        } else { // Failed
+                            throw new Error("Error status: " + request.status + " - Unable to load " + loadUrl);
+                        }
+                    }
+                };
+
+                request.send(null);
+            };
+
+            var loadFromIndexedDB = () => {
+                database.loadSceneFromDB(url, callback, progressCallBack, noIndexedDB);
+            };
+
+            // Caching only scenes files
+            if (database && url.indexOf(".babylon") !== -1 && (database.enableSceneOffline)) {
+                database.openAsync(loadFromIndexedDB, noIndexedDB);
+            }
+            else {
+                noIndexedDB();
+            }*/
     }
 	
 	public static function LoadImage(url:String, onload:BitmapData->Void) {  

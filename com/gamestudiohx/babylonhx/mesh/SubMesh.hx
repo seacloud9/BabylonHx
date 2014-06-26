@@ -167,9 +167,17 @@ class SubMesh {
 
         return distance;
     }
-	
+	/*
 	public function clone(newMesh:Mesh):SubMesh {
         return new SubMesh(this.materialIndex, this.verticesStart, this.verticesCount, this.indexStart, this.indexCount, newMesh);
+    }*/
+
+    public function clone(newMesh: AbstractMesh, ?newRenderingMesh: Mesh): SubMesh {
+            var result = new SubMesh(this.materialIndex, this.verticesStart, this.verticesCount, this.indexStart, this.indexCount, newMesh, newRenderingMesh, false);
+
+            result._boundingInfo = new BoundingInfo(this._boundingInfo.minimum, this._boundingInfo.maximum);
+
+            return result;
     }
 
     public function dispose() {

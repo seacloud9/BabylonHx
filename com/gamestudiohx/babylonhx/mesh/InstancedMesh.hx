@@ -1,11 +1,13 @@
 package com.gamestudiohx.babylonhx.mesh;
 
 import com.gamestudiohx.babylonhx.mesh.VertexData;
+import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.mesh.Geometry;
 import com.gamestudiohx.babylonhx.materials.Material;
 import com.gamestudiohx.babylonhx.bones.Skeleton;
+import com.gamestudiohx.babylonhx.tools.Tools;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.math.Plane;
 import com.gamestudiohx.babylonhx.tools.math.Quaternion;
@@ -98,7 +100,7 @@ import openfl.utils.Float32Array;
         public function refreshBoundingInfo() : Void {
             var data = this._sourceMesh.getVerticesData(VertexBuffer.PositionKind);
 
-            if (data) {
+            if (data.length > 0) {
                 var extend = Tools.ExtractMinAndMax(data, 0, this._sourceMesh.getTotalVertices());
                 this._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
             }
@@ -106,8 +108,8 @@ import openfl.utils.Float32Array;
             this._updateBoundingInfo();
         }
 
-        public function _activate(renderId:Float ) : Void {
-            this.sourceMesh._registerInstanceForRenderId(this, renderId);
+        public function _activate(renderId:Int ) : Void {
+            this._sourceMesh._registerInstanceForRenderId(this, renderId);
         }
 
         public function _syncSubMeshes() : Void {
@@ -138,7 +140,7 @@ import openfl.utils.Float32Array;
             this.refreshBoundingInfo();
 
             // Parent
-            if (newParent) {
+            if (newParent != null) {
                 result.parent = newParent;
             }
 
@@ -148,7 +150,7 @@ import openfl.utils.Float32Array;
                 //  for (var index = 0; index < this.getScene().meshes.length; index++)
                 var index = 0;
                 while( index < this.getScene().meshes.length)  {
-                    var mesh = this.getScene().meshes[index];
+                    var mesh = cast(this.getScene().meshes[index], InstancedMesh);
 
                     if (mesh.parent == this) {
                         mesh.clone(mesh.name, result);
