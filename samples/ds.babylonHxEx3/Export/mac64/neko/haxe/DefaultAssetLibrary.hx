@@ -46,12 +46,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
-		path.set ("assets/img/cloud.png", "assets/img/cloud.png");
-		type.set ("assets/img/cloud.png", AssetType.IMAGE);
-		path.set ("assets/shaders/clouds.fragment.fx", "assets/shaders/clouds.fragment.fx");
-		type.set ("assets/shaders/clouds.fragment.fx", AssetType.TEXT);
-		path.set ("assets/shaders/clouds.vertex.fx", "assets/shaders/clouds.vertex.fx");
-		type.set ("assets/shaders/clouds.vertex.fx", AssetType.TEXT);
+		path.set ("Assets/img/cloud.png", "Assets/img/cloud.png");
+		type.set ("Assets/img/cloud.png", AssetType.IMAGE);
+		path.set ("Assets/shaders/clouds.fragment.fx", "Assets/shaders/clouds.fragment.fx");
+		type.set ("Assets/shaders/clouds.fragment.fx", AssetType.TEXT);
+		path.set ("Assets/shaders/clouds.vertex.fx", "Assets/shaders/clouds.vertex.fx");
+		type.set ("Assets/shaders/clouds.vertex.fx", AssetType.TEXT);
 		
 		
 		#elseif html5

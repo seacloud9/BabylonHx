@@ -16,12 +16,12 @@ class AssetData {
 		
 		if (!initialized) {
 			
-			path.set ("assets/img/cloud.png", "assets/img/cloud.png");
-			type.set ("assets/img/cloud.png", Reflect.field (AssetType, "image".toUpperCase ()));
-			path.set ("assets/shaders/clouds.fragment.fx", "assets/shaders/clouds.fragment.fx");
-			type.set ("assets/shaders/clouds.fragment.fx", Reflect.field (AssetType, "text".toUpperCase ()));
-			path.set ("assets/shaders/clouds.vertex.fx", "assets/shaders/clouds.vertex.fx");
-			type.set ("assets/shaders/clouds.vertex.fx", Reflect.field (AssetType, "text".toUpperCase ()));
+			path.set ("Assets/img/cloud.png", "Assets/img/cloud.png");
+			type.set ("Assets/img/cloud.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("Assets/shaders/clouds.fragment.fx", "Assets/shaders/clouds.fragment.fx");
+			type.set ("Assets/shaders/clouds.fragment.fx", Reflect.field (AssetType, "text".toUpperCase ()));
+			path.set ("Assets/shaders/clouds.vertex.fx", "Assets/shaders/clouds.vertex.fx");
+			type.set ("Assets/shaders/clouds.vertex.fx", Reflect.field (AssetType, "text".toUpperCase ()));
 			
 			
 			initialized = true;

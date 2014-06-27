@@ -794,8 +794,7 @@ class Engine {
 		return bmp;
 	}
 
-    public function createTexture(url:String, ?noMipmap:Bool, ?invertY:Int, scene:Scene = null):BabylonTexture {	
-        
+    public function createTexture(url:String, ?noMipmap:Bool, ?invertY:Int, scene:Scene = null):BabylonTexture {		
         var texture:BabylonTexture = new BabylonTexture(url, GL.createTexture());
 		            
         function onload(img:BitmapData) {

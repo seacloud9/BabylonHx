@@ -30,9 +30,9 @@ class Layer {
 	
 	private var onDispose:Void->Void;				
 
-	public function new(name:String, imgUrl:String, scene:Scene, isBackground:Bool = true, color:Color4 = null) {
+	public function new(name:String, imgUrl:String = null, scene:Scene, isBackground:Bool = true, color:Color4 = null) {
 		this.name = name;
-        this.texture = imgUrl != "" ? new Texture(imgUrl, scene, true) : null;
+        this.texture = imgUrl != null ? new Texture(imgUrl, scene, true) : null;
         this.isBackground = isBackground;
         this.color = color == null ? new Color4(1, 1, 1, 1) : color;
 

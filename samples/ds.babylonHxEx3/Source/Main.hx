@@ -19,6 +19,7 @@ import com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Color3;
+import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.SceneLoader;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
@@ -29,7 +30,6 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.geom.Rectangle;
-import flash.geom.Matrix;
 import flash.Lib;
 import flash.display.Graphics;
 import flash.display.Bitmap;
@@ -54,13 +54,16 @@ class Main extends Sprite {
 
   function init() {
     if (inited) return;
+    var start_time = Date.now();
     inited = true;
 
-    var engine = new Engine(this, true);  
+    var engine = new Engine(this, true);     
     var scene = new Scene(engine);
-
+    trace('Yea Boyyyyy...'); 
     var background = new Layer("back0", null, scene);
+        trace('Yea Boyyyyy...00000000'); 
     background.texture = new DynamicTexture("dynamic texture", {width:512, height:512}, scene, true);
+
 
     var size = background.texture.getSize();
     var shape:Shape = new Shape();
@@ -69,7 +72,7 @@ class Main extends Sprite {
     shape.graphics.drawRect( 0, 0, size.width, size.height);
     shape.graphics.endFill();
     var bounds:Rectangle = shape.getBounds(shape);
-    var m:Matrix = new Matrix();
+    var m = new flash.geom.Matrix();
     m.translate(-bounds.left, -bounds.top);
     //var t:BitmapData = background.texture.getCanvas();
 
@@ -80,7 +83,7 @@ class Main extends Sprite {
         camera.minZ = 1;
         camera.maxZ = 3000;
 
-        var cloudMaterial = new ShaderMaterial("cloud", scene, {
+        var cloudMaterial = new ShaderMaterial("clouds", scene, {
             vertexElement: "vertexShaderCode",
             fragmentElement: "fragmentShaderCode",
         },
@@ -90,7 +93,7 @@ class Main extends Sprite {
             uniforms: ["worldViewProjection"],
             samplers: ["textureSampler"]
         });
-        cloudMaterial.setTexture("textureSampler", new Texture("assets/img/cloud.png", scene));
+        cloudMaterial.setTexture("textureSampler", new Texture("Assets/img/cloud.png", scene));
         cloudMaterial.setFloat("fogNear", -100);
         cloudMaterial.setFloat("fogFar", 3000);
         cloudMaterial.setColor3("fogColor", new Color3(69, 132, 180));
@@ -119,14 +122,19 @@ class Main extends Sprite {
 
         clouds.material = cloudMaterial;
 
-        var clouds2 = clouds.clone();
+        var clouds2 = clouds.clone("Clouds");
         clouds2.position.z = -500;
 
-        engine.runRenderLoop(function () {
+        /*var r = function () {
             var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
             camera.position.z = cameraDepth;
-            scene.render();
+            //scene.render;
+            //return scene.render;
+        }*/
+        scene.executeWhenReady(function() {
+            engine.runRenderLoop(scene.render);
         });
+        
 
     /*SceneLoader.Load("assets/scenes/WCafe/", "WCafe.babylon", engine, function(newScene:Scene) {
       this.scene = newScene;

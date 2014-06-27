@@ -126,15 +126,12 @@ class Tools {
     }
 	
 	public static function LoadImage(url:String, onload:BitmapData->Void) {  
-        if(url != null){
-            if (Assets.exists(url)) {
-                var img:BitmapData = Assets.getBitmapData(url);
-                onload(img);
-            } else {
-                trace("Error: Image '" + url + "' doesn't exist !");
-            }
-        }
-		
+		if (Assets.exists(url)) {
+			var img:BitmapData = Assets.getBitmapData(url);
+			onload(img);
+		} else {
+			trace("Error: Image '" + url + "' doesn't exist !");
+		}
     }
 	
 	public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
