@@ -28,14 +28,14 @@ import openfl.utils.UInt8Array;
 
 
     class VertexData {
-        public var positions : Array<Float>;
-        public var normals : Array<Float>;
-        public var uvs : Array<Float>;
-        public var uv2s : Array<Float>;
-        public var colors : Array<Float>;
-        public var matricesIndices : Array<Float>;
-        public var matricesWeights : Array<Float>;
-        public var indices : Array<Int>;
+        public var positions = new Array<Float>();
+        public var normals = new Array<Float>();
+        public var uvs = new Array<Float>();
+        public var uv2s = new Array<Float>();
+        public var colors = new Array<Float>();
+        public var matricesIndices = new Array<Float>();
+        public var matricesWeights = new Array<Float>();
+        public var indices = new Array<Int>();
 
         public function new(){
 

@@ -55,7 +55,7 @@ class ShaderMaterial extends Material {
                 options.uniforms = ["worldViewProjection"];
             }
             if(options.samplers == null){
-                options.samplers = [];
+                options.samplers = new Array<String>();
             }
 
             this._textures = new Map<String, Texture>();
@@ -81,13 +81,13 @@ class ShaderMaterial extends Material {
         }
 
            private function _checkUniform(uniformName) : Void {
-            if (this._options.uniforms.indexOf(uniformName) == -1) {
+            if (Lambda.indexOf(this._options.uniforms, uniformName) == -1) {
                 this._options.uniforms.push(uniformName);
             }
         }
 
         public function setTexture(name:String, texture:Texture ) : ShaderMaterial {
-            if (this._options.samplers.indexOf(name) == -1) {
+            if (Lambda.indexOf(this._options.samplers, name)  == -1) {
                 this._options.samplers.push(name);
             }
             this._textures.set(name, texture);

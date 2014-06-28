@@ -23,8 +23,8 @@ import openfl.utils.Float32Array;
         private var _engine : Engine;
         private var _meshes : Array<Mesh>;
         private var _totalVertices:Int = 0;
-        private var _indices:Array<Int>;
-        private var _vertexBuffers:Map<String, VertexBuffer>;
+        private var _indices = new Array<Int>();
+        public var _vertexBuffers:Map<String, VertexBuffer>;
         private var _delayInfo:Array<String>; //ANY
         private var _indexBuffer:BabylonGLBuffer;
         private var _boundingInfo:BoundingInfo;
@@ -223,7 +223,9 @@ import openfl.utils.Float32Array;
         public function getIndices() : Array<Int> {
             if (!this.isReady()) {
                 return null;
+                //return new Array<Int>();
             }
+            //trace(this._indices);
             return this._indices;
         }
 
@@ -247,7 +249,7 @@ import openfl.utils.Float32Array;
                 this._vertexBuffers.get(kind).dispose();
             }
 
-            if (this._indexBuffer != null && this._engine._releaseBuffer(this._indexBuffer) != null) {
+            if (this._indexBuffer != null && !this._engine._releaseBuffer(this._indexBuffer)) {
                 this._indexBuffer = null;
             }
 

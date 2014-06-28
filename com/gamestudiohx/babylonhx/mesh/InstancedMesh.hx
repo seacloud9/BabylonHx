@@ -132,7 +132,7 @@ import openfl.utils.Float32Array;
 
         // Clone
 
-        override function clone(name:String, newParent:Node = null, ?doNotCloneChildren:Bool ) : InstancedMesh {
+        override function clone(name:String, newParent:Node = null, doNotCloneChildren:Bool = false) : InstancedMesh {
             var result = this._sourceMesh.createInstance(name);
 
             // Deep copy
@@ -169,7 +169,7 @@ import openfl.utils.Float32Array;
 
         // Dispoe
 
-        override function dispose(?doNotRecurse:Bool ) : Void {
+        override function dispose(doNotRecurse:Bool = false) : Void {
 
             // Remove from mesh
             var index = this._sourceMesh.instances.indexOf(this);

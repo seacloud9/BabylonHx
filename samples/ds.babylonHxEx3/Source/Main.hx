@@ -59,9 +59,7 @@ class Main extends Sprite {
 
     var engine = new Engine(this, true);     
     var scene = new Scene(engine);
-    trace('Yea Boyyyyy...'); 
     var background = new Layer("back0", null, scene);
-        trace('Yea Boyyyyy...00000000'); 
     background.texture = new DynamicTexture("dynamic texture", {width:512, height:512}, scene, true);
 
 
@@ -93,11 +91,12 @@ class Main extends Sprite {
             uniforms: ["worldViewProjection"],
             samplers: ["textureSampler"]
         });
-        cloudMaterial.setTexture("textureSampler", new Texture("Assets/img/cloud.png", scene));
+        cloudMaterial.setTexture("Clouds", new Texture("Assets/img/cloud.png", scene));
         cloudMaterial.setFloat("fogNear", -100);
         cloudMaterial.setFloat("fogFar", 3000);
         cloudMaterial.setColor3("fogColor", new Color3(69, 132, 180));
 
+        trace('1');
         // Create merged planes
         //size = 128;
         var count = 8000;
@@ -105,7 +104,7 @@ class Main extends Sprite {
         var globalVertexData = new VertexData();
         for (i in 0...count ){
             var planeVertexData = VertexData.CreatePlane(128);
-            safeDestroy(planeVertexData.normals); 
+            //safeDestroy(planeVertexData.normals); 
 
             // Transform
             var randomScaling = Math.random() * Math.random() * 1.5 + 0.5;
@@ -116,10 +115,11 @@ class Main extends Sprite {
             // Merge
             globalVertexData.merge(planeVertexData);
         }
-
+        trace('2');
         var clouds = new Mesh("Clouds", scene);
+        trace('3');
         globalVertexData.applyToMesh(clouds);
-
+        trace('4');
         clouds.material = cloudMaterial;
 
         var clouds2 = clouds.clone("Clouds");

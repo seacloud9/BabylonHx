@@ -172,6 +172,7 @@ import openfl.utils.Float32Array;
 
         public function _createGlobalSubMesh() : SubMesh {
             var totalVertices = this.getTotalVertices();
+            //todo
             if (totalVertices == 0 || this.getIndices().length == 0) {
                 return null;
             }
@@ -231,6 +232,7 @@ import openfl.utils.Float32Array;
                 new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
             }
             else {
+                trace('helll ya===');
                 this._geometry.setVerticesData(kind, data, updatable);
             }
         }
@@ -699,14 +701,18 @@ import openfl.utils.Float32Array;
 
         // Clone
 
-        override function clone(name:String, newParent:Node = null, ?doNotCloneChildren:Bool ) : Mesh {
+        override function clone(name:String, newParent:Node = null, doNotCloneChildren:Bool = false ) : Mesh {
             var result = new Mesh(name, this.getScene());
             var index = 0;
 
             // Geometry
             this._geometry.applyToMesh(result);
+            //trace(this._geometry);
 
             // Deep copy
+            //trace(this);
+            //trace(result);
+            //trace('>>>><<<<<');
             Tools.DeepCopy(this, result, ["name", "material", "skeleton"], []);
 
             // Material
@@ -754,7 +760,7 @@ import openfl.utils.Float32Array;
 
         // Dispose
 
-        override function dispose(?doNotRecurse:Bool ) : Void {
+        override function dispose(doNotRecurse:Bool = false) : Void {
             if (this._geometry != null) {
                 // todo investigate 
                // this._geometry.releaseForMesh(this, true);

@@ -64,7 +64,7 @@ class VertexBuffer {
         switch (kind) {
             case VertexBuffer.PositionKind:
                 this._strideSize = 3;
-                this._mesh._resetPointsArrayCache();
+                //this._mesh._resetPointsArrayCache();
             case VertexBuffer.NormalKind:
                 this._strideSize = 3;
             case VertexBuffer.UVKind:

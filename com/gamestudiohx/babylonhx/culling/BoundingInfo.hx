@@ -87,8 +87,10 @@ class BoundingInfo {
     }
 
     public function isInFrustum(frustumPlanes: Array<Plane>):Bool {
-            if (this.boundingSphere.isInFrustrum(frustumPlanes) == null)
+            if (!this.boundingSphere.isInFrustrum(frustumPlanes)){
                 return false;
+            }
+                
 
             return this.boundingBox.isInFrustrum(frustumPlanes);
     }

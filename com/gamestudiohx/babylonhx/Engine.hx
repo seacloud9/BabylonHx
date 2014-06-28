@@ -853,11 +853,11 @@ class Engine {
         return texture;
     }
 
-    public function createDynamicTexture(width:Float, height:Float, generateMipMaps:Bool):BabylonTexture {
+    public function createDynamicTexture(width:Int, height:Int, generateMipMaps:Bool):BabylonTexture {
         var texture:BabylonTexture = new BabylonTexture("", GL.createTexture());
 
-        width = getExponantOfTwo(Std.int(width), this._caps.maxTextureSize);
-        height = getExponantOfTwo(Std.int(height), this._caps.maxTextureSize);
+        width = getExponantOfTwo(width, this._caps.maxTextureSize);
+        height = getExponantOfTwo(height, this._caps.maxTextureSize);
 
         GL.bindTexture(GL.TEXTURE_2D, texture.data);
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
