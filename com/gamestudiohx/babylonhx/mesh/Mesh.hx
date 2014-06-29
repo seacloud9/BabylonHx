@@ -228,11 +228,11 @@ import openfl.utils.Float32Array;
                 vertexData.set(data, kind);
 
                 var scene = this.getScene();
-
-                new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
+                //new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
+                this._geometry = new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
             }
             else {
-                trace('helll ya===');
+                //trace('mac support');
                 this._geometry.setVerticesData(kind, data, updatable);
             }
         }
@@ -702,25 +702,22 @@ import openfl.utils.Float32Array;
         // Clone
 
         override function clone(name:String, newParent:Node = null, doNotCloneChildren:Bool = false ) : Mesh {
-            var result = new Mesh(name, this.getScene());
+            var resultMesh = new Mesh(name, this.getScene());
             var index = 0;
 
             // Geometry
-            this._geometry.applyToMesh(result);
+            this._geometry.applyToMesh(resultMesh);
             //trace(this._geometry);
 
             // Deep copy
-            //trace(this);
-            //trace(result);
-            //trace('>>>><<<<<');
-            Tools.DeepCopy(this, result, ["name", "material", "skeleton"], []);
+            Tools.DeepCopy(this, resultMesh, ["name", "material", "skeleton"], []);
 
             // Material
-            result.material = this.material;
+            resultMesh.material = this.material;
 
             // Parent
             if (newParent != null) {
-                result.parent = newParent;
+                resultMesh.parent = newParent;
             }
 
             if (!doNotCloneChildren) {
@@ -732,7 +729,7 @@ import openfl.utils.Float32Array;
                     var mesh = this.getScene().meshes[index];
 
                     if (mesh.parent == this) {
-                        mesh.clone(mesh.name, result);
+                        mesh.clone(mesh.name, resultMesh);
                     }
                  index++;
 
@@ -747,15 +744,15 @@ import openfl.utils.Float32Array;
                 var system = this.getScene().particleSystems[index];
 
                 if (system.emitter == this) {
-                    system.clone(system.name, result);
+                    system.clone(system.name, resultMesh);
                 }
              index++;
 
             }
 
-            result.computeWorldMatrix(true);
+            resultMesh.computeWorldMatrix(true);
 
-            return result;
+            return resultMesh;
         }
 
         // Dispose

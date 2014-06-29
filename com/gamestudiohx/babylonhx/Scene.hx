@@ -176,14 +176,14 @@ class Scene {
 
         // Lights
         this.lightsEnabled = true;
-        this.lights = [];
+        this.lights = new Array<Light>();
 
         // Cameras
-        this.cameras = [];
+        this.cameras = new Array<Camera>();
         this.activeCamera = null;
 
         // Meshes
-        this.meshes = [];
+        this.meshes = new Array<AbstractMesh>();
 
         // Internal smart arrays
         this._activeMeshes = new SmartArray();
@@ -196,13 +196,13 @@ class Scene {
         this._renderingManager = new RenderingManager(this);
 
         // Materials
-        this.materials = [];
-        this.multiMaterials = [];
+        this.materials = new Array<Material>();
+        this.multiMaterials = new Array<MultiMaterial>();
         this.defaultMaterial = new StandardMaterial("default material", this);
 
         // Textures
         this.texturesEnabled = true;
-        this.textures = [];
+        this.textures = new Array<BaseTexture>();
 
         // Particles
         this.particlesEnabled = true;

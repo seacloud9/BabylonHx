@@ -212,6 +212,7 @@
 #include <com/gamestudiohx/babylonhx/Node.h>
 #include <com/gamestudiohx/babylonhx/Engine.h>
 #include <Type.h>
+#include <ValueType.h>
 #include <StringTools.h>
 #include <StringBuf.h>
 #include <Reflect.h>
@@ -460,6 +461,7 @@ hx::RegisterResources( hx::GetResources() );
 ::com::gamestudiohx::babylonhx::Node_obj::__register();
 ::com::gamestudiohx::babylonhx::Engine_obj::__register();
 ::Type_obj::__register();
+::ValueType_obj::__register();
 ::StringTools_obj::__register();
 ::StringBuf_obj::__register();
 ::Reflect_obj::__register();
@@ -523,6 +525,7 @@ hx::RegisterResources( hx::GetResources() );
 ::Reflect_obj::__boot();
 ::StringBuf_obj::__boot();
 ::StringTools_obj::__boot();
+::ValueType_obj::__boot();
 ::Type_obj::__boot();
 ::com::gamestudiohx::babylonhx::Engine_obj::__boot();
 ::com::gamestudiohx::babylonhx::Node_obj::__boot();

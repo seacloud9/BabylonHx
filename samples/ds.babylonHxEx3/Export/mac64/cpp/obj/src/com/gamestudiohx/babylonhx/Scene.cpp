@@ -218,49 +218,61 @@ HX_STACK_ARG(engine,"engine")
 	HX_STACK_LINE(178)
 	this->lightsEnabled = true;
 	HX_STACK_LINE(179)
-	this->lights = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g4 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g4,"_g4");
+	HX_STACK_LINE(179)
+	this->lights = _g4;
 	HX_STACK_LINE(182)
-	this->cameras = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g5 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g5,"_g5");
+	HX_STACK_LINE(182)
+	this->cameras = _g5;
 	HX_STACK_LINE(183)
 	this->activeCamera = null();
 	HX_STACK_LINE(186)
-	this->meshes = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g6 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g6,"_g6");
+	HX_STACK_LINE(186)
+	this->meshes = _g6;
 	HX_STACK_LINE(189)
-	::com::gamestudiohx::babylonhx::tools::SmartArray _g4 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g4,"_g4");
-	HX_STACK_LINE(189)
-	this->_activeMeshes = _g4;
-	HX_STACK_LINE(190)
-	::com::gamestudiohx::babylonhx::tools::SmartArray _g5 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g5,"_g5");
-	HX_STACK_LINE(190)
-	this->_processedMaterials = _g5;
-	HX_STACK_LINE(191)
-	::com::gamestudiohx::babylonhx::tools::SmartArray _g6 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g6,"_g6");
-	HX_STACK_LINE(191)
-	this->_renderTargets = _g6;
-	HX_STACK_LINE(192)
 	::com::gamestudiohx::babylonhx::tools::SmartArray _g7 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g7,"_g7");
-	HX_STACK_LINE(192)
-	this->_activeParticleSystems = _g7;
-	HX_STACK_LINE(193)
+	HX_STACK_LINE(189)
+	this->_activeMeshes = _g7;
+	HX_STACK_LINE(190)
 	::com::gamestudiohx::babylonhx::tools::SmartArray _g8 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g8,"_g8");
+	HX_STACK_LINE(190)
+	this->_processedMaterials = _g8;
+	HX_STACK_LINE(191)
+	::com::gamestudiohx::babylonhx::tools::SmartArray _g9 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g9,"_g9");
+	HX_STACK_LINE(191)
+	this->_renderTargets = _g9;
+	HX_STACK_LINE(192)
+	::com::gamestudiohx::babylonhx::tools::SmartArray _g10 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g10,"_g10");
+	HX_STACK_LINE(192)
+	this->_activeParticleSystems = _g10;
 	HX_STACK_LINE(193)
-	this->_activeSkeletons = _g8;
+	::com::gamestudiohx::babylonhx::tools::SmartArray _g11 = ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__new();		HX_STACK_VAR(_g11,"_g11");
+	HX_STACK_LINE(193)
+	this->_activeSkeletons = _g11;
 	HX_STACK_LINE(196)
-	::com::gamestudiohx::babylonhx::rendering::RenderingManager _g9 = ::com::gamestudiohx::babylonhx::rendering::RenderingManager_obj::__new(hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g9,"_g9");
+	::com::gamestudiohx::babylonhx::rendering::RenderingManager _g12 = ::com::gamestudiohx::babylonhx::rendering::RenderingManager_obj::__new(hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g12,"_g12");
 	HX_STACK_LINE(196)
-	this->_renderingManager = _g9;
+	this->_renderingManager = _g12;
 	HX_STACK_LINE(199)
-	this->materials = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g13 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g13,"_g13");
+	HX_STACK_LINE(199)
+	this->materials = _g13;
 	HX_STACK_LINE(200)
-	this->multiMaterials = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g14 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g14,"_g14");
+	HX_STACK_LINE(200)
+	this->multiMaterials = _g14;
 	HX_STACK_LINE(201)
-	::com::gamestudiohx::babylonhx::materials::StandardMaterial _g10 = ::com::gamestudiohx::babylonhx::materials::StandardMaterial_obj::__new(HX_CSTRING("default material"),hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g10,"_g10");
+	::com::gamestudiohx::babylonhx::materials::StandardMaterial _g15 = ::com::gamestudiohx::babylonhx::materials::StandardMaterial_obj::__new(HX_CSTRING("default material"),hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g15,"_g15");
 	HX_STACK_LINE(201)
-	this->defaultMaterial = _g10;
+	this->defaultMaterial = _g15;
 	HX_STACK_LINE(204)
 	this->texturesEnabled = true;
 	HX_STACK_LINE(205)
-	this->textures = Array_obj< ::Dynamic >::__new();
+	Array< ::Dynamic > _g16 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g16,"_g16");
+	HX_STACK_LINE(205)
+	this->textures = _g16;
 	HX_STACK_LINE(208)
 	this->particlesEnabled = true;
 	HX_STACK_LINE(209)
@@ -276,13 +288,13 @@ HX_STACK_ARG(engine,"engine")
 	HX_STACK_LINE(224)
 	this->collisionsEnabled = true;
 	HX_STACK_LINE(225)
-	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g11 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,-9.0,(int)0);		HX_STACK_VAR(_g11,"_g11");
+	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g17 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,-9.0,(int)0);		HX_STACK_VAR(_g17,"_g17");
 	HX_STACK_LINE(225)
-	this->gravity = _g11;
+	this->gravity = _g17;
 	HX_STACK_LINE(228)
 	this->_activeAnimatables = Array_obj< ::Dynamic >::__new();
 	HX_STACK_LINE(231)
-	::com::gamestudiohx::babylonhx::tools::math::Matrix _g12;		HX_STACK_VAR(_g12,"_g12");
+	::com::gamestudiohx::babylonhx::tools::math::Matrix _g18;		HX_STACK_VAR(_g18,"_g18");
 	HX_STACK_LINE(231)
 	{
 		HX_STACK_LINE(231)
@@ -320,24 +332,24 @@ HX_STACK_ARG(engine,"engine")
 		HX_STACK_LINE(231)
 		result->m[(int)15] = (int)0;
 		HX_STACK_LINE(231)
-		_g12 = result;
+		_g18 = result;
 	}
 	HX_STACK_LINE(231)
-	this->_transformMatrix = _g12;
+	this->_transformMatrix = _g18;
 	HX_STACK_LINE(234)
-	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g13 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(_g13,"_g13");
+	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g19 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(_g19,"_g19");
 	HX_STACK_LINE(234)
-	this->_scaledPosition = _g13;
+	this->_scaledPosition = _g19;
 	HX_STACK_LINE(235)
-	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g14 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(_g14,"_g14");
+	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g20 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(_g20,"_g20");
 	HX_STACK_LINE(235)
-	this->_scaledVelocity = _g14;
+	this->_scaledVelocity = _g20;
 	HX_STACK_LINE(238)
 	this->postProcessesEnabled = true;
 	HX_STACK_LINE(239)
-	::com::gamestudiohx::babylonhx::postprocess::PostProcessManager _g15 = ::com::gamestudiohx::babylonhx::postprocess::PostProcessManager_obj::__new(hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g15,"_g15");
+	::com::gamestudiohx::babylonhx::postprocess::PostProcessManager _g21 = ::com::gamestudiohx::babylonhx::postprocess::PostProcessManager_obj::__new(hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(_g21,"_g21");
 	HX_STACK_LINE(239)
-	this->postProcessManager = _g15;
+	this->postProcessManager = _g21;
 	HX_STACK_LINE(242)
 	this->renderTargetsEnabled = true;
 	HX_STACK_LINE(243)

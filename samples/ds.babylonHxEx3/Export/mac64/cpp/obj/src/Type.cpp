@@ -6,6 +6,9 @@
 #ifndef INCLUDED_Type
 #include <Type.h>
 #endif
+#ifndef INCLUDED_ValueType
+#include <ValueType.h>
+#endif
 
 Void Type_obj::__construct()
 {
@@ -185,6 +188,64 @@ Array< ::String > Type_obj::getEnumConstructs( ::Enum e){
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(Type_obj,getEnumConstructs,return )
 
+::ValueType Type_obj::_typeof( Dynamic v){
+	HX_STACK_FRAME("Type","typeof",0xd6c51d65,"Type.typeof","/usr/lib/haxe/std/cpp/_std/Type.hx",112,0x728dd546)
+	HX_STACK_ARG(v,"v")
+	HX_STACK_LINE(113)
+	if (((v == null()))){
+		HX_STACK_LINE(113)
+		return ::ValueType_obj::TNull;
+	}
+	HX_STACK_LINE(114)
+	int t = v->__GetType();		HX_STACK_VAR(t,"t");
+	HX_STACK_LINE(115)
+	switch( (int)(t)){
+		case (int)2: {
+			HX_STACK_LINE(117)
+			return ::ValueType_obj::TBool;
+		}
+		;break;
+		case (int)255: {
+			HX_STACK_LINE(118)
+			return ::ValueType_obj::TInt;
+		}
+		;break;
+		case (int)1: {
+			HX_STACK_LINE(119)
+			return ::ValueType_obj::TFloat;
+		}
+		;break;
+		case (int)6: {
+			HX_STACK_LINE(120)
+			return ::ValueType_obj::TFunction;
+		}
+		;break;
+		case (int)4: {
+			HX_STACK_LINE(121)
+			return ::ValueType_obj::TObject;
+		}
+		;break;
+		case (int)7: {
+			HX_STACK_LINE(122)
+			Dynamic _g = v->__GetClass();		HX_STACK_VAR(_g,"_g");
+			HX_STACK_LINE(122)
+			return ::ValueType_obj::TEnum(_g);
+		}
+		;break;
+		default: {
+			HX_STACK_LINE(124)
+			Dynamic _g1 = v->__GetClass();		HX_STACK_VAR(_g1,"_g1");
+			HX_STACK_LINE(124)
+			return ::ValueType_obj::TClass(_g1);
+		}
+	}
+	HX_STACK_LINE(115)
+	return null();
+}
+
+
+STATIC_HX_DEFINE_DYNAMIC_FUNC1(Type_obj,_typeof,return )
+
 
 Type_obj::Type_obj()
 {
@@ -193,6 +254,9 @@ Type_obj::Type_obj()
 Dynamic Type_obj::__Field(const ::String &inName,bool inCallProp)
 {
 	switch(inName.length) {
+	case 6:
+		if (HX_FIELD_EQ(inName,"typeof") ) { return _typeof_dyn(); }
+		break;
 	case 8:
 		if (HX_FIELD_EQ(inName,"getClass") ) { return getClass_dyn(); }
 		break;
@@ -243,6 +307,7 @@ static ::String sStaticFields[] = {
 	HX_CSTRING("createEnumIndex"),
 	HX_CSTRING("getClassFields"),
 	HX_CSTRING("getEnumConstructs"),
+	HX_CSTRING("typeof"),
 	String(null()) };
 
 #if HXCPP_SCRIPTABLE

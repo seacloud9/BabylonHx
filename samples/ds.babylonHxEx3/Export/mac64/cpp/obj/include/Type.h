@@ -6,6 +6,7 @@
 #endif
 
 HX_DECLARE_CLASS0(Type)
+HX_DECLARE_CLASS0(ValueType)
 
 
 class HXCPP_CLASS_ATTRIBUTES  Type_obj : public hx::Object{
@@ -57,6 +58,9 @@ class HXCPP_CLASS_ATTRIBUTES  Type_obj : public hx::Object{
 
 		static Array< ::String > getEnumConstructs( ::Enum e);
 		static Dynamic getEnumConstructs_dyn();
+
+		static ::ValueType _typeof( Dynamic v);
+		static Dynamic _typeof_dyn();
 
 };
 

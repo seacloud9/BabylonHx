@@ -995,6 +995,9 @@
   <file name="src/com/gamestudiohx/babylonhx/tools/Tools.cpp">
    <depend name="include/Lambda.h"/>
    <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
    <depend name="include/com/gamestudiohx/babylonhx/tools/Tools.h"/>
    <depend name="include/com/gamestudiohx/babylonhx/tools/math/Vector3.h"/>
    <depend name="include/haxe/Log.h"/>
@@ -2036,6 +2039,10 @@
   <file name="src/Type.cpp">
    <depend name="include/Reflect.h"/>
    <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/ValueType.cpp">
+   <depend name="include/ValueType.h"/>
   </file>
   <file name="src/StringTools.cpp">
    <depend name="include/StringTools.h"/>

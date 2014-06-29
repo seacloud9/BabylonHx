@@ -6,6 +6,15 @@
 #ifndef INCLUDED_Reflect
 #include <Reflect.h>
 #endif
+#ifndef INCLUDED_Std
+#include <Std.h>
+#endif
+#ifndef INCLUDED_Type
+#include <Type.h>
+#endif
+#ifndef INCLUDED_ValueType
+#include <ValueType.h>
+#endif
 #ifndef INCLUDED_com_gamestudiohx_babylonhx_tools_Tools
 #include <com/gamestudiohx/babylonhx/tools/Tools.h>
 #endif
@@ -310,59 +319,77 @@ Void Tools_obj::DeepCopy( Dynamic source,Dynamic destination,Array< ::String > d
 			::String prop = _g1->__get(_g);		HX_STACK_VAR(prop,"prop");
 			HX_STACK_LINE(141)
 			++(_g);
+			HX_STACK_LINE(142)
+			Dynamic _g2 = ::Reflect_obj::field(source,prop);		HX_STACK_VAR(_g2,"_g2");
+			HX_STACK_LINE(142)
+			::String _g11 = ::Std_obj::string(_g2);		HX_STACK_VAR(_g11,"_g11");
+			HX_STACK_LINE(142)
+			::String _g21 = (HX_CSTRING("=== hit - PROP = ") + _g11);		HX_STACK_VAR(_g21,"_g21");
+			HX_STACK_LINE(142)
+			::haxe::Log_obj::trace(_g21,hx::SourceInfo(HX_CSTRING("Tools.hx"),142,HX_CSTRING("com.gamestudiohx.babylonhx.tools.Tools"),HX_CSTRING("DeepCopy")));
 			HX_STACK_LINE(143)
-			::String _g2 = prop.charAt((int)0);		HX_STACK_VAR(_g2,"_g2");
+			::ValueType _g3 = ::Type_obj::_typeof(prop);		HX_STACK_VAR(_g3,"_g3");
+			HX_STACK_LINE(143)
+			::String _g4 = ::Std_obj::string(_g3);		HX_STACK_VAR(_g4,"_g4");
+			HX_STACK_LINE(143)
+			::String _g5 = (HX_CSTRING("=== hit - ") + _g4);		HX_STACK_VAR(_g5,"_g5");
+			HX_STACK_LINE(143)
+			::haxe::Log_obj::trace(_g5,hx::SourceInfo(HX_CSTRING("Tools.hx"),143,HX_CSTRING("com.gamestudiohx.babylonhx.tools.Tools"),HX_CSTRING("DeepCopy")));
+			HX_STACK_LINE(144)
+			::String _g6 = prop.charAt((int)0);		HX_STACK_VAR(_g6,"_g6");
 			struct _Function_2_1{
 				inline static bool Block( ::String &prop,Array< ::String > &mustCopyList){
-					HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",143,0x515bb32a)
+					HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",144,0x515bb32a)
 					{
 						struct _Function_3_1{
 							inline static bool Block( ::String &prop,Array< ::String > &mustCopyList){
-								HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",143,0x515bb32a)
+								HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",144,0x515bb32a)
 								{
-									HX_STACK_LINE(143)
-									int _g11 = ::Lambda_obj::indexOf(mustCopyList,prop);		HX_STACK_VAR(_g11,"_g11");
-									HX_STACK_LINE(143)
-									return (_g11 == (int)-1);
+									HX_STACK_LINE(144)
+									int _g7 = ::Lambda_obj::indexOf(mustCopyList,prop);		HX_STACK_VAR(_g7,"_g7");
+									HX_STACK_LINE(144)
+									return (_g7 == (int)-1);
 								}
 								return null();
 							}
 						};
-						HX_STACK_LINE(143)
+						HX_STACK_LINE(144)
 						return (  ((!(((mustCopyList == null()))))) ? bool(_Function_3_1::Block(prop,mustCopyList)) : bool(true) );
 					}
 					return null();
 				}
 			};
-			HX_STACK_LINE(143)
-			if (((  (((_g2 == HX_CSTRING("_")))) ? bool(_Function_2_1::Block(prop,mustCopyList)) : bool(false) ))){
-				HX_STACK_LINE(144)
+			HX_STACK_LINE(144)
+			if (((  (((_g6 == HX_CSTRING("_")))) ? bool(_Function_2_1::Block(prop,mustCopyList)) : bool(false) ))){
+				HX_STACK_LINE(145)
 				continue;
 			}
 			struct _Function_2_2{
 				inline static bool Block( ::String &prop,Array< ::String > &doNotCopyList){
-					HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",147,0x515bb32a)
+					HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/Tools.hx",148,0x515bb32a)
 					{
-						HX_STACK_LINE(147)
-						int _g21 = ::Lambda_obj::indexOf(doNotCopyList,prop);		HX_STACK_VAR(_g21,"_g21");
-						HX_STACK_LINE(147)
-						return (_g21 != (int)-1);
+						HX_STACK_LINE(148)
+						int _g8 = ::Lambda_obj::indexOf(doNotCopyList,prop);		HX_STACK_VAR(_g8,"_g8");
+						HX_STACK_LINE(148)
+						return (_g8 != (int)-1);
 					}
 					return null();
 				}
 			};
-			HX_STACK_LINE(147)
+			HX_STACK_LINE(148)
 			if (((  (((doNotCopyList != null()))) ? bool(_Function_2_2::Block(prop,doNotCopyList)) : bool(false) ))){
-				HX_STACK_LINE(148)
+				HX_STACK_LINE(149)
 				continue;
 			}
 			HX_STACK_LINE(151)
-			Dynamic sourceValue = ::Reflect_obj::field(source,prop);		HX_STACK_VAR(sourceValue,"sourceValue");
+			::String sourceValue = ::Reflect_obj::field(source,prop);		HX_STACK_VAR(sourceValue,"sourceValue");
 			HX_STACK_LINE(153)
 			if ((::Reflect_obj::isFunction(sourceValue))){
 				HX_STACK_LINE(154)
 				continue;
 			}
+			HX_STACK_LINE(156)
+			::haxe::Log_obj::trace((((HX_CSTRING("=== hit - 5 ") + sourceValue) + HX_CSTRING("  ")) + prop),hx::SourceInfo(HX_CSTRING("Tools.hx"),156,HX_CSTRING("com.gamestudiohx.babylonhx.tools.Tools"),HX_CSTRING("DeepCopy")));
 			HX_STACK_LINE(157)
 			{
 				HX_STACK_LINE(157)

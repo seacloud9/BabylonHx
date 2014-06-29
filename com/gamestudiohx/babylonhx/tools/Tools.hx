@@ -139,7 +139,8 @@ class Tools {
 	
 	public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
         for (prop in Reflect.fields(source)) {
-
+            trace('=== hit - PROP = ' +  Reflect.field(source, prop));
+            trace('=== hit - ' +  Type.typeof(prop));
             if (prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList, prop) == -1)) {
                 continue;
             }
@@ -147,13 +148,12 @@ class Tools {
             if (doNotCopyList != null && Lambda.indexOf(doNotCopyList, prop) != -1) {
                 continue;
             }
-			
             var sourceValue = Reflect.field(source, prop);
 
             if (Reflect.isFunction(sourceValue)) {
                 continue;
             }
-			
+			trace('=== hit - 5 ' + sourceValue  + '  ' + prop);
 			Reflect.setField(destination, prop, Reflect.copy(sourceValue));			
         }
     }
