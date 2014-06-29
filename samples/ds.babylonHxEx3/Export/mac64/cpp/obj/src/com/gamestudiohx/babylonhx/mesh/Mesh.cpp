@@ -9840,7 +9840,7 @@ Void Mesh_obj::convertToFlatShadedMesh( ){
 		HX_STACK_LINE(853)
 		this->setIndices(indices);
 		HX_STACK_LINE(854)
-		this->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatableNormals);
+		this->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatableNormals);
 		HX_STACK_LINE(857)
 		{
 			HX_STACK_LINE(857)
@@ -9863,29 +9863,29 @@ Void Mesh_obj::convertToFlatShadedMesh( ){
 				HX_STACK_LINE(859)
 				bool _g4 = vbs->get(kind)->__Field(HX_CSTRING("isUpdatable"),true)();		HX_STACK_VAR(_g4,"_g4");
 				HX_STACK_LINE(859)
-				this->setVerticesData(_g3,kind,_g4);
+				this->setVerticesData(kind,_g3,_g4);
 			}
 		}
-		HX_STACK_LINE(863)
-		this->subMeshes = Array_obj< ::Dynamic >::__new();
 		HX_STACK_LINE(864)
+		this->subMeshes = Array_obj< ::Dynamic >::__new();
+		HX_STACK_LINE(865)
 		{
-			HX_STACK_LINE(864)
+			HX_STACK_LINE(865)
 			int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-			HX_STACK_LINE(864)
+			HX_STACK_LINE(865)
 			int _g = previousSubmeshes->length;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(864)
+			HX_STACK_LINE(865)
 			while((true)){
-				HX_STACK_LINE(864)
+				HX_STACK_LINE(865)
 				if ((!(((_g1 < _g))))){
-					HX_STACK_LINE(864)
+					HX_STACK_LINE(865)
 					break;
 				}
-				HX_STACK_LINE(864)
-				int submeshIndex = (_g1)++;		HX_STACK_VAR(submeshIndex,"submeshIndex");
 				HX_STACK_LINE(865)
-				::com::gamestudiohx::babylonhx::mesh::SubMesh previousOne = previousSubmeshes->__get(submeshIndex).StaticCast< ::com::gamestudiohx::babylonhx::mesh::SubMesh >();		HX_STACK_VAR(previousOne,"previousOne");
+				int submeshIndex = (_g1)++;		HX_STACK_VAR(submeshIndex,"submeshIndex");
 				HX_STACK_LINE(866)
+				::com::gamestudiohx::babylonhx::mesh::SubMesh previousOne = previousSubmeshes->__get(submeshIndex).StaticCast< ::com::gamestudiohx::babylonhx::mesh::SubMesh >();		HX_STACK_VAR(previousOne,"previousOne");
+				HX_STACK_LINE(867)
 				::com::gamestudiohx::babylonhx::mesh::SubMesh subMesh = ::com::gamestudiohx::babylonhx::mesh::SubMesh_obj::__new(previousOne->materialIndex,previousOne->indexStart,previousOne->indexCount,previousOne->indexStart,previousOne->indexCount,hx::ObjectPtr<OBJ_>(this),null(),null());		HX_STACK_VAR(subMesh,"subMesh");
 			}
 		}
@@ -9897,10 +9897,10 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC0(Mesh_obj,convertToFlatShadedMesh,(void))
 
 ::com::gamestudiohx::babylonhx::mesh::InstancedMesh Mesh_obj::createInstance( ::String name){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","createInstance",0x4a952023,"com.gamestudiohx.babylonhx.mesh.Mesh.createInstance","com/gamestudiohx/babylonhx/mesh/Mesh.hx",873,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","createInstance",0x4a952023,"com.gamestudiohx.babylonhx.mesh.Mesh.createInstance","com/gamestudiohx/babylonhx/mesh/Mesh.hx",874,0xf4cec482)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(name,"name")
-	HX_STACK_LINE(873)
+	HX_STACK_LINE(874)
 	return ::com::gamestudiohx::babylonhx::mesh::InstancedMesh_obj::__new(name,hx::ObjectPtr<OBJ_>(this));
 }
 
@@ -9909,22 +9909,22 @@ HX_DEFINE_DYNAMIC_FUNC1(Mesh_obj,createInstance,return )
 
 Void Mesh_obj::synchronizeInstances( ){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","synchronizeInstances",0xd38b30c0,"com.gamestudiohx.babylonhx.mesh.Mesh.synchronizeInstances","com/gamestudiohx/babylonhx/mesh/Mesh.hx",876,0xf4cec482)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","synchronizeInstances",0xd38b30c0,"com.gamestudiohx.babylonhx.mesh.Mesh.synchronizeInstances","com/gamestudiohx/babylonhx/mesh/Mesh.hx",877,0xf4cec482)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(879)
-		int instanceIndex = (int)0;		HX_STACK_VAR(instanceIndex,"instanceIndex");
 		HX_STACK_LINE(880)
+		int instanceIndex = (int)0;		HX_STACK_VAR(instanceIndex,"instanceIndex");
+		HX_STACK_LINE(881)
 		while((true)){
-			HX_STACK_LINE(880)
+			HX_STACK_LINE(881)
 			if ((!(((instanceIndex < this->instances->length))))){
-				HX_STACK_LINE(880)
+				HX_STACK_LINE(881)
 				break;
 			}
-			HX_STACK_LINE(881)
-			::com::gamestudiohx::babylonhx::mesh::InstancedMesh instance = this->instances->__get(instanceIndex).StaticCast< ::com::gamestudiohx::babylonhx::mesh::InstancedMesh >();		HX_STACK_VAR(instance,"instance");
 			HX_STACK_LINE(882)
-			instance->_syncSubMeshes();
+			::com::gamestudiohx::babylonhx::mesh::InstancedMesh instance = this->instances->__get(instanceIndex).StaticCast< ::com::gamestudiohx::babylonhx::mesh::InstancedMesh >();		HX_STACK_VAR(instance,"instance");
 			HX_STACK_LINE(883)
+			instance->_syncSubMeshes();
+			HX_STACK_LINE(884)
 			(instanceIndex)++;
 		}
 	}
@@ -9935,18 +9935,18 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC0(Mesh_obj,synchronizeInstances,(void))
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreateBox( ::String name,Float size,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateBox",0x48c5681d,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateBox","com/gamestudiohx/babylonhx/mesh/Mesh.hx",890,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateBox",0x48c5681d,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateBox","com/gamestudiohx/babylonhx/mesh/Mesh.hx",891,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(size,"size")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(891)
-	::com::gamestudiohx::babylonhx::mesh::Mesh box = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(box,"box");
 	HX_STACK_LINE(892)
+	::com::gamestudiohx::babylonhx::mesh::Mesh box = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(box,"box");
+	HX_STACK_LINE(893)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreateBox(size);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(894)
+	HX_STACK_LINE(895)
 	vertexData->applyToMesh(box,updatable);
-	HX_STACK_LINE(896)
+	HX_STACK_LINE(897)
 	return box;
 }
 
@@ -9954,19 +9954,19 @@ HX_DEFINE_DYNAMIC_FUNC0(Mesh_obj,synchronizeInstances,(void))
 STATIC_HX_DEFINE_DYNAMIC_FUNC4(Mesh_obj,CreateBox,return )
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreateSphere( ::String name,Float segments,Float diameter,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateSphere",0xe6e81c3b,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateSphere","com/gamestudiohx/babylonhx/mesh/Mesh.hx",899,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateSphere",0xe6e81c3b,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateSphere","com/gamestudiohx/babylonhx/mesh/Mesh.hx",900,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(segments,"segments")
 	HX_STACK_ARG(diameter,"diameter")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(900)
-	::com::gamestudiohx::babylonhx::mesh::Mesh sphere = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(sphere,"sphere");
 	HX_STACK_LINE(901)
+	::com::gamestudiohx::babylonhx::mesh::Mesh sphere = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(sphere,"sphere");
+	HX_STACK_LINE(902)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreateSphere(segments,diameter);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(903)
+	HX_STACK_LINE(904)
 	vertexData->applyToMesh(sphere,updatable);
-	HX_STACK_LINE(905)
+	HX_STACK_LINE(906)
 	return sphere;
 }
 
@@ -9974,7 +9974,7 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC4(Mesh_obj,CreateBox,return )
 STATIC_HX_DEFINE_DYNAMIC_FUNC5(Mesh_obj,CreateSphere,return )
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreateCylinder( ::String name,int height,Float diameterTop,Float diameterBottom,int tessellation,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateCylinder",0x4dd06b04,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateCylinder","com/gamestudiohx/babylonhx/mesh/Mesh.hx",910,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateCylinder",0x4dd06b04,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateCylinder","com/gamestudiohx/babylonhx/mesh/Mesh.hx",911,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(height,"height")
 	HX_STACK_ARG(diameterTop,"diameterTop")
@@ -9982,13 +9982,13 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC5(Mesh_obj,CreateSphere,return )
 	HX_STACK_ARG(tessellation,"tessellation")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(911)
-	::com::gamestudiohx::babylonhx::mesh::Mesh cylinder = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(cylinder,"cylinder");
 	HX_STACK_LINE(912)
+	::com::gamestudiohx::babylonhx::mesh::Mesh cylinder = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(cylinder,"cylinder");
+	HX_STACK_LINE(913)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreateCylinder(height,diameterTop,diameterBottom,tessellation);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(914)
+	HX_STACK_LINE(915)
 	vertexData->applyToMesh(cylinder,updatable);
-	HX_STACK_LINE(916)
+	HX_STACK_LINE(917)
 	return cylinder;
 }
 
@@ -9996,20 +9996,20 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC5(Mesh_obj,CreateSphere,return )
 STATIC_HX_DEFINE_DYNAMIC_FUNC7(Mesh_obj,CreateCylinder,return )
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreateTorus( ::String name,Float diameter,Float thickness,int tessellation,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateTorus",0x7037b347,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateTorus","com/gamestudiohx/babylonhx/mesh/Mesh.hx",921,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateTorus",0x7037b347,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateTorus","com/gamestudiohx/babylonhx/mesh/Mesh.hx",922,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(diameter,"diameter")
 	HX_STACK_ARG(thickness,"thickness")
 	HX_STACK_ARG(tessellation,"tessellation")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(922)
-	::com::gamestudiohx::babylonhx::mesh::Mesh torus = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(torus,"torus");
 	HX_STACK_LINE(923)
+	::com::gamestudiohx::babylonhx::mesh::Mesh torus = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(torus,"torus");
+	HX_STACK_LINE(924)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreateTorus(diameter,thickness,tessellation);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(925)
+	HX_STACK_LINE(926)
 	vertexData->applyToMesh(torus,updatable);
-	HX_STACK_LINE(927)
+	HX_STACK_LINE(928)
 	return torus;
 }
 
@@ -10017,7 +10017,7 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC7(Mesh_obj,CreateCylinder,return )
 STATIC_HX_DEFINE_DYNAMIC_FUNC6(Mesh_obj,CreateTorus,return )
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreateTorusKnot( ::String name,Float radius,Float tube,Float radialSegments,Float tubularSegments,Float p,Float q,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateTorusKnot",0x24e73c6f,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateTorusKnot","com/gamestudiohx/babylonhx/mesh/Mesh.hx",930,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreateTorusKnot",0x24e73c6f,"com.gamestudiohx.babylonhx.mesh.Mesh.CreateTorusKnot","com/gamestudiohx/babylonhx/mesh/Mesh.hx",931,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(radius,"radius")
 	HX_STACK_ARG(tube,"tube")
@@ -10027,13 +10027,13 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC6(Mesh_obj,CreateTorus,return )
 	HX_STACK_ARG(q,"q")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(931)
-	::com::gamestudiohx::babylonhx::mesh::Mesh torusKnot = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(torusKnot,"torusKnot");
 	HX_STACK_LINE(932)
+	::com::gamestudiohx::babylonhx::mesh::Mesh torusKnot = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(torusKnot,"torusKnot");
+	HX_STACK_LINE(933)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreateTorusKnot(radius,tube,radialSegments,tubularSegments,p,q);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(934)
+	HX_STACK_LINE(935)
 	vertexData->applyToMesh(torusKnot,updatable);
-	HX_STACK_LINE(936)
+	HX_STACK_LINE(937)
 	return torusKnot;
 }
 
@@ -10041,18 +10041,18 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC6(Mesh_obj,CreateTorus,return )
 STATIC_HX_DEFINE_DYNAMIC_FUNC9(Mesh_obj,CreateTorusKnot,return )
 
 ::com::gamestudiohx::babylonhx::mesh::Mesh Mesh_obj::CreatePlane( ::String name,Float size,::com::gamestudiohx::babylonhx::Scene scene,Dynamic updatable){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreatePlane",0x2094d0ee,"com.gamestudiohx.babylonhx.mesh.Mesh.CreatePlane","com/gamestudiohx/babylonhx/mesh/Mesh.hx",941,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","CreatePlane",0x2094d0ee,"com.gamestudiohx.babylonhx.mesh.Mesh.CreatePlane","com/gamestudiohx/babylonhx/mesh/Mesh.hx",942,0xf4cec482)
 	HX_STACK_ARG(name,"name")
 	HX_STACK_ARG(size,"size")
 	HX_STACK_ARG(scene,"scene")
 	HX_STACK_ARG(updatable,"updatable")
-	HX_STACK_LINE(942)
-	::com::gamestudiohx::babylonhx::mesh::Mesh plane = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(plane,"plane");
 	HX_STACK_LINE(943)
+	::com::gamestudiohx::babylonhx::mesh::Mesh plane = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::__new(name,scene);		HX_STACK_VAR(plane,"plane");
+	HX_STACK_LINE(944)
 	::com::gamestudiohx::babylonhx::mesh::VertexData vertexData = ::com::gamestudiohx::babylonhx::mesh::VertexData_obj::CreatePlane(size);		HX_STACK_VAR(vertexData,"vertexData");
-	HX_STACK_LINE(945)
+	HX_STACK_LINE(946)
 	vertexData->applyToMesh(plane,updatable);
-	HX_STACK_LINE(947)
+	HX_STACK_LINE(948)
 	return plane;
 }
 
@@ -10060,15 +10060,15 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC9(Mesh_obj,CreateTorusKnot,return )
 STATIC_HX_DEFINE_DYNAMIC_FUNC4(Mesh_obj,CreatePlane,return )
 
 Dynamic Mesh_obj::MinMax( Array< ::Dynamic > meshes){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","MinMax",0x101fabc4,"com.gamestudiohx.babylonhx.mesh.Mesh.MinMax","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1009,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","MinMax",0x101fabc4,"com.gamestudiohx.babylonhx.mesh.Mesh.MinMax","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1010,0xf4cec482)
 	HX_STACK_ARG(meshes,"meshes")
-	HX_STACK_LINE(1012)
+	HX_STACK_LINE(1013)
 	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,(int)0,(int)0);		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(1012)
+	HX_STACK_LINE(1013)
 	::com::gamestudiohx::babylonhx::tools::math::Vector3 _g1 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,(int)0,(int)0);		HX_STACK_VAR(_g1,"_g1");
 	struct _Function_1_1{
 		inline static Dynamic Block( ::com::gamestudiohx::babylonhx::tools::math::Vector3 &_g1,::com::gamestudiohx::babylonhx::tools::math::Vector3 &_g){
-			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1012,0xf4cec482)
+			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1013,0xf4cec482)
 			{
 				hx::Anon __result = hx::Anon_obj::Create();
 				__result->Add(HX_CSTRING("min") , _g,false);
@@ -10078,51 +10078,51 @@ Dynamic Mesh_obj::MinMax( Array< ::Dynamic > meshes){
 			return null();
 		}
 	};
-	HX_STACK_LINE(1012)
-	Dynamic _MinMax = _Function_1_1::Block(_g1,_g);		HX_STACK_VAR(_MinMax,"_MinMax");
 	HX_STACK_LINE(1013)
-	::com::gamestudiohx::babylonhx::tools::math::Vector3 minVector = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,(int)0,(int)0);		HX_STACK_VAR(minVector,"minVector");
+	Dynamic _MinMax = _Function_1_1::Block(_g1,_g);		HX_STACK_VAR(_MinMax,"_MinMax");
 	HX_STACK_LINE(1014)
+	::com::gamestudiohx::babylonhx::tools::math::Vector3 minVector = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,(int)0,(int)0);		HX_STACK_VAR(minVector,"minVector");
+	HX_STACK_LINE(1015)
 	::com::gamestudiohx::babylonhx::tools::math::Vector3 maxVector = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((int)0,(int)0,(int)0);		HX_STACK_VAR(maxVector,"maxVector");
-	HX_STACK_LINE(1017)
+	HX_STACK_LINE(1018)
 	{
-		HX_STACK_LINE(1017)
+		HX_STACK_LINE(1018)
 		int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-		HX_STACK_LINE(1017)
+		HX_STACK_LINE(1018)
 		int _g2 = meshes->length;		HX_STACK_VAR(_g2,"_g2");
-		HX_STACK_LINE(1017)
+		HX_STACK_LINE(1018)
 		while((true)){
-			HX_STACK_LINE(1017)
+			HX_STACK_LINE(1018)
 			if ((!(((_g11 < _g2))))){
-				HX_STACK_LINE(1017)
+				HX_STACK_LINE(1018)
 				break;
 			}
-			HX_STACK_LINE(1017)
-			int i = (_g11)++;		HX_STACK_VAR(i,"i");
 			HX_STACK_LINE(1018)
-			::com::gamestudiohx::babylonhx::mesh::AbstractMesh mesh = meshes->__get(i).StaticCast< ::com::gamestudiohx::babylonhx::mesh::AbstractMesh >();		HX_STACK_VAR(mesh,"mesh");
+			int i = (_g11)++;		HX_STACK_VAR(i,"i");
 			HX_STACK_LINE(1019)
-			::com::gamestudiohx::babylonhx::culling::BoundingBox boundingBox = mesh->getBoundingInfo()->boundingBox;		HX_STACK_VAR(boundingBox,"boundingBox");
+			::com::gamestudiohx::babylonhx::mesh::AbstractMesh mesh = meshes->__get(i).StaticCast< ::com::gamestudiohx::babylonhx::mesh::AbstractMesh >();		HX_STACK_VAR(mesh,"mesh");
 			HX_STACK_LINE(1020)
+			::com::gamestudiohx::babylonhx::culling::BoundingBox boundingBox = mesh->getBoundingInfo()->boundingBox;		HX_STACK_VAR(boundingBox,"boundingBox");
+			HX_STACK_LINE(1021)
 			if (((minVector == null()))){
-				HX_STACK_LINE(1021)
-				minVector = boundingBox->minimumWorld;
 				HX_STACK_LINE(1022)
-				maxVector = boundingBox->maximumWorld;
+				minVector = boundingBox->minimumWorld;
 				HX_STACK_LINE(1023)
+				maxVector = boundingBox->maximumWorld;
+				HX_STACK_LINE(1024)
 				continue;
 			}
-			HX_STACK_LINE(1025)
-			minVector->MinimizeInPlace(boundingBox->minimumWorld);
 			HX_STACK_LINE(1026)
+			minVector->MinimizeInPlace(boundingBox->minimumWorld);
+			HX_STACK_LINE(1027)
 			maxVector->MaximizeInPlace(boundingBox->maximumWorld);
 		}
 	}
-	HX_STACK_LINE(1028)
-	_MinMax->__FieldRef(HX_CSTRING("min")) = minVector;
 	HX_STACK_LINE(1029)
-	_MinMax->__FieldRef(HX_CSTRING("max")) = maxVector;
+	_MinMax->__FieldRef(HX_CSTRING("min")) = minVector;
 	HX_STACK_LINE(1030)
+	_MinMax->__FieldRef(HX_CSTRING("max")) = maxVector;
+	HX_STACK_LINE(1031)
 	return _MinMax;
 }
 
@@ -10130,20 +10130,20 @@ Dynamic Mesh_obj::MinMax( Array< ::Dynamic > meshes){
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(Mesh_obj,MinMax,return )
 
 ::com::gamestudiohx::babylonhx::tools::math::Vector3 Mesh_obj::Center( Dynamic meshesOrMinMaxVector){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","Center",0xc3115967,"com.gamestudiohx.babylonhx.mesh.Mesh.Center","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1033,0xf4cec482)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.Mesh","Center",0xc3115967,"com.gamestudiohx.babylonhx.mesh.Mesh.Center","com/gamestudiohx/babylonhx/mesh/Mesh.hx",1034,0xf4cec482)
 	HX_STACK_ARG(meshesOrMinMaxVector,"meshesOrMinMaxVector")
-	HX_STACK_LINE(1034)
+	HX_STACK_LINE(1035)
 	Dynamic minMaxVector;		HX_STACK_VAR(minMaxVector,"minMaxVector");
-	HX_STACK_LINE(1034)
+	HX_STACK_LINE(1035)
 	if (((meshesOrMinMaxVector->__Field(HX_CSTRING("min"),true) != null()))){
-		HX_STACK_LINE(1034)
+		HX_STACK_LINE(1035)
 		minMaxVector = meshesOrMinMaxVector;
 	}
 	else{
-		HX_STACK_LINE(1034)
+		HX_STACK_LINE(1035)
 		minMaxVector = ::com::gamestudiohx::babylonhx::mesh::Mesh_obj::MinMax(meshesOrMinMaxVector);
 	}
-	HX_STACK_LINE(1035)
+	HX_STACK_LINE(1036)
 	return ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Center(minMaxVector->__Field(HX_CSTRING("min"),true),minMaxVector->__Field(HX_CSTRING("max"),true));
 }
 

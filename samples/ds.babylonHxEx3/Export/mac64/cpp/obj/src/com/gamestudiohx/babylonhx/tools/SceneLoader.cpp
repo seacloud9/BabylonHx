@@ -1499,23 +1499,23 @@ Void SceneLoader_obj::_ImportGeometry( Dynamic parsedGeometry,::com::gamestudioh
 		HX_STACK_LINE(511)
 		if (((bool((bool((parsedGeometry->__Field(HX_CSTRING("positions"),true) != null())) && bool((parsedGeometry->__Field(HX_CSTRING("normals"),true) != null())))) && bool((parsedGeometry->__Field(HX_CSTRING("indices"),true) != null()))))){
 			HX_STACK_LINE(512)
-			mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("positions"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,false);
+			mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,parsedGeometry->__Field(HX_CSTRING("positions"),true),false);
 			HX_STACK_LINE(513)
-			mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("normals"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,false);
+			mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,parsedGeometry->__Field(HX_CSTRING("normals"),true),false);
 			HX_STACK_LINE(515)
 			if (((parsedGeometry->__Field(HX_CSTRING("uvs"),true) != null()))){
 				HX_STACK_LINE(516)
-				mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("uvs"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,false);
+				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,parsedGeometry->__Field(HX_CSTRING("uvs"),true),false);
 			}
 			HX_STACK_LINE(519)
 			if (((parsedGeometry->__Field(HX_CSTRING("uvs2"),true) != null()))){
 				HX_STACK_LINE(520)
-				mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("uvs2"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UV2Kind,false);
+				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UV2Kind,parsedGeometry->__Field(HX_CSTRING("uvs2"),true),false);
 			}
 			HX_STACK_LINE(523)
 			if (((parsedGeometry->__Field(HX_CSTRING("colors"),true) != null()))){
 				HX_STACK_LINE(524)
-				mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("colors"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::ColorKind,false);
+				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::ColorKind,parsedGeometry->__Field(HX_CSTRING("colors"),true),false);
 			}
 			HX_STACK_LINE(527)
 			if (((parsedGeometry->__Field(HX_CSTRING("matricesIndices"),true) != null()))){
@@ -1549,12 +1549,12 @@ Void SceneLoader_obj::_ImportGeometry( Dynamic parsedGeometry,::com::gamestudioh
 					}
 				}
 				HX_STACK_LINE(539)
-				mesh->setVerticesData(floatIndices,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesIndicesKind,false);
+				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesIndicesKind,floatIndices,false);
 			}
 			HX_STACK_LINE(542)
 			if (((parsedGeometry->__Field(HX_CSTRING("matricesWeights"),true) != null()))){
 				HX_STACK_LINE(543)
-				mesh->setVerticesData(parsedGeometry->__Field(HX_CSTRING("matricesWeights"),true),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesWeightsKind,false);
+				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesWeightsKind,parsedGeometry->__Field(HX_CSTRING("matricesWeights"),true),false);
 			}
 			HX_STACK_LINE(546)
 			mesh->setIndices(parsedGeometry->__Field(HX_CSTRING("indices"),true));

@@ -15030,11 +15030,11 @@ bool updatable = __o_updatable.Default(false);
 			}
 		}
 		HX_STACK_LINE(1193)
-		box->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+		box->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable);
 		HX_STACK_LINE(1194)
-		box->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+		box->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable);
 		HX_STACK_LINE(1195)
-		box->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+		box->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable);
 		HX_STACK_LINE(1196)
 		box->setIndices(indices);
 		HX_STACK_LINE(1198)
@@ -15314,11 +15314,11 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC4(AbstractMesh_obj,CreateBox,return )
 	HX_STACK_LINE(1316)
 	createCylinderCap(false).Cast< Void >();
 	HX_STACK_LINE(1318)
-	cylinder->setVerticesData(positions->__get((int)0).StaticCast< Array< Float > >(),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+	cylinder->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions->__get((int)0).StaticCast< Array< Float > >(),updatable);
 	HX_STACK_LINE(1319)
-	cylinder->setVerticesData(normals->__get((int)0).StaticCast< Array< Float > >(),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+	cylinder->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals->__get((int)0).StaticCast< Array< Float > >(),updatable);
 	HX_STACK_LINE(1320)
-	cylinder->setVerticesData(uvs->__get((int)0).StaticCast< Array< Float > >(),::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+	cylinder->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs->__get((int)0).StaticCast< Array< Float > >(),updatable);
 	HX_STACK_LINE(1321)
 	cylinder->setIndices(indices->__get((int)0).StaticCast< Array< int > >());
 	HX_STACK_LINE(1323)
@@ -15735,11 +15735,11 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC7(AbstractMesh_obj,CreateCylinder,return )
 		}
 	}
 	HX_STACK_LINE(1381)
-	torus->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+	torus->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable);
 	HX_STACK_LINE(1382)
-	torus->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+	torus->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable);
 	HX_STACK_LINE(1383)
-	torus->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+	torus->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable);
 	HX_STACK_LINE(1384)
 	torus->setIndices(indices);
 	HX_STACK_LINE(1386)
@@ -16057,11 +16057,11 @@ bool updatable = __o_updatable.Default(false);
 			}
 		}
 		HX_STACK_LINE(1446)
-		sphere->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+		sphere->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable);
 		HX_STACK_LINE(1447)
-		sphere->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+		sphere->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable);
 		HX_STACK_LINE(1448)
-		sphere->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+		sphere->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable);
 		HX_STACK_LINE(1449)
 		sphere->setIndices(indices);
 		HX_STACK_LINE(1451)
@@ -16167,11 +16167,11 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC5(AbstractMesh_obj,CreateSphere,return )
 	HX_STACK_LINE(1507)
 	indices->push((int)3);
 	HX_STACK_LINE(1509)
-	plane->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+	plane->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable);
 	HX_STACK_LINE(1510)
-	plane->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+	plane->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable);
 	HX_STACK_LINE(1511)
-	plane->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+	plane->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable);
 	HX_STACK_LINE(1512)
 	plane->setIndices(indices);
 	HX_STACK_LINE(1514)
@@ -16294,11 +16294,11 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC4(AbstractMesh_obj,CreatePlane,return )
 		}
 	}
 	HX_STACK_LINE(1553)
-	ground->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable);
+	ground->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable);
 	HX_STACK_LINE(1554)
-	ground->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable);
+	ground->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable);
 	HX_STACK_LINE(1555)
-	ground->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable);
+	ground->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable);
 	HX_STACK_LINE(1556)
 	ground->setIndices(indices);
 	HX_STACK_LINE(1558)
@@ -16530,11 +16530,11 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC6(AbstractMesh_obj,CreateGround,return )
 			HX_STACK_LINE(1628)
 			::haxe::Log_obj::trace(indices->length,hx::SourceInfo(HX_CSTRING("AbstractMesh.hx"),1628,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.AbstractMesh"),HX_CSTRING("CreateGroundFromHeightMap")));
 			HX_STACK_LINE(1631)
-			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(positions,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,updatable1->__get((int)0));
+			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,positions,updatable1->__get((int)0));
 			HX_STACK_LINE(1632)
-			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(normals,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,updatable1->__get((int)0));
+			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,normals,updatable1->__get((int)0));
 			HX_STACK_LINE(1633)
-			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(uvs,::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,updatable1->__get((int)0));
+			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,uvs,updatable1->__get((int)0));
 			HX_STACK_LINE(1634)
 			ground->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::Mesh >()->setIndices(indices);
 			HX_STACK_LINE(1636)

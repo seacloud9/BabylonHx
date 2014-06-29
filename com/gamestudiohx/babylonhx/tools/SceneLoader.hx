@@ -509,19 +509,19 @@ class SceneLoader {
 	public static function _ImportGeometry(parsedGeometry:Dynamic, mesh:Mesh) {
 		// Geometry
 		if (parsedGeometry.positions != null && parsedGeometry.normals != null && parsedGeometry.indices != null) {
-			mesh.setVerticesData(parsedGeometry.positions, VertexBuffer.PositionKind, false);
-			mesh.setVerticesData(parsedGeometry.normals, VertexBuffer.NormalKind, false);
+			mesh.setVerticesData(VertexBuffer.PositionKind, parsedGeometry.positions, false);
+			mesh.setVerticesData(VertexBuffer.NormalKind, parsedGeometry.normals, false);
 
 			if (parsedGeometry.uvs != null) {
-				mesh.setVerticesData(parsedGeometry.uvs, VertexBuffer.UVKind, false);
+				mesh.setVerticesData(VertexBuffer.UVKind, parsedGeometry.uvs, false);
 			}
 
 			if (parsedGeometry.uvs2 != null) {
-				mesh.setVerticesData(parsedGeometry.uvs2, VertexBuffer.UV2Kind, false);
+				mesh.setVerticesData(VertexBuffer.UV2Kind, parsedGeometry.uvs2, false);
 			}
 
 			if (parsedGeometry.colors != null) {
-				mesh.setVerticesData(parsedGeometry.colors, VertexBuffer.ColorKind, false);
+				mesh.setVerticesData(VertexBuffer.ColorKind, parsedGeometry.colors, false);
 			}
 
 			if (parsedGeometry.matricesIndices != null) {
@@ -536,11 +536,11 @@ class SceneLoader {
 					floatIndices.push(matricesIndex >> 24);
 				}
 
-				mesh.setVerticesData(floatIndices, VertexBuffer.MatricesIndicesKind, false);
+				mesh.setVerticesData(VertexBuffer.MatricesIndicesKind, floatIndices, false);
 			}
 
 			if (parsedGeometry.matricesWeights != null) {
-				mesh.setVerticesData(parsedGeometry.matricesWeights, VertexBuffer.MatricesWeightsKind, false);
+				mesh.setVerticesData(VertexBuffer.MatricesWeightsKind, parsedGeometry.matricesWeights, false);
 			}
 
 			mesh.setIndices(parsedGeometry.indices);

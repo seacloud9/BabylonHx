@@ -851,12 +851,13 @@ import openfl.utils.Float32Array;
         }
 
         this.setIndices(indices);
-        this.setVerticesData(normals, VertexBuffer.NormalKind, updatableNormals);
+        this.setVerticesData(VertexBuffer.NormalKind, normals, updatableNormals);
 
         // Updating vertex buffers
         for (kindIndex in 0...kinds.length) {
             var kind:String = kinds[kindIndex];
-            this.setVerticesData(newdata.get(kind), kind, vbs.get(kind).isUpdatable());
+            this.setVerticesData(kind, newdata.get(kind), vbs.get(kind).isUpdatable());
+            //this.setVerticesData(newdata.get(kind), kind, vbs.get(kind).isUpdatable());
         }
 
         // Updating submeshes

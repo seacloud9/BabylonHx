@@ -1190,9 +1190,9 @@ class AbstractMesh extends Node{
 			uvs.push(0.0);
         }
 
-        box.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        box.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        box.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        box.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        box.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        box.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         box.setIndices(indices);
 
         return box;
@@ -1315,9 +1315,9 @@ class AbstractMesh extends Node{
         createCylinderCap(true);
         createCylinderCap(false);
 
-        cylinder.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        cylinder.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        cylinder.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        cylinder.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        cylinder.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        cylinder.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         cylinder.setIndices(indices);
 
         return cylinder;
@@ -1378,9 +1378,9 @@ class AbstractMesh extends Node{
             }
         }
 
-        torus.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        torus.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        torus.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        torus.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        torus.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        torus.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         torus.setIndices(indices);
 
         return torus;
@@ -1443,9 +1443,9 @@ class AbstractMesh extends Node{
             }
         }
 
-        sphere.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        sphere.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        sphere.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        sphere.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        sphere.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        sphere.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         sphere.setIndices(indices);
 		
         return sphere;
@@ -1506,9 +1506,9 @@ class AbstractMesh extends Node{
         indices.push(2);
         indices.push(3);
 
-        plane.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        plane.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        plane.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        plane.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        plane.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        plane.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         plane.setIndices(indices);
 
         return plane;
@@ -1550,9 +1550,9 @@ class AbstractMesh extends Node{
             }
         }
 
-        ground.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-        ground.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-        ground.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+        ground.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+        ground.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+        ground.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
         ground.setIndices(indices);
 
         return ground;
@@ -1628,9 +1628,9 @@ class AbstractMesh extends Node{
 			trace(indices.length);
 
             // Transfer
-            ground.setVerticesData(positions, VertexBuffer.PositionKind, updatable);
-            ground.setVerticesData(normals, VertexBuffer.NormalKind, updatable);
-            ground.setVerticesData(uvs, VertexBuffer.UVKind, updatable);
+            ground.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
+            ground.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
+            ground.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
             ground.setIndices(indices);
 
             ground._isReady = true;
