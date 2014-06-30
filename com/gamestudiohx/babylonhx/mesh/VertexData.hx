@@ -734,7 +734,7 @@ import openfl.utils.UInt8Array;
                  j++;
 
                 }
-             i++;
+                i++;
 
                 }
 

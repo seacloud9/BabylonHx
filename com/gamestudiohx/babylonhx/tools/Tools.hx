@@ -138,9 +138,15 @@ class Tools {
     }
 	
 	public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
+        //trace('=== type Dest - ' +  Type.typeof(destination));
+        //trace('=== type source - ' +  Type.typeof(source));
+        var i=0;
         for (prop in Reflect.fields(source)) {
-            trace('=== hit - PROP = ' +  Reflect.field(source, prop));
-            trace('=== hit - ' +  Type.typeof(prop));
+            i++;
+            trace('=== hit - PROP = ' +  Type.typeof(prop));
+            //trace('=== hit - PROP = ' +  Type.typeof(prop));
+            //trace('=== hit - PROP = ' +  Reflect.field(source, prop));
+            trace('=== hit - int ' + i);
             if (prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList, prop) == -1)) {
                 continue;
             }
@@ -148,13 +154,31 @@ class Tools {
             if (doNotCopyList != null && Lambda.indexOf(doNotCopyList, prop) != -1) {
                 continue;
             }
+            trace('=== 1a hitCount ' + i);
+            //try{
             var sourceValue = Reflect.field(source, prop);
+            //}catch(e:String){
+              //  trace("Error: " +e);
+           // }
+
 
             if (Reflect.isFunction(sourceValue)) {
+                trace('=== hit - 2 ' + sourceValue  + '  ' + prop);
+                trace('=== hit - int ' + i);
                 continue;
             }
-			trace('=== hit - 5 ' + sourceValue  + '  ' + prop);
-			Reflect.setField(destination, prop, Reflect.copy(sourceValue));			
+			trace('=== hit - 3 ' + sourceValue  + '  ' + prop);
+            trace('=== hitCount  ' + i);
+            trace(' >>>>> type ' + Type.typeof(sourceValue));
+            trace(' >>>>> ' + sourceValue + '>>>>>PROP>>>> ' + prop);
+            trace('________________');
+            try{
+                //Reflect.setField(destination, prop, Reflect.copy(sourceValue)); 
+                Reflect.setField(destination, prop, sourceValue); 
+                }catch(e:String){
+                trace("Error: " +e);
+            }
+					
         }
     }
 	

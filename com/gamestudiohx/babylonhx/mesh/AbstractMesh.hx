@@ -96,7 +96,7 @@ class AbstractMesh extends Node{
 	public var _vertexStrideSize:Float;						// Float ?
 	public var _indices:Array<Int>;
 	public var _renderId:Int;
-	public var _onBeforeRenderCallbacks:Array<Dynamic>;		// TODO
+	//public var _onBeforeRenderCallbacks:Array<Dynamic>;		// TODO
 	public var _localScaling:Matrix;
 	public var _localRotation:Matrix;
 	public var _localTranslation:Matrix;
@@ -109,7 +109,7 @@ class AbstractMesh extends Node{
 	public var _boundingInfo:BoundingInfo;
 	public var _collisionsTransformMatrix:Matrix;
 	public var _collisionsScalingMatrix:Matrix;
-	public var _absolutePosition:Vector3;
+	private var _absolutePosition:Vector3;
 	public var _currentRenderId:Int;
 	
 	public var _positions:Array<Vector3>;
@@ -147,15 +147,15 @@ class AbstractMesh extends Node{
 
         this._pivotMatrix = Matrix.Identity();
 
-        this._indices = [];
-        this.subMeshes = [];
+        this._indices = new Array<Int>();
+        this.subMeshes = new Array<SubMesh>();
 
         this._renderId = 0;
 
-        this._onBeforeRenderCallbacks = [];
+        //this._onBeforeRenderCallbacks = new Array<Dynamic>();
         
         // Animations
-        this.animations = [];
+        this.animations = new Array<Animation>();
 
         // Cache
         this._positions = null;
@@ -185,22 +185,22 @@ class AbstractMesh extends Node{
         this._absolutePosition = Vector3.Zero();
 		
 		//this.delayLoadState = Engine.DELAYLOADSTATE_NONE;
-		material = null;
-		isVisible = true;
-		isPickable = true;
-		visibility = 1.0;
-		billboardMode = AbstractMesh.BILLBOARDMODE_NONE;
-		checkCollisions = false;
-		receiveShadows = false;
+		this.material = null;
+		this.isVisible = true;
+		this.isPickable = true;
+		this.visibility = 1.0;
+		this.billboardMode = AbstractMesh.BILLBOARDMODE_NONE;
+		this.checkCollisions = false;
+		this.receiveShadows = false;
 
-		_isDisposed = false;
-		onDispose = null;
+		this._isDisposed = false;
+		this.onDispose = null;
 
-		skeleton = null;
+		this.skeleton = null;
 		
-		renderingGroupId = 0;
+		this.renderingGroupId = 0;
 		
-		infiniteDistance = false;
+		this.infiniteDistance = false;
 	}
 	
 	public function _resetPointsArrayCache() {
@@ -1113,6 +1113,8 @@ class AbstractMesh extends Node{
 	
 	
 	// Statics
+	// 
+	/*
 	public static function CreateBox(name:String, size:Float, scene:Scene, updatable:Bool = false):Mesh {
 		var box:Mesh = new Mesh(name, scene);
 
@@ -1641,7 +1643,7 @@ class AbstractMesh extends Node{
         //ground._isReady = false;
 
         return ground;
-	}
+	}*/
 	
 	public static function ComputeNormal(positions:Array<Float>, normals:Array<Float>, indices:Array<Int>) {
 		var positionVectors:Array<Vector3> = [];

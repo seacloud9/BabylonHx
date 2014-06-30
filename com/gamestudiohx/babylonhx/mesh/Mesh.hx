@@ -39,7 +39,7 @@ import openfl.utils.Float32Array;
         //
         // public var Private
         public var _geometry : Geometry;
-        //private var _onBeforeRenderCallbacks = new Array<Dynamic>();
+        private var _onBeforeRenderCallbacks = new Array<Dynamic>();
         //private var _delayInfo:Dynamic; //ANY
         //private var _delayLoadingFunction: (any, Mesh) => void;
         private var _delayLoadingFunction:String;
@@ -710,7 +710,8 @@ import openfl.utils.Float32Array;
             //trace(this._geometry);
 
             // Deep copy
-            Tools.DeepCopy(this, resultMesh, ["name", "material", "skeleton"], []);
+            trace('clone -- hit');
+            Tools.DeepCopy(this, resultMesh, ["_onBeforeRenderCallbacks", "name", "material", "skeleton" ]);
 
             // Material
             resultMesh.material = this.material;
