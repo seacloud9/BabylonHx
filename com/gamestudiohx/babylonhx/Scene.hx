@@ -306,7 +306,7 @@ class Scene {
             /*if (mesh.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
                 return false;
             }*/
-
+            trace('isReady - ' + index);
             if (mat != null) {
                 if (!mat.isReady(mesh)) {
                     return false;
@@ -347,7 +347,8 @@ class Scene {
 	
 	public function executeWhenReady(func:Dynamic) {
 		this._onReadyCallbacks.push(func);
-
+		trace('executeWhenReady -' + func);
+		trace('this._executeWhenReadyTimeoutId -' + this._executeWhenReadyTimeoutId);
         if (this._executeWhenReadyTimeoutId != -1) {
             return;
         }

@@ -70,6 +70,7 @@ class Tools {
     }
 
      public static function LoadFile(url:String , ?callbackFn:String->Void, ?progressCallBack:Dynamic, ?database:Dynamic, useArrayBuffer:Bool = false): Void {
+            trace('LoadFile URL - '+ url);
             //url = Tools.CleanUrl(url);
             // 
             #if html5       // Assets.getText doesn't work in html5 -> Chrome ????
@@ -143,10 +144,8 @@ class Tools {
         var i=0;
         for (prop in Reflect.fields(source)) {
             i++;
-            trace('=== hit - PROP = ' +  Type.typeof(prop));
-            //trace('=== hit - PROP = ' +  Type.typeof(prop));
-            //trace('=== hit - PROP = ' +  Reflect.field(source, prop));
-            trace('=== hit - int ' + i);
+            trace('DeepCopy - PROP = ' +  Type.typeof(prop));
+            trace('DeepCopy - int ' + i);
             if (prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList, prop) == -1)) {
                 continue;
             }
@@ -154,7 +153,8 @@ class Tools {
             if (doNotCopyList != null && Lambda.indexOf(doNotCopyList, prop) != -1) {
                 continue;
             }
-            trace('=== 1a hitCount ' + i);
+            trace('=== DeepCopy hitCount ' + i);
+            trace('=== DeepCopy hitCount ' + prop);
             //try{
             var sourceValue = Reflect.field(source, prop);
             //}catch(e:String){
@@ -163,14 +163,14 @@ class Tools {
 
 
             if (Reflect.isFunction(sourceValue)) {
-                trace('=== hit - 2 ' + sourceValue  + '  ' + prop);
-                trace('=== hit - int ' + i);
+                trace('=== DeepCopy - sourcevalue and prop  ' + sourceValue  + '  ' + prop);
+                trace('=== DeepCopy - int ' + i);
                 continue;
             }
-			trace('=== hit - 3 ' + sourceValue  + '  ' + prop);
-            trace('=== hitCount  ' + i);
-            trace(' >>>>> type ' + Type.typeof(sourceValue));
-            trace(' >>>>> ' + sourceValue + '>>>>>PROP>>>> ' + prop);
+			trace('DeepCopy - sourcevalue and prop ' + sourceValue  + '  ' + prop);
+            trace 'DeepCopy  ' + i);
+            trace('DeepCopy type ' + Type.typeof(sourceValue));
+            trace('DeepCopy -' + sourceValue + '>>>>>PROP>>>> ' + prop);
             trace('________________');
             try{
                 //Reflect.setField(destination, prop, Reflect.copy(sourceValue)); 

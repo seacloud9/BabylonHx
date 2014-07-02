@@ -54,7 +54,7 @@ class Main extends Sprite {
 
   function init() {
     if (inited) return;
-    var start_time = Date.now();
+    var start_time = Date.now().getTime();
     inited = true;
 
     var engine = new Engine(this, true);     
@@ -96,7 +96,7 @@ class Main extends Sprite {
         cloudMaterial.setFloat("fogFar", 3000);
         cloudMaterial.setColor3("fogColor", new Color3(69, 132, 180));
 
-        trace('1');
+        trace('init - 1');
         // Create merged planes
         //size = 128;
         var count = 8000;
@@ -115,24 +115,31 @@ class Main extends Sprite {
             // Merge
             globalVertexData.merge(planeVertexData);
         }
-        trace('2');
+        trace('init - 2');
         var clouds = new Mesh("Clouds", scene);
-        trace('3');
+        trace('init - 3');
         globalVertexData.applyToMesh(clouds);
-        trace('4');
+        trace('init - 4');
         clouds.material = cloudMaterial;
+        clouds.position.z = -256;
 
-        var clouds2 = clouds.clone("Clouds");
-        clouds2.position.z = -500;
+        //var clouds2 = clouds.clone("Clouds");
+        //clouds2.position.z = -500;
 
-        /*var r = function () {
-            var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
+        var r = function () {
+            var cameraDepth = ((Date.now().getTime()  - start_time) * 0.03) % 8000;
             camera.position.z = cameraDepth;
+            trace(camera.position.z);
+            trace('in loop ');
             //scene.render;
             //return scene.render;
+        }
+        /*var renderFunction = function(){
+            trace('yea');
         }*/
+        //trace('preloop');
         scene.executeWhenReady(function() {
-            engine.runRenderLoop(scene.render);
+            engine.runRenderLoop(scene.render, r);
         });
         
 

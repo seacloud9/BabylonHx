@@ -37,11 +37,10 @@ class SubMesh {
 	public var linesIndexCount:Int;
 	public var _lastColliderWorldVertices:Array<Vector3>;
 	public var _lastColliderTransformMatrix:Matrix;
-	
 	public var _renderId:Int;
 	
 
-	public function new(materialIndex:Int, verticesStart:Int, verticesCount:Int, indexStart:Int, indexCount:Int, mesh:AbstractMesh, ?renderingMesh:Mesh, createBoundingBox:Bool = true) {
+	public function new(materialIndex:Int, verticesStart:Int, verticesCount:Int, indexStart:Int, indexCount:Int, mesh:AbstractMesh, ?renderingMesh:Mesh, createBoundingBox:Bool = false) {
 		this._mesh = mesh;
         //this._renderingMesh = renderingMesh || <Mesh>mesh;
         if(renderingMesh != null){

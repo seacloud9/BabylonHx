@@ -96,6 +96,7 @@ class Engine {
 	public var _cachedViewport:Viewport;
 	
 	public var _caps:BabylonCaps;
+    public var _gameLoopFunc:Dynamic = null;
 	
 	public var _alphaTest:Bool;
 	
@@ -309,15 +310,25 @@ class Engine {
         if (this._renderFunction != null) {
             this._renderFunction(new Rectangle());			
         }
+        if(this._gameLoopFunc != null){
+            this._gameLoopFunc();
+            trace('this._gameLoopFunc');
+        }
 
         // Present
         this.endFrame();
     }
 
-    public function runRenderLoop(renderFunction:Rectangle->Void) {
+    public function runRenderLoop(renderFunction:Rectangle->Void, func:Dynamic = null) {
         this._runningLoop = true;
-        this._renderFunction = renderFunction;		
-		this._workingContext.render = this._renderLoop;
+        this._renderFunction = renderFunction;	
+        if(func != null){
+            trace('runRenderLoop');
+            this._gameLoopFunc = func;
+        }	
+		
+        this._workingContext.render = this._renderLoop;
+
     }
 
     public function switchFullscreen(requestPointerLock) {

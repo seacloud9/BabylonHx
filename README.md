@@ -30,16 +30,19 @@ Visit http://babylonjs.com/ for more info about the engine.
 
 **Known bugs (major ones):**
 
-  * There is a bug with lights, most noticable in 'Train' and 'Heart' demos.
-  * Mesh.clone() doesn't work (Tools.deepCopy() should be fixed)
-  * Bug in 'Train' scene (particles and camera attached to train don't work
+  * Currently not in working condition
 
 
 **TODO:**
 
+  * Fix all mesh classes starting with AbstractMesh
+  * Add the vertex class aka babylon.csg.ts
+  * Double check vertexBuffer class
+  * Fix various scene and engine bugs
+  * Mesh.clone() fix deep copy in tools as it does not work properly
   * Fix bug with lights
   * ~~Update 'Matrix' class to use Float32Array for JavaScript target~~
-  * Code refactor - remove reflections from critical places and general code cleanup
-  * Keep up with BabylonJs (implement all stuff that was added/fixed between versions 1.8.0 and 1.8.5)
+  * Code refactor - remove reflections from critical places and general code cleanup ***
+  * Keep up with BabylonJs! 
 
 

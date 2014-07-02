@@ -141,7 +141,7 @@ import openfl.utils.Float32Array;
                 this._visibleInstances.selfDefaultRenderId = this._renderId;
             }
 
-            if (this._visibleInstances[renderId] != null) {
+            if (this._visibleInstances[renderId] == null) {
                 this._visibleInstances[renderId] = new Array<InstancedMesh>();
             }
 
@@ -164,7 +164,7 @@ import openfl.utils.Float32Array;
                     this.subMeshes[index].refreshBoundingInfo();
                  index++;
 
-            }
+                }
             }
 
             this._updateBoundingInfo();
@@ -541,7 +541,6 @@ import openfl.utils.Float32Array;
         public function _checkDelayState() : Void {
             var that = this;
             var scene = this.getScene();
-
             if (this._geometry != null) {
                 this._geometry.load(scene);
             }
@@ -862,7 +861,7 @@ import openfl.utils.Float32Array;
         }
 
         // Updating submeshes
-        this.subMeshes = [];
+        this.subMeshes = new Array<SubMesh>();
         for (submeshIndex in 0...previousSubmeshes.length) {
             var previousOne:SubMesh = previousSubmeshes[submeshIndex];
             var subMesh = new SubMesh(previousOne.materialIndex, previousOne.indexStart, previousOne.indexCount, previousOne.indexStart, previousOne.indexCount, this);

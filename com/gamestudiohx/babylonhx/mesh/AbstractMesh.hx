@@ -66,6 +66,7 @@ class AbstractMesh extends Node{
 
 
 	public var rotation:Vector3;
+	//public var position:Vector3;
 	public var scaling:Vector3;
 	public var rotationQuaternion:Quaternion;
 	public var subMeshes:Array<SubMesh>;
@@ -87,14 +88,14 @@ class AbstractMesh extends Node{
 	public var skeleton:Skeleton;
 	public var renderingGroupId:Int;
 	
-	public var _animationStarted:Bool;
-	public var _scaleFactor:Float;
+	public var _animationStarted:Bool; //??
+	public var _scaleFactor:Float; //??
 	public var _isDisposed:Bool;
 	public var _totalVertices:Int;
 	public var _worldMatrix:Matrix;
 	public var _pivotMatrix:Matrix;
-	public var _vertexStrideSize:Float;						// Float ?
-	public var _indices:Array<Int>;
+	public var _vertexStrideSize:Int;						// Float ?
+	public var _indices:Array<Int>; //??
 	public var _renderId:Int;
 	//public var _onBeforeRenderCallbacks:Array<Dynamic>;		// TODO
 	public var _localScaling:Matrix;
@@ -110,11 +111,11 @@ class AbstractMesh extends Node{
 	public var _collisionsTransformMatrix:Matrix;
 	public var _collisionsScalingMatrix:Matrix;
 	private var _absolutePosition:Vector3;
-	public var _currentRenderId:Int;
+	public var _currentRenderId:Int; //??
 	
 	public var _positions:Array<Vector3>;
 	
-	public var _vertexBuffers:Map<String, VertexBuffer>;			// TODO - this can be both VertexBuffer and BabylonGLBuffer
+	public var _vertexBuffers:Map<String, VertexBuffer>;	 		// TODO - this can be both VertexBuffer and BabylonGLBuffer
 	public var _vertexBuffersB:Map<String, BabylonGLBuffer>;		// so this one is created to separate these two ...
 	public var _delayInfo:Array<String>;
 	public var _indexBuffer:BabylonGLBuffer;
