@@ -130,7 +130,7 @@ import openfl.utils.Float32Array;
 
         // Methods
 
-          public function _preActivate() : Void {
+        override function _preActivate() : Void {
             this._visibleInstances = null;
         }
 

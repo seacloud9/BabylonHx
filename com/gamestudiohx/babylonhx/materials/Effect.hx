@@ -58,12 +58,13 @@ class Effect {
 	public var _compilationError:String;
 	public var _attributes:Array<Int>;
 	public var _attributesNames:Array<String>;
-	
 	public var _valueCache:Map<String, Array<Float>>;		// TODO
 	public var _program:GLProgram;
-	
+	public var onCompiled:Effect->Void;
+	public var onError:Effect->String->Void;
 
-	public function new(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, engine:Engine, defines:String, optionalDefines:Array<String> = null) {
+
+	public function new(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, engine:Engine, defines:String, optionalDefines:Array<String> = null, ?onCompiled:Effect->Void, ?onError:Effect->String->Void) {
 		this._engine = engine;
         this.name = baseName;
         this.defines = defines;
@@ -72,6 +73,15 @@ class Effect {
         this._isReady = false;
         this._compilationError = "";
         this._attributesNames = attributesNames;
+
+        if(onError != null){
+        	this.onError = onError;
+        }
+        
+        if(onCompiled != null){
+        	this.onCompiled = onCompiled;
+        }
+        
 		
         var vertex:String = Reflect.field(baseName, "vertex") != null ? baseName.vertex : baseName;
         var fragment:String = Reflect.field(baseName, "fragment") != null ? baseName.fragment : baseName;
@@ -189,14 +199,20 @@ class Effect {
         Tools.LoadFile(fragmentShaderUrl + ".fragment.fx", callbackFn);
     }
 	
-	public function _prepareEffect(vertexSourceCode:String, fragmentSourceCode:String, attributesNames:Array<String>, defines:String, optionalDefines:Array<String>, useFallback:Bool) {
+	public function _prepareEffect(vertexSourceCode:String, fragmentSourceCode:String, attributesNames:Array<String>, defines:String, optionalDefines:Array<String> = null, useFallback:Bool) {
         try {
             var engine:Engine = this._engine;
-            this._program = engine.createShaderProgram(vertexSourceCode, fragmentSourceCode, defines);
 
+            trace("_prepareEffect - Vertex - " + vertexSourceCode);
+            trace("_prepareEffect - Fragment - " + fragmentSourceCode);
+            trace(attributesNames);
+            trace(defines);
+            this._program = engine.createShaderProgram(vertexSourceCode, fragmentSourceCode, defines);
+            trace("_prepareEffect  1"); 
             this._uniforms = engine.getUniforms(this._program, this._uniformsNames);
+            trace("_prepareEffect  2"); 
             this._attributes = engine.getAttributes(this._program, attributesNames);			
-			
+			trace("_prepareEffect  3"); 
 			var index:Int = 0;
 			while(index < this._samplers.length) {
                 var sampler = this.getUniform(this._samplers[index]);

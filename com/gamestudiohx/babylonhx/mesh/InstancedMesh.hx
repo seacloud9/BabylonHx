@@ -110,7 +110,7 @@ import openfl.utils.Float32Array;
             this._updateBoundingInfo();
         }
 
-        public function _activate(renderId:Int ) : Void {
+        override function _activate(renderId:Int ) : Void {
             this._sourceMesh._registerInstanceForRenderId(this, renderId);
         }
 

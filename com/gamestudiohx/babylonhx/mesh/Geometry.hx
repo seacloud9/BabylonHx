@@ -330,7 +330,7 @@ import openfl.utils.Float32Array;
             }
 
             this.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
-
+            
             scene._addPendingData(this);
             Tools.LoadFile(this.delayLoadingFile, function(data:String){
                 this._delayLoadingFunction(data, this);

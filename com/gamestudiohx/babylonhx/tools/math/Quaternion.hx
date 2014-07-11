@@ -190,5 +190,17 @@ class Quaternion {
 
         return new Quaternion((num3 * left.x) + (num2 * right.x), (num3 * left.y) + (num2 * right.y), (num3 * left.z) + (num2 * right.z), (num3 * left.w) + (num2 * right.w));
 	}
+
+    inline public static function RotationAxis(axis: Vector3, angle: Float): Quaternion {
+            var result = new Quaternion();
+            var sin = Math.sin(angle / 2);
+
+            result.w = Math.cos(angle / 2);
+            result.x = axis.x * sin;
+            result.y = axis.y * sin;
+            result.z = axis.z * sin;
+
+            return result;
+    }
 		
 }

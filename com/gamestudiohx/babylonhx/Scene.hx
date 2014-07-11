@@ -296,6 +296,7 @@ class Scene {
 
 	public function isReady():Bool {
 		if (this._pendingData.length > 0) {
+			trace("isReady pending data - " + this._pendingData.length);
             return false;
         }
 
@@ -330,14 +331,17 @@ class Scene {
 	}
 	
 	public function _addPendingData(data:Dynamic) {
+		trace('_addPendingData - ' + data);
         this._pendingData.push(data);
     }
 
 	public function _removePendingData(data:Dynamic) {
         var index = Lambda.indexOf(this._pendingData, data);
-
+        trace('_removePendingData - '+ index);
         if (index != -1) {
+        	trace('_removePendingData - '+ this._pendingData);
             this._pendingData.splice(index, 1);
+            trace('_removePendingData - '+ this._pendingData);
         }
     }
 

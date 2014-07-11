@@ -9,8 +9,8 @@
 	
 	
 	
-	<assets path="Assets" rename="Assets" exclude="openfl.svg" />
+	<assets path="assets" exclude="openfl.svg" />
 	
-	<icon path="Assets/openfl.svg" />
+	<icon path="assets/openfl.svg" />
 	
 </project>

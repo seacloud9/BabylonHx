@@ -564,7 +564,9 @@ class Engine {
         var fragment = Reflect.field(baseName, "fragment") != null ? baseName.fragment : baseName;
 		        
         var name = vertex + "+" + fragment + "@" + defines;
+        //trace(this._compiledEffects);
         if (this._compiledEffects.exists(name)) {
+            trace("in this._compiledEffects.exists -" + name);
             return this._compiledEffects.get(name);
         }
 
@@ -810,6 +812,7 @@ class Engine {
         var texture:BabylonTexture = new BabylonTexture(url, GL.createTexture());
 		            
         function onload(img:BitmapData) {
+            trace('onload -' + img);
             var potWidth = getExponantOfTwo(img.width, this._caps.maxTextureSize);
             var potHeight = getExponantOfTwo(img.height, this._caps.maxTextureSize);
             var isPot = (img.width == potWidth && img.height == potHeight);
@@ -850,12 +853,13 @@ class Engine {
             texture._width = potWidth;
             texture._height = potHeight;
             texture.isReady = true;
+            trace('before remove in onLoad?' + texture);
             scene._removePendingData(texture);
         }
-
+        trace('createTexture - ' + texture);
         scene._addPendingData(texture);
         Tools.LoadImage(url, onload);
-
+        trace('onload - ' + url);
         texture.url = url;
         texture.noMipmap = noMipmap;
         texture.references = 1;

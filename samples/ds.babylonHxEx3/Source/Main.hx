@@ -82,8 +82,8 @@ class Main extends Sprite {
         camera.maxZ = 3000;
 
         var cloudMaterial = new ShaderMaterial("clouds", scene, {
-            vertexElement: "vertexShaderCode",
-            fragmentElement: "fragmentShaderCode",
+            vertex: "clouds",
+            fragment: "clouds",
         },
         {
             needAlphaBlending: true,
@@ -91,7 +91,7 @@ class Main extends Sprite {
             uniforms: ["worldViewProjection"],
             samplers: ["textureSampler"]
         });
-        cloudMaterial.setTexture("Clouds", new Texture("Assets/img/cloud.png", scene));
+        cloudMaterial.setTexture("Clouds", new Texture("assets/img/cloud.png", scene));
         cloudMaterial.setFloat("fogNear", -100);
         cloudMaterial.setFloat("fogFar", 3000);
         cloudMaterial.setColor3("fogColor", new Color3(69, 132, 180));
@@ -99,7 +99,7 @@ class Main extends Sprite {
         trace('init - 1');
         // Create merged planes
         //size = 128;
-        var count = 8000;
+        var count = 1;
 
         var globalVertexData = new VertexData();
         for (i in 0...count ){

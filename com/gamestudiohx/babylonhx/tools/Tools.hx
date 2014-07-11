@@ -31,7 +31,18 @@ typedef BabylonMinMax = {
 interface IAnimatable {
         public var animations:Array<Animation>;
 }
- 
+
+enum Space {
+    LOCAL;
+    WORLD;
+}
+
+class Axis {
+    public static var X: Vector3 = new Vector3(1, 0, 0);
+    public static var Y: Vector3 = new Vector3(0, 1, 0);
+    public static var Z: Vector3 =new Vector3(0, 0, 1);
+}
+
 class Tools {
 	
 	public static var timer:Timer;
@@ -168,7 +179,7 @@ class Tools {
                 continue;
             }
 			trace('DeepCopy - sourcevalue and prop ' + sourceValue  + '  ' + prop);
-            trace 'DeepCopy  ' + i);
+            trace('DeepCopy  ' + i);
             trace('DeepCopy type ' + Type.typeof(sourceValue));
             trace('DeepCopy -' + sourceValue + '>>>>>PROP>>>> ' + prop);
             trace('________________');

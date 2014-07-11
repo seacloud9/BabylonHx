@@ -10,8 +10,8 @@ import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.materials.StandardMaterial;
 import com.gamestudiohx.babylonhx.Node;
 import com.gamestudiohx.babylonhx.Scene;
-import com.gamestudiohx.babylonhx.tools.math.Vector2;
 import com.gamestudiohx.babylonhx.tools.Tools;
+import com.gamestudiohx.babylonhx.tools.math.Vector2;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.math.Plane;
 import com.gamestudiohx.babylonhx.tools.math.Quaternion;
@@ -66,7 +66,6 @@ class AbstractMesh extends Node{
 
 
 	public var rotation:Vector3;
-	//public var position:Vector3;
 	public var scaling:Vector3;
 	public var rotationQuaternion:Quaternion;
 	public var subMeshes:Array<SubMesh>;
@@ -111,6 +110,7 @@ class AbstractMesh extends Node{
 	public var _collisionsTransformMatrix:Matrix;
 	public var _collisionsScalingMatrix:Matrix;
 	private var _absolutePosition:Vector3;
+	private var _isDirty:Bool = false;
 	public var _currentRenderId:Int; //??
 	
 	public var _positions:Array<Vector3>;
@@ -212,20 +212,7 @@ class AbstractMesh extends Node{
             return false;
     }
 	
-	/*
-	public function _generatePointsArray() {
-		if (this._positions != null)
-            return;
 
-        this._positions = [];
-
-        var data = this._vertexBuffers.get(VertexBuffer.PositionKind).getData();
-		var index:Int = 0;
-        while (index < data.length) {
-            this._positions.push(Vector3.FromArray(data, index));
-			index += 3;
-        }
-	}*/
 	
 	inline public function _collideForSubMesh(subMesh:SubMesh, transformMatrix:Matrix, collider:Collider) {
 		this._generatePointsArray();
@@ -272,11 +259,18 @@ class AbstractMesh extends Node{
             }
 
         return true;
-       }
+    }
 
 	public function getBoundingInfo():BoundingInfo {
 		return this._boundingInfo;
 	}
+
+	public function _preActivate():Void {
+    }
+
+    public function _activate(renderId:Int):Void {
+            this._renderId = renderId;
+    }
 	
 	public function getScene():Scene {
 		return this._scene;
@@ -288,10 +282,18 @@ class AbstractMesh extends Node{
         }
         return this._worldMatrix;
 	}
+
+	public function getWorldMatrixFromCache(): Matrix {
+            return this._worldMatrix;
+    }
 	
 	public function getTotalVertices():Int {
 		return this._totalVertices;
 	}
+
+	public function getabsolutePosition(): Vector3 {
+            return this._absolutePosition;
+    }
 	
 	inline public function getAbsolutePosition():Vector3 {
 		this.computeWorldMatrix();
@@ -359,40 +361,50 @@ class AbstractMesh extends Node{
         this.position.y = translateMatrix.m[13];
         this.position.z = translateMatrix.m[14];
     }
+
+    public function rotate(axis: Vector3, amount:Float, space:Space):Void {
+            if (this.rotationQuaternion == null) {
+                this.rotationQuaternion = Quaternion.RotationYawPitchRoll(this.rotation.y, this.rotation.x, this.rotation.z);
+                this.rotation = Vector3.Zero();
+            }
+
+            if (space == null || space == Space.LOCAL) {
+                var rotationQuaternion = Quaternion.RotationAxis(axis, amount);
+                this.rotationQuaternion = this.rotationQuaternion.multiply(rotationQuaternion);
+            }
+            else {
+                if (this.parent != null) {
+                    var invertParentWorldMatrix = this.parent.getWorldMatrix().clone();
+                    invertParentWorldMatrix.invert();
+
+                    axis = Vector3.TransformNormal(axis, invertParentWorldMatrix);
+                }
+                rotationQuaternion = Quaternion.RotationAxis(axis, amount);
+                this.rotationQuaternion = rotationQuaternion.multiply(this.rotationQuaternion);
+            }
+        }
+
+    public function translate(axis: Vector3, distance:Float, space: Space):Void {
+            var displacementVector = axis.scale(distance);
+
+            if (space != null || space == Space.LOCAL) {
+                var tempV3 = this.getLocalTranslation().add(displacementVector);
+                this.setLocalTranslation(tempV3);
+            }
+            else {
+                this.setAbsolutePosition(this.getAbsolutePosition().add(displacementVector));
+            }
+    }
+
+
 	
 	public function getVerticesData(kind:String):Array<Float> /*Array<Dynamic>*/ {		// TODO - Float32Array ??
-		//return this._vertexBuffers.get(kind).getData();
 		return null;
 	}
-	/*
-	public function getVertexBuffer(kind:String):VertexBuffer {
-        return this._vertexBuffers.get(kind);
-    }*/
-	
 	public function isVerticesDataPresent(kind:String):Bool {
-		/*if (this._vertexBuffers == null && this._delayInfo != null) {            
-            return this._delayInfo.indexOf(kind) != -1;
-        }
-
-        return this._vertexBuffers.get(kind) != null;*/
         return false;
 	}
-	/*
-	public function getVerticesDataKinds():Array<String> {
-        var result:Array<String> = [];
-        if (this._vertexBuffers == null && this._delayInfo != null) {
-            for (kind in this._delayInfo) {
-                result.push(kind);
-            }
-        } else {
-            for (kind in this._vertexBuffers.keys()) {
-                result.push(kind);
-            }
-        }
 
-        return result;
-    }*/
-	
 	public function getTotalIndicies():Int {
 		return this._indices.length;
 	}
@@ -415,6 +427,10 @@ class AbstractMesh extends Node{
 	}
 	
 	override public function isSynchronized(updateCache:Bool = false):Bool {
+		if (this._isDirty) {
+                return false;
+        }
+
 		if (this.billboardMode != AbstractMesh.BILLBOARDMODE_NONE)
             return false;
 
@@ -461,10 +477,12 @@ class AbstractMesh extends Node{
 	}
 	
 	public function markAsDirty(property:String) {
+		//todo
 		if (property == "rotation") {
             this.rotationQuaternion = null;
         }
         this._childrenFlag = 1;
+        this._isDirty = true;
 	}
 	
 	public inline function refreshBoudningInfo() {
@@ -587,75 +605,32 @@ class AbstractMesh extends Node{
 
         return ret;
 	}
-	/*
-	public function _createGlobalSubMesh():SubMesh {
-		if (this._totalVertices == 0 || this._indices == null) {
-            return null;
+
+	inline public function locallyTranslate(vector3: Vector3):Void {
+            this.computeWorldMatrix();
+
+            this.position = Vector3.TransformCoordinates(vector3, this._localWorld);
         }
 
-        this.subMeshes = [];
-        return new SubMesh(0, 0, this._totalVertices, 0, this._indices.length, this);
-	}
+    inline public function lookAt(targetPoint: Vector3, yawCor: Float = 0, pitchCor: Float = 0, rollCor: Float = 0):Void {
+            /// <summary>Orients a mesh towards a target point. Mesh must be drawn facing user.</summary>
+            /// <param name="targetPoint" type="BABYLON.Vector3">The position (must be in same space as current mesh) to look at</param>
+            /// <param name="yawCor" type="Number">optional yaw (y-axis) correction in radians</param>
+            /// <param name="pitchCor" type="Number">optional pitch (x-axis) correction in radians</param>
+            /// <param name="rollCor" type="Number">optional roll (z-axis) correction in radians</param>
+            /// <returns>Mesh oriented towards targetMesh</returns>
+
+
+            var dv = targetPoint.subtract(this.position);
+            var yaw = -Math.atan2(dv.z, dv.x) - Math.PI / 2;
+            var len = Math.sqrt(dv.x * dv.x + dv.z * dv.z);
+            var pitch = Math.atan2(dv.y, len);
+            this.rotationQuaternion = Quaternion.RotationYawPitchRoll(yaw + yawCor, pitch + pitchCor, rollCor);
+    }
 	
-	public function subdivide(count:Int) {
-		if (count < 1) {
-            return;
-        }
-
-        var subdivisionSize:Int = Std.int(this._indices.length / count);
-        var offset:Int = 0;
-
-        this.subMeshes = [];
-        for (index in 0...count) {
-            SubMesh.CreateFromIndices(0, offset, Std.int(Math.min(subdivisionSize, this._indices.length - offset)), this);
-
-            offset += subdivisionSize;
-        }
-	}
-
-	public function setVerticesData(data:Array<Float>, kind:String, updatable:Bool) {
-		if (this._vertexBuffers == null) {
-            this._vertexBuffers = new Map<String, VertexBuffer>();
-        }
-
-        if (this._vertexBuffers.exists(kind)) {
-            this._vertexBuffers.get(kind).dispose();
-			this._vertexBuffers.remove(kind);
-        }
-
-        this._vertexBuffers.set(kind, new VertexBuffer(this, data, kind, updatable));
-
-        if (kind == VertexBuffer.PositionKind) {
-            var stride = this._vertexBuffers.get(kind).getStrideSize();
-            this._totalVertices = Std.int(data.length / stride);
-
-            var extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
-            this._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
-
-            this._createGlobalSubMesh();
-        }
-	}
-	
-	public function updateVerticesData(kind:String, data:Array<Float>) {
-		if (this._vertexBuffers.exists(kind)) {
-            this._vertexBuffers.get(kind).update(data);
-        }
-	}
-	
-	public function setIndices(indices:Array<Int>) {
-		if (this._indexBuffer != null) {
-            this._scene.getEngine()._releaseBuffer(this._indexBuffer);
-        }
-
-        this._indexBuffer = this._scene.getEngine().createIndexBuffer(indices);
-        this._indices = indices;
-
-        this._createGlobalSubMesh();
-	}
-	*/
-
 
 	inline public function bindAndDraw(subMesh:SubMesh, effect:Effect, wireframe:Bool) {
+		// todo
 		var engine:Engine = this._scene.getEngine();
 
         // Wireframe
@@ -673,143 +648,6 @@ class AbstractMesh extends Node{
         // Draw order
         engine.draw(useTriangles, useTriangles ? subMesh.indexStart : 0, useTriangles ? subMesh.indexCount : subMesh.linesIndexCount);
 	}
-	/*
-	public function registerBeforeRender(func:Dynamic) {
-		this._onBeforeRenderCallbacks.push(func);
-	}
-	
-	public function unregisterBeforeRender(func:Dynamic) {
-		var index = Lambda.indexOf(this._onBeforeRenderCallbacks, Dynamic);
-
-        if (index > -1) {
-            this._onBeforeRenderCallbacks.splice(index, 1);
-        }
-		
-		this._onBeforeRenderCallbacks.remove(func);
-	}
-	
-	public function render(subMesh:SubMesh) {
-		if (this._vertexBuffers == null || this._indexBuffer == null) {
-            return;
-        }
-        
-        for (callbackIndex in 0...this._onBeforeRenderCallbacks.length) {
-            this._onBeforeRenderCallbacks[callbackIndex]();
-        }
-        
-        // World
-        var world:Matrix = this.getWorldMatrix();
-
-        // Material
-        var effectiveMaterial = subMesh.getMaterial();
-        if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
-            return;
-        }
-
-		if(Std.is(effectiveMaterial, Material)) {
-			effectiveMaterial._preBind();
-			effectiveMaterial.bind(world, this);
-		}
-
-        // Bind and draw
-        var engine:Engine = this._scene.getEngine();
-        this.bindAndDraw(subMesh, effectiveMaterial.getEffect(), engine.forceWireframe || effectiveMaterial.wireframe);
-
-        // Unbind
-        effectiveMaterial.unbind();
-	}
-		
-	public function getEmittedParticleSystems():Array<ParticleSystem> {
-		var results:Array<ParticleSystem> = [];
-        for (index in 0...this._scene.particleSystems.length) {
-            var particleSystem = this._scene.particleSystems[index];
-            if (particleSystem.emitter == this) {
-                results.push(particleSystem);
-            }
-        }
-
-        return results;
-	}
-	
-	public function getHierarchyEmittedParticleSystems():Array<ParticleSystem> {
-		var results:Array<ParticleSystem> = [];
-        var descendants:Array<Dynamic> = this.getDescendants();
-        descendants.push(this);
-
-        for (index in 0...this._scene.particleSystems.length) {
-            var particleSystem = this._scene.particleSystems[index];
-            if (Lambda.indexOf(descendants, particleSystem.emitter) != -1) {
-                results.push(particleSystem);
-            }
-        }
-
-        return results;
-	}
-	
-	public function getChildren():Array<Mesh> {
-		var results:Array<Mesh> = [];
-        for (index in 0...this._scene.meshes.length) {
-            var mesh:Mesh = this._scene.meshes[index];
-            if (mesh.parent == this) {
-                results.push(mesh);
-            }
-        }
-
-        return results;
-	}
-	/*
-	public function isInFrustrum(frustumPlanes:Array<Plane>):Bool {
-		if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
-            return false;
-        }
-
-        var result:Bool = this._boundingInfo.isInFrustrum(frustumPlanes);
-        
-		// TODO
-        /*if (result && this.delayLoadState == Engine.DELAYLOADSTATE_NOTLOADED) {
-            this.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
-            var that = this;
-
-            this._scene._addPendingData(this);
-
-            BABYLON.Tools.LoadFile(this.delayLoadingFile, function (data) {
-                BABYLON.SceneLoader._ImportGeometry(JSON.parse(data), that);
-                that.delayLoadState = BABYLON.Engine.DELAYLOADSTATE_LOADED;
-                that._scene._removePendingData(that);
-            }, function () { }, this._scene.database);
-        }
-
-        return result;
-	}
-	
-	public function setMaterialByID(id:String) {
-		var materials = this._scene.materials;
-        for (index in 0...materials.length) {
-            if (materials[index].id == id) {
-                this.material = materials[index];
-                return;
-            }
-        }
-
-        // Multi
-        var multiMaterials = this._scene.multiMaterials;
-        for (index in 0...multiMaterials.length) {
-            if (multiMaterials[index].id == id) {
-                this.material = multiMaterials[index];
-                return;
-            }
-        }
-	}
-	
-	public function getAnimatables():Array<Dynamic> {		
-		var results:Array<Dynamic> = [];
-
-        if (this.material != null) {
-            results.push(this.material);
-        }
-
-        return results;
-	}*/
 	
 	inline public function setLocalTranslation(vector3:Vector3) {
 		this.computeWorldMatrix();
@@ -828,34 +666,21 @@ class AbstractMesh extends Node{
         return Vector3.TransformCoordinates(this.position, invWorldMatrix);
 	}
 	/*
-	inline public function bakeTransformIntoVertices(transform:Matrix) {
-		// Position
-        if (this.isVerticesDataPresent(VertexBuffer.PositionKind)) {
-			this._resetPointsArrayCache();
+	inline public function createOrUpdateSubmeshesOctree(maxCapacity = 64, maxDepth = 2): Array<SubMesh> {
+		   //Todo
+		   
+            if (this._submeshesOctree == null) {
+                this._submeshesOctree = new Octree<SubMesh>(Octree.CreationFuncForSubMeshes, maxCapacity, maxDepth);
+            }
 
-			var data = this._vertexBuffers.get(VertexBuffer.PositionKind).getData();
-			var temp:Array<Float> = [];
-			var index:Int = 0;
-			while(index < data.length) {
-				Vector3.TransformCoordinates(Vector3.FromArray(data, index), transform).toArray(temp, index);
-				index += 3;
-			}
+            this.computeWorldMatrix(true);            
 
-			this.setVerticesData(temp, VertexBuffer.PositionKind, this._vertexBuffers.get(VertexBuffer.PositionKind).isUpdatable());
+            // Update octree
+            var bbox = this.getBoundingInfo().boundingBox;
+            this._submeshesOctree.update(bbox.minimumWorld, bbox.maximumWorld, this.subMeshes);
 
-			// Normals
-			if (this.isVerticesDataPresent(VertexBuffer.NormalKind)) {
-				data = this._vertexBuffers[VertexBuffer.NormalKind].getData();
-				index = 0;
-				while(index < data.length) {
-					Vector3.TransformNormal(Vector3.FromArray(data, index), transform).toArray(temp, index);
-					index += 1;
-				}
-
-				this.setVerticesData(temp, VertexBuffer.NormalKind, this._vertexBuffers[VertexBuffer.NormalKind].isUpdatable());
-			}			
-        }        
-	}*/
+            return this._submeshesOctree;
+    }*/
 
 	inline public function intersectsMesh(mesh:Mesh, precise:Bool):Bool {
 		var ret = false;
@@ -930,53 +755,6 @@ class AbstractMesh extends Node{
 	
 	public function clone(name:String, newParent:Mesh = null, doNotCloneChildren:Bool = false):AbstractMesh {
 		return null;
-		/*var result:Mesh = new Mesh(name, this._scene);
-
-        // Buffers
-        result._vertexBuffers = this._vertexBuffers;
-        for (kind in result._vertexBuffers.keys()) {
-            result._vertexBuffers.get(kind)._buffer.references++;
-        }
-
-        result._indexBuffer = this._indexBuffer;
-        this._indexBuffer.references++;
-
-        // Deep copy
-        Tools.DeepCopy(this, result, ["name", "material", "skeleton"], ["_indices", "_totalVertices"]);		
-
-        // Bounding info
-        var extend = Tools.ExtractMinAndMax(this.getVerticesData(VertexBuffer.PositionKind), 0, this._totalVertices);
-        result._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
-
-        // Material
-        result.material = this.material;
-
-        // Parent
-        if (newParent != null) {
-            result.parent = newParent;
-        }
-
-        if (!doNotCloneChildren) {
-            // Children
-            for (index in 0...this._scene.meshes.length) {
-                var mesh = this._scene.meshes[index];
-
-                if (mesh.parent == this) {
-                    AbstractMesh.clone(mesh.name, result);
-                }
-            }
-        }
-
-        // Particles
-        for (index in 0...this._scene.particleSystems.length) {
-            var system = this._scene.particleSystems[index];
-
-            if (system.emitter == this) {
-                system.clone(system.name, result);
-            }
-        }
-
-        return result;*/
 	}
 
 
@@ -1038,613 +816,6 @@ class AbstractMesh extends Node{
 	}
 	
 	
-	// Physics
-    /*public function setPhysicsState(options) {
-        if (this._scene._physicsEngine == null) {
-            return;
-        }
-
-        options.impostor = options.impostor || BABYLON.PhysicsEngine.NoImpostor;
-        options.mass = options.mass || 0;
-        options.friction = options.friction || 0.0;
-        options.restitution = options.restitution || 0.9;
-
-        this._physicImpostor = options.impostor;
-        this._physicsMass = options.mass;
-        this._physicsFriction = options.friction;
-        this._physicRestitution = options.restitution;
-
-        if (options.impostor === BABYLON.PhysicsEngine.NoImpostor) {
-            this._scene._physicsEngine._unregisterMesh(this);
-            return;
-        }
-        
-        this._scene._physicsEngine._registerMesh(this, options);
-    }
-
-    public function getPhysicsImpostor() {
-        if (!this._physicImpostor) {
-            return BABYLON.PhysicsEngine.NoImpostor;
-        }
-
-        return this._physicImpostor;
-    }
-
-    public function getPhysicsMass() {
-        if (!this._physicsMass) {
-            return 0;
-        }
-
-        return this._physicsMass;
-    }
-    
-    public function getPhysicsFriction() {
-        if (!this._physicsFriction) {
-            return 0;
-        }
-
-        return this._physicsFriction;
-    }
-    
-    public function getPhysicsRestitution() {
-        if (!this._physicRestitution) {
-            return 0;
-        }
-
-        return this._physicRestitution;
-    }
-
-    public function applyImpulse(force, contactPoint) {
-        if (!this._physicImpostor) {
-            return;
-        }
-
-        this._scene._physicsEngine._applyImpulse(this, force, contactPoint);
-    }
-
-	public function setPhysicsLinkWith(otherMesh, pivot1, pivot2) {
-        if (!this._physicImpostor) {
-            return;
-        }
-        
-        this._scene._physicsEngine._createLink(this, otherMesh, pivot1, pivot2);
-    }*/
-	
-	// Geometric tools
-	
-	
-	// Statics
-	// 
-	/*
-	public static function CreateBox(name:String, size:Float, scene:Scene, updatable:Bool = false):Mesh {
-		var box:Mesh = new Mesh(name, scene);
-
-        var normalsSource:Array<Vector3> = [
-            new Vector3(0, 0, 1),
-            new Vector3(0, 0, -1),
-            new Vector3(1, 0, 0),
-            new Vector3(-1, 0, 0),
-            new Vector3(0, 1, 0),
-            new Vector3(0, -1, 0)
-        ];
-
-        var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-
-        // Create each face in turn.
-        for (index in 0...normalsSource.length) {
-            var normal:Vector3 = normalsSource[index];
-
-            // Get two vectors perpendicular to the face normal and to each other.
-            var side1:Vector3 = new Vector3(normal.y, normal.z, normal.x);
-            var side2:Vector3 = Vector3.Cross(normal, side1);
-
-            // Six indices (two triangles) per face.
-            var verticesLength:Int = Std.int(positions.length / 3);
-            indices.push(verticesLength);
-            indices.push(verticesLength + 1);
-            indices.push(verticesLength + 2);
-
-            indices.push(verticesLength);
-            indices.push(verticesLength + 2);
-            indices.push(verticesLength + 3);
-
-            // Four vertices per face.
-            var vertex:Vector3 = normal.subtract(side1).subtract(side2).scale(size / 2);
-            positions.push(vertex.x);
-			positions.push(vertex.y);
-			positions.push(vertex.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(1.0);
-			uvs.push(1.0);
-
-            vertex = normal.subtract(side1).add(side2).scale(size / 2);
-            positions.push(vertex.x);
-			positions.push(vertex.y);
-			positions.push(vertex.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(0.0);
-			uvs.push(1.0);
-
-            vertex = normal.add(side1).add(side2).scale(size / 2);
-            positions.push(vertex.x);
-			positions.push(vertex.y);
-			positions.push(vertex.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(0.0);
-			uvs.push(0.0);
-
-            vertex = normal.add(side1).subtract(side2).scale(size / 2);
-            positions.push(vertex.x);
-			positions.push(vertex.y);
-			positions.push(vertex.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(1.0);
-			uvs.push(0.0);
-        }
-
-        box.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        box.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        box.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        box.setIndices(indices);
-
-        return box;
-	}
-	
-	public static function CreateCylinder(name:String, height:Float, diameterTop:Float, diameterBottom:Float, tessellation:Int, scene:Scene, updatable:Bool):Mesh {
-		var radiusTop:Float = diameterTop / 2;
-        var radiusBottom:Float = diameterBottom / 2;
-        
-		var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-		
-        var cylinder:Mesh = new Mesh(name, scene);
-
-        function getCircleVector(i:Int):Vector3 {
-            var angle = (i * 2 * Math.PI / tessellation);
-            var dx = Math.sin(angle);
-            var dz = Math.cos(angle);
-
-            return new Vector3(dx, 0, dz);
-        }
-
-        function createCylinderCap(isTop:Bool) {
-            var radius:Float = isTop ? radiusTop : radiusBottom;
-            
-            if (radius == 0) {
-                return;
-            }
-
-            // Create cap indices.
-            for (i in 0...tessellation - 2) {
-                var i1 = (i + 1) % tessellation;
-                var i2 = (i + 2) % tessellation;
-
-                if (!isTop) {
-                    var tmp = i1;
-                    var i1 = i2;
-                    i2 = tmp;
-                }
-
-                var vbase = Std.int(positions.length / 3);
-                indices.push(vbase);
-                indices.push(vbase + i1);
-                indices.push(vbase + i2);
-            }
-
-
-            // Which end of the cylinder is this?
-            var normal = new Vector3(0, -1, 0);
-            var textureScale = new Vector2(-0.5, -0.5);
-
-            if (!isTop) {
-                normal = normal.scale(-1);
-                textureScale.x = -textureScale.x;
-            }
-
-            // Create cap vertices.
-            for (i in 0...tessellation) {
-                var circleVector = getCircleVector(i);
-                var position = circleVector.scale(radius).add(normal.scale(height));
-                var textureCoordinate = new Vector2(circleVector.x * textureScale.x + 0.5, circleVector.z * textureScale.y + 0.5);
-
-                positions.push(position.x);
-				positions.push(position.y);
-				positions.push(position.z);
-                normals.push(normal.x);
-				normals.push(normal.y);
-				normals.push(normal.z);
-                uvs.push(textureCoordinate.x);
-				uvs.push(textureCoordinate.y);
-            }
-        }
-
-        height /= 2;
-
-        var topOffset:Vector3 = new Vector3(0, 1, 0).scale(height);
-
-        var stride = tessellation + 1;
-
-        // Create a ring of triangles around the outside of the cylinder.
-        for (i in 0...tessellation+1) {
-            var normal = getCircleVector(i);
-            var sideOffsetBottom = normal.scale(radiusBottom);
-            var sideOffsetTop = normal.scale(radiusTop);
-            var textureCoordinate = new Vector2(i / tessellation, 0);
-
-            var position = sideOffsetBottom.add(topOffset);
-            positions.push(position.x);
-			positions.push(position.y);
-			positions.push(position.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(textureCoordinate.x);
-			uvs.push(textureCoordinate.y);
-
-            position = sideOffsetTop.subtract(topOffset);
-            textureCoordinate.y += 1;
-            positions.push(position.x);
-			positions.push(position.y);
-			positions.push(position.z);
-            normals.push(normal.x);
-			normals.push(normal.y);
-			normals.push(normal.z);
-            uvs.push(textureCoordinate.x);
-			uvs.push(textureCoordinate.y);
-
-            indices.push(i * 2);
-            indices.push((i * 2 + 2) % (stride * 2));
-            indices.push(i * 2 + 1);
-
-            indices.push(i * 2 + 1);
-            indices.push((i * 2 + 2) % (stride * 2));
-            indices.push((i * 2 + 3) % (stride * 2));
-        }
-
-        // Create flat triangle fan caps to seal the top and bottom.
-        createCylinderCap(true);
-        createCylinderCap(false);
-
-        cylinder.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        cylinder.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        cylinder.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        cylinder.setIndices(indices);
-
-        return cylinder;
-	}
-	
-	public static function CreateTorus(name:String, diameter:Float, thickness:Float, tessellation:Int, scene:Scene, updatable:Bool):Mesh {
-		var torus:Mesh = new Mesh(name, scene);
-
-        var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-
-        var stride = tessellation + 1;
-
-        for (i in 0...tessellation+1) {
-            var u:Float = i / tessellation;
-
-            var outerAngle:Float = i * Math.PI * 2.0 / tessellation - Math.PI / 2.0;
-
-            var transform = Matrix.Translation(diameter / 2.0, 0, 0).multiply(Matrix.RotationY(outerAngle));
-
-            for (j in 0...tessellation+1) {
-                var v = 1 - j / tessellation;
-
-                var innerAngle = j * Math.PI * 2.0 / tessellation + Math.PI;
-                var dx = Math.cos(innerAngle);
-                var dy = Math.sin(innerAngle);
-
-                // Create a vertex.
-                var normal = new Vector3(dx, dy, 0);
-                var position:Vector3 = normal.scale(thickness / 2);
-                var textureCoordinate = new Vector2(u, v);
-
-                position = Vector3.TransformCoordinates(position, transform);
-                normal = Vector3.TransformNormal(normal, transform);
-
-                positions.push(position.x);
-				positions.push(position.y);
-				positions.push(position.z);
-                normals.push(normal.x);
-				normals.push(normal.y);
-				normals.push(normal.z);
-                uvs.push(textureCoordinate.x);
-				uvs.push(textureCoordinate.y);
-
-                // And create indices for two triangles.
-                var nextI = (i + 1) % stride;
-                var nextJ = (j + 1) % stride;
-
-                indices.push(i * stride + j);
-                indices.push(i * stride + nextJ);
-                indices.push(nextI * stride + j);
-
-                indices.push(i * stride + nextJ);
-                indices.push(nextI * stride + nextJ);
-                indices.push(nextI * stride + j);
-            }
-        }
-
-        torus.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        torus.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        torus.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        torus.setIndices(indices);
-
-        return torus;
-	}
-	
-	public static function CreateSphere(name:String, segments:Int, diameter:Float, scene:Scene, updatable:Bool = false):Mesh {
-		var sphere:Mesh = new Mesh(name, scene);
-		
-        var radius:Float = diameter / 2;
-
-        var totalZRotationSteps:Int = 2 + segments;
-        var totalYRotationSteps:Int = 2 * totalZRotationSteps;
-
-        var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-
-        for (zRotationStep in 0...totalZRotationSteps+1) {
-            var normalizedZ:Float = zRotationStep / totalZRotationSteps;
-            var angleZ:Float = (normalizedZ * Math.PI);
-
-            for (yRotationStep in 0...totalYRotationSteps+1) {
-                var normalizedY:Float = yRotationStep / totalYRotationSteps;
-
-                var angleY:Float = normalizedY * Math.PI * 2;
-
-                var rotationZ = Matrix.RotationZ(-angleZ);
-                var rotationY = Matrix.RotationY(angleY);
-                var afterRotZ = Vector3.TransformCoordinates(Vector3.Up(), rotationZ);
-                var complete = Vector3.TransformCoordinates(afterRotZ, rotationY);
-
-                var vertex = complete.scale(radius);
-                var normal = Vector3.Normalize(vertex);
-
-                positions.push(vertex.x);
-				positions.push(vertex.y);
-				positions.push(vertex.z);
-                normals.push(normal.x);
-				normals.push(normal.y);
-				normals.push(normal.z);
-                uvs.push(normalizedZ);
-				uvs.push(normalizedY);
-            }
-
-            if (zRotationStep > 0) {
-                var verticesCount = positions.length / 3;
-				var firstIndex:Int = Std.int(verticesCount - 2 * (totalYRotationSteps + 1));
-				while((firstIndex + totalYRotationSteps + 2) < verticesCount) {                
-                    indices.push((firstIndex));
-                    indices.push((firstIndex + 1));
-                    indices.push(firstIndex + totalYRotationSteps + 1);
-
-                    indices.push((firstIndex + totalYRotationSteps + 1));
-                    indices.push((firstIndex + 1));
-                    indices.push((firstIndex + totalYRotationSteps + 2));
-					
-					firstIndex++;
-                }
-            }
-        }
-
-        sphere.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        sphere.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        sphere.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        sphere.setIndices(indices);
-		
-        return sphere;
-	}
-	
-	public static function CreatePlane(name:String, size:Float, scene:Scene, updatable:Bool):Mesh {
-		var plane:Mesh = new Mesh(name, scene);
-
-        var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-
-        // Vertices
-        var halfSize:Float = size / 2.0;
-        positions.push( -halfSize);
-		positions.push( -halfSize);
-		positions.push(0);
-        normals.push(0);
-		normals.push(0);
-		normals.push(-1.0);
-        uvs.push(0.0);
-		uvs.push(0.0);
-
-        positions.push(halfSize);
-		positions.push( -halfSize);
-		positions.push(0);
-        normals.push(0);
-		normals.push(0);
-		normals.push( -1.0);
-        uvs.push(1.0);
-		uvs.push(0.0);
-
-        positions.push(halfSize);
-		positions.push(halfSize);
-		positions.push(0);
-        normals.push(0);
-		normals.push(0);
-		normals.push(-1.0);
-        uvs.push(1.0);
-		uvs.push(1.0);
-
-        positions.push( -halfSize);
-		positions.push(halfSize);
-		positions.push(0);
-        normals.push(0);
-		normals.push(0);
-		normals.push(-1.0);
-        uvs.push(0.0);
-		uvs.push(1.0);
-
-        // Indices
-        indices.push(0);
-        indices.push(1);
-        indices.push(2);
-
-        indices.push(0);
-        indices.push(2);
-        indices.push(3);
-
-        plane.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        plane.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        plane.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        plane.setIndices(indices);
-
-        return plane;
-	}
-	
-	public static function CreateGround(name:String, width:Float, height:Float, subdivisions:Int, scene:Scene, updatable:Bool):Mesh {
-		var ground:Mesh = new Mesh(name, scene);
-
-        var indices:Array<Int> = [];
-        var positions:Array<Float> = [];
-        var normals:Array<Float> = [];
-        var uvs:Array<Float> = [];
-
-        for (row in 0...subdivisions+1) {
-            for (col in 0...subdivisions) {
-                var position = new Vector3((col * width) / subdivisions - (width / 2.0), 0, ((subdivisions - row) * height) / subdivisions - (height / 2.0));
-                var normal = new Vector3(0, 1.0, 0);
-
-                positions.push(position.x);
-				positions.push(position.y);
-				positions.push(position.z);
-                normals.push(normal.x);
-				normals.push(normal.y);
-				normals.push(normal.z);
-                uvs.push(col / subdivisions);
-				uvs.push(1.0 - row / subdivisions);
-            }
-        }
-
-        for (row in 0...subdivisions) {
-            for (col in 0...subdivisions) {
-                indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                indices.push(col + 1 + row * (subdivisions + 1));
-                indices.push(col + row * (subdivisions + 1));
-
-                indices.push(col + (row + 1) * (subdivisions + 1));
-                indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                indices.push(col + row * (subdivisions + 1));
-            }
-        }
-
-        ground.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-        ground.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-        ground.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-        ground.setIndices(indices);
-
-        return ground;
-	}
-	
-	public static function CreateGroundFromHeightMap(name:String, url:String, width:Float, height:Float, subdivisions:Int, minHeight:Float, maxHeight:Float, scene:Scene, updatable:Bool):Mesh {
-		var ground:Mesh = new Mesh(name, scene);
-
-        function onload(img:BitmapData) {
-            var indices:Array<Int> = [];
-            var positions:Array<Float> = [];
-            var normals:Array<Float> = [];
-            var uvs:Array<Float> = [];
-            
-            // Getting height map data
-            var heightMapWidth = img.width;
-            var heightMapHeight = img.height;
-            
-            #if html5
-			var buffer = img.getPixels(img.rect).byteView;
-			#else
-			var buffer = BitmapData.getRGBAPixels(img);
-			#end
-						
-            // Vertices
-            for (row in 0...subdivisions+1) {
-                for (col in 0...subdivisions+1) {
-                    var position = new Vector3((col * width) / subdivisions - (width / 2.0), 0, ((subdivisions - row) * height) / subdivisions - (height / 2.0));
-
-                    // Compute height
-                    var heightMapX:Float = (((position.x + width / 2) / width) * (heightMapWidth - 1));
-                    var heightMapY:Float = ((1.0 - (position.z + height / 2) / height) * (heightMapHeight - 1));
-
-                    var pos:Int = Std.int((heightMapX + heightMapY * heightMapWidth) * 4);
-                    var r = buffer[pos] / 255.0;
-                    var g = buffer[pos + 1] / 255.0;
-                    var b = buffer[pos + 2] / 255.0;
-					
-                    var gradient = r * 0.3 + g * 0.59 + b * 0.11;
-
-                    position.y = minHeight + (maxHeight - minHeight) * gradient;
-
-                    // Add  vertex
-                    positions.push(position.x);
-					positions.push(position.y);
-					positions.push(position.z);
-                    normals.push(0);
-					normals.push(0);
-					normals.push(0);
-                    uvs.push(col / subdivisions);
-					uvs.push(1.0 - row / subdivisions);
-                }
-            }
-
-            // Indices
-            for (row in 0...subdivisions) {
-                for (col in 0...subdivisions) {
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + row * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
-
-                    indices.push(col + (row + 1) * (subdivisions + 1));
-                    indices.push(col + 1 + (row + 1) * (subdivisions + 1));
-                    indices.push(col + row * (subdivisions + 1));
-                }
-            }
-
-            // Normals
-            AbstractMesh.ComputeNormal(positions, normals, indices);
-			
-			trace(positions.length);
-			trace(normals.length);
-			trace(indices.length);
-
-            // Transfer
-            ground.setVerticesData(VertexBuffer.PositionKind, positions, updatable);
-            ground.setVerticesData(VertexBuffer.NormalKind, normals, updatable);
-            ground.setVerticesData(VertexBuffer.UVKind, uvs, updatable);
-            ground.setIndices(indices);
-
-            ground._isReady = true;
-        }
-
-        Tools.LoadImage(url, onload);
-
-        //ground._isReady = false;
-
-        return ground;
-	}*/
 	
 	public static function ComputeNormal(positions:Array<Float>, normals:Array<Float>, indices:Array<Int>) {
 		var positionVectors:Array<Vector3> = [];

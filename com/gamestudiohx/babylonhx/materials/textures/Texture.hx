@@ -132,12 +132,13 @@ class Texture extends BaseTexture {
         this._noMipmap = noMipmap;
         this._invertY = invertY;
 
+        //todo investigate
 		// CubeTexture loads its texture before calling super(), so in that case , _texture is not null
-		if(this._texture == null) {
+		if(this._texture == null && url != null) {
 			this._texture = this._getFromCache(url, noMipmap);
 		}
 		
-		if (this._texture == null) {			
+		if (this._texture == null && url != null) {			
 			this._texture = scene.getEngine().createTexture(url, noMipmap, invertY != null ? 1 : 0, scene);				
 		}
 		
