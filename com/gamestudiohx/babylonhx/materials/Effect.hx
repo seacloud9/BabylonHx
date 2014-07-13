@@ -202,11 +202,12 @@ class Effect {
 	public function _prepareEffect(vertexSourceCode:String, fragmentSourceCode:String, attributesNames:Array<String>, defines:String, optionalDefines:Array<String> = null, useFallback:Bool) {
         try {
             var engine:Engine = this._engine;
-
-            trace("_prepareEffect - Vertex - " + vertexSourceCode);
-            trace("_prepareEffect - Fragment - " + fragmentSourceCode);
-            trace(attributesNames);
             trace(defines);
+            if(defines.indexOf("REFLECTION")  > 0){
+            	//trace("_prepareEffect - Vertex - " + vertexSourceCode);
+            	//trace("_prepareEffect - Fragment - " + fragmentSourceCode);
+            }
+
             this._program = engine.createShaderProgram(vertexSourceCode, fragmentSourceCode, defines);
             trace("_prepareEffect  1"); 
             this._uniforms = engine.getUniforms(this._program, this._uniformsNames);
@@ -214,7 +215,10 @@ class Effect {
             this._attributes = engine.getAttributes(this._program, attributesNames);			
 			trace("_prepareEffect  3"); 
 			var index:Int = 0;
+
+			trace(this._samplers[1]);
 			while(index < this._samplers.length) {
+
                 var sampler = this.getUniform(this._samplers[index]);
 				#if html5
 				if (sampler == null) {
@@ -227,9 +231,10 @@ class Effect {
 				
 				index++;
             }
-			
+			trace("_prepareEffect before bind");
             engine.bindSamplers(this);
 
+            trace("_prepareEffect after bind");
             this._isReady = true;
         } catch (e:Dynamic) {
 			trace(e);
@@ -353,6 +358,7 @@ class Effect {
 
     inline public function setFloat3(uniformName:String, x:Float, y:Float, z:Float) {		
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == x && this._valueCache.get(uniformName)[1] == y && this._valueCache.get(uniformName)[2] == z)) {		
+			//trace('-- setFloat3');
 			this._cacheFloat3(uniformName, x, y, z);
 			this._engine.setFloat3(this.getUniform(uniformName), x, y, z);
 		}

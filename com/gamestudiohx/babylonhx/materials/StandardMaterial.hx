@@ -122,7 +122,6 @@ class StandardMaterial extends Material {
                     defines.push("#define OPACITY");
                 }
             }
-
             if (this.reflectionTexture != null) {
                 if (!this.reflectionTexture.isReady()) {
                     return false;
@@ -345,12 +344,15 @@ class StandardMaterial extends Material {
 
         if (this.reflectionTexture != null) {
             if (Std.is(this.reflectionTexture, CubeTexture)) {
+                //trace('this is a cubetexture');
                 this._effect.setTexture("reflectionCubeSampler", this.reflectionTexture);
             } else {
                 this._effect.setTexture("reflection2DSampler", this.reflectionTexture);
             }
 
             this._effect.setMatrix("reflectionMatrix", this.reflectionTexture._computeReflectionTextureMatrix());
+            //trace(this.reflectionTexture.coordinatesMode + ' == reflectionTexture');
+            //trace(Reflect.field(this.reflectionTexture, "isCube"));
             this._effect.setFloat3("vReflectionInfos", this.reflectionTexture.coordinatesMode, this.reflectionTexture.level, Reflect.field(this.reflectionTexture, "isCube") != null ? 1.0 : 0.0);	
         }
 

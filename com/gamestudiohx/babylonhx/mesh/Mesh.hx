@@ -119,7 +119,6 @@ import openfl.utils.Float32Array;
             if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
                 return false;
             }
-
             return super.isReady();
         }
 
@@ -273,6 +272,7 @@ import openfl.utils.Float32Array;
         }
 
         public function _bind(subMesh:SubMesh, effect:Effect, ?wireframe:Bool ) : Void {
+            
             var engine = this.getScene().getEngine();
 
             // Wireframe
@@ -287,7 +287,10 @@ import openfl.utils.Float32Array;
         }
 
         public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Int ) : Void {
-            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == 0) {
+            // todo double check this call breaks mac issue with this._geometry.getIndexBuffer this._geometry.getIndexBuffer() == null
+
+            //trace('mesh _draw: ' + (this._geometry.getIndexBuffer() == 0));
+            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == null) {
                 return;
             }
 
@@ -421,7 +424,9 @@ import openfl.utils.Float32Array;
             // Material
             var effectiveMaterial = subMesh.getMaterial();
 
-            if (effectiveMaterial == null || effectiveMaterial.isReady(this, hardwareInstancedRendering)  == null) {
+
+            // to do hardwareInstancedRendering  effectiveMaterial.isReady(this, hardwareInstancedRendering)
+            if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
                 return;
             }
 

@@ -24,7 +24,7 @@ class CubeTexture extends Texture {
 		
 		// HACK - _scene is null before we call super class constructor, so we have to set it here ...
 		this._scene = scene;
-		
+
 		if (null == extensions) {
             extensions = ["_px.jpg", "_py.jpg", "_pz.jpg", "_nx.jpg", "_ny.jpg", "_nz.jpg"];
         }

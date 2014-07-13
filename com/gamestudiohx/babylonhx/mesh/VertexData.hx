@@ -78,14 +78,17 @@ import openfl.utils.UInt8Array;
 
         private function _applyTo(meshOrGeometry:IGetSetVerticesData, ?updatable:Bool ) {
             if (this.positions.length > 0) {
+                trace("_applyTo: " + this.positions.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.PositionKind, this.positions, updatable);
             }
 
             if (this.normals.length > 0) {
+                trace("_applyTo: " + this.normals.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.NormalKind, this.normals, updatable);
             }
 
             if (this.uvs.length > 0) {
+                trace("_applyTo: " + this.uvs.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.UVKind, this.uvs, updatable);
             }
 
@@ -98,6 +101,7 @@ import openfl.utils.UInt8Array;
             }
 
             if (this.matricesIndices.length > 0) {
+                trace("_applyTo: " + this.matricesIndices.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.MatricesIndicesKind, this.matricesIndices, updatable);
             }
 
@@ -106,6 +110,7 @@ import openfl.utils.UInt8Array;
             }
 
             if (this.indices.length > 0) {
+                trace("_applyTo: " + this.indices.length);
                 meshOrGeometry.setIndices(this.indices);
             }
         }

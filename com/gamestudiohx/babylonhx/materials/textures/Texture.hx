@@ -240,6 +240,7 @@ class Texture extends BaseTexture {
     }
 	
 	public function _computeReflectionTextureMatrix():Matrix {
+		trace('--_computeReflectionTextureMatrix + texture');
         if (
             this.uOffset == this._cachedUOffset &&
             this.vOffset == this._cachedVOffset &&

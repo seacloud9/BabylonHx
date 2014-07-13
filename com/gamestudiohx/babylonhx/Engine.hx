@@ -96,7 +96,6 @@ class Engine {
 	public var _cachedViewport:Viewport;
 	
 	public var _caps:BabylonCaps;
-    public var _gameLoopFunc:Dynamic = null;
 	
 	public var _alphaTest:Bool;
 	
@@ -310,22 +309,14 @@ class Engine {
         if (this._renderFunction != null) {
             this._renderFunction(new Rectangle());			
         }
-        if(this._gameLoopFunc != null){
-            this._gameLoopFunc();
-            trace('this._gameLoopFunc');
-        }
 
         // Present
         this.endFrame();
     }
 
-    public function runRenderLoop(renderFunction:Rectangle->Void, func:Dynamic = null) {
+    public function runRenderLoop(renderFunction:Rectangle->Void) {
         this._runningLoop = true;
         this._renderFunction = renderFunction;	
-        if(func != null){
-            trace('runRenderLoop');
-            this._gameLoopFunc = func;
-        }	
 		
         this._workingContext.render = this._renderLoop;
 
@@ -482,7 +473,9 @@ class Engine {
     }
 
     public function bindMultiBuffers(vertexBuffers:Map<String, VertexBuffer>, indexBuffer:BabylonGLBuffer, effect:Effect) {
+        
         if (this._cachedVertexBuffers != vertexBuffers || this._cachedEffectForVertexBuffers != effect) {
+           
             this._cachedVertexBuffers = vertexBuffers;
             this._cachedEffectForVertexBuffers = effect;
 
@@ -569,7 +562,6 @@ class Engine {
             trace("in this._compiledEffects.exists -" + name);
             return this._compiledEffects.get(name);
         }
-
         var effect = new Effect(baseName, attributesNames, uniformsNames, samplers, this, defines, optionalDefines);
         this._compiledEffects.set(name, effect);
 
@@ -1122,6 +1114,7 @@ class Engine {
     public function bindSamplers(effect:Effect) {
         GL.useProgram(effect.getProgram());
         var samplers:Array<String> = effect.getSamplers();
+
         for (index in 0...samplers.length) {
             var uniform = effect.getUniform(samplers[index]);
             GL.uniform1i(uniform, index);
