@@ -31,7 +31,6 @@ Visit http://babylonjs.com/ for more info about the engine.
 **Known bugs (major ones):**
 
   * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx1">Example 1</a> targets Mac, Neko, HTML5 is broken most likely due to an float array 32 issue.
-
   <br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx1">
   <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx1/screenshot1.jpg" style="max-width:100%" /></a>
   * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">Example 2</a> targets Mac, Neko, HTML5 is broken most likely due to an float array 32 issue.
