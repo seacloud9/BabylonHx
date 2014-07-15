@@ -216,18 +216,20 @@ class AbstractMesh extends Node{
 	
 	inline public function _collideForSubMesh(subMesh:SubMesh, transformMatrix:Matrix, collider:Collider) {
 		this._generatePointsArray();
+
         // Transformation
         if (subMesh._lastColliderWorldVertices == null || !subMesh._lastColliderTransformMatrix.equals(transformMatrix)) {
             subMesh._lastColliderTransformMatrix = transformMatrix;
-            subMesh._lastColliderWorldVertices = [];
+            subMesh._lastColliderWorldVertices = new Array<Vector3>();
             var start = subMesh.verticesStart;
             var end = (subMesh.verticesStart + subMesh.verticesCount);
             for (i in start...end) {
                 subMesh._lastColliderWorldVertices.push(Vector3.TransformCoordinates(this._positions[i], transformMatrix));
             }
         }
+        // todo find out why this does not work! fixed
         // Collide
-        collider._collide(subMesh, subMesh._lastColliderWorldVertices, this._indices, subMesh.indexStart, subMesh.indexStart + subMesh.indexCount, subMesh.verticesStart);
+        collider._collide(subMesh, subMesh._lastColliderWorldVertices, this.getIndices(), subMesh.indexStart, subMesh.indexStart + subMesh.indexCount, subMesh.verticesStart);
 	}
 	
 	inline public function _processCollisionsForSubModels(collider:Collider, transformMatrix:Matrix) {

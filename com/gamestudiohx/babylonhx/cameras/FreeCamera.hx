@@ -327,10 +327,8 @@ class FreeCamera extends Camera {
 	inline public function _collideWithWorld(velocity:Vector3) {
         this.position.subtractFromFloatsToRef(0, this.ellipsoid.y, 0, this._oldPosition);
         this._collider.radius = this.ellipsoid;
-
         this._scene._getNewPosition(this._oldPosition, velocity, this._collider, 3, this._newPosition);
         this._newPosition.subtractToRef(this._oldPosition, this._diffPosition);
-
         if (this._diffPosition.length() > Engine.collisionsEpsilon) {
             this.position.addInPlace(this._diffPosition);
             if (this.onCollide != null) {
@@ -371,12 +369,11 @@ class FreeCamera extends Camera {
 
         var needToMove = this._needMoveForGravity || Math.abs(this.cameraDirection.x) > 0 || Math.abs(this.cameraDirection.y) > 0 || Math.abs(this.cameraDirection.z) > 0;
         var needToRotate = Math.abs(this.cameraRotation.x) > 0 || Math.abs(this.cameraRotation.y) > 0;
-
+        
         // Move
         if (needToMove) {
             if (this.checkCollisions && this._scene.collisionsEnabled) {
                 this._collideWithWorld(this.cameraDirection);
-
                 if (this.applyGravity) {
                     var oldPosition = this.position;
                     this._collideWithWorld(this._scene.gravity);

@@ -389,12 +389,15 @@ class Scene {
 
             this._activeAnimatables.push(animatable);
         }
-
+        
         // Children animations		
         if (Reflect.getProperty(target, "getAnimatables") != null) {
             var animatables:Array<Dynamic> = target.getAnimatables();
-			for (animatable in animatables) {
-				this.beginAnimation(animatable, from, to, loop, speedRatio, onAnimationEnd);
+			for (index in 0...animatables.length) {
+				//todo double check this function  for 
+				if(animatables[index] != null){
+					this.beginAnimation(animatables[index], from, to, loop, speedRatio, onAnimationEnd);
+				}
 			}
         }
 	}
@@ -984,7 +987,6 @@ class Scene {
         collider.initialVelocity = this._scaledVelocity;
         collider.initialPosition = this._scaledPosition;
         this._collideWithWorld(this._scaledPosition, this._scaledVelocity, collider, maximumRetry, finalPosition);
-
         finalPosition.multiplyInPlace(collider.radius);
 	}
 	
@@ -1000,7 +1002,7 @@ class Scene {
 
 			// Check all meshes
 			for (index in 0...this.meshes.length) {
-				var mesh:AbstractMesh = this.meshes[index];
+				var mesh = this.meshes[index];
 				if (mesh.isEnabled() && mesh.checkCollisions) {
 					mesh._checkCollision(collider);
 				}

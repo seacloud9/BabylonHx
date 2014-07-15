@@ -33,12 +33,18 @@ Visit http://babylonjs.com/ for more info about the engine.
   * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx1">Example 1</a> targets Mac, Neko, HTML5 is broken most likely due to an float array 32 issue.
 
   <br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx1">
-  <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx1/screenshot1.jpg" style="max-width:200px" /></a>
+  <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx1/screenshot1.jpg" style="max-width:100%" /></a>
+  * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">Example 2</a> targets Mac, Neko, HTML5 is broken most likely due to an float array 32 issue.
 
-
+  <br />
+<br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">
+<img src="/seacloud9/BabylonHx/raw/master/samples/ds.babylonHxEx2/screenshot1.jpg" style="max-width:100%"/>
+</a>
 **TODO:**
 
   * Fix all mesh classes starting with AbstractMesh
+  * Remove debugging info / trace
+  * Speedup the code and Optimize 
   * Add the vertex class aka babylon.csg.ts
   * Instanced Material Rendering
   * Double check new draw calls for platforms

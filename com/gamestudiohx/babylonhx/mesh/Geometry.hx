@@ -64,18 +64,23 @@ import openfl.utils.Float32Array;
         }
 
         public function setVerticesData(kind:String, data:Array<Float>, ?updatable:Bool ) : Void {
+            trace('In geometry setVerticesData');
             var extend = Tools.ExtractMinAndMax(data, 0, this._totalVertices);
+            trace('after extend');
             if(this._vertexBuffers == null){
+                trace('setVerticesData vertex buffer be null');
                 this._vertexBuffers = new Map<String, VertexBuffer>();
             }
 
             if (this._vertexBuffers.get(kind) != null) {
+                trace('kind is null in dispose');
                 this._vertexBuffers.get(kind).dispose();
             }
 
             this._vertexBuffers.set(kind, new VertexBuffer(this._engine, data, kind, updatable));
-
+             trace('after _vertexBuffers.set');
             if (kind == VertexBuffer.PositionKind) {
+                trace('kind is VertexBuffer.PositionKin');
                 var stride = this._vertexBuffers.get(kind).getStrideSize();
 
                 this._totalVertices = Std.int(data.length / stride);
@@ -87,16 +92,18 @@ import openfl.utils.Float32Array;
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < numOfMeshes; index++)
                 var index = 0;
+                trace('pre loop');
                 while( index < numOfMeshes)  {
                     var mesh = meshes[index];
                     mesh._resetPointsArrayCache();
                     mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
                     mesh._createGlobalSubMesh();
                     mesh.computeWorldMatrix(true);
-                 index++;
+                    index++;
 
+                }
             }
-            }
+            trace('setVerticesData end');
         }
 
         public function updateVerticesData(kind:String, data:Array<Float>, ?updateExtends:Bool, ?makeItUnique:Bool ) : Void {

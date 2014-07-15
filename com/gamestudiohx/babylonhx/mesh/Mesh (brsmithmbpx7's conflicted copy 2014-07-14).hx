@@ -287,9 +287,9 @@ import openfl.utils.Float32Array;
         }
 
         public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Int ) : Void {
-            // todo double check this call breaks mac issue with this._geometry.getIndexBuffer this._geometry.getIndexBuffer() == null
-            //trace('mesh _draw: ' + (this._geometry.getIndexBuffer() == 0));
-            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == null) {
+        //breaks mac.\
+        trace('//breaks mac. ' + (this._geometry.getIndexBuffer() == 0));
+           if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == 0) {
                 return;
             }
 
@@ -461,8 +461,10 @@ import openfl.utils.Float32Array;
 
             // Instances rendering
             if (hardwareInstancedRendering) {
+                //todo implment this properly !!
                 this._renderWithInstances(subMesh, wireFrame, batch, effect, engine);
             } else {
+                
                 if (batch.renderSelf) {
                     // Draw
                     this._draw(subMesh, !wireFrame);
@@ -482,7 +484,7 @@ import openfl.utils.Float32Array;
                         this._draw(subMesh, !wireFrame);
                      instanceIndex++;
 
-            }
+                    }
                 }
             }
             // Unbind
@@ -710,9 +712,10 @@ import openfl.utils.Float32Array;
 
             // Geometry
             this._geometry.applyToMesh(resultMesh);
+            //trace(this._geometry);
 
             // Deep copy
-            trace('Mesh:clone -- ');
+            trace('clone -- hit');
             Tools.DeepCopy(this, resultMesh, ["_onBeforeRenderCallbacks", "name", "material", "skeleton" ]);
 
             // Material

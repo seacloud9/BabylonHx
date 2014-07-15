@@ -141,6 +141,7 @@ class Tools {
         if(url != null){
             if (Assets.exists(url)) {
                 var img:BitmapData = Assets.getBitmapData(url);
+                trace(img);
                 onload(img);
             } else {
                 trace("Error: Image '" + url + "' doesn't exist !");

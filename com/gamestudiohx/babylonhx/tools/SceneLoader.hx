@@ -447,7 +447,6 @@ class SceneLoader {
         } else {*/
             SceneLoader._ImportGeometry(parsedMesh, mesh);
         //}
-
         // Material
         if (parsedMesh.materialId != null) {
             mesh.setMaterialByID(parsedMesh.materialId);
@@ -476,7 +475,6 @@ class SceneLoader {
                     
             }
         }*/
-
         // Animations
         if (parsedMesh.animations != null) {
             for (animationIndex in 0...parsedMesh.animations.length) {
@@ -486,9 +484,10 @@ class SceneLoader {
         }
 
         if (parsedMesh.autoAnimate != null && parsedMesh.autoAnimate != false) {
+            //todo watch caused break in MAC target
             scene.beginAnimation(mesh, parsedMesh.autoAnimateFrom, parsedMesh.autoAnimateTo, parsedMesh.autoAnimateLoop, 1.0);
         }
-
+        trace('_ImportGeometry end mesh');
         return mesh;
     }
 	
@@ -564,6 +563,7 @@ class SceneLoader {
 			scene._selectionOctree.addMesh(mesh);
 		}
 	}
+    
 	
 	public static function ImportMesh(?meshName:String, ?rootUrl:String, ?sceneFilename:String, ?scene:Scene, ?then:Array<Dynamic>->Array<Dynamic>->Array<Dynamic>->Void, ?progressCallBack:String->Void) {
 		
@@ -606,7 +606,6 @@ class SceneLoader {
 								}
 							}
 						}
-
 						if (!materialFound) {
 							loadedMaterialsIds.push(parsedMesh.materialId);
 							parseMaterialById(parsedMesh.materialId, parsedData, scene, rootUrl);
@@ -629,7 +628,6 @@ class SceneLoader {
 							}
 						}
 					}
-
 					var mesh = parseMesh(parsedMesh, scene, rootUrl);
 					meshes.push(mesh);
 				}

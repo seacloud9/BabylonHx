@@ -78,39 +78,34 @@ import openfl.utils.UInt8Array;
 
         private function _applyTo(meshOrGeometry:IGetSetVerticesData, ?updatable:Bool ) {
             if (this.positions.length > 0) {
-                trace("_applyTo: " + this.positions.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.PositionKind, this.positions, updatable);
             }
-
             if (this.normals.length > 0) {
-                trace("_applyTo: " + this.normals.length);
+                trace("_applyTo: normals " + this.normals.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.NormalKind, this.normals, updatable);
             }
-
             if (this.uvs.length > 0) {
-                trace("_applyTo: " + this.uvs.length);
+                trace("_applyTo: uvs" + this.uvs.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.UVKind, this.uvs, updatable);
             }
-
             if (this.uv2s.length > 0) {
+                trace("_applyTo: uv2s " + this.uv2s.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.UV2Kind, this.uv2s, updatable);
             }
-
             if (this.colors.length > 0) {
+                trace("_applyTo: colors " + this.colors.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.ColorKind, this.colors, updatable);
             }
-
             if (this.matricesIndices.length > 0) {
-                trace("_applyTo: " + this.matricesIndices.length);
+                trace("_applyTo: matricesIndices" + this.matricesIndices.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.MatricesIndicesKind, this.matricesIndices, updatable);
             }
-
             if (this.matricesWeights.length > 0) {
+                trace("_applyTo: matricesWeights " + this.matricesWeights.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.MatricesWeightsKind, this.matricesWeights, updatable);
             }
-
             if (this.indices.length > 0) {
-                trace("_applyTo: " + this.indices.length);
+                trace("_applyTo: indices " + this.indices.length);
                 meshOrGeometry.setIndices(this.indices);
             }
         }

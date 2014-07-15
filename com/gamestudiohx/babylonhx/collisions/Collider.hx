@@ -364,7 +364,6 @@ class Collider {
             var p1 = pts[indices[i] - decal];
             var p2 = pts[indices[i + 1] - decal];
             var p3 = pts[indices[i + 2] - decal];
-
             this._testTriangle(i, subMesh, p3, p2, p1);
 			i += 3;
         }
