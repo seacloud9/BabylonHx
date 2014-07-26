@@ -223,7 +223,6 @@ class Camera extends Node{
 	
 	public function attachPostProcess(postProcess:PostProcess, ?insertAt:Int):Int {
         if (!postProcess._reusable && Lambda.indexOf(this._postProcesses, postProcess) > -1) {
-			trace("You're trying to reuse a post process not defined as reusable.");
             return -1;
         }
 

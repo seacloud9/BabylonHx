@@ -559,7 +559,6 @@ class Engine {
         var name = vertex + "+" + fragment + "@" + defines;
         //trace(this._compiledEffects);
         if (this._compiledEffects.exists(name)) {
-            trace("in this._compiledEffects.exists -" + name);
             return this._compiledEffects.get(name);
         }
         var effect = new Effect(baseName, attributesNames, uniformsNames, samplers, this, defines, optionalDefines);
@@ -570,8 +569,14 @@ class Engine {
 
     public function compileShader(source:String, type:String, ?defines:String):GLShader {
         var shader:GLShader = GL.createShader(type == "vertex" ? GL.VERTEX_SHADER : GL.FRAGMENT_SHADER);
-		
-        GL.shaderSource(shader, (defines != null ? defines + "\n" : "") + source);
+        source =  defines + "\n" + source;
+        // cuased error
+        /*if(defines != null && defines.length != 0){
+           source =  defines + "\n" + source;
+        }else{
+            source =  defines + "" + source;
+        }*/
+        GL.shaderSource(shader, source);
         GL.compileShader(shader);
 
         if (GL.getShaderParameter(shader, GL.COMPILE_STATUS) == 0) {
@@ -603,7 +608,6 @@ class Engine {
 
     public function getUniforms(shaderProgram:GLProgram, uniformsNames:Array<String>):Array<GLUniformLocation> {
         var results:Array<GLUniformLocation> = [];
-
         for (index in 0...uniformsNames.length) {
             results.push(GL.getUniformLocation(shaderProgram, uniformsNames[index]));
         }
@@ -804,7 +808,6 @@ class Engine {
         var texture:BabylonTexture = new BabylonTexture(url, GL.createTexture());
 		            
         function onload(img:BitmapData) {
-            trace('onload -' + img);
             var potWidth = getExponantOfTwo(img.width, this._caps.maxTextureSize);
             var potHeight = getExponantOfTwo(img.height, this._caps.maxTextureSize);
             var isPot = (img.width == potWidth && img.height == potHeight);
@@ -845,13 +848,10 @@ class Engine {
             texture._width = potWidth;
             texture._height = potHeight;
             texture.isReady = true;
-            trace('before remove in onLoad?' + texture);
             scene._removePendingData(texture);
         }
-        trace('createTexture - ' + texture);
         scene._addPendingData(texture);
         Tools.LoadImage(url, onload);
-        trace('onload - ' + url);
         texture.url = url;
         texture.noMipmap = noMipmap;
         texture.references = 1;

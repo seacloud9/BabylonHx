@@ -46,6 +46,7 @@ class Effect {
 		"shadowMapVertexShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Attribute\nattribute vec3 position;\n#ifdef BONES\nattribute vec4 matricesIndices;\nattribute vec4 matricesWeights;\n#endif\n\n// Uniform\n#ifdef BONES\nuniform mat4 world;\nuniform mat4 mBones[BonesPerMesh];\nuniform mat4 viewProjection;\n#else\nuniform mat4 worldViewProjection;\n#endif\n\n#ifndef VSM\nvarying vec4 vPosition;\n#endif\n\nvoid main(void)\n{\n#ifdef BONES\n	mat4 m0 = mBones[int(matricesIndices.x)] * matricesWeights.x;\n	mat4 m1 = mBones[int(matricesIndices.y)] * matricesWeights.y;\n	mat4 m2 = mBones[int(matricesIndices.z)] * matricesWeights.z;\n	mat4 m3 = mBones[int(matricesIndices.w)] * matricesWeights.w;\n	mat4 finalWorld = world * (m0 + m1 + m2 + m3);\n	gl_Position = viewProjection * finalWorld * vec4(position, 1.0);\n#else\n#ifndef VSM\n	vPosition = worldViewProjection * vec4(position, 1.0);\n#endif\n	gl_Position = worldViewProjection * vec4(position, 1.0);\n#endif\n}",
 		"spritesPixelShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\nuniform bool alphaTest;\n\nvarying vec4 vColor;\n\n// Samplers\nvarying vec2 vUV;\nuniform sampler2D diffuseSampler;\n\n// Fog\n#ifdef FOG\n\n#define FOGMODE_NONE    0.\n#define FOGMODE_EXP     1.\n#define FOGMODE_EXP2    2.\n#define FOGMODE_LINEAR  3.\n#define E 2.71828\n\nuniform vec4 vFogInfos;\nuniform vec3 vFogColor;\nvarying float fFogDistance;\n\nfloat CalcFogFactor()\n{\n	float fogCoeff = 1.0;\n	float fogStart = vFogInfos.y;\n	float fogEnd = vFogInfos.z;\n	float fogDensity = vFogInfos.w;\n\n	if (FOGMODE_LINEAR == vFogInfos.x)\n	{\n		fogCoeff = (fogEnd - fFogDistance) / (fogEnd - fogStart);\n	}\n	else if (FOGMODE_EXP == vFogInfos.x)\n	{\n		fogCoeff = 1.0 / pow(E, fFogDistance * fogDensity);\n	}\n	else if (FOGMODE_EXP2 == vFogInfos.x)\n	{\n		fogCoeff = 1.0 / pow(E, fFogDistance * fFogDistance * fogDensity * fogDensity);\n	}\n\n	return min(1., max(0., fogCoeff));\n}\n#endif\n\n\nvoid main(void) {\n	vec4 baseColor = texture2D(diffuseSampler, vUV);\n\n	if (alphaTest) \n	{\n		if (baseColor.a < 0.95)\n			discard;\n	}\n\n	baseColor *= vColor;\n\n#ifdef FOG\n	float fog = CalcFogFactor();\n	baseColor.rgb = fog * baseColor.rgb + (1.0 - fog) * vFogColor;\n#endif\n\n	gl_FragColor = baseColor;\n}",
 		"spritesVertexShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Attributes\nattribute vec3 position;\nattribute vec4 options;\nattribute vec4 cellInfo;\nattribute vec4 color;\n\n// Uniforms\nuniform vec2 textureInfos;\nuniform mat4 view;\nuniform mat4 projection;\n\n// Output\nvarying vec2 vUV;\nvarying vec4 vColor;\n\n#ifdef FOG\nvarying float fFogDistance;\n#endif\n\nvoid main(void) {	\n	vec3 viewPos = (view * vec4(position, 1.0)).xyz; \n	vec3 cornerPos;\n	\n	float angle = options.x;\n	float size = options.y;\n	vec2 offset = options.zw;\n	vec2 uvScale = textureInfos.xy;\n\n	cornerPos = vec3(offset.x - 0.5, offset.y  - 0.5, 0.) * size;\n\n	// Rotate\n	vec3 rotatedCorner;\n	rotatedCorner.x = cornerPos.x * cos(angle) - cornerPos.y * sin(angle);\n	rotatedCorner.y = cornerPos.x * sin(angle) + cornerPos.y * cos(angle);\n	rotatedCorner.z = 0.;\n\n	// Position\n	viewPos += rotatedCorner;\n	gl_Position = projection * vec4(viewPos, 1.0);   \n\n	// Color\n	vColor = color;\n	\n	// Texture\n	vec2 uvOffset = vec2(abs(offset.x - cellInfo.x), 1.0 - abs(offset.y - cellInfo.y));\n\n	vUV = (uvOffset + cellInfo.zw) * uvScale;\n\n	// Fog\n#ifdef FOG\n	fFogDistance = viewPos.z;\n#endif\n}"
+		//"cloudsVertexShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\nattribute vec3 position;\nattribute vec2 uv;\nuniform mat4 worldViewProjection;\nvarying vec2 vUV;\nvoid main(void) {\ngl_Position = worldViewProjection * vec4(position, 1.0);\nvUV = uv;\n}\n"
 	];
 	
 	public var name:Dynamic;
@@ -112,7 +113,6 @@ class Effect {
 		} else {
 			_fragmentCode = StringTools.trim(Assets.getText(fragmentShaderUrl + ".fragment.txt"));	
 		}
-		
 		this._prepareEffect(_vertexCode, _fragmentCode, attributesNames, defines, optionalDefines, false);		
 		
         // Cache
@@ -203,22 +203,20 @@ class Effect {
         try {
             var engine:Engine = this._engine;
             trace(defines);
-            if(defines.indexOf("REFLECTION")  > 0){
-            	//trace("_prepareEffect - Vertex - " + vertexSourceCode);
-            	//trace("_prepareEffect - Fragment - " + fragmentSourceCode);
-            }
-
+            trace('prepareEffect pre built..');
+            trace('vertex ----------');
+            trace( vertexSourceCode );
+            trace('vertex ----------');
+            trace('fragmentSourceCode ----------');
+            trace(fragmentSourceCode);
+            trace('fragmentSourceCode ----------');
             this._program = engine.createShaderProgram(vertexSourceCode, fragmentSourceCode, defines);
-            trace("_prepareEffect  1"); 
             this._uniforms = engine.getUniforms(this._program, this._uniformsNames);
-            trace("_prepareEffect  2"); 
             this._attributes = engine.getAttributes(this._program, attributesNames);			
-			trace("_prepareEffect  3"); 
 			var index:Int = 0;
 
-			trace(this._samplers[1]);
+			trace(this._samplers[0]);
 			while(index < this._samplers.length) {
-
                 var sampler = this.getUniform(this._samplers[index]);
 				#if html5
 				if (sampler == null) {
@@ -231,10 +229,7 @@ class Effect {
 				
 				index++;
             }
-			trace("_prepareEffect before bind");
             engine.bindSamplers(this);
-
-            trace("_prepareEffect after bind");
             this._isReady = true;
         } catch (e:Dynamic) {
 			trace(e);
@@ -318,6 +313,7 @@ class Effect {
         //    return;
 
         //this._cacheMatrix(uniformName, matrix);
+        //static???
         this._engine.setMatrix(this.getUniform(uniformName), matrix);
     }
 

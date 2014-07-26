@@ -146,13 +146,11 @@ class ShaderMaterial extends Material {
 
         override public function isReady(mesh:Mesh = null):Bool  {
             var engine:Engine = this._scene.getEngine();
-
             this._effect = engine.createEffect(this._shaderPath,
                 this._options.attributes,
                 this._options.uniforms,
                 this._options.samplers,
                 "", null);
-
             if (!this._effect.isReady()) {
                 return false;
             }
@@ -162,25 +160,26 @@ class ShaderMaterial extends Material {
 
         inline override public function bind(world:Matrix, mesh:Mesh) {
             // Std values
-            if (this._options.uniforms.indexOf("world") != -1) {
+            // look at shader material most likely a dynamic issue use lambda!!
+            if (Lambda.indexOf(this._options.uniforms, "world") != -1) {
                 this._effect.setMatrix("world", world);
             }
 
-            if (this._options.uniforms.indexOf("view") != -1) {
-                this._effect.setMatrix("view", this.getScene().getViewMatrix());
+            if (Lambda.indexOf(this._options.uniforms, "view") != -1) {
+                this._effect.setMatrix("view", this._scene.getViewMatrix());
             }
 
-            if (this._options.uniforms.indexOf("worldView") != -1) {
-                world.multiplyToRef(this.getScene().getViewMatrix(), this._cachedWorldViewMatrix);
+            if (Lambda.indexOf(this._options.uniforms, "worldView") != -1) {
+                world.multiplyToRef(this._scene.getViewMatrix(), this._cachedWorldViewMatrix);
                 this._effect.setMatrix("worldView", this._cachedWorldViewMatrix);
             }
 
-            if (this._options.uniforms.indexOf("projection") != -1) {
-                this._effect.setMatrix("projection", this.getScene().getProjectionMatrix());
+            if (Lambda.indexOf(this._options.uniforms, "projection") != -1) {
+                this._effect.setMatrix("projection", this._scene.getProjectionMatrix());
             }
 
-            if (this._options.uniforms.indexOf("worldViewProjection") != -1) {
-                this._effect.setMatrix("worldViewProjection", world.multiply(this.getScene().getTransformMatrix()));
+            if (Lambda.indexOf(this._options.uniforms, "worldViewProjection") != -1) {
+                this._effect.setMatrix("worldViewProjection", world.multiply(this._scene.getTransformMatrix()));
             }
 
             // Texture
