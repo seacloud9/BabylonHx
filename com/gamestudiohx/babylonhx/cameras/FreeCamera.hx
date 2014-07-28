@@ -9,12 +9,12 @@ import com.gamestudiohx.babylonhx.tools.math.Vector2;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.Tools;
-import flash.display.DisplayObject;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.events.TouchEvent;
-import flash.Lib;
+import openfl.display.DisplayObject;
+import openfl.events.Event;
+import openfl.events.KeyboardEvent;
+import openfl.events.MouseEvent;
+import openfl.events.TouchEvent;
+import openfl.Lib;
 
 /**
  * Port of BabylonJs project - http://www.babylonjs.com/

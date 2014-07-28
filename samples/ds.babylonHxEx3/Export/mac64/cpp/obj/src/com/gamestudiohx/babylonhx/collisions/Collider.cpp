@@ -1422,9 +1422,9 @@ Void Collider_obj::_collide( ::com::gamestudiohx::babylonhx::mesh::SubMesh subMe
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 p2 = pts->__get((indices->__get((i + (int)1)) - decal)).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p2,"p2");
 			HX_STACK_LINE(366)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 p3 = pts->__get((indices->__get((i + (int)2)) - decal)).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p3,"p3");
-			HX_STACK_LINE(368)
+			HX_STACK_LINE(367)
 			this->_testTriangle(i,subMesh,p3,p2,p1);
-			HX_STACK_LINE(369)
+			HX_STACK_LINE(368)
 			hx::AddEq(i,(int)3);
 		}
 	}
@@ -1436,169 +1436,169 @@ HX_DEFINE_DYNAMIC_FUNC6(Collider_obj,_collide,(void))
 
 Void Collider_obj::_getResponse( ::com::gamestudiohx::babylonhx::tools::math::Vector3 pos,::com::gamestudiohx::babylonhx::tools::math::Vector3 vel){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.collisions.Collider","_getResponse",0x1f19e957,"com.gamestudiohx.babylonhx.collisions.Collider._getResponse","com/gamestudiohx/babylonhx/collisions/Collider.hx",373,0xf5c1222f)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.collisions.Collider","_getResponse",0x1f19e957,"com.gamestudiohx.babylonhx.collisions.Collider._getResponse","com/gamestudiohx/babylonhx/collisions/Collider.hx",372,0xf5c1222f)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(pos,"pos")
 		HX_STACK_ARG(vel,"vel")
+		HX_STACK_LINE(373)
+		{
+			HX_STACK_LINE(373)
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 result = this->_destinationPoint;		HX_STACK_VAR(result,"result");
+			HX_STACK_LINE(373)
+			result->x = (pos->x + vel->x);
+			HX_STACK_LINE(373)
+			result->y = (pos->y + vel->y);
+			HX_STACK_LINE(373)
+			result->z = (pos->z + vel->z);
+			HX_STACK_LINE(373)
+			result;
+		}
 		HX_STACK_LINE(374)
 		{
 			HX_STACK_LINE(374)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 result = this->_destinationPoint;		HX_STACK_VAR(result,"result");
-			HX_STACK_LINE(374)
-			result->x = (pos->x + vel->x);
-			HX_STACK_LINE(374)
-			result->y = (pos->y + vel->y);
-			HX_STACK_LINE(374)
-			result->z = (pos->z + vel->z);
-			HX_STACK_LINE(374)
-			result;
-		}
-		HX_STACK_LINE(375)
-		{
-			HX_STACK_LINE(375)
 			Float _g = ::Math_obj::sqrt((((vel->x * vel->x) + (vel->y * vel->y)) + (vel->z * vel->z)));		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(375)
+			HX_STACK_LINE(374)
 			Float scale = (Float(this->nearestDistance) / Float(_g));		HX_STACK_VAR(scale,"scale");
-			HX_STACK_LINE(375)
+			HX_STACK_LINE(374)
 			hx::MultEq(vel->x,scale);
-			HX_STACK_LINE(375)
+			HX_STACK_LINE(374)
 			hx::MultEq(vel->y,scale);
-			HX_STACK_LINE(375)
+			HX_STACK_LINE(374)
 			hx::MultEq(vel->z,scale);
+		}
+		HX_STACK_LINE(376)
+		{
+			HX_STACK_LINE(376)
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->basePoint;		HX_STACK_VAR(_this,"_this");
+			HX_STACK_LINE(376)
+			pos->x = (_this->x + vel->x);
+			HX_STACK_LINE(376)
+			pos->y = (_this->y + vel->y);
+			HX_STACK_LINE(376)
+			pos->z = (_this->z + vel->z);
+			HX_STACK_LINE(376)
+			pos;
 		}
 		HX_STACK_LINE(377)
 		{
 			HX_STACK_LINE(377)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->basePoint;		HX_STACK_VAR(_this,"_this");
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->intersectionPoint;		HX_STACK_VAR(otherVector,"otherVector");
 			HX_STACK_LINE(377)
-			pos->x = (_this->x + vel->x);
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 result = this->_slidePlaneNormal;		HX_STACK_VAR(result,"result");
 			HX_STACK_LINE(377)
-			pos->y = (_this->y + vel->y);
+			result->x = (pos->x - otherVector->x);
 			HX_STACK_LINE(377)
-			pos->z = (_this->z + vel->z);
+			result->y = (pos->y - otherVector->y);
 			HX_STACK_LINE(377)
-			pos;
+			result->z = (pos->z - otherVector->z);
 		}
 		HX_STACK_LINE(378)
 		{
 			HX_STACK_LINE(378)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->intersectionPoint;		HX_STACK_VAR(otherVector,"otherVector");
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_slidePlaneNormal;		HX_STACK_VAR(_this,"_this");
 			HX_STACK_LINE(378)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 result = this->_slidePlaneNormal;		HX_STACK_VAR(result,"result");
+			Float len = ::Math_obj::sqrt((((_this->x * _this->x) + (_this->y * _this->y)) + (_this->z * _this->z)));		HX_STACK_VAR(len,"len");
 			HX_STACK_LINE(378)
-			result->x = (pos->x - otherVector->x);
-			HX_STACK_LINE(378)
-			result->y = (pos->y - otherVector->y);
-			HX_STACK_LINE(378)
-			result->z = (pos->z - otherVector->z);
+			if (((len != (int)0))){
+				HX_STACK_LINE(378)
+				Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
+				HX_STACK_LINE(378)
+				hx::MultEq(_this->x,num);
+				HX_STACK_LINE(378)
+				hx::MultEq(_this->y,num);
+				HX_STACK_LINE(378)
+				hx::MultEq(_this->z,num);
+			}
 		}
 		HX_STACK_LINE(379)
 		{
 			HX_STACK_LINE(379)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_slidePlaneNormal;		HX_STACK_VAR(_this,"_this");
 			HX_STACK_LINE(379)
-			Float len = ::Math_obj::sqrt((((_this->x * _this->x) + (_this->y * _this->y)) + (_this->z * _this->z)));		HX_STACK_VAR(len,"len");
-			HX_STACK_LINE(379)
-			if (((len != (int)0))){
-				HX_STACK_LINE(379)
-				Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-				HX_STACK_LINE(379)
-				hx::MultEq(_this->x,num);
-				HX_STACK_LINE(379)
-				hx::MultEq(_this->y,num);
-				HX_STACK_LINE(379)
-				hx::MultEq(_this->z,num);
-			}
-		}
-		HX_STACK_LINE(380)
-		{
-			HX_STACK_LINE(380)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_slidePlaneNormal;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(380)
 			Float scale = this->epsilon;		HX_STACK_VAR(scale,"scale");
-			HX_STACK_LINE(380)
+			HX_STACK_LINE(379)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 result = this->_displacementVector;		HX_STACK_VAR(result,"result");
-			HX_STACK_LINE(380)
+			HX_STACK_LINE(379)
 			result->x = (_this->x * scale);
-			HX_STACK_LINE(380)
+			HX_STACK_LINE(379)
 			result->y = (_this->y * scale);
-			HX_STACK_LINE(380)
+			HX_STACK_LINE(379)
 			result->z = (_this->z * scale);
+		}
+		HX_STACK_LINE(381)
+		{
+			HX_STACK_LINE(381)
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->_displacementVector;		HX_STACK_VAR(otherVector,"otherVector");
+			HX_STACK_LINE(381)
+			hx::AddEq(pos->x,otherVector->x);
+			HX_STACK_LINE(381)
+			hx::AddEq(pos->y,otherVector->y);
+			HX_STACK_LINE(381)
+			hx::AddEq(pos->z,otherVector->z);
 		}
 		HX_STACK_LINE(382)
 		{
 			HX_STACK_LINE(382)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->_displacementVector;		HX_STACK_VAR(otherVector,"otherVector");
-			HX_STACK_LINE(382)
-			hx::AddEq(pos->x,otherVector->x);
-			HX_STACK_LINE(382)
-			hx::AddEq(pos->y,otherVector->y);
-			HX_STACK_LINE(382)
-			hx::AddEq(pos->z,otherVector->z);
-		}
-		HX_STACK_LINE(383)
-		{
-			HX_STACK_LINE(383)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->intersectionPoint;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(383)
+			HX_STACK_LINE(382)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->_displacementVector;		HX_STACK_VAR(otherVector,"otherVector");
-			HX_STACK_LINE(383)
+			HX_STACK_LINE(382)
 			hx::AddEq(_this->x,otherVector->x);
-			HX_STACK_LINE(383)
+			HX_STACK_LINE(382)
 			hx::AddEq(_this->y,otherVector->y);
-			HX_STACK_LINE(383)
+			HX_STACK_LINE(382)
 			hx::AddEq(_this->z,otherVector->z);
+		}
+		HX_STACK_LINE(384)
+		{
+			HX_STACK_LINE(384)
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_slidePlaneNormal;		HX_STACK_VAR(_this,"_this");
+			HX_STACK_LINE(384)
+			Float scale;		HX_STACK_VAR(scale,"scale");
+			HX_STACK_LINE(384)
+			{
+				HX_STACK_LINE(384)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 origin = this->intersectionPoint;		HX_STACK_VAR(origin,"origin");
+				HX_STACK_LINE(384)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 normal = this->_slidePlaneNormal;		HX_STACK_VAR(normal,"normal");
+				HX_STACK_LINE(384)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 point = this->_destinationPoint;		HX_STACK_VAR(point,"point");
+				HX_STACK_LINE(384)
+				Float d = -(((((normal->x * origin->x) + (normal->y * origin->y)) + (normal->z * origin->z))));		HX_STACK_VAR(d,"d");
+				HX_STACK_LINE(384)
+				scale = ((((point->x * normal->x) + (point->y * normal->y)) + (point->z * normal->z)) + d);
+			}
+			HX_STACK_LINE(384)
+			hx::MultEq(_this->x,scale);
+			HX_STACK_LINE(384)
+			hx::MultEq(_this->y,scale);
+			HX_STACK_LINE(384)
+			hx::MultEq(_this->z,scale);
 		}
 		HX_STACK_LINE(385)
 		{
 			HX_STACK_LINE(385)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_slidePlaneNormal;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(385)
-			Float scale;		HX_STACK_VAR(scale,"scale");
-			HX_STACK_LINE(385)
-			{
-				HX_STACK_LINE(385)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 origin = this->intersectionPoint;		HX_STACK_VAR(origin,"origin");
-				HX_STACK_LINE(385)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 normal = this->_slidePlaneNormal;		HX_STACK_VAR(normal,"normal");
-				HX_STACK_LINE(385)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 point = this->_destinationPoint;		HX_STACK_VAR(point,"point");
-				HX_STACK_LINE(385)
-				Float d = -(((((normal->x * origin->x) + (normal->y * origin->y)) + (normal->z * origin->z))));		HX_STACK_VAR(d,"d");
-				HX_STACK_LINE(385)
-				scale = ((((point->x * normal->x) + (point->y * normal->y)) + (point->z * normal->z)) + d);
-			}
-			HX_STACK_LINE(385)
-			hx::MultEq(_this->x,scale);
-			HX_STACK_LINE(385)
-			hx::MultEq(_this->y,scale);
-			HX_STACK_LINE(385)
-			hx::MultEq(_this->z,scale);
-		}
-		HX_STACK_LINE(386)
-		{
-			HX_STACK_LINE(386)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_destinationPoint;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(386)
+			HX_STACK_LINE(385)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->_slidePlaneNormal;		HX_STACK_VAR(otherVector,"otherVector");
-			HX_STACK_LINE(386)
+			HX_STACK_LINE(385)
 			hx::SubEq(_this->x,otherVector->x);
-			HX_STACK_LINE(386)
+			HX_STACK_LINE(385)
 			hx::SubEq(_this->y,otherVector->y);
-			HX_STACK_LINE(386)
+			HX_STACK_LINE(385)
 			hx::SubEq(_this->z,otherVector->z);
 		}
-		HX_STACK_LINE(388)
+		HX_STACK_LINE(387)
 		{
-			HX_STACK_LINE(388)
+			HX_STACK_LINE(387)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = this->_destinationPoint;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(388)
+			HX_STACK_LINE(387)
 			::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = this->intersectionPoint;		HX_STACK_VAR(otherVector,"otherVector");
-			HX_STACK_LINE(388)
+			HX_STACK_LINE(387)
 			vel->x = (_this->x - otherVector->x);
-			HX_STACK_LINE(388)
+			HX_STACK_LINE(387)
 			vel->y = (_this->y - otherVector->y);
-			HX_STACK_LINE(388)
+			HX_STACK_LINE(387)
 			vel->z = (_this->z - otherVector->z);
 		}
 	}

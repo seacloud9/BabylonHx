@@ -2,7 +2,7 @@ package com.gamestudiohx.babylonhx.sprites;
 
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
-import flash.display.Bitmap;
+import openfl.display.Bitmap;
 
 
 /**

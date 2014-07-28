@@ -21,7 +21,7 @@ import com.gamestudiohx.babylonhx.culling.BoundingInfo;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.mesh.Geometry;
 import com.gamestudiohx.babylonhx.mesh.VertexData;
-import flash.display.BitmapData;
+import openfl.display.BitmapData;
 import haxe.io.BufferInput;
 
 import openfl.gl.GLBuffer;

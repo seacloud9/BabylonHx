@@ -5,8 +5,8 @@ import com.gamestudiohx.babylonhx.rendering.RenderingManager;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.tools.SmartArray;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 
 
 class DynamicTexture extends Texture{
@@ -26,9 +26,11 @@ class DynamicTexture extends Texture{
                 this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
             } else {
                 this._canvas = new BitmapData(options.width, options.height, false, 0xFFFFFFFF);
-                if (options.width) {
+                if (options.width != null) {
+                    trace(options.width + '== dynamic texture');
                     this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
                 } else {
+                     trace(options.width + '== dynamic texture really??');
                     this._texture = scene.getEngine().createDynamicTexture(options, options, generateMipMaps);
                 }
             }

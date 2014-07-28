@@ -8,7 +8,7 @@ import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.animations.Animation;
 import com.gamestudiohx.babylonhx.postprocess.PostProcess;
 import com.gamestudiohx.babylonhx.tools.math.Viewport;
-import flash.display.DisplayObject;
+import openfl.display.DisplayObject;
 
 /**
  * Port of BabylonJs project - http://www.babylonjs.com/

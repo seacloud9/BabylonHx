@@ -3,7 +3,7 @@ package com.gamestudiohx.babylonhx.materials.textures;
 import com.gamestudiohx.babylonhx.materials.textures.Texture;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
-import flash.display.BitmapData;
+import openfl.display.BitmapData;
 import openfl.gl.GLTexture;
 
 

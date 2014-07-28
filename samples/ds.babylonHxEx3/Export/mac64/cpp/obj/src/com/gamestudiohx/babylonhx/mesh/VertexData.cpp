@@ -33,6 +33,9 @@
 #ifndef INCLUDED_com_gamestudiohx_babylonhx_tools_math_Vector3
 #include <com/gamestudiohx/babylonhx/tools/math/Vector3.h>
 #endif
+#ifndef INCLUDED_haxe_Log
+#include <haxe/Log.h>
+#endif
 #ifndef INCLUDED_hxMath
 #include <hxMath.h>
 #endif
@@ -205,38 +208,52 @@ Void VertexData_obj::_applyTo( ::com::gamestudiohx::babylonhx::mesh::IGetSetVert
 			HX_STACK_LINE(81)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::PositionKind,this->positions,updatable);
 		}
-		HX_STACK_LINE(84)
+		HX_STACK_LINE(83)
 		if (((this->normals->length > (int)0))){
+			HX_STACK_LINE(84)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: normals ") + this->normals->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),84,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(85)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::NormalKind,this->normals,updatable);
 		}
-		HX_STACK_LINE(88)
+		HX_STACK_LINE(87)
 		if (((this->uvs->length > (int)0))){
+			HX_STACK_LINE(88)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: uvs") + this->uvs->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),88,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(89)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UVKind,this->uvs,updatable);
 		}
-		HX_STACK_LINE(92)
+		HX_STACK_LINE(91)
 		if (((this->uv2s->length > (int)0))){
+			HX_STACK_LINE(92)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: uv2s ") + this->uv2s->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),92,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(93)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::UV2Kind,this->uv2s,updatable);
 		}
-		HX_STACK_LINE(96)
+		HX_STACK_LINE(95)
 		if (((this->colors->length > (int)0))){
+			HX_STACK_LINE(96)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: colors ") + this->colors->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),96,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(97)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::ColorKind,this->colors,updatable);
 		}
-		HX_STACK_LINE(100)
+		HX_STACK_LINE(99)
 		if (((this->matricesIndices->length > (int)0))){
+			HX_STACK_LINE(100)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: matricesIndices") + this->matricesIndices->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),100,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(101)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesIndicesKind,this->matricesIndices,updatable);
 		}
-		HX_STACK_LINE(104)
+		HX_STACK_LINE(103)
 		if (((this->matricesWeights->length > (int)0))){
+			HX_STACK_LINE(104)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: matricesWeights ") + this->matricesWeights->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),104,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(105)
 			meshOrGeometry->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesWeightsKind,this->matricesWeights,updatable);
 		}
-		HX_STACK_LINE(108)
+		HX_STACK_LINE(107)
 		if (((this->indices->length > (int)0))){
+			HX_STACK_LINE(108)
+			::haxe::Log_obj::trace((HX_CSTRING("_applyTo: indices ") + this->indices->length),hx::SourceInfo(HX_CSTRING("VertexData.hx"),108,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.VertexData"),HX_CSTRING("_applyTo")));
 			HX_STACK_LINE(109)
 			meshOrGeometry->setIndices(this->indices);
 		}

@@ -372,8 +372,6 @@ return null();
 }
 
 
-HX_DEFINE_DYNAMIC_FUNC1(InstancedMesh_obj,_activate,(void))
-
 Void InstancedMesh_obj::_syncSubMeshes( ){
 {
 		HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.InstancedMesh","_syncSubMeshes",0x4126a4e2,"com.gamestudiohx.babylonhx.mesh.InstancedMesh._syncSubMeshes","com/gamestudiohx/babylonhx/mesh/InstancedMesh.hx",117,0x594e4fd1)

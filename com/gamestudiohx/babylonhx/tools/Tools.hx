@@ -2,12 +2,12 @@ package com.gamestudiohx.babylonhx.tools;
 
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.animations.Animation;
-import flash.display.BitmapData;
-import flash.events.Event;
-import flash.Lib;
-import flash.net.URLLoader;
-import flash.net.URLRequest;
-import flash.utils.Timer;
+import openfl.display.BitmapData;
+import openfl.events.Event;
+import openfl.Lib;
+import openfl.net.URLLoader;
+import openfl.net.URLRequest;
+import openfl.utils.Timer;
 import openfl.Assets;
 import openfl.utils.Float32Array;
 #if cpp

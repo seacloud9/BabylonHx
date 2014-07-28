@@ -33,7 +33,7 @@ import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.tools.math.Quaternion;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Plane;
-import flash.Lib;
+import openfl.Lib;
 import haxe.Json;
 
 /**

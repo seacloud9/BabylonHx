@@ -34,8 +34,8 @@ import com.gamestudiohx.babylonhx.materials.textures.BaseTexture;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.rendering.RenderingManager;
 import com.gamestudiohx.babylonhx.postprocess.PostProcessManager;
-import flash.geom.Rectangle;
-import flash.Lib;
+import openfl.geom.Rectangle;
+import openfl.Lib;
 import openfl.gl.GL;
 
 /**

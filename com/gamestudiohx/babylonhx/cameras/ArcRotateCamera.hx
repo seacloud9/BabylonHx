@@ -4,11 +4,11 @@ import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Matrix;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.Scene;
-import flash.display.DisplayObject;
-import flash.display.Sprite;
-import flash.events.KeyboardEvent;
-import flash.events.MouseEvent;
-import flash.Lib;
+import openfl.display.DisplayObject;
+import openfl.display.Sprite;
+import openfl.events.KeyboardEvent;
+import openfl.events.MouseEvent;
+import openfl.Lib;
 
 /**
  * Port of BabylonJs project - http://www.babylonjs.com/

@@ -498,6 +498,31 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC4(Quaternion_obj,RotationYawPitchRollToRef,return )
 
 STATIC_HX_DEFINE_DYNAMIC_FUNC3(Quaternion_obj,Slerp,return )
 
+::com::gamestudiohx::babylonhx::tools::math::Quaternion Quaternion_obj::RotationAxis( ::com::gamestudiohx::babylonhx::tools::math::Vector3 axis,Float angle){
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.tools.math.Quaternion","RotationAxis",0x661cad8e,"com.gamestudiohx.babylonhx.tools.math.Quaternion.RotationAxis","com/gamestudiohx/babylonhx/tools/math/Quaternion.hx",194,0x0282bcc0)
+	HX_STACK_ARG(axis,"axis")
+	HX_STACK_ARG(angle,"angle")
+	HX_STACK_LINE(195)
+	::com::gamestudiohx::babylonhx::tools::math::Quaternion result = ::com::gamestudiohx::babylonhx::tools::math::Quaternion_obj::__new(null(),null(),null(),null());		HX_STACK_VAR(result,"result");
+	HX_STACK_LINE(196)
+	Float sin = ::Math_obj::sin((Float(angle) / Float((int)2)));		HX_STACK_VAR(sin,"sin");
+	HX_STACK_LINE(198)
+	Float _g = ::Math_obj::cos((Float(angle) / Float((int)2)));		HX_STACK_VAR(_g,"_g");
+	HX_STACK_LINE(198)
+	result->w = _g;
+	HX_STACK_LINE(199)
+	result->x = (axis->x * sin);
+	HX_STACK_LINE(200)
+	result->y = (axis->y * sin);
+	HX_STACK_LINE(201)
+	result->z = (axis->z * sin);
+	HX_STACK_LINE(203)
+	return result;
+}
+
+
+STATIC_HX_DEFINE_DYNAMIC_FUNC2(Quaternion_obj,RotationAxis,return )
+
 
 Quaternion_obj::Quaternion_obj()
 {
@@ -532,6 +557,9 @@ Dynamic Quaternion_obj::__Field(const ::String &inName,bool inCallProp)
 	case 9:
 		if (HX_FIELD_EQ(inName,"FromArray") ) { return FromArray_dyn(); }
 		if (HX_FIELD_EQ(inName,"normalize") ) { return normalize_dyn(); }
+		break;
+	case 12:
+		if (HX_FIELD_EQ(inName,"RotationAxis") ) { return RotationAxis_dyn(); }
 		break;
 	case 13:
 		if (HX_FIELD_EQ(inName,"multiplyToRef") ) { return multiplyToRef_dyn(); }
@@ -575,6 +603,7 @@ static ::String sStaticFields[] = {
 	HX_CSTRING("RotationYawPitchRoll"),
 	HX_CSTRING("RotationYawPitchRollToRef"),
 	HX_CSTRING("Slerp"),
+	HX_CSTRING("RotationAxis"),
 	String(null()) };
 
 #if HXCPP_SCRIPTABLE

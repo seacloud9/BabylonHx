@@ -7,7 +7,7 @@ import com.gamestudiohx.babylonhx.mesh.AbstractMesh;
 import com.gamestudiohx.babylonhx.sprites.SpriteManager;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.SmartArray;
-import flash.Lib;
+import openfl.Lib;
 
 
 /**
