@@ -1,5 +1,6 @@
 package com.gamestudiohx.babylonhx.materials.textures;
 
+
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.rendering.RenderingManager;
 import com.gamestudiohx.babylonhx.Scene;
@@ -50,7 +51,7 @@ class DynamicTexture extends Texture{
             return this._canvas;
         }
 
-        public function update(invertY:Int = 1){
+        override public function update(invertY:Int = 1):Void{
             this.getScene().getEngine().updateDynamicTexture(this._texture, this._canvas, invertY);
         }
 

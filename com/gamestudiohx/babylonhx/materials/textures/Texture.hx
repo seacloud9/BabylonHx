@@ -289,6 +289,11 @@ class Texture extends BaseTexture {
         }
         return this._cachedTextureMatrix;
     }
+
+    public function update(invertY:Int = 1):Void{
+    	//to be overridden later
+    	return;
+    }
 	
 	public function clone():Texture {
         var newTexture:Texture = new Texture(this._texture.url, this._scene, this._noMipmap, this._invertY);
