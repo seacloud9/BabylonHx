@@ -441,15 +441,17 @@ class Engine {
     }
 
     public function createIndexBuffer(indices:Array<Int>):BabylonGLBuffer {
+        //todo double check this stuff
         var vbo = GL.createBuffer();
         trace('--hit 1');
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, vbo);
         trace('--hit 2');
         trace('len >>> ' +  indices);
-        GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(indices), GL.STATIC_DRAW);
+        GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(cast indices), GL.STATIC_DRAW);
         
         trace('--hit 3');
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
+        this._cachedIndexBuffer = null;
          trace('--hit 4');
         return new BabylonGLBuffer(vbo);
     }
@@ -658,7 +660,12 @@ class Engine {
 
     inline public function setArray(uniform:GLUniformLocation = null, array:Array<Float>){
             if (uniform != null){
+                #if html5 
+                GL.uniform1fv(uniform, cast array); 
+                #else 
                 GL.uniform1fv(uniform, array);
+                #end 
+                
             }
     }
 

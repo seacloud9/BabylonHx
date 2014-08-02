@@ -28,6 +28,7 @@ import openfl.utils.UInt8Array;
 
 
     class VertexData {
+
         public var positions = new Array<Float>();
         public var normals = new Array<Float>();
         public var uvs = new Array<Float>();
@@ -159,7 +160,8 @@ import openfl.utils.UInt8Array;
                 
                 while( index < this.positions.length)  {
                     //trace(position);
-                    Vector3.FromArrayToRef(this.positions, index, position);
+                    
+                    Vector3.FromArrayToRef(#if html5 cast this.positions #else this.positions #end, index, position);
                     Vector3.TransformCoordinatesToRef(position, matrix, transformed);
                     this.positions[index] = transformed.x;
                     this.positions[index + 1] = transformed.y;
@@ -176,7 +178,7 @@ import openfl.utils.UInt8Array;
                 //  for (index = 0; index < this.normals.length; index += 3)
                 index = 0;
                 while( index < this.normals.length)  {
-                    Vector3.FromArrayToRef(this.normals, index, normal);
+                    Vector3.FromArrayToRef(#if html5 cast this.normals #else this.normals #end, index, normal);
 
                     Vector3.TransformNormalToRef(normal, matrix, transformed);
                     this.normals[index] = transformed.x;

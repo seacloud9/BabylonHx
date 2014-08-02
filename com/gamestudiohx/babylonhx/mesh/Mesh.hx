@@ -364,7 +364,12 @@ import openfl.utils.Float32Array;
                 }
 
                 this._worldMatricesInstancesBuffer = engine.createDynamicVertexBuffer(this._instancesBufferSize);
+                #if html5 
+                this._worldMatricesInstancesArray = new Float32Array(cast this._instancesBufferSize / 4); 
+                #else
                 this._worldMatricesInstancesArray = new Float32Array(this._instancesBufferSize / 4);
+                #end 
+                
             }
 
             var offset = 0;
