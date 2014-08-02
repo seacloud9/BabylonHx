@@ -141,7 +141,6 @@
 #include <cpp/vm/Mutex.h>
 #include <cpp/rtti/FieldNumericIntegerLookup.h>
 #include <com/gamestudiohx/babylonhx/tools/math/Viewport.h>
-#include <com/gamestudiohx/babylonhx/tools/math/Vector3.h>
 #include <com/gamestudiohx/babylonhx/tools/math/Vector2.h>
 #include <com/gamestudiohx/babylonhx/tools/math/Ray.h>
 #include <com/gamestudiohx/babylonhx/tools/math/Quaternion.h>
@@ -151,6 +150,9 @@
 #include <com/gamestudiohx/babylonhx/tools/math/Color4.h>
 #include <com/gamestudiohx/babylonhx/tools/math/Color3.h>
 #include <com/gamestudiohx/babylonhx/tools/Tools.h>
+#include <com/gamestudiohx/babylonhx/tools/Axis.h>
+#include <com/gamestudiohx/babylonhx/tools/math/Vector3.h>
+#include <com/gamestudiohx/babylonhx/tools/Space.h>
 #include <com/gamestudiohx/babylonhx/tools/IAnimatable.h>
 #include <com/gamestudiohx/babylonhx/tools/SmartArray.h>
 #include <com/gamestudiohx/babylonhx/tools/SceneLoader.h>
@@ -390,7 +392,6 @@ hx::RegisterResources( hx::GetResources() );
 ::cpp::vm::Mutex_obj::__register();
 ::cpp::rtti::FieldNumericIntegerLookup_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::math::Viewport_obj::__register();
-::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::math::Vector2_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::math::Ray_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::math::Quaternion_obj::__register();
@@ -400,6 +401,9 @@ hx::RegisterResources( hx::GetResources() );
 ::com::gamestudiohx::babylonhx::tools::math::Color4_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::math::Color3_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::Tools_obj::__register();
+::com::gamestudiohx::babylonhx::tools::Axis_obj::__register();
+::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__register();
+::com::gamestudiohx::babylonhx::tools::Space_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::IAnimatable_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__register();
 ::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::__register();
@@ -587,6 +591,9 @@ hx::RegisterResources( hx::GetResources() );
 ::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::SmartArray_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::IAnimatable_obj::__boot();
+::com::gamestudiohx::babylonhx::tools::Space_obj::__boot();
+::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__boot();
+::com::gamestudiohx::babylonhx::tools::Axis_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::Tools_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::math::Color3_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::math::Color4_obj::__boot();
@@ -596,7 +603,6 @@ hx::RegisterResources( hx::GetResources() );
 ::com::gamestudiohx::babylonhx::tools::math::Quaternion_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::math::Ray_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::math::Vector2_obj::__boot();
-::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__boot();
 ::com::gamestudiohx::babylonhx::tools::math::Viewport_obj::__boot();
 ::haxe::StackItem_obj::__boot();
 ::haxe::CallStack_obj::__boot();

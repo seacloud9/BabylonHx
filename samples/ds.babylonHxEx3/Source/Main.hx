@@ -24,16 +24,16 @@ import com.gamestudiohx.babylonhx.tools.SceneLoader;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
 import com.gamestudiohx.babylonhx.mesh.*;
-import flash.Vector.Vector;
-import flash.display.Shape;
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.geom.Rectangle;
-import flash.Lib;
-import flash.display.Graphics;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
+import openfl.display.Shape;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.events.KeyboardEvent;
+import openfl.geom.Rectangle;
+import openfl.Lib;
+import openfl.display.Graphics;
+import openfl.display.GradientType;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.display.FPS;
 
 /**
@@ -56,32 +56,41 @@ class Main extends Sprite {
     if (inited) return;
     var start_time = Date.now().getTime();
     inited = true;
-
     var engine = new Engine(this, true);     
     var scene = new Scene(engine);
     var background = new Layer("back0", null, scene);
     background.texture = new DynamicTexture("dynamic texture", {width:512, height:512}, scene, true);
-
-
     var size = background.texture.getSize();
     var shape:Shape = new Shape();
-    shape.graphics.lineStyle( 4, 0x1e4877 );
-    shape.graphics.beginFill( 0x4584b4 );
+    var m:openfl.geom.Matrix = new openfl.geom.Matrix();
+    var bounds:Rectangle = shape.getBounds(shape);
+    m.translate(-bounds.left, -bounds.top);
+    //m.createGradientBox(size.width, size.height,toRad(-90));
+    shape.graphics.beginGradientFill(GradientType.LINEAR,[0x1e4877,0x4584b4],[1,1],[0,255],m);
     shape.graphics.drawRect( 0, 0, size.width, size.height);
     shape.graphics.endFill();
-    var bounds:Rectangle = shape.getBounds(shape);
-    var m = new flash.geom.Matrix();
-    m.translate(-bounds.left, -bounds.top);
-    //var t:BitmapData = background.texture.getCanvas();
-
     background.texture._canvas.draw(shape, m);
+    background.texture.update();
+    
+    
 
-    var camera = new FreeCamera("camera", new Vector3(0, -128, 0), scene);
+
+
+   // var camera = new FreeCamera("camera", new Vector3(0, 0, 0), scene);
+   // 
+   // 
+   var camera = new ArcRotateCamera("Camera", 0, 0, 0, Vector3.Zero(), scene);
+    camera.attachControl(this);
+
         camera.fov = 30;
         camera.minZ = 1;
         camera.maxZ = 3000;
 
-        var cloudMaterial = new ShaderMaterial("clouds", scene, {
+        var light = new DirectionalLight("Dir0", new Vector3(1, -1, 0), scene);
+
+        light.parent = camera;
+
+       var cloudMaterial = new ShaderMaterial("cloud", scene, {
             vertex: "clouds",
             fragment: "clouds",
         },
@@ -91,77 +100,66 @@ class Main extends Sprite {
             uniforms: ["worldViewProjection"],
             samplers: ["textureSampler"]
         });
-        cloudMaterial.setTexture("Clouds", new Texture("assets/img/cloud.png", scene));
+        cloudMaterial.setTexture("textureSampler", new Texture("assets/img/cloud.png", scene));
         cloudMaterial.setFloat("fogNear", -100);
         cloudMaterial.setFloat("fogFar", 3000);
         cloudMaterial.setColor3("fogColor", new Color3(69, 132, 180));
-
-        trace('init - 1');
+   
         // Create merged planes
-        //size = 128;
-        var count = 1;
-
+        //var count = 8000;
+        var count = 200;
         var globalVertexData = new VertexData();
         for (i in 0...count ){
             var planeVertexData = VertexData.CreatePlane(128);
-            //safeDestroy(planeVertexData.normals); 
+            planeVertexData.normals = new Array<Float>(); 
 
             // Transform
             var randomScaling = Math.random() * Math.random() * 1.5 + 0.5;
             var transformMatrix = Matrix.Scaling(randomScaling, randomScaling, 1.0);
+            //trace('rot--' + Math.random() * Math.PI);
             transformMatrix = transformMatrix.multiply(Matrix.RotationZ(Math.random() * Math.PI));
             transformMatrix = transformMatrix.multiply(Matrix.Translation(Math.random() * 1000 - 500, -Math.random() * Math.random() * 100, count - i));
+            //trace(planeVertexData.positions);
+            //trace('transformMatrix ===' +transformMatrix );
             planeVertexData.transform(transformMatrix);
+            //trace(planeVertexData.positions);
             // Merge
             globalVertexData.merge(planeVertexData);
         }
-        trace('init - 2');
         var clouds = new Mesh("Clouds", scene);
-        trace('init - 3');
+
         globalVertexData.applyToMesh(clouds);
-        trace('init - 4');
         clouds.material = cloudMaterial;
-        clouds.position.z = -256;
+        clouds.position.z = camera.position.z + 10 ;
 
         //var clouds2 = clouds.clone("Clouds");
         //clouds2.position.z = -500;
+        // 
+        // 
+        
+        var skybox = Mesh.CreateBox("skyBox", 100.0, scene);
+        var skyboxMaterial = new StandardMaterial("skyBox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new CubeTexture("assets/img/skybox/skybox", scene);
+        skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new Color3(0, 0, 0);
+        skybox.material = skyboxMaterial;
 
-        var r = function () {
+         scene.registerBeforeRender(function () {
             var cameraDepth = ((Date.now().getTime()  - start_time) * 0.03) % 8000;
-            camera.position.z = cameraDepth;
-            trace(camera.position.z);
-            trace('in loop ');
-            //scene.render;
+           // camera.position.z = cameraDepth;
             //return scene.render;
-        }
-        /*var renderFunction = function(){
-            trace('yea');
-        }*/
-        //trace('preloop');
+        });
+
         scene.executeWhenReady(function() {
-            engine.runRenderLoop(scene.render, r);
+            engine.runRenderLoop(scene.render);
         });
         
+  }
 
-    /*SceneLoader.Load("assets/scenes/WCafe/", "WCafe.babylon", engine, function(newScene:Scene) {
-      this.scene = newScene;
-
-      scene.activeCamera = scene.cameras[0];
-      if (scene.activeCamera != null) {
-        scene.activeCamera.attachControl(this);
-
-        var _c:FreeCamera = cast scene.activeCamera;
-
-        _c.keysUp.push(87); // W
-        _c.keysDown.push(83); // S
-        _c.keysLeft.push(65); // A
-        _c.keysRight.push(68); // D
-      }
-
-      scene.executeWhenReady(function() {
-        engine.runRenderLoop(scene.render);
-      });
-    });*/
+  public function toRad(a:Float):Float {
+    return a*Math.PI/180;  
   }
 
   /* SETUP */
@@ -182,8 +180,8 @@ class Main extends Sprite {
 
   public static function main() {
     // static entry point
-    Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-    Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+    Lib.current.stage.align = openfl.display.StageAlign.TOP_LEFT;
+    Lib.current.stage.scaleMode = openfl.display.StageScaleMode.NO_SCALE;
     Lib.current.addChild(new Main());
   }
 

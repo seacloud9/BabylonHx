@@ -541,7 +541,6 @@ class SceneLoader {
 			if (parsedGeometry.matricesWeights != null) {
 				mesh.setVerticesData(VertexBuffer.MatricesWeightsKind, parsedGeometry.matricesWeights, false);
 			}
-
 			mesh.setIndices(parsedGeometry.indices);
 		}
 

@@ -84,6 +84,9 @@
 #ifndef INCLUDED_com_gamestudiohx_babylonhx_tools_math_Vector3
 #include <com/gamestudiohx/babylonhx/tools/math/Vector3.h>
 #endif
+#ifndef INCLUDED_haxe_Log
+#include <haxe/Log.h>
+#endif
 #ifndef INCLUDED_haxe_ds_StringMap
 #include <haxe/ds/StringMap.h>
 #endif
@@ -21655,13 +21658,17 @@ Void AbstractMesh_obj::releaseSubMeshes( ){
 					break;
 				}
 				HX_STACK_LINE(766)
+				::haxe::Log_obj::trace(HX_CSTRING("releaseSubMeshes"),hx::SourceInfo(HX_CSTRING("AbstractMesh.hx"),766,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.AbstractMesh"),HX_CSTRING("releaseSubMeshes")));
+				HX_STACK_LINE(767)
 				this->subMeshes->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::mesh::SubMesh >()->dispose();
 			}
 		}
 		else{
-			HX_STACK_LINE(769)
+			HX_STACK_LINE(770)
+			::haxe::Log_obj::trace(HX_CSTRING("new releaseSubMeshes"),hx::SourceInfo(HX_CSTRING("AbstractMesh.hx"),770,HX_CSTRING("com.gamestudiohx.babylonhx.mesh.AbstractMesh"),HX_CSTRING("releaseSubMeshes")));
+			HX_STACK_LINE(771)
 			Array< ::Dynamic > _g = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(769)
+			HX_STACK_LINE(771)
 			this->subMeshes = _g;
 		}
 	}
@@ -21673,86 +21680,86 @@ HX_DEFINE_DYNAMIC_FUNC0(AbstractMesh_obj,releaseSubMeshes,(void))
 
 Void AbstractMesh_obj::dispose( hx::Null< bool >  __o_doNotRecurse){
 bool doNotRecurse = __o_doNotRecurse.Default(false);
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.AbstractMesh","dispose",0x480103ef,"com.gamestudiohx.babylonhx.mesh.AbstractMesh.dispose","com/gamestudiohx/babylonhx/mesh/AbstractMesh.hx",773,0x2cff64c0)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.AbstractMesh","dispose",0x480103ef,"com.gamestudiohx.babylonhx.mesh.AbstractMesh.dispose","com/gamestudiohx/babylonhx/mesh/AbstractMesh.hx",775,0x2cff64c0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(doNotRecurse,"doNotRecurse")
 {
-		HX_STACK_LINE(774)
+		HX_STACK_LINE(776)
 		if (((this->_vertexBuffers != null()))){
-			HX_STACK_LINE(775)
+			HX_STACK_LINE(777)
 			for(::cpp::FastIterator_obj< ::String > *__it = ::cpp::CreateFastIterator< ::String >(this->_vertexBuffers->keys());  __it->hasNext(); ){
 				::String key = __it->next();
 				{
-					HX_STACK_LINE(776)
+					HX_STACK_LINE(778)
 					this->_vertexBuffers->get(key)->__Field(HX_CSTRING("dispose"),true)();
-					HX_STACK_LINE(777)
+					HX_STACK_LINE(779)
 					this->_vertexBuffers->remove(key);
 				}
 ;
 			}
-			HX_STACK_LINE(779)
+			HX_STACK_LINE(781)
 			this->_vertexBuffers = null();
 		}
-		HX_STACK_LINE(782)
+		HX_STACK_LINE(784)
 		if (((this->_indexBuffer != null()))){
-			HX_STACK_LINE(783)
+			HX_STACK_LINE(785)
 			this->_scene->getEngine()->_releaseBuffer(this->_indexBuffer);
-			HX_STACK_LINE(784)
+			HX_STACK_LINE(786)
 			this->_indexBuffer = null();
 		}
-		HX_STACK_LINE(790)
-		this->_scene->meshes->remove(hx::ObjectPtr<OBJ_>(this));
 		HX_STACK_LINE(792)
+		this->_scene->meshes->remove(hx::ObjectPtr<OBJ_>(this));
+		HX_STACK_LINE(794)
 		if ((!(doNotRecurse))){
-			HX_STACK_LINE(794)
+			HX_STACK_LINE(796)
 			int index = (int)0;		HX_STACK_VAR(index,"index");
-			HX_STACK_LINE(795)
+			HX_STACK_LINE(797)
 			while((true)){
-				HX_STACK_LINE(795)
+				HX_STACK_LINE(797)
 				if ((!(((index < this->_scene->particleSystems->length))))){
-					HX_STACK_LINE(795)
+					HX_STACK_LINE(797)
 					break;
 				}
-				HX_STACK_LINE(796)
+				HX_STACK_LINE(798)
 				if (((this->_scene->particleSystems->__get(index).StaticCast< ::com::gamestudiohx::babylonhx::particles::ParticleSystem >()->emitter == hx::ObjectPtr<OBJ_>(this)))){
-					HX_STACK_LINE(797)
+					HX_STACK_LINE(799)
 					this->_scene->particleSystems->__get(index).StaticCast< ::com::gamestudiohx::babylonhx::particles::ParticleSystem >()->dispose();
-					HX_STACK_LINE(798)
+					HX_STACK_LINE(800)
 					(index)--;
 				}
-				HX_STACK_LINE(800)
+				HX_STACK_LINE(802)
 				(index)++;
 			}
-			HX_STACK_LINE(804)
+			HX_STACK_LINE(806)
 			Array< ::Dynamic > objects = this->_scene->meshes->slice((int)0,null());		HX_STACK_VAR(objects,"objects");
-			HX_STACK_LINE(805)
+			HX_STACK_LINE(807)
 			{
-				HX_STACK_LINE(805)
+				HX_STACK_LINE(807)
 				int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(805)
+				HX_STACK_LINE(807)
 				int _g = objects->length;		HX_STACK_VAR(_g,"_g");
-				HX_STACK_LINE(805)
+				HX_STACK_LINE(807)
 				while((true)){
-					HX_STACK_LINE(805)
+					HX_STACK_LINE(807)
 					if ((!(((_g1 < _g))))){
-						HX_STACK_LINE(805)
+						HX_STACK_LINE(807)
 						break;
 					}
-					HX_STACK_LINE(805)
+					HX_STACK_LINE(807)
 					int index1 = (_g1)++;		HX_STACK_VAR(index1,"index1");
-					HX_STACK_LINE(806)
+					HX_STACK_LINE(808)
 					if (((objects->__get(index1).StaticCast< ::com::gamestudiohx::babylonhx::mesh::AbstractMesh >()->parent == hx::ObjectPtr<OBJ_>(this)))){
-						HX_STACK_LINE(807)
+						HX_STACK_LINE(809)
 						objects->__get(index1).StaticCast< ::com::gamestudiohx::babylonhx::mesh::AbstractMesh >()->dispose(null());
 					}
 				}
 			}
 		}
-		HX_STACK_LINE(812)
+		HX_STACK_LINE(814)
 		this->_isDisposed = true;
-		HX_STACK_LINE(815)
+		HX_STACK_LINE(817)
 		if (((this->onDispose_dyn() != null()))){
-			HX_STACK_LINE(816)
+			HX_STACK_LINE(818)
 			this->onDispose();
 		}
 	}
@@ -21774,226 +21781,226 @@ int AbstractMesh_obj::BILLBOARDMODE_ALL;
 
 Void AbstractMesh_obj::ComputeNormal( Array< Float > positions,Array< Float > normals,Array< int > indices){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.AbstractMesh","ComputeNormal",0x68fdd02e,"com.gamestudiohx.babylonhx.mesh.AbstractMesh.ComputeNormal","com/gamestudiohx/babylonhx/mesh/AbstractMesh.hx",822,0x2cff64c0)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.mesh.AbstractMesh","ComputeNormal",0x68fdd02e,"com.gamestudiohx.babylonhx.mesh.AbstractMesh.ComputeNormal","com/gamestudiohx/babylonhx/mesh/AbstractMesh.hx",824,0x2cff64c0)
 		HX_STACK_ARG(positions,"positions")
 		HX_STACK_ARG(normals,"normals")
 		HX_STACK_ARG(indices,"indices")
-		HX_STACK_LINE(823)
+		HX_STACK_LINE(825)
 		Array< ::Dynamic > positionVectors = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(positionVectors,"positionVectors");
-		HX_STACK_LINE(824)
-		Array< ::Dynamic > facesOfVertices = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(facesOfVertices,"facesOfVertices");
 		HX_STACK_LINE(826)
-		int index = (int)0;		HX_STACK_VAR(index,"index");
+		Array< ::Dynamic > facesOfVertices = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(facesOfVertices,"facesOfVertices");
 		HX_STACK_LINE(828)
+		int index = (int)0;		HX_STACK_VAR(index,"index");
+		HX_STACK_LINE(830)
 		while((true)){
-			HX_STACK_LINE(828)
+			HX_STACK_LINE(830)
 			if ((!(((index < positions->length))))){
-				HX_STACK_LINE(828)
+				HX_STACK_LINE(830)
 				break;
 			}
-			HX_STACK_LINE(829)
-			::com::gamestudiohx::babylonhx::tools::math::Vector3 vector3 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new(positions->__get(index),positions->__get((index + (int)1)),positions->__get((index + (int)2)));		HX_STACK_VAR(vector3,"vector3");
-			HX_STACK_LINE(830)
-			positionVectors->push(vector3);
 			HX_STACK_LINE(831)
-			facesOfVertices->push(Array_obj< int >::__new());
+			::com::gamestudiohx::babylonhx::tools::math::Vector3 vector3 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new(positions->__get(index),positions->__get((index + (int)1)),positions->__get((index + (int)2)));		HX_STACK_VAR(vector3,"vector3");
 			HX_STACK_LINE(832)
+			positionVectors->push(vector3);
+			HX_STACK_LINE(833)
+			facesOfVertices->push(Array_obj< int >::__new());
+			HX_STACK_LINE(834)
 			hx::AddEq(index,(int)3);
 		}
-		HX_STACK_LINE(836)
+		HX_STACK_LINE(838)
 		Array< ::Dynamic > facesNormals = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(facesNormals,"facesNormals");
-		HX_STACK_LINE(837)
+		HX_STACK_LINE(839)
 		{
-			HX_STACK_LINE(837)
+			HX_STACK_LINE(839)
 			int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-			HX_STACK_LINE(837)
+			HX_STACK_LINE(839)
 			int _g = ::Std_obj::_int((Float(indices->length) / Float((int)3)));		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(837)
+			HX_STACK_LINE(839)
 			while((true)){
-				HX_STACK_LINE(837)
+				HX_STACK_LINE(839)
 				if ((!(((_g1 < _g))))){
-					HX_STACK_LINE(837)
+					HX_STACK_LINE(839)
 					break;
 				}
-				HX_STACK_LINE(837)
-				int index1 = (_g1)++;		HX_STACK_VAR(index1,"index1");
-				HX_STACK_LINE(838)
-				int i1 = indices->__get((index1 * (int)3));		HX_STACK_VAR(i1,"i1");
 				HX_STACK_LINE(839)
-				int i2 = indices->__get(((index1 * (int)3) + (int)1));		HX_STACK_VAR(i2,"i2");
+				int index1 = (_g1)++;		HX_STACK_VAR(index1,"index1");
 				HX_STACK_LINE(840)
-				int i3 = indices->__get(((index1 * (int)3) + (int)2));		HX_STACK_VAR(i3,"i3");
+				int i1 = indices->__get((index1 * (int)3));		HX_STACK_VAR(i1,"i1");
+				HX_STACK_LINE(841)
+				int i2 = indices->__get(((index1 * (int)3) + (int)1));		HX_STACK_VAR(i2,"i2");
 				HX_STACK_LINE(842)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 p1 = positionVectors->__get(i1).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p1,"p1");
-				HX_STACK_LINE(843)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 p2 = positionVectors->__get(i2).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p2,"p2");
+				int i3 = indices->__get(((index1 * (int)3) + (int)2));		HX_STACK_VAR(i3,"i3");
 				HX_STACK_LINE(844)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 p3 = positionVectors->__get(i3).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p3,"p3");
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 p1 = positionVectors->__get(i1).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p1,"p1");
+				HX_STACK_LINE(845)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 p2 = positionVectors->__get(i2).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p2,"p2");
 				HX_STACK_LINE(846)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 p3 = positionVectors->__get(i3).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(p3,"p3");
+				HX_STACK_LINE(848)
 				::com::gamestudiohx::babylonhx::tools::math::Vector3 p1p2 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((p1->x - p2->x),(p1->y - p2->y),(p1->z - p2->z));		HX_STACK_VAR(p1p2,"p1p2");
-				HX_STACK_LINE(847)
-				::com::gamestudiohx::babylonhx::tools::math::Vector3 p3p2 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((p3->x - p2->x),(p3->y - p2->y),(p3->z - p2->z));		HX_STACK_VAR(p3p2,"p3p2");
 				HX_STACK_LINE(849)
+				::com::gamestudiohx::babylonhx::tools::math::Vector3 p3p2 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((p3->x - p2->x),(p3->y - p2->y),(p3->z - p2->z));		HX_STACK_VAR(p3p2,"p3p2");
+				HX_STACK_LINE(851)
 				{
-					HX_STACK_LINE(849)
+					HX_STACK_LINE(851)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 vector;		HX_STACK_VAR(vector,"vector");
-					HX_STACK_LINE(849)
+					HX_STACK_LINE(851)
 					{
-						HX_STACK_LINE(849)
+						HX_STACK_LINE(851)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 result = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(849)
+						HX_STACK_LINE(851)
 						{
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->x = ((p1p2->y * p3p2->z) - (p1p2->z * p3p2->y));
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->y = ((p1p2->z * p3p2->x) - (p1p2->x * p3p2->z));
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->z = ((p1p2->x * p3p2->y) - (p1p2->y * p3p2->x));
 						}
-						HX_STACK_LINE(849)
+						HX_STACK_LINE(851)
 						vector = result;
 					}
-					HX_STACK_LINE(849)
+					HX_STACK_LINE(851)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 result = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(849)
+					HX_STACK_LINE(851)
 					{
-						HX_STACK_LINE(849)
+						HX_STACK_LINE(851)
 						{
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->x = vector->x;
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->y = vector->y;
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							result->z = vector->z;
 						}
-						HX_STACK_LINE(849)
+						HX_STACK_LINE(851)
 						{
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							Float len = ::Math_obj::sqrt((((result->x * result->x) + (result->y * result->y)) + (result->z * result->z)));		HX_STACK_VAR(len,"len");
-							HX_STACK_LINE(849)
+							HX_STACK_LINE(851)
 							if (((len != (int)0))){
-								HX_STACK_LINE(849)
+								HX_STACK_LINE(851)
 								Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-								HX_STACK_LINE(849)
+								HX_STACK_LINE(851)
 								hx::MultEq(result->x,num);
-								HX_STACK_LINE(849)
+								HX_STACK_LINE(851)
 								hx::MultEq(result->y,num);
-								HX_STACK_LINE(849)
+								HX_STACK_LINE(851)
 								hx::MultEq(result->z,num);
 							}
 						}
 					}
-					HX_STACK_LINE(849)
+					HX_STACK_LINE(851)
 					facesNormals[index1] = result;
 				}
-				HX_STACK_LINE(850)
-				facesOfVertices->__get(i1).StaticCast< Array< int > >()->push(index1);
-				HX_STACK_LINE(851)
-				facesOfVertices->__get(i2).StaticCast< Array< int > >()->push(index1);
 				HX_STACK_LINE(852)
+				facesOfVertices->__get(i1).StaticCast< Array< int > >()->push(index1);
+				HX_STACK_LINE(853)
+				facesOfVertices->__get(i2).StaticCast< Array< int > >()->push(index1);
+				HX_STACK_LINE(854)
 				facesOfVertices->__get(i3).StaticCast< Array< int > >()->push(index1);
 			}
 		}
-		HX_STACK_LINE(855)
+		HX_STACK_LINE(857)
 		{
-			HX_STACK_LINE(855)
+			HX_STACK_LINE(857)
 			int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-			HX_STACK_LINE(855)
+			HX_STACK_LINE(857)
 			int _g = positionVectors->length;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(855)
+			HX_STACK_LINE(857)
 			while((true)){
-				HX_STACK_LINE(855)
+				HX_STACK_LINE(857)
 				if ((!(((_g1 < _g))))){
-					HX_STACK_LINE(855)
+					HX_STACK_LINE(857)
 					break;
 				}
-				HX_STACK_LINE(855)
+				HX_STACK_LINE(857)
 				int index1 = (_g1)++;		HX_STACK_VAR(index1,"index1");
-				HX_STACK_LINE(856)
-				Array< int > faces = facesOfVertices->__get(index1).StaticCast< Array< int > >();		HX_STACK_VAR(faces,"faces");
 				HX_STACK_LINE(858)
+				Array< int > faces = facesOfVertices->__get(index1).StaticCast< Array< int > >();		HX_STACK_VAR(faces,"faces");
+				HX_STACK_LINE(860)
 				::com::gamestudiohx::babylonhx::tools::math::Vector3 normal = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(normal,"normal");
-				HX_STACK_LINE(859)
+				HX_STACK_LINE(861)
 				{
-					HX_STACK_LINE(859)
+					HX_STACK_LINE(861)
 					int _g3 = (int)0;		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(859)
+					HX_STACK_LINE(861)
 					int _g2 = faces->length;		HX_STACK_VAR(_g2,"_g2");
-					HX_STACK_LINE(859)
+					HX_STACK_LINE(861)
 					while((true)){
-						HX_STACK_LINE(859)
+						HX_STACK_LINE(861)
 						if ((!(((_g3 < _g2))))){
-							HX_STACK_LINE(859)
+							HX_STACK_LINE(861)
 							break;
 						}
-						HX_STACK_LINE(859)
+						HX_STACK_LINE(861)
 						int faceIndex = (_g3)++;		HX_STACK_VAR(faceIndex,"faceIndex");
-						HX_STACK_LINE(860)
+						HX_STACK_LINE(862)
 						{
-							HX_STACK_LINE(860)
+							HX_STACK_LINE(862)
 							::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = facesNormals->__get(faces->__get(faceIndex)).StaticCast< ::com::gamestudiohx::babylonhx::tools::math::Vector3 >();		HX_STACK_VAR(otherVector,"otherVector");
-							HX_STACK_LINE(860)
+							HX_STACK_LINE(862)
 							hx::AddEq(normal->x,otherVector->x);
-							HX_STACK_LINE(860)
+							HX_STACK_LINE(862)
 							hx::AddEq(normal->y,otherVector->y);
-							HX_STACK_LINE(860)
+							HX_STACK_LINE(862)
 							hx::AddEq(normal->z,otherVector->z);
 						}
 					}
 				}
-				HX_STACK_LINE(863)
+				HX_STACK_LINE(865)
 				::com::gamestudiohx::babylonhx::tools::math::Vector3 _g2;		HX_STACK_VAR(_g2,"_g2");
-				HX_STACK_LINE(863)
+				HX_STACK_LINE(865)
 				{
-					HX_STACK_LINE(863)
+					HX_STACK_LINE(865)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 vector;		HX_STACK_VAR(vector,"vector");
-					HX_STACK_LINE(863)
+					HX_STACK_LINE(865)
 					{
-						HX_STACK_LINE(863)
+						HX_STACK_LINE(865)
 						Float scale = (Float(1.0) / Float(faces->length));		HX_STACK_VAR(scale,"scale");
-						HX_STACK_LINE(863)
+						HX_STACK_LINE(865)
 						vector = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new((normal->x * scale),(normal->y * scale),(normal->z * scale));
 					}
-					HX_STACK_LINE(863)
+					HX_STACK_LINE(865)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 result = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(863)
+					HX_STACK_LINE(865)
 					{
-						HX_STACK_LINE(863)
+						HX_STACK_LINE(865)
 						{
-							HX_STACK_LINE(863)
+							HX_STACK_LINE(865)
 							result->x = vector->x;
-							HX_STACK_LINE(863)
+							HX_STACK_LINE(865)
 							result->y = vector->y;
-							HX_STACK_LINE(863)
+							HX_STACK_LINE(865)
 							result->z = vector->z;
 						}
-						HX_STACK_LINE(863)
+						HX_STACK_LINE(865)
 						{
-							HX_STACK_LINE(863)
+							HX_STACK_LINE(865)
 							Float len = ::Math_obj::sqrt((((result->x * result->x) + (result->y * result->y)) + (result->z * result->z)));		HX_STACK_VAR(len,"len");
-							HX_STACK_LINE(863)
+							HX_STACK_LINE(865)
 							if (((len != (int)0))){
-								HX_STACK_LINE(863)
+								HX_STACK_LINE(865)
 								Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-								HX_STACK_LINE(863)
+								HX_STACK_LINE(865)
 								hx::MultEq(result->x,num);
-								HX_STACK_LINE(863)
+								HX_STACK_LINE(865)
 								hx::MultEq(result->y,num);
-								HX_STACK_LINE(863)
+								HX_STACK_LINE(865)
 								hx::MultEq(result->z,num);
 							}
 						}
 					}
-					HX_STACK_LINE(863)
+					HX_STACK_LINE(865)
 					_g2 = result;
 				}
-				HX_STACK_LINE(863)
-				normal = _g2;
 				HX_STACK_LINE(865)
-				normals[(index1 * (int)3)] = normal->x;
-				HX_STACK_LINE(866)
-				normals[((index1 * (int)3) + (int)1)] = normal->y;
+				normal = _g2;
 				HX_STACK_LINE(867)
+				normals[(index1 * (int)3)] = normal->x;
+				HX_STACK_LINE(868)
+				normals[((index1 * (int)3) + (int)1)] = normal->y;
+				HX_STACK_LINE(869)
 				normals[((index1 * (int)3) + (int)2)] = normal->z;
 			}
 		}

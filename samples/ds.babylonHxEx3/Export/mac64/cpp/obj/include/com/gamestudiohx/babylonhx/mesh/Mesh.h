@@ -91,7 +91,6 @@ class HXCPP_CLASS_ATTRIBUTES  Mesh_obj : public ::com::gamestudiohx::babylonhx::
 		virtual bool isReady( );
 
 		virtual Void _preActivate( );
-		Dynamic _preActivate_dyn();
 
 		virtual Void _registerInstanceForRenderId( ::com::gamestudiohx::babylonhx::mesh::InstancedMesh instance,int renderId);
 		Dynamic _registerInstanceForRenderId_dyn();

@@ -20,6 +20,7 @@ HX_DECLARE_CLASS4(com,gamestudiohx,babylonhx,mesh,BabylonGLBuffer)
 HX_DECLARE_CLASS4(com,gamestudiohx,babylonhx,mesh,IGetSetVerticesData)
 HX_DECLARE_CLASS4(com,gamestudiohx,babylonhx,mesh,Mesh)
 HX_DECLARE_CLASS4(com,gamestudiohx,babylonhx,mesh,SubMesh)
+HX_DECLARE_CLASS4(com,gamestudiohx,babylonhx,tools,Space)
 HX_DECLARE_CLASS5(com,gamestudiohx,babylonhx,tools,math,Matrix)
 HX_DECLARE_CLASS5(com,gamestudiohx,babylonhx,tools,math,Plane)
 HX_DECLARE_CLASS5(com,gamestudiohx,babylonhx,tools,math,Quaternion)
@@ -92,6 +93,7 @@ class HXCPP_CLASS_ATTRIBUTES  AbstractMesh_obj : public ::com::gamestudiohx::bab
 		::com::gamestudiohx::babylonhx::tools::math::Matrix _collisionsTransformMatrix;
 		::com::gamestudiohx::babylonhx::tools::math::Matrix _collisionsScalingMatrix;
 		::com::gamestudiohx::babylonhx::tools::math::Vector3 _absolutePosition;
+		bool _isDirty;
 		int _currentRenderId;
 		Array< ::Dynamic > _positions;
 		::haxe::ds::StringMap _vertexBuffers;
@@ -123,19 +125,37 @@ class HXCPP_CLASS_ATTRIBUTES  AbstractMesh_obj : public ::com::gamestudiohx::bab
 		virtual ::com::gamestudiohx::babylonhx::culling::BoundingInfo getBoundingInfo( );
 		Dynamic getBoundingInfo_dyn();
 
+		virtual Void _preActivate( );
+		Dynamic _preActivate_dyn();
+
+		virtual Void _activate( int renderId);
+		Dynamic _activate_dyn();
+
 		virtual ::com::gamestudiohx::babylonhx::Scene getScene( );
 		Dynamic getScene_dyn();
 
 		virtual ::com::gamestudiohx::babylonhx::tools::math::Matrix getWorldMatrix( );
 
+		virtual ::com::gamestudiohx::babylonhx::tools::math::Matrix getWorldMatrixFromCache( );
+		Dynamic getWorldMatrixFromCache_dyn();
+
 		virtual int getTotalVertices( );
 		Dynamic getTotalVertices_dyn();
+
+		virtual ::com::gamestudiohx::babylonhx::tools::math::Vector3 getabsolutePosition( );
+		Dynamic getabsolutePosition_dyn();
 
 		virtual ::com::gamestudiohx::babylonhx::tools::math::Vector3 getAbsolutePosition( );
 		Dynamic getAbsolutePosition_dyn();
 
 		virtual Void setAbsolutePosition( Dynamic absolutePosition);
 		Dynamic setAbsolutePosition_dyn();
+
+		virtual Void rotate( ::com::gamestudiohx::babylonhx::tools::math::Vector3 axis,Float amount,::com::gamestudiohx::babylonhx::tools::Space space);
+		Dynamic rotate_dyn();
+
+		virtual Void translate( ::com::gamestudiohx::babylonhx::tools::math::Vector3 axis,Float distance,::com::gamestudiohx::babylonhx::tools::Space space);
+		Dynamic translate_dyn();
 
 		virtual Array< Float > getVerticesData( ::String kind);
 		Dynamic getVerticesData_dyn();
@@ -179,6 +199,12 @@ class HXCPP_CLASS_ATTRIBUTES  AbstractMesh_obj : public ::com::gamestudiohx::bab
 
 		virtual ::com::gamestudiohx::babylonhx::tools::math::Matrix computeWorldMatrix( hx::Null< bool >  force);
 		Dynamic computeWorldMatrix_dyn();
+
+		virtual Void locallyTranslate( ::com::gamestudiohx::babylonhx::tools::math::Vector3 vector3);
+		Dynamic locallyTranslate_dyn();
+
+		virtual Void lookAt( ::com::gamestudiohx::babylonhx::tools::math::Vector3 targetPoint,hx::Null< Float >  yawCor,hx::Null< Float >  pitchCor,hx::Null< Float >  rollCor);
+		Dynamic lookAt_dyn();
 
 		virtual Void bindAndDraw( ::com::gamestudiohx::babylonhx::mesh::SubMesh subMesh,::com::gamestudiohx::babylonhx::materials::Effect effect,bool wireframe);
 		Dynamic bindAndDraw_dyn();

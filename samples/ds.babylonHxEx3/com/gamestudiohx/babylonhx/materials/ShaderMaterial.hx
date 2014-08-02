@@ -151,7 +151,7 @@ class ShaderMaterial extends Material {
                 this._options.attributes,
                 this._options.uniforms,
                 this._options.samplers,
-                "", null);
+                "", null, this.onCompiled, this.onError);
 
             if (!this._effect.isReady()) {
                 return false;
@@ -167,20 +167,22 @@ class ShaderMaterial extends Material {
             }
 
             if (this._options.uniforms.indexOf("view") != -1) {
-                this._effect.setMatrix("view", this.getScene().getViewMatrix());
+                
+
+                this._effect.setMatrix("view", this._scene.getViewMatrix());
             }
 
             if (this._options.uniforms.indexOf("worldView") != -1) {
-                world.multiplyToRef(this.getScene().getViewMatrix(), this._cachedWorldViewMatrix);
+                world.multiplyToRef(this._scene.getViewMatrix(), this._cachedWorldViewMatrix);
                 this._effect.setMatrix("worldView", this._cachedWorldViewMatrix);
             }
 
             if (this._options.uniforms.indexOf("projection") != -1) {
-                this._effect.setMatrix("projection", this.getScene().getProjectionMatrix());
+                this._effect.setMatrix("projection", this._scene.getProjectionMatrix());
             }
 
             if (this._options.uniforms.indexOf("worldViewProjection") != -1) {
-                this._effect.setMatrix("worldViewProjection", world.multiply(this.getScene().getTransformMatrix()));
+                this._effect.setMatrix("worldViewProjection", world.multiply(this._scene.getTransformMatrix()));
             }
 
             // Texture

@@ -30,12 +30,12 @@ class HXCPP_CLASS_ATTRIBUTES  Effect_obj : public hx::Object{
 		typedef hx::Object super;
 		typedef Effect_obj OBJ_;
 		Effect_obj();
-		Void __construct(Dynamic baseName,Array< ::String > attributesNames,Array< ::String > uniformsNames,Array< ::String > samplers,::com::gamestudiohx::babylonhx::Engine engine,::String defines,Array< ::String > optionalDefines);
+		Void __construct(Dynamic baseName,Array< ::String > attributesNames,Array< ::String > uniformsNames,Array< ::String > samplers,::com::gamestudiohx::babylonhx::Engine engine,::String defines,Array< ::String > optionalDefines,Dynamic onCompiled,Dynamic onError);
 
 	public:
 		inline void *operator new( size_t inSize, bool inContainer=true)
 			{ return hx::Object::operator new(inSize,inContainer); }
-		static hx::ObjectPtr< Effect_obj > __new(Dynamic baseName,Array< ::String > attributesNames,Array< ::String > uniformsNames,Array< ::String > samplers,::com::gamestudiohx::babylonhx::Engine engine,::String defines,Array< ::String > optionalDefines);
+		static hx::ObjectPtr< Effect_obj > __new(Dynamic baseName,Array< ::String > attributesNames,Array< ::String > uniformsNames,Array< ::String > samplers,::com::gamestudiohx::babylonhx::Engine engine,::String defines,Array< ::String > optionalDefines,Dynamic onCompiled,Dynamic onError);
 		static Dynamic __CreateEmpty();
 		static Dynamic __Create(hx::DynamicArray inArgs);
 		//~Effect_obj();
@@ -59,6 +59,10 @@ class HXCPP_CLASS_ATTRIBUTES  Effect_obj : public hx::Object{
 		Array< ::String > _attributesNames;
 		::haxe::ds::StringMap _valueCache;
 		::openfl::gl::GLProgram _program;
+		Dynamic onCompiled;
+		Dynamic &onCompiled_dyn() { return onCompiled;}
+		Dynamic onError;
+		Dynamic &onError_dyn() { return onError;}
 		virtual bool isReady( );
 		Dynamic isReady_dyn();
 

@@ -198,6 +198,7 @@ import openfl.utils.Float32Array;
 
             this._indices = indices;
             if (this._meshes.length != 0 && this._indices.length > 0) {
+                trace('geometry setIndices - in pre this._indexBuffer');
                 this._indexBuffer = this._engine.createIndexBuffer(this._indices);
             }
 

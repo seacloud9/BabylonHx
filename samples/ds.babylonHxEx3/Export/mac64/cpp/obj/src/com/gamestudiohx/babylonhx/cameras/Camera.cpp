@@ -33,9 +33,6 @@
 #ifndef INCLUDED_com_gamestudiohx_babylonhx_tools_math_Viewport
 #include <com/gamestudiohx/babylonhx/tools/math/Viewport.h>
 #endif
-#ifndef INCLUDED_haxe_Log
-#include <haxe/Log.h>
-#endif
 #ifndef INCLUDED_hxMath
 #include <hxMath.h>
 #endif
@@ -526,102 +523,100 @@ int Camera_obj::attachPostProcess( ::com::gamestudiohx::babylonhx::postprocess::
 	HX_STACK_LINE(225)
 	if (((  ((!(postProcess->_reusable))) ? bool(_Function_1_1::Block(this,postProcess)) : bool(false) ))){
 		HX_STACK_LINE(226)
-		::haxe::Log_obj::trace(HX_CSTRING("You're trying to reuse a post process not defined as reusable."),hx::SourceInfo(HX_CSTRING("Camera.hx"),226,HX_CSTRING("com.gamestudiohx.babylonhx.cameras.Camera"),HX_CSTRING("attachPostProcess")));
-		HX_STACK_LINE(227)
 		return (int)-1;
 	}
-	HX_STACK_LINE(230)
+	HX_STACK_LINE(229)
 	if (((bool((insertAt == null())) || bool((insertAt < (int)0))))){
-		HX_STACK_LINE(231)
+		HX_STACK_LINE(230)
 		this->_postProcesses->push(postProcess);
-		HX_STACK_LINE(232)
+		HX_STACK_LINE(231)
 		this->_postProcessesTakenIndices->push((this->_postProcesses->length - (int)1));
-		HX_STACK_LINE(234)
+		HX_STACK_LINE(233)
 		return (this->_postProcesses->length - (int)1);
 	}
-	HX_STACK_LINE(237)
+	HX_STACK_LINE(236)
 	int add = (int)0;		HX_STACK_VAR(add,"add");
-	HX_STACK_LINE(238)
+	HX_STACK_LINE(237)
 	if (((this->_postProcesses->length > insertAt))){
-		HX_STACK_LINE(239)
+		HX_STACK_LINE(238)
 		int i = (this->_postProcesses->length - (int)1);		HX_STACK_VAR(i,"i");
-		HX_STACK_LINE(240)
+		HX_STACK_LINE(239)
 		while((true)){
-			HX_STACK_LINE(240)
+			HX_STACK_LINE(239)
 			if ((!(((i >= insertAt))))){
-				HX_STACK_LINE(240)
+				HX_STACK_LINE(239)
 				break;
 			}
-			HX_STACK_LINE(241)
+			HX_STACK_LINE(240)
 			this->_postProcesses[(i + (int)1)] = this->_postProcesses->__get(i).StaticCast< ::com::gamestudiohx::babylonhx::postprocess::PostProcess >();
-			HX_STACK_LINE(242)
+			HX_STACK_LINE(241)
 			--(i);
 		}
-		HX_STACK_LINE(244)
+		HX_STACK_LINE(243)
 		add = (int)1;
 	}
-	HX_STACK_LINE(247)
+	HX_STACK_LINE(246)
 	{
-		HX_STACK_LINE(247)
+		HX_STACK_LINE(246)
 		int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(247)
+		HX_STACK_LINE(246)
 		int _g = this->_postProcessesTakenIndices->length;		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(247)
+		HX_STACK_LINE(246)
 		while((true)){
-			HX_STACK_LINE(247)
+			HX_STACK_LINE(246)
 			if ((!(((_g1 < _g))))){
-				HX_STACK_LINE(247)
+				HX_STACK_LINE(246)
 				break;
 			}
-			HX_STACK_LINE(247)
+			HX_STACK_LINE(246)
 			int i = (_g1)++;		HX_STACK_VAR(i,"i");
-			HX_STACK_LINE(248)
+			HX_STACK_LINE(247)
 			if (((this->_postProcessesTakenIndices->__get(i) < insertAt))){
-				HX_STACK_LINE(249)
+				HX_STACK_LINE(248)
 				continue;
 			}
-			HX_STACK_LINE(252)
+			HX_STACK_LINE(251)
 			int j = (this->_postProcessesTakenIndices->length - (int)1);		HX_STACK_VAR(j,"j");
-			HX_STACK_LINE(253)
+			HX_STACK_LINE(252)
 			while((true)){
-				HX_STACK_LINE(253)
+				HX_STACK_LINE(252)
 				if ((!(((j >= i))))){
-					HX_STACK_LINE(253)
+					HX_STACK_LINE(252)
 					break;
 				}
-				HX_STACK_LINE(254)
+				HX_STACK_LINE(253)
 				this->_postProcessesTakenIndices[(j + (int)1)] = (this->_postProcessesTakenIndices->__get(j) + add);
-				HX_STACK_LINE(255)
+				HX_STACK_LINE(254)
 				--(j);
 			}
-			HX_STACK_LINE(257)
+			HX_STACK_LINE(256)
 			this->_postProcessesTakenIndices[i] = insertAt;
-			HX_STACK_LINE(258)
+			HX_STACK_LINE(257)
 			break;
 		}
 	}
 	struct _Function_1_2{
 		inline static bool Block( hx::ObjectPtr< ::com::gamestudiohx::babylonhx::cameras::Camera_obj > __this,Dynamic &insertAt){
-			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",261,0x2d4d9ec5)
+			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",260,0x2d4d9ec5)
 			{
-				HX_STACK_LINE(261)
+				HX_STACK_LINE(260)
 				int _g1 = ::Lambda_obj::indexOf(__this->_postProcessesTakenIndices,insertAt);		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(261)
+				HX_STACK_LINE(260)
 				return (_g1 == (int)-1);
 			}
 			return null();
 		}
 	};
-	HX_STACK_LINE(261)
+	HX_STACK_LINE(260)
 	if (((  (((add > (int)0))) ? bool(_Function_1_2::Block(this,insertAt)) : bool(false) ))){
-		HX_STACK_LINE(262)
+		HX_STACK_LINE(261)
 		this->_postProcessesTakenIndices->push(insertAt);
 	}
-	HX_STACK_LINE(265)
+	HX_STACK_LINE(264)
 	int result = (insertAt + add);		HX_STACK_VAR(result,"result");
-	HX_STACK_LINE(267)
+	HX_STACK_LINE(266)
 	this->_postProcesses[result] = postProcess;
-	HX_STACK_LINE(269)
+	HX_STACK_LINE(268)
 	return result;
 }
 
@@ -629,89 +624,89 @@ int Camera_obj::attachPostProcess( ::com::gamestudiohx::babylonhx::postprocess::
 HX_DEFINE_DYNAMIC_FUNC2(Camera_obj,attachPostProcess,return )
 
 Array< int > Camera_obj::detachPostProcess( ::com::gamestudiohx::babylonhx::postprocess::PostProcess postProcess,Dynamic atIndices){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","detachPostProcess",0x0b44fce5,"com.gamestudiohx.babylonhx.cameras.Camera.detachPostProcess","com/gamestudiohx/babylonhx/cameras/Camera.hx",272,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","detachPostProcess",0x0b44fce5,"com.gamestudiohx.babylonhx.cameras.Camera.detachPostProcess","com/gamestudiohx/babylonhx/cameras/Camera.hx",271,0x2d4d9ec5)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(postProcess,"postProcess")
 	HX_STACK_ARG(atIndices,"atIndices")
-	HX_STACK_LINE(273)
+	HX_STACK_LINE(272)
 	Array< int > result = Array_obj< int >::__new();		HX_STACK_VAR(result,"result");
-	HX_STACK_LINE(276)
+	HX_STACK_LINE(275)
 	if (((atIndices == null()))){
-		HX_STACK_LINE(277)
+		HX_STACK_LINE(276)
 		int length = this->_postProcesses->length;		HX_STACK_VAR(length,"length");
-		HX_STACK_LINE(279)
+		HX_STACK_LINE(278)
 		{
-			HX_STACK_LINE(279)
+			HX_STACK_LINE(278)
 			int _g = (int)0;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(279)
+			HX_STACK_LINE(278)
 			while((true)){
-				HX_STACK_LINE(279)
+				HX_STACK_LINE(278)
 				if ((!(((_g < length))))){
-					HX_STACK_LINE(279)
+					HX_STACK_LINE(278)
 					break;
 				}
-				HX_STACK_LINE(279)
+				HX_STACK_LINE(278)
 				int i = (_g)++;		HX_STACK_VAR(i,"i");
-				HX_STACK_LINE(280)
+				HX_STACK_LINE(279)
 				if (((this->_postProcesses->__get(i).StaticCast< ::com::gamestudiohx::babylonhx::postprocess::PostProcess >() != postProcess))){
-					HX_STACK_LINE(281)
+					HX_STACK_LINE(280)
 					continue;
 				}
-				HX_STACK_LINE(284)
+				HX_STACK_LINE(283)
 				this->_postProcesses[i] = null();
-				HX_STACK_LINE(286)
+				HX_STACK_LINE(285)
 				int index = ::Lambda_obj::indexOf(this->_postProcessesTakenIndices,i);		HX_STACK_VAR(index,"index");
-				HX_STACK_LINE(287)
+				HX_STACK_LINE(286)
 				this->_postProcessesTakenIndices->splice(index,(int)1);
 			}
 		}
 	}
 	else{
-		HX_STACK_LINE(292)
+		HX_STACK_LINE(291)
 		Array< ::Dynamic > _atIndices;		HX_STACK_VAR(_atIndices,"_atIndices");
-		HX_STACK_LINE(292)
+		HX_STACK_LINE(291)
 		if ((::Std_obj::is(atIndices,hx::ClassOf< Array<int> >()))){
-			HX_STACK_LINE(292)
+			HX_STACK_LINE(291)
 			_atIndices = atIndices;
 		}
 		else{
-			HX_STACK_LINE(292)
+			HX_STACK_LINE(291)
 			_atIndices = Array_obj< ::Dynamic >::__new().Add(atIndices);
 		}
-		HX_STACK_LINE(293)
+		HX_STACK_LINE(292)
 		{
-			HX_STACK_LINE(293)
+			HX_STACK_LINE(292)
 			int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-			HX_STACK_LINE(293)
+			HX_STACK_LINE(292)
 			int _g = _atIndices->length;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(293)
+			HX_STACK_LINE(292)
 			while((true)){
-				HX_STACK_LINE(293)
+				HX_STACK_LINE(292)
 				if ((!(((_g1 < _g))))){
-					HX_STACK_LINE(293)
+					HX_STACK_LINE(292)
 					break;
 				}
-				HX_STACK_LINE(293)
+				HX_STACK_LINE(292)
 				int i = (_g1)++;		HX_STACK_VAR(i,"i");
-				HX_STACK_LINE(294)
+				HX_STACK_LINE(293)
 				::com::gamestudiohx::babylonhx::postprocess::PostProcess foundPostProcess = this->_postProcesses->__get(atIndices->__GetItem(i)).StaticCast< ::com::gamestudiohx::babylonhx::postprocess::PostProcess >();		HX_STACK_VAR(foundPostProcess,"foundPostProcess");
-				HX_STACK_LINE(296)
+				HX_STACK_LINE(295)
 				if (((foundPostProcess != postProcess))){
-					HX_STACK_LINE(297)
+					HX_STACK_LINE(296)
 					result->push(i);
-					HX_STACK_LINE(298)
+					HX_STACK_LINE(297)
 					continue;
 				}
-				HX_STACK_LINE(301)
+				HX_STACK_LINE(300)
 				this->_postProcesses[atIndices->__GetItem(i)] = null();
-				HX_STACK_LINE(303)
+				HX_STACK_LINE(302)
 				int index = ::Lambda_obj::indexOf(this->_postProcessesTakenIndices,atIndices->__GetItem(i));		HX_STACK_VAR(index,"index");
-				HX_STACK_LINE(304)
+				HX_STACK_LINE(303)
 				this->_postProcessesTakenIndices->splice(index,(int)1);
 			}
 		}
 	}
-	HX_STACK_LINE(307)
+	HX_STACK_LINE(306)
 	return result;
 }
 
@@ -719,85 +714,85 @@ Array< int > Camera_obj::detachPostProcess( ::com::gamestudiohx::babylonhx::post
 HX_DEFINE_DYNAMIC_FUNC2(Camera_obj,detachPostProcess,return )
 
 ::com::gamestudiohx::babylonhx::tools::math::Matrix Camera_obj::getWorldMatrix( ){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getWorldMatrix",0xea81b814,"com.gamestudiohx.babylonhx.cameras.Camera.getWorldMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",310,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getWorldMatrix",0xea81b814,"com.gamestudiohx.babylonhx.cameras.Camera.getWorldMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",309,0x2d4d9ec5)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(311)
+	HX_STACK_LINE(310)
 	if (((this->_worldMatrix == null()))){
-		HX_STACK_LINE(312)
+		HX_STACK_LINE(311)
 		::com::gamestudiohx::babylonhx::tools::math::Matrix _g;		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(312)
+		HX_STACK_LINE(311)
 		{
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix result = ::com::gamestudiohx::babylonhx::tools::math::Matrix_obj::__new();		HX_STACK_VAR(result,"result");
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)0] = 1.0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)1] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)2] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)3] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)4] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)5] = 1.0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)6] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)7] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)8] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)9] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)10] = 1.0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)11] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)12] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)13] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)14] = (int)0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			result->m[(int)15] = 1.0;
-			HX_STACK_LINE(312)
+			HX_STACK_LINE(311)
 			_g = result;
 		}
-		HX_STACK_LINE(312)
+		HX_STACK_LINE(311)
 		this->_worldMatrix = _g;
 	}
-	HX_STACK_LINE(315)
+	HX_STACK_LINE(314)
 	::com::gamestudiohx::babylonhx::tools::math::Matrix viewMatrix;		HX_STACK_VAR(viewMatrix,"viewMatrix");
-	HX_STACK_LINE(315)
+	HX_STACK_LINE(314)
 	{
-		HX_STACK_LINE(315)
+		HX_STACK_LINE(314)
 		::com::gamestudiohx::babylonhx::tools::math::Matrix _g2;		HX_STACK_VAR(_g2,"_g2");
-		HX_STACK_LINE(315)
+		HX_STACK_LINE(314)
 		{
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			bool force = false;		HX_STACK_VAR(force,"force");
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			if ((!(((  ((!(force))) ? bool(this->_isSynchronizedViewMatrix()) : bool(false) ))))){
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				this->_syncChildFlag();
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _g1 = this->_getViewMatrix();		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				this->_computedViewMatrix = _g1;
 			}
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			_g2 = this->_computedViewMatrix;
 		}
-		HX_STACK_LINE(315)
+		HX_STACK_LINE(314)
 		this->_computedViewMatrix = _g2;
 		struct _Function_2_1{
 			inline static bool Block( hx::ObjectPtr< ::com::gamestudiohx::babylonhx::cameras::Camera_obj > __this){
-				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",315,0x2d4d9ec5)
+				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",314,0x2d4d9ec5)
 				{
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix _g3 = __this->parent->getWorldMatrix();		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					return (_g3 == null());
 				}
 				return null();
@@ -805,569 +800,569 @@ HX_DEFINE_DYNAMIC_FUNC2(Camera_obj,detachPostProcess,return )
 		};
 		struct _Function_2_2{
 			inline static bool Block( hx::ObjectPtr< ::com::gamestudiohx::babylonhx::cameras::Camera_obj > __this){
-				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",315,0x2d4d9ec5)
+				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",314,0x2d4d9ec5)
 				{
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					return (  ((!(__this->hasNewParent(null())))) ? bool(__this->parent->isSynchronized(null())) : bool(false) );
 				}
 				return null();
 			}
 		};
-		HX_STACK_LINE(315)
+		HX_STACK_LINE(314)
 		if ((!(((  ((!(((  ((!(((this->parent == null()))))) ? bool(_Function_2_1::Block(this)) : bool(true) ))))) ? bool(_Function_2_2::Block(this)) : bool(true) ))))){
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			if (((this->_worldMatrix == null()))){
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _g4;		HX_STACK_VAR(_g4,"_g4");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				{
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix result = ::com::gamestudiohx::babylonhx::tools::math::Matrix_obj::__new();		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)0] = 1.0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)1] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)2] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)3] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)4] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)5] = 1.0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)6] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)7] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)8] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)9] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)10] = 1.0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)11] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)12] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)13] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)14] = (int)0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result->m[(int)15] = 1.0;
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_g4 = result;
 				}
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				this->_worldMatrix = _g4;
 			}
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			{
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_computedViewMatrix;		HX_STACK_VAR(_this,"_this");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->_worldMatrix;		HX_STACK_VAR(other,"other");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)0] = (l23 * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)4] = (l24 * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)8] = (l25 * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)12] = (l26 * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				other->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 			}
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			{
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_worldMatrix;		HX_STACK_VAR(_this,"_this");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->parent->getWorldMatrix();		HX_STACK_VAR(other,"other");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				{
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Array< Float > result = this->_computedViewMatrix->m;		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					result;
 				}
 			}
-			HX_STACK_LINE(315)
+			HX_STACK_LINE(314)
 			{
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_computedViewMatrix;		HX_STACK_VAR(_this,"_this");
-				HX_STACK_LINE(315)
+				HX_STACK_LINE(314)
 				{
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)0] = (l23 * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)4] = (l24 * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)8] = (l25 * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)12] = (l26 * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-					HX_STACK_LINE(315)
+					HX_STACK_LINE(314)
 					_this->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 				}
 			}
 		}
-		HX_STACK_LINE(315)
+		HX_STACK_LINE(314)
 		viewMatrix = this->_computedViewMatrix;
 	}
-	HX_STACK_LINE(316)
+	HX_STACK_LINE(315)
 	{
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->_worldMatrix;		HX_STACK_VAR(other,"other");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l1 = viewMatrix->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l2 = viewMatrix->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l3 = viewMatrix->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l4 = viewMatrix->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l5 = viewMatrix->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l6 = viewMatrix->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l7 = viewMatrix->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l8 = viewMatrix->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l9 = viewMatrix->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l10 = viewMatrix->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l11 = viewMatrix->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l12 = viewMatrix->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l13 = viewMatrix->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l14 = viewMatrix->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l15 = viewMatrix->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l16 = viewMatrix->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)0] = (l23 * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)4] = (l24 * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)8] = (l25 * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)12] = (l26 * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-		HX_STACK_LINE(316)
+		HX_STACK_LINE(315)
 		other->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 	}
-	HX_STACK_LINE(318)
+	HX_STACK_LINE(317)
 	return this->_worldMatrix;
 }
 
 
 ::com::gamestudiohx::babylonhx::tools::math::Matrix Camera_obj::_getViewMatrix( ){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","_getViewMatrix",0x73871dd4,"com.gamestudiohx.babylonhx.cameras.Camera._getViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",322,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","_getViewMatrix",0x73871dd4,"com.gamestudiohx.babylonhx.cameras.Camera._getViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",321,0x2d4d9ec5)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	::com::gamestudiohx::babylonhx::tools::math::Matrix result = ::com::gamestudiohx::babylonhx::tools::math::Matrix_obj::__new();		HX_STACK_VAR(result,"result");
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)0] = 1.0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)1] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)2] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)3] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)4] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)5] = 1.0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)6] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)7] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)8] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)9] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)10] = 1.0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)11] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)12] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)13] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)14] = (int)0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	result->m[(int)15] = 1.0;
-	HX_STACK_LINE(322)
+	HX_STACK_LINE(321)
 	return result;
 }
 
@@ -1375,35 +1370,35 @@ HX_DEFINE_DYNAMIC_FUNC2(Camera_obj,detachPostProcess,return )
 HX_DEFINE_DYNAMIC_FUNC0(Camera_obj,_getViewMatrix,return )
 
 ::com::gamestudiohx::babylonhx::tools::math::Matrix Camera_obj::getViewMatrix( ){
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getViewMatrix",0x36ed5fc5,"com.gamestudiohx.babylonhx.cameras.Camera.getViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",325,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getViewMatrix",0x36ed5fc5,"com.gamestudiohx.babylonhx.cameras.Camera.getViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",324,0x2d4d9ec5)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(326)
+	HX_STACK_LINE(325)
 	::com::gamestudiohx::babylonhx::tools::math::Matrix _g1;		HX_STACK_VAR(_g1,"_g1");
-	HX_STACK_LINE(326)
+	HX_STACK_LINE(325)
 	{
-		HX_STACK_LINE(326)
+		HX_STACK_LINE(325)
 		bool force = false;		HX_STACK_VAR(force,"force");
-		HX_STACK_LINE(326)
+		HX_STACK_LINE(325)
 		if ((!(((  ((!(force))) ? bool(this->_isSynchronizedViewMatrix()) : bool(false) ))))){
-			HX_STACK_LINE(326)
+			HX_STACK_LINE(325)
 			this->_syncChildFlag();
-			HX_STACK_LINE(326)
+			HX_STACK_LINE(325)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix _g = this->_getViewMatrix();		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(326)
+			HX_STACK_LINE(325)
 			this->_computedViewMatrix = _g;
 		}
-		HX_STACK_LINE(326)
+		HX_STACK_LINE(325)
 		_g1 = this->_computedViewMatrix;
 	}
-	HX_STACK_LINE(326)
+	HX_STACK_LINE(325)
 	this->_computedViewMatrix = _g1;
 	struct _Function_1_1{
 		inline static bool Block( hx::ObjectPtr< ::com::gamestudiohx::babylonhx::cameras::Camera_obj > __this){
-			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",329,0x2d4d9ec5)
+			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",328,0x2d4d9ec5)
 			{
-				HX_STACK_LINE(329)
+				HX_STACK_LINE(328)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix _g2 = __this->parent->getWorldMatrix();		HX_STACK_VAR(_g2,"_g2");
-				HX_STACK_LINE(329)
+				HX_STACK_LINE(328)
 				return (_g2 == null());
 			}
 			return null();
@@ -1411,409 +1406,409 @@ HX_DEFINE_DYNAMIC_FUNC0(Camera_obj,_getViewMatrix,return )
 	};
 	struct _Function_1_2{
 		inline static bool Block( hx::ObjectPtr< ::com::gamestudiohx::babylonhx::cameras::Camera_obj > __this){
-			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",330,0x2d4d9ec5)
+			HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/cameras/Camera.hx",329,0x2d4d9ec5)
 			{
-				HX_STACK_LINE(330)
+				HX_STACK_LINE(329)
 				return (  ((!(__this->hasNewParent(null())))) ? bool(__this->parent->isSynchronized(null())) : bool(false) );
 			}
 			return null();
 		}
 	};
-	HX_STACK_LINE(328)
+	HX_STACK_LINE(327)
 	if ((!(((  ((!(((  ((!(((this->parent == null()))))) ? bool(_Function_1_1::Block(this)) : bool(true) ))))) ? bool(_Function_1_2::Block(this)) : bool(true) ))))){
-		HX_STACK_LINE(332)
+		HX_STACK_LINE(331)
 		if (((this->_worldMatrix == null()))){
-			HX_STACK_LINE(333)
+			HX_STACK_LINE(332)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix _g3;		HX_STACK_VAR(_g3,"_g3");
-			HX_STACK_LINE(333)
+			HX_STACK_LINE(332)
 			{
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix result = ::com::gamestudiohx::babylonhx::tools::math::Matrix_obj::__new();		HX_STACK_VAR(result,"result");
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)0] = 1.0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)1] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)2] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)3] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)4] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)5] = 1.0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)6] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)7] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)8] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)9] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)10] = 1.0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)11] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)12] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)13] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)14] = (int)0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				result->m[(int)15] = 1.0;
-				HX_STACK_LINE(333)
+				HX_STACK_LINE(332)
 				_g3 = result;
 			}
-			HX_STACK_LINE(333)
+			HX_STACK_LINE(332)
 			this->_worldMatrix = _g3;
+		}
+		HX_STACK_LINE(335)
+		{
+			HX_STACK_LINE(335)
+			::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_computedViewMatrix;		HX_STACK_VAR(_this,"_this");
+			HX_STACK_LINE(335)
+			::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->_worldMatrix;		HX_STACK_VAR(other,"other");
+			HX_STACK_LINE(335)
+			Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
+			HX_STACK_LINE(335)
+			Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
+			HX_STACK_LINE(335)
+			Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
+			HX_STACK_LINE(335)
+			Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
+			HX_STACK_LINE(335)
+			Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
+			HX_STACK_LINE(335)
+			Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
+			HX_STACK_LINE(335)
+			Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
+			HX_STACK_LINE(335)
+			Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
+			HX_STACK_LINE(335)
+			Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
+			HX_STACK_LINE(335)
+			Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
+			HX_STACK_LINE(335)
+			Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
+			HX_STACK_LINE(335)
+			Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
+			HX_STACK_LINE(335)
+			Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
+			HX_STACK_LINE(335)
+			Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
+			HX_STACK_LINE(335)
+			Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
+			HX_STACK_LINE(335)
+			Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
+			HX_STACK_LINE(335)
+			Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
+			HX_STACK_LINE(335)
+			Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
+			HX_STACK_LINE(335)
+			Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
+			HX_STACK_LINE(335)
+			Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
+			HX_STACK_LINE(335)
+			Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
+			HX_STACK_LINE(335)
+			Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
+			HX_STACK_LINE(335)
+			Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
+			HX_STACK_LINE(335)
+			Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
+			HX_STACK_LINE(335)
+			Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
+			HX_STACK_LINE(335)
+			Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
+			HX_STACK_LINE(335)
+			Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
+			HX_STACK_LINE(335)
+			Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
+			HX_STACK_LINE(335)
+			Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
+			HX_STACK_LINE(335)
+			Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
+			HX_STACK_LINE(335)
+			Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
+			HX_STACK_LINE(335)
+			Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
+			HX_STACK_LINE(335)
+			Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
+			HX_STACK_LINE(335)
+			Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
+			HX_STACK_LINE(335)
+			Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
+			HX_STACK_LINE(335)
+			Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
+			HX_STACK_LINE(335)
+			Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
+			HX_STACK_LINE(335)
+			Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
+			HX_STACK_LINE(335)
+			Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
+			HX_STACK_LINE(335)
+			other->m[(int)0] = (l23 * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)4] = (l24 * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)8] = (l25 * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)12] = (l26 * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
+			HX_STACK_LINE(335)
+			other->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 		}
 		HX_STACK_LINE(336)
 		{
 			HX_STACK_LINE(336)
-			::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_computedViewMatrix;		HX_STACK_VAR(_this,"_this");
+			::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_worldMatrix;		HX_STACK_VAR(_this,"_this");
 			HX_STACK_LINE(336)
-			::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->_worldMatrix;		HX_STACK_VAR(other,"other");
+			::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->parent->getWorldMatrix();		HX_STACK_VAR(other,"other");
 			HX_STACK_LINE(336)
-			Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-			HX_STACK_LINE(336)
-			Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-			HX_STACK_LINE(336)
-			Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-			HX_STACK_LINE(336)
-			Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-			HX_STACK_LINE(336)
-			Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-			HX_STACK_LINE(336)
-			Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-			HX_STACK_LINE(336)
-			Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-			HX_STACK_LINE(336)
-			Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-			HX_STACK_LINE(336)
-			Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-			HX_STACK_LINE(336)
-			Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-			HX_STACK_LINE(336)
-			Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-			HX_STACK_LINE(336)
-			Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-			HX_STACK_LINE(336)
-			Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-			HX_STACK_LINE(336)
-			Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-			HX_STACK_LINE(336)
-			Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-			HX_STACK_LINE(336)
-			Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-			HX_STACK_LINE(336)
-			Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-			HX_STACK_LINE(336)
-			Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-			HX_STACK_LINE(336)
-			Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-			HX_STACK_LINE(336)
-			Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-			HX_STACK_LINE(336)
-			Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-			HX_STACK_LINE(336)
-			Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-			HX_STACK_LINE(336)
-			Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-			HX_STACK_LINE(336)
-			Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-			HX_STACK_LINE(336)
-			Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-			HX_STACK_LINE(336)
-			Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-			HX_STACK_LINE(336)
-			Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-			HX_STACK_LINE(336)
-			Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-			HX_STACK_LINE(336)
-			Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-			HX_STACK_LINE(336)
-			Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-			HX_STACK_LINE(336)
-			Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-			HX_STACK_LINE(336)
-			Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-			HX_STACK_LINE(336)
-			Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-			HX_STACK_LINE(336)
-			Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-			HX_STACK_LINE(336)
-			Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-			HX_STACK_LINE(336)
-			Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-			HX_STACK_LINE(336)
-			Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-			HX_STACK_LINE(336)
-			Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-			HX_STACK_LINE(336)
-			Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-			HX_STACK_LINE(336)
-			other->m[(int)0] = (l23 * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)4] = (l24 * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)8] = (l25 * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)12] = (l26 * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-			HX_STACK_LINE(336)
-			other->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
+			{
+				HX_STACK_LINE(336)
+				Array< Float > result = this->_computedViewMatrix->m;		HX_STACK_VAR(result,"result");
+				HX_STACK_LINE(336)
+				Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
+				HX_STACK_LINE(336)
+				Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
+				HX_STACK_LINE(336)
+				Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
+				HX_STACK_LINE(336)
+				Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
+				HX_STACK_LINE(336)
+				Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
+				HX_STACK_LINE(336)
+				Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
+				HX_STACK_LINE(336)
+				Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
+				HX_STACK_LINE(336)
+				Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
+				HX_STACK_LINE(336)
+				Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
+				HX_STACK_LINE(336)
+				Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
+				HX_STACK_LINE(336)
+				Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
+				HX_STACK_LINE(336)
+				Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
+				HX_STACK_LINE(336)
+				Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
+				HX_STACK_LINE(336)
+				Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
+				HX_STACK_LINE(336)
+				Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
+				HX_STACK_LINE(336)
+				Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
+				HX_STACK_LINE(336)
+				Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
+				HX_STACK_LINE(336)
+				Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
+				HX_STACK_LINE(336)
+				Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
+				HX_STACK_LINE(336)
+				Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
+				HX_STACK_LINE(336)
+				Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
+				HX_STACK_LINE(336)
+				Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
+				HX_STACK_LINE(336)
+				Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
+				HX_STACK_LINE(336)
+				Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
+				HX_STACK_LINE(336)
+				Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
+				HX_STACK_LINE(336)
+				Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
+				HX_STACK_LINE(336)
+				Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
+				HX_STACK_LINE(336)
+				Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
+				HX_STACK_LINE(336)
+				Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
+				HX_STACK_LINE(336)
+				Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
+				HX_STACK_LINE(336)
+				Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
+				HX_STACK_LINE(336)
+				Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
+				HX_STACK_LINE(336)
+				result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
+				HX_STACK_LINE(336)
+				result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
+				HX_STACK_LINE(336)
+				result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
+				HX_STACK_LINE(336)
+				result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
+				HX_STACK_LINE(336)
+				result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
+				HX_STACK_LINE(336)
+				result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
+				HX_STACK_LINE(336)
+				result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
+				HX_STACK_LINE(336)
+				result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
+				HX_STACK_LINE(336)
+				result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
+				HX_STACK_LINE(336)
+				result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
+				HX_STACK_LINE(336)
+				result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
+				HX_STACK_LINE(336)
+				result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
+				HX_STACK_LINE(336)
+				result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
+				HX_STACK_LINE(336)
+				result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
+				HX_STACK_LINE(336)
+				result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
+				HX_STACK_LINE(336)
+				result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
+				HX_STACK_LINE(336)
+				result;
+			}
 		}
 		HX_STACK_LINE(337)
 		{
 			HX_STACK_LINE(337)
-			::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_worldMatrix;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(337)
-			::com::gamestudiohx::babylonhx::tools::math::Matrix other = this->parent->getWorldMatrix();		HX_STACK_VAR(other,"other");
-			HX_STACK_LINE(337)
-			{
-				HX_STACK_LINE(337)
-				Array< Float > result = this->_computedViewMatrix->m;		HX_STACK_VAR(result,"result");
-				HX_STACK_LINE(337)
-				Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-				HX_STACK_LINE(337)
-				Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-				HX_STACK_LINE(337)
-				Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-				HX_STACK_LINE(337)
-				Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-				HX_STACK_LINE(337)
-				Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-				HX_STACK_LINE(337)
-				Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-				HX_STACK_LINE(337)
-				Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-				HX_STACK_LINE(337)
-				Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-				HX_STACK_LINE(337)
-				Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-				HX_STACK_LINE(337)
-				Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-				HX_STACK_LINE(337)
-				Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-				HX_STACK_LINE(337)
-				Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-				HX_STACK_LINE(337)
-				Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-				HX_STACK_LINE(337)
-				Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-				HX_STACK_LINE(337)
-				Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-				HX_STACK_LINE(337)
-				Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-				HX_STACK_LINE(337)
-				Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-				HX_STACK_LINE(337)
-				Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-				HX_STACK_LINE(337)
-				Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-				HX_STACK_LINE(337)
-				Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-				HX_STACK_LINE(337)
-				Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-				HX_STACK_LINE(337)
-				Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-				HX_STACK_LINE(337)
-				Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-				HX_STACK_LINE(337)
-				Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-				HX_STACK_LINE(337)
-				Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-				HX_STACK_LINE(337)
-				Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-				HX_STACK_LINE(337)
-				Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-				HX_STACK_LINE(337)
-				Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-				HX_STACK_LINE(337)
-				Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-				HX_STACK_LINE(337)
-				Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-				HX_STACK_LINE(337)
-				Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-				HX_STACK_LINE(337)
-				Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-				HX_STACK_LINE(337)
-				result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-				HX_STACK_LINE(337)
-				result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-				HX_STACK_LINE(337)
-				result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-				HX_STACK_LINE(337)
-				result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-				HX_STACK_LINE(337)
-				result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-				HX_STACK_LINE(337)
-				result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-				HX_STACK_LINE(337)
-				result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-				HX_STACK_LINE(337)
-				result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-				HX_STACK_LINE(337)
-				result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-				HX_STACK_LINE(337)
-				result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-				HX_STACK_LINE(337)
-				result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-				HX_STACK_LINE(337)
-				result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-				HX_STACK_LINE(337)
-				result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-				HX_STACK_LINE(337)
-				result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-				HX_STACK_LINE(337)
-				result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-				HX_STACK_LINE(337)
-				result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-				HX_STACK_LINE(337)
-				result;
-			}
-		}
-		HX_STACK_LINE(338)
-		{
-			HX_STACK_LINE(338)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix _this = this->_computedViewMatrix;		HX_STACK_VAR(_this,"_this");
-			HX_STACK_LINE(338)
+			HX_STACK_LINE(337)
 			{
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)0] = (l23 * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)4] = (l24 * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)8] = (l25 * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)12] = (l26 * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-				HX_STACK_LINE(338)
+				HX_STACK_LINE(337)
 				_this->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 			}
 		}
 	}
-	HX_STACK_LINE(341)
+	HX_STACK_LINE(340)
 	return this->_computedViewMatrix;
 }
 
@@ -1822,20 +1817,20 @@ HX_DEFINE_DYNAMIC_FUNC0(Camera_obj,getViewMatrix,return )
 
 ::com::gamestudiohx::babylonhx::tools::math::Matrix Camera_obj::_computeViewMatrix( hx::Null< bool >  __o_force){
 bool force = __o_force.Default(false);
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","_computeViewMatrix",0x1e2013f5,"com.gamestudiohx.babylonhx.cameras.Camera._computeViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",344,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","_computeViewMatrix",0x1e2013f5,"com.gamestudiohx.babylonhx.cameras.Camera._computeViewMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",343,0x2d4d9ec5)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(force,"force")
 {
-		HX_STACK_LINE(345)
+		HX_STACK_LINE(344)
 		if ((!(((  ((!(force))) ? bool(this->_isSynchronizedViewMatrix()) : bool(false) ))))){
-			HX_STACK_LINE(346)
+			HX_STACK_LINE(345)
 			this->_syncChildFlag();
-			HX_STACK_LINE(347)
+			HX_STACK_LINE(346)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix _g = this->_getViewMatrix();		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(347)
+			HX_STACK_LINE(346)
 			this->_computedViewMatrix = _g;
 		}
-		HX_STACK_LINE(349)
+		HX_STACK_LINE(348)
 		return this->_computedViewMatrix;
 	}
 }
@@ -1845,138 +1840,138 @@ HX_DEFINE_DYNAMIC_FUNC1(Camera_obj,_computeViewMatrix,return )
 
 ::com::gamestudiohx::babylonhx::tools::math::Matrix Camera_obj::getProjectionMatrix( hx::Null< bool >  __o_force){
 bool force = __o_force.Default(false);
-	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getProjectionMatrix",0x2860aaaf,"com.gamestudiohx.babylonhx.cameras.Camera.getProjectionMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",352,0x2d4d9ec5)
+	HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","getProjectionMatrix",0x2860aaaf,"com.gamestudiohx.babylonhx.cameras.Camera.getProjectionMatrix","com/gamestudiohx/babylonhx/cameras/Camera.hx",351,0x2d4d9ec5)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(force,"force")
 {
-		HX_STACK_LINE(353)
+		HX_STACK_LINE(352)
 		if ((!(((  ((!(force))) ? bool(this->_isSynchronizedProjectionMatrix()) : bool(false) ))))){
-			HX_STACK_LINE(354)
+			HX_STACK_LINE(353)
 			::com::gamestudiohx::babylonhx::Engine engine = this->_scene->getEngine();		HX_STACK_VAR(engine,"engine");
-			HX_STACK_LINE(355)
+			HX_STACK_LINE(354)
 			if (((this->mode == ::com::gamestudiohx::babylonhx::cameras::Camera_obj::PERSPECTIVE_CAMERA))){
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				Float aspect = engine->getAspectRatio(hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(aspect,"aspect");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				Float znear = this->minZ;		HX_STACK_VAR(znear,"znear");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				Float zfar = this->maxZ;		HX_STACK_VAR(zfar,"zfar");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				::com::gamestudiohx::babylonhx::tools::math::Matrix result = this->_projectionMatrix;		HX_STACK_VAR(result,"result");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				Float _g = ::Math_obj::tan((this->fov * 0.5));		HX_STACK_VAR(_g,"_g");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				Float tan = (Float(1.0) / Float(_g));		HX_STACK_VAR(tan,"tan");
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)0] = (Float(tan) / Float(aspect));
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)1] = result->m[(int)2] = result->m[(int)3] = 0.0;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)5] = tan;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)4] = result->m[(int)6] = result->m[(int)7] = 0.0;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)8] = result->m[(int)9] = 0.0;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)10] = (Float(-(zfar)) / Float(((znear - zfar))));
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)11] = 1.0;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)12] = result->m[(int)13] = result->m[(int)15] = 0.0;
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result->m[(int)14] = (Float((znear * zfar)) / Float(((znear - zfar))));
-				HX_STACK_LINE(356)
+				HX_STACK_LINE(355)
 				result;
 			}
 			else{
-				HX_STACK_LINE(358)
+				HX_STACK_LINE(357)
 				int _g1 = engine->getRenderWidth();		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(358)
+				HX_STACK_LINE(357)
 				Float halfWidth = (Float(_g1) / Float(2.0));		HX_STACK_VAR(halfWidth,"halfWidth");
-				HX_STACK_LINE(359)
+				HX_STACK_LINE(358)
 				int _g2 = engine->getRenderHeight();		HX_STACK_VAR(_g2,"_g2");
-				HX_STACK_LINE(359)
+				HX_STACK_LINE(358)
 				Float halfHeight = (Float(_g2) / Float(2.0));		HX_STACK_VAR(halfHeight,"halfHeight");
-				HX_STACK_LINE(360)
+				HX_STACK_LINE(359)
 				{
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float left;		HX_STACK_VAR(left,"left");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					if (((this->orthoLeft == null()))){
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						left = -(halfWidth);
 					}
 					else{
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						left = this->orthoLeft;
 					}
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float right;		HX_STACK_VAR(right,"right");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					if (((this->orthoRight == null()))){
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						right = halfWidth;
 					}
 					else{
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						right = this->orthoRight;
 					}
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float bottom;		HX_STACK_VAR(bottom,"bottom");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					if (((this->orthoBottom == null()))){
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						bottom = -(halfHeight);
 					}
 					else{
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						bottom = this->orthoBottom;
 					}
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float top;		HX_STACK_VAR(top,"top");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					if (((this->orthoTop == null()))){
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						top = halfHeight;
 					}
 					else{
-						HX_STACK_LINE(360)
+						HX_STACK_LINE(359)
 						top = this->orthoTop;
 					}
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float znear = this->minZ;		HX_STACK_VAR(znear,"znear");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					Float zfar = this->maxZ;		HX_STACK_VAR(zfar,"zfar");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix result = this->_projectionMatrix;		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)0] = (Float(2.0) / Float(((right - left))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)1] = result->m[(int)2] = result->m[(int)3] = result->m[(int)4] = (int)0;
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)5] = (Float(2.0) / Float(((top - bottom))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)6] = result->m[(int)7] = (int)0;
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)8] = result->m[(int)9] = (int)0;
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)10] = (Float((int)-1) / Float(((znear - zfar))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)11] = (int)0;
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)12] = (Float(((left + right))) / Float(((left - right))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)13] = (Float(((top + bottom))) / Float(((bottom - top))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)14] = (Float(znear) / Float(((znear - zfar))));
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result->m[(int)15] = 1.0;
-					HX_STACK_LINE(360)
+					HX_STACK_LINE(359)
 					result;
 				}
 			}
 		}
-		HX_STACK_LINE(364)
+		HX_STACK_LINE(363)
 		return this->_projectionMatrix;
 	}
 }
@@ -1986,28 +1981,28 @@ HX_DEFINE_DYNAMIC_FUNC1(Camera_obj,getProjectionMatrix,return )
 
 Void Camera_obj::dispose( ){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","dispose",0x5c3f70e8,"com.gamestudiohx.babylonhx.cameras.Camera.dispose","com/gamestudiohx/babylonhx/cameras/Camera.hx",367,0x2d4d9ec5)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.cameras.Camera","dispose",0x5c3f70e8,"com.gamestudiohx.babylonhx.cameras.Camera.dispose","com/gamestudiohx/babylonhx/cameras/Camera.hx",366,0x2d4d9ec5)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(369)
+		HX_STACK_LINE(368)
 		int index = ::Lambda_obj::indexOf(this->_scene->cameras,hx::ObjectPtr<OBJ_>(this));		HX_STACK_VAR(index,"index");
-		HX_STACK_LINE(370)
+		HX_STACK_LINE(369)
 		this->_scene->cameras->splice(index,(int)1);
-		HX_STACK_LINE(373)
+		HX_STACK_LINE(372)
 		{
-			HX_STACK_LINE(373)
+			HX_STACK_LINE(372)
 			int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-			HX_STACK_LINE(373)
+			HX_STACK_LINE(372)
 			int _g = this->_postProcessesTakenIndices->length;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(373)
+			HX_STACK_LINE(372)
 			while((true)){
-				HX_STACK_LINE(373)
+				HX_STACK_LINE(372)
 				if ((!(((_g1 < _g))))){
-					HX_STACK_LINE(373)
+					HX_STACK_LINE(372)
 					break;
 				}
-				HX_STACK_LINE(373)
+				HX_STACK_LINE(372)
 				int i = (_g1)++;		HX_STACK_VAR(i,"i");
-				HX_STACK_LINE(374)
+				HX_STACK_LINE(373)
 				this->_postProcesses->__get(this->_postProcessesTakenIndices->__get(i)).StaticCast< ::com::gamestudiohx::babylonhx::postprocess::PostProcess >()->dispose(hx::ObjectPtr<OBJ_>(this));
 			}
 		}

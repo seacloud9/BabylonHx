@@ -47,6 +47,9 @@ class HXCPP_CLASS_ATTRIBUTES  Main_obj : public ::openfl::display::Sprite_obj{
 		virtual Void init( );
 		Dynamic init_dyn();
 
+		virtual Float toRad( Float a);
+		Dynamic toRad_dyn();
+
 		virtual Void added( Dynamic e);
 		Dynamic added_dyn();
 

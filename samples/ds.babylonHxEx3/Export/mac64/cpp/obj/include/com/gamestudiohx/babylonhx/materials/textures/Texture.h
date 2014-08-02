@@ -87,6 +87,9 @@ class HXCPP_CLASS_ATTRIBUTES  Texture_obj : public ::com::gamestudiohx::babylonh
 		virtual ::com::gamestudiohx::babylonhx::tools::math::Matrix _computeReflectionTextureMatrix( );
 		Dynamic _computeReflectionTextureMatrix_dyn();
 
+		virtual Void update( hx::Null< int >  invertY);
+		Dynamic update_dyn();
+
 		virtual ::com::gamestudiohx::babylonhx::materials::textures::Texture clone( );
 		Dynamic clone_dyn();
 

@@ -44,7 +44,6 @@ class HXCPP_CLASS_ATTRIBUTES  InstancedMesh_obj : public ::com::gamestudiohx::ba
 		Dynamic refreshBoundingInfo_dyn();
 
 		virtual Void _activate( int renderId);
-		Dynamic _activate_dyn();
 
 		virtual Void _syncSubMeshes( );
 		Dynamic _syncSubMeshes_dyn();

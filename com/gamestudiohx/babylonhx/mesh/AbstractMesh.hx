@@ -763,9 +763,11 @@ class AbstractMesh extends Node{
 	public function releaseSubMeshes():Void {
             if (this.subMeshes != null) {
                 while (this.subMeshes.length > 0) {
+                	trace( 'releaseSubMeshes' );
                     this.subMeshes[0].dispose();
                 }
             } else {
+            	trace( 'new releaseSubMeshes' );
                 this.subMeshes = new Array<SubMesh>();
             }
      }

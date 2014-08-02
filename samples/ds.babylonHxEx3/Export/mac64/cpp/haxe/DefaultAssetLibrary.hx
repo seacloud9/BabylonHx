@@ -46,12 +46,42 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
-		path.set ("Assets/img/cloud.png", "Assets/img/cloud.png");
-		type.set ("Assets/img/cloud.png", AssetType.IMAGE);
-		path.set ("Assets/shaders/clouds.fragment.fx", "Assets/shaders/clouds.fragment.fx");
-		type.set ("Assets/shaders/clouds.fragment.fx", AssetType.TEXT);
-		path.set ("Assets/shaders/clouds.vertex.fx", "Assets/shaders/clouds.vertex.fx");
-		type.set ("Assets/shaders/clouds.vertex.fx", AssetType.TEXT);
+		path.set ("assets/img/cloud--.png", "assets/img/cloud--.png");
+		type.set ("assets/img/cloud--.png", AssetType.IMAGE);
+		path.set ("assets/img/cloud.jpg", "assets/img/cloud.jpg");
+		type.set ("assets/img/cloud.jpg", AssetType.IMAGE);
+		path.set ("assets/img/cloud.png", "assets/img/cloud.png");
+		type.set ("assets/img/cloud.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/README.TXT", "assets/img/skybox/README.TXT");
+		type.set ("assets/img/skybox/README.TXT", AssetType.TEXT);
+		path.set ("assets/img/skybox/skybox_nx.jpg", "assets/img/skybox/skybox_nx.jpg");
+		type.set ("assets/img/skybox/skybox_nx.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_nx.png", "assets/img/skybox/skybox_nx.png");
+		type.set ("assets/img/skybox/skybox_nx.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_ny.jpg", "assets/img/skybox/skybox_ny.jpg");
+		type.set ("assets/img/skybox/skybox_ny.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_ny.png", "assets/img/skybox/skybox_ny.png");
+		type.set ("assets/img/skybox/skybox_ny.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_nz.jpg", "assets/img/skybox/skybox_nz.jpg");
+		type.set ("assets/img/skybox/skybox_nz.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_nz.png", "assets/img/skybox/skybox_nz.png");
+		type.set ("assets/img/skybox/skybox_nz.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_px.jpg", "assets/img/skybox/skybox_px.jpg");
+		type.set ("assets/img/skybox/skybox_px.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_px.png", "assets/img/skybox/skybox_px.png");
+		type.set ("assets/img/skybox/skybox_px.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_py.jpg", "assets/img/skybox/skybox_py.jpg");
+		type.set ("assets/img/skybox/skybox_py.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_py.png", "assets/img/skybox/skybox_py.png");
+		type.set ("assets/img/skybox/skybox_py.png", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_pz.jpg", "assets/img/skybox/skybox_pz.jpg");
+		type.set ("assets/img/skybox/skybox_pz.jpg", AssetType.IMAGE);
+		path.set ("assets/img/skybox/skybox_pz.png", "assets/img/skybox/skybox_pz.png");
+		type.set ("assets/img/skybox/skybox_pz.png", AssetType.IMAGE);
+		path.set ("assets/shaders/clouds.fragment.txt", "assets/shaders/clouds.fragment.txt");
+		type.set ("assets/shaders/clouds.fragment.txt", AssetType.TEXT);
+		path.set ("assets/shaders/clouds.vertex.txt", "assets/shaders/clouds.vertex.txt");
+		type.set ("assets/shaders/clouds.vertex.txt", AssetType.TEXT);
 		
 		
 		#elseif html5
@@ -64,6 +94,21 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -689,7 +734,37 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #elseif html5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -87,6 +87,9 @@ class HXCPP_CLASS_ATTRIBUTES  Quaternion_obj : public hx::Object{
 		static ::com::gamestudiohx::babylonhx::tools::math::Quaternion Slerp( ::com::gamestudiohx::babylonhx::tools::math::Quaternion left,::com::gamestudiohx::babylonhx::tools::math::Quaternion right,Float amount);
 		static Dynamic Slerp_dyn();
 
+		static ::com::gamestudiohx::babylonhx::tools::math::Quaternion RotationAxis( ::com::gamestudiohx::babylonhx::tools::math::Vector3 axis,Float angle);
+		static Dynamic RotationAxis_dyn();
+
 };
 
 } // end namespace com

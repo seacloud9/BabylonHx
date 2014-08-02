@@ -442,9 +442,15 @@ class Engine {
 
     public function createIndexBuffer(indices:Array<Int>):BabylonGLBuffer {
         var vbo = GL.createBuffer();
+        trace('--hit 1');
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, vbo);
+        trace('--hit 2');
+        trace('len >>> ' +  indices);
         GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(indices), GL.STATIC_DRAW);
+        
+        trace('--hit 3');
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
+         trace('--hit 4');
         return new BabylonGLBuffer(vbo);
     }
 

@@ -61,6 +61,7 @@ import openfl.utils.UInt8Array;
         }
 
         public function applyToMesh(mesh:Mesh, ?updatable:Bool ) : Void {
+            trace('VertexData in applyToMesh');
             this._applyTo(mesh, updatable);
         }
 
@@ -77,7 +78,9 @@ import openfl.utils.UInt8Array;
         }
 
         private function _applyTo(meshOrGeometry:IGetSetVerticesData, ?updatable:Bool ) {
+            trace('VertexData in _applyTo');
             if (this.positions.length > 0) {
+                trace("_applyTo: positions " + this.positions.length);
                 meshOrGeometry.setVerticesData(VertexBuffer.PositionKind, this.positions, updatable);
             }
             if (this.normals.length > 0) {
@@ -145,21 +148,24 @@ import openfl.utils.UInt8Array;
         }
 
         public function transform(matrix:Matrix ) : Void {
+            //trace('matrix == ' + matrix);
             var transformed = Vector3.Zero();
             var index = 0;
             if (this.positions.length > 0) {
+
                 var position = Vector3.Zero();
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < this.positions.length; index += 3)
                 
                 while( index < this.positions.length)  {
+                    //trace(position);
                     Vector3.FromArrayToRef(this.positions, index, position);
-
                     Vector3.TransformCoordinatesToRef(position, matrix, transformed);
                     this.positions[index] = transformed.x;
                     this.positions[index + 1] = transformed.y;
                     this.positions[index + 2] = transformed.z;
-                 index += 3;
+                    //trace(transformed+ '== transformed');
+                    index += 3;
 
                 }
             }
@@ -192,19 +198,22 @@ import openfl.utils.UInt8Array;
 
                 //var offset = this.positions ? this.positions.length / 3  :  0;
                 if(this.positions != null){
-                    var offset = this.positions.length / 3;
+                    offset = cast(this.positions.length / 3, Int);
+                    trace('offset ==' + offset);
                 }else{
-                    var offset = 0;
+                    offset = 0;
                 }
-
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < other.indices.length; index++)
-            
+                //todo double check this
+                trace('preloop in merge other indices =' + other.indices);
+                trace('preloop in merge this indices = ' + this.indices);
                 while( index < other.indices.length)  {
                     this.indices.push(other.indices[index] + offset);
-                 index++;
-
+                    index++;
                 }
+
+                trace('after in merge this indicies = ' + this.indices);
             }
 
             if (other.positions.length > 0) {
@@ -215,8 +224,9 @@ import openfl.utils.UInt8Array;
                 //  for (index = 0; index < other.positions.length; index++)
                 index = 0;
                 while( index < other.positions.length)  {
+                     trace(index);
                     this.positions.push(other.positions[index]);
-                 index++;
+                    index++;
 
                 }
             }
@@ -962,6 +972,7 @@ import openfl.utils.UInt8Array;
             var vertexData = new VertexData();
 
             vertexData.indices = indices;
+            trace('CreatePlane' + indices);
             vertexData.positions = positions;
             vertexData.normals = normals;
             vertexData.uvs = uvs;

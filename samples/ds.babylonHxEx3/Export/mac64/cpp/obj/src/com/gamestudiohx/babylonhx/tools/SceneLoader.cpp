@@ -1561,1556 +1561,1556 @@ Void SceneLoader_obj::_ImportGeometry( Dynamic parsedGeometry,::com::gamestudioh
 				HX_STACK_LINE(542)
 				mesh->setVerticesData(::com::gamestudiohx::babylonhx::mesh::VertexBuffer_obj::MatricesWeightsKind,parsedGeometry->__Field(HX_CSTRING("matricesWeights"),true),false);
 			}
-			HX_STACK_LINE(545)
+			HX_STACK_LINE(544)
 			mesh->setIndices(parsedGeometry->__Field(HX_CSTRING("indices"),true));
 		}
-		HX_STACK_LINE(549)
+		HX_STACK_LINE(548)
 		if (((parsedGeometry->__Field(HX_CSTRING("subMeshes"),true) != null()))){
-			HX_STACK_LINE(550)
+			HX_STACK_LINE(549)
 			mesh->subMeshes = Array_obj< ::Dynamic >::__new();
-			HX_STACK_LINE(551)
+			HX_STACK_LINE(550)
 			{
-				HX_STACK_LINE(551)
+				HX_STACK_LINE(550)
 				int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(551)
+				HX_STACK_LINE(550)
 				int _g = parsedGeometry->__Field(HX_CSTRING("subMeshes"),true)->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g,"_g");
-				HX_STACK_LINE(551)
+				HX_STACK_LINE(550)
 				while((true)){
-					HX_STACK_LINE(551)
+					HX_STACK_LINE(550)
 					if ((!(((_g1 < _g))))){
-						HX_STACK_LINE(551)
+						HX_STACK_LINE(550)
 						break;
 					}
-					HX_STACK_LINE(551)
+					HX_STACK_LINE(550)
 					int subIndex = (_g1)++;		HX_STACK_VAR(subIndex,"subIndex");
-					HX_STACK_LINE(552)
+					HX_STACK_LINE(551)
 					Dynamic parsedSubMesh = parsedGeometry->__Field(HX_CSTRING("subMeshes"),true)->__GetItem(subIndex);		HX_STACK_VAR(parsedSubMesh,"parsedSubMesh");
-					HX_STACK_LINE(554)
+					HX_STACK_LINE(553)
 					::com::gamestudiohx::babylonhx::mesh::SubMesh subMesh = ::com::gamestudiohx::babylonhx::mesh::SubMesh_obj::__new(parsedSubMesh->__Field(HX_CSTRING("materialIndex"),true),parsedSubMesh->__Field(HX_CSTRING("verticesStart"),true),parsedSubMesh->__Field(HX_CSTRING("verticesCount"),true),parsedSubMesh->__Field(HX_CSTRING("indexStart"),true),parsedSubMesh->__Field(HX_CSTRING("indexCount"),true),mesh,null(),null());		HX_STACK_VAR(subMesh,"subMesh");
 				}
 			}
 		}
-		HX_STACK_LINE(559)
+		HX_STACK_LINE(558)
 		{
-			HX_STACK_LINE(559)
+			HX_STACK_LINE(558)
 			::com::gamestudiohx::babylonhx::tools::math::Matrix ret = mesh->_worldMatrix;		HX_STACK_VAR(ret,"ret");
-			HX_STACK_LINE(559)
+			HX_STACK_LINE(558)
 			{
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				mesh->_childrenFlag = (int)1;
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				mesh->_cache->__Field(HX_CSTRING("position"),true)->__Field(HX_CSTRING("copyFrom"),true)(mesh->position);
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				mesh->_cache->__Field(HX_CSTRING("scaling"),true)->__Field(HX_CSTRING("copyFrom"),true)(mesh->scaling);
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				mesh->_cache->__FieldRef(HX_CSTRING("pivotMatrixUpdated")) = false;
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				int _g1 = mesh->_scene->getRenderId();		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				mesh->_currentRenderId = _g1;
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localScaling;		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)0] = mesh->scaling->x;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)1] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)2] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)3] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)4] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)5] = mesh->scaling->y;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)6] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)7] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)8] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)9] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)10] = mesh->scaling->z;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)11] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)12] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)13] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)14] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result->m[(int)15] = 1.0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					result;
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				if (((mesh->rotationQuaternion != null()))){
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Quaternion _this = mesh->rotationQuaternion;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localRotation;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float xx = (_this->x * _this->x);		HX_STACK_VAR(xx,"xx");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float yy = (_this->y * _this->y);		HX_STACK_VAR(yy,"yy");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float zz = (_this->z * _this->z);		HX_STACK_VAR(zz,"zz");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float xy = (_this->x * _this->y);		HX_STACK_VAR(xy,"xy");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float zw = (_this->z * _this->w);		HX_STACK_VAR(zw,"zw");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float zx = (_this->z * _this->x);		HX_STACK_VAR(zx,"zx");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float yw = (_this->y * _this->w);		HX_STACK_VAR(yw,"yw");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float yz = (_this->y * _this->z);		HX_STACK_VAR(yz,"yz");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float xw = (_this->x * _this->w);		HX_STACK_VAR(xw,"xw");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)0] = (1.0 - (2.0 * ((yy + zz))));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)1] = (2.0 * ((xy + zw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)2] = (2.0 * ((zx - yw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)3] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)4] = (2.0 * ((xy - zw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)5] = (1.0 - (2.0 * ((zz + xx))));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)6] = (2.0 * ((yz + xw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)7] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)8] = (2.0 * ((zx + yw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)9] = (2.0 * ((yz - xw)));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)10] = (1.0 - (2.0 * ((yy + xx))));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)11] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)12] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)13] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)14] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)15] = 1.0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result;
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_cache->__Field(HX_CSTRING("rotationQuaternion"),true)->__Field(HX_CSTRING("copyFrom"),true)(mesh->rotationQuaternion);
 				}
 				else{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localRotation;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Quaternion tempQuaternion = ::com::gamestudiohx::babylonhx::tools::math::Quaternion_obj::__new(null(),null(),null(),null());		HX_STACK_VAR(tempQuaternion,"tempQuaternion");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Quaternion _g2;		HX_STACK_VAR(_g2,"_g2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float halfRoll = (mesh->rotation->z * 0.5);		HX_STACK_VAR(halfRoll,"halfRoll");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float halfPitch = (mesh->rotation->x * 0.5);		HX_STACK_VAR(halfPitch,"halfPitch");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float halfYaw = (mesh->rotation->y * 0.5);		HX_STACK_VAR(halfYaw,"halfYaw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float sinRoll = ::Math_obj::sin(halfRoll);		HX_STACK_VAR(sinRoll,"sinRoll");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float cosRoll = ::Math_obj::cos(halfRoll);		HX_STACK_VAR(cosRoll,"cosRoll");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float sinPitch = ::Math_obj::sin(halfPitch);		HX_STACK_VAR(sinPitch,"sinPitch");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float cosPitch = ::Math_obj::cos(halfPitch);		HX_STACK_VAR(cosPitch,"cosPitch");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float sinYaw = ::Math_obj::sin(halfYaw);		HX_STACK_VAR(sinYaw,"sinYaw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float cosYaw = ::Math_obj::cos(halfYaw);		HX_STACK_VAR(cosYaw,"cosYaw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							tempQuaternion->x = (((cosYaw * sinPitch) * cosRoll) + ((sinYaw * cosPitch) * sinRoll));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							tempQuaternion->y = (((sinYaw * cosPitch) * cosRoll) - ((cosYaw * sinPitch) * sinRoll));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							tempQuaternion->z = (((cosYaw * cosPitch) * sinRoll) - ((sinYaw * sinPitch) * cosRoll));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							tempQuaternion->w = (((cosYaw * cosPitch) * cosRoll) + ((sinYaw * sinPitch) * sinRoll));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_g2 = tempQuaternion;
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						tempQuaternion = _g2;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float xx = (tempQuaternion->x * tempQuaternion->x);		HX_STACK_VAR(xx,"xx");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float yy = (tempQuaternion->y * tempQuaternion->y);		HX_STACK_VAR(yy,"yy");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float zz = (tempQuaternion->z * tempQuaternion->z);		HX_STACK_VAR(zz,"zz");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float xy = (tempQuaternion->x * tempQuaternion->y);		HX_STACK_VAR(xy,"xy");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float zw = (tempQuaternion->z * tempQuaternion->w);		HX_STACK_VAR(zw,"zw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float zx = (tempQuaternion->z * tempQuaternion->x);		HX_STACK_VAR(zx,"zx");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float yw = (tempQuaternion->y * tempQuaternion->w);		HX_STACK_VAR(yw,"yw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float yz = (tempQuaternion->y * tempQuaternion->z);		HX_STACK_VAR(yz,"yz");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float xw = (tempQuaternion->x * tempQuaternion->w);		HX_STACK_VAR(xw,"xw");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)0] = (1.0 - (2.0 * ((yy + zz))));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)1] = (2.0 * ((xy + zw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)2] = (2.0 * ((zx - yw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)3] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)4] = (2.0 * ((xy - zw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)5] = (1.0 - (2.0 * ((zz + xx))));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)6] = (2.0 * ((yz + xw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)7] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)8] = (2.0 * ((zx + yw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)9] = (2.0 * ((yz - xw)));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)10] = (1.0 - (2.0 * ((yy + xx))));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)11] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)12] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)13] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)14] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)15] = 1.0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_cache->__Field(HX_CSTRING("rotation"),true)->__Field(HX_CSTRING("copyFrom"),true)(mesh->rotation);
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				if ((mesh->infiniteDistance)){
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::cameras::Camera camera = mesh->_scene->activeCamera;		HX_STACK_VAR(camera,"camera");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localTranslation;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)0] = 1.0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)1] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)2] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)3] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)4] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)5] = 1.0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)6] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)7] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)8] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)9] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)10] = 1.0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)11] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)12] = (mesh->position->x + camera->position->x);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)13] = (mesh->position->y + camera->position->y);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)14] = (mesh->position->z + camera->position->z);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)15] = 1.0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
 				}
 				else{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localTranslation;		HX_STACK_VAR(result,"result");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)0] = 1.0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)1] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)2] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)3] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)4] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)5] = 1.0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)6] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)7] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)8] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)9] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)10] = 1.0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)11] = (int)0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)12] = mesh->position->x;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)13] = mesh->position->y;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)14] = mesh->position->z;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result->m[(int)15] = 1.0;
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result;
 					}
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_pivotMatrix;		HX_STACK_VAR(_this,"_this");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localScaling;		HX_STACK_VAR(other,"other");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Array< Float > result = mesh->_localPivotScaling->m;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result;
 					}
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localPivotScaling;		HX_STACK_VAR(_this,"_this");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localRotation;		HX_STACK_VAR(other,"other");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Array< Float > result = mesh->_localPivotScalingRotation->m;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result;
 					}
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				if (((mesh->billboardMode != ::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_NONE))){
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 localPosition;		HX_STACK_VAR(localPosition,"localPosition");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = mesh->position;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						localPosition = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new(_this->x,_this->y,_this->z);
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 zero;		HX_STACK_VAR(zero,"zero");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = mesh->_scene->activeCamera->position;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						zero = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new(_this->x,_this->y,_this->z);
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					if (((bool((mesh->parent != null())) && bool((mesh->parent->position != null()))))){
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							::com::gamestudiohx::babylonhx::tools::math::Vector3 otherVector = mesh->parent->position;		HX_STACK_VAR(otherVector,"otherVector");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							hx::AddEq(localPosition->x,otherVector->x);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							hx::AddEq(localPosition->y,otherVector->y);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							hx::AddEq(localPosition->z,otherVector->z);
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localTranslation;		HX_STACK_VAR(result,"result");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							{
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)0] = 1.0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)1] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)2] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)3] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)4] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)5] = 1.0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)6] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)7] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)8] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)9] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)10] = 1.0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)11] = (int)0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)12] = localPosition->x;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)13] = localPosition->y;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)14] = localPosition->z;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result->m[(int)15] = 1.0;
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								result;
 							}
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					if (((((int(mesh->billboardMode) & int(::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_ALL))) == ::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_ALL))){
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						zero = mesh->_scene->activeCamera->position;
 					}
 					else{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						if (((((int(mesh->billboardMode) & int(::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_X))) != (int)0))){
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zero->x = (localPosition->x + ::com::gamestudiohx::babylonhx::Engine_obj::epsilon);
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						if (((((int(mesh->billboardMode) & int(::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_Y))) != (int)0))){
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zero->y = (localPosition->y + ::com::gamestudiohx::babylonhx::Engine_obj::epsilon);
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						if (((((int(mesh->billboardMode) & int(::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_Z))) != (int)0))){
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zero->z = (localPosition->z + ::com::gamestudiohx::babylonhx::Engine_obj::epsilon);
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 up = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Up();		HX_STACK_VAR(up,"up");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix result = mesh->_localBillboard;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 xAxis = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(xAxis,"xAxis");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 yAxis = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(yAxis,"yAxis");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Vector3 zAxis = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::Zero();		HX_STACK_VAR(zAxis,"zAxis");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zAxis->x = (zero->x - localPosition->x);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zAxis->y = (zero->y - localPosition->y);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							zAxis->z = (zero->z - localPosition->z);
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float len = ::Math_obj::sqrt((((zAxis->x * zAxis->x) + (zAxis->y * zAxis->y)) + (zAxis->z * zAxis->z)));		HX_STACK_VAR(len,"len");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							if (((len != (int)0))){
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(zAxis->x,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(zAxis->y,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(zAxis->z,num);
 							}
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							xAxis->x = ((up->y * zAxis->z) - (up->z * zAxis->y));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							xAxis->y = ((up->z * zAxis->x) - (up->x * zAxis->z));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							xAxis->z = ((up->x * zAxis->y) - (up->y * zAxis->x));
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float len = ::Math_obj::sqrt((((xAxis->x * xAxis->x) + (xAxis->y * xAxis->y)) + (xAxis->z * xAxis->z)));		HX_STACK_VAR(len,"len");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							if (((len != (int)0))){
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(xAxis->x,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(xAxis->y,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(xAxis->z,num);
 							}
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							yAxis->x = ((zAxis->y * xAxis->z) - (zAxis->z * xAxis->y));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							yAxis->y = ((zAxis->z * xAxis->x) - (zAxis->x * xAxis->z));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							yAxis->z = ((zAxis->x * xAxis->y) - (zAxis->y * xAxis->x));
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float len = ::Math_obj::sqrt((((yAxis->x * yAxis->x) + (yAxis->y * yAxis->y)) + (yAxis->z * yAxis->z)));		HX_STACK_VAR(len,"len");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							if (((len != (int)0))){
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								Float num = (Float(1.0) / Float(len));		HX_STACK_VAR(num,"num");
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(yAxis->x,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(yAxis->y,num);
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								hx::MultEq(yAxis->z,num);
 							}
 						}
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float ex = -(((((xAxis->x * localPosition->x) + (xAxis->y * localPosition->y)) + (xAxis->z * localPosition->z))));		HX_STACK_VAR(ex,"ex");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float ey = -(((((yAxis->x * localPosition->x) + (yAxis->y * localPosition->y)) + (yAxis->z * localPosition->z))));		HX_STACK_VAR(ey,"ey");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float ez = -(((((zAxis->x * localPosition->x) + (zAxis->y * localPosition->y)) + (zAxis->z * localPosition->z))));		HX_STACK_VAR(ez,"ez");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)0] = xAxis->x;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)1] = yAxis->x;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)2] = zAxis->x;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)3] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)4] = xAxis->y;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)5] = yAxis->y;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)6] = zAxis->y;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)7] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)8] = xAxis->z;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)9] = yAxis->z;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)10] = zAxis->z;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)11] = (int)0;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)12] = ex;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)13] = ey;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)14] = ez;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result->m[(int)15] = (int)1;
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_localBillboard->m[(int)12] = mesh->_localBillboard->m[(int)13] = mesh->_localBillboard->m[(int)14] = (int)0;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localBillboard;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l1 = _this->m->__get((int)0);		HX_STACK_VAR(l1,"l1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l2 = _this->m->__get((int)1);		HX_STACK_VAR(l2,"l2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l3 = _this->m->__get((int)2);		HX_STACK_VAR(l3,"l3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l4 = _this->m->__get((int)3);		HX_STACK_VAR(l4,"l4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l5 = _this->m->__get((int)4);		HX_STACK_VAR(l5,"l5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l6 = _this->m->__get((int)5);		HX_STACK_VAR(l6,"l6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l7 = _this->m->__get((int)6);		HX_STACK_VAR(l7,"l7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l8 = _this->m->__get((int)7);		HX_STACK_VAR(l8,"l8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l9 = _this->m->__get((int)8);		HX_STACK_VAR(l9,"l9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l10 = _this->m->__get((int)9);		HX_STACK_VAR(l10,"l10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l11 = _this->m->__get((int)10);		HX_STACK_VAR(l11,"l11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l12 = _this->m->__get((int)11);		HX_STACK_VAR(l12,"l12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l13 = _this->m->__get((int)12);		HX_STACK_VAR(l13,"l13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l14 = _this->m->__get((int)13);		HX_STACK_VAR(l14,"l14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l15 = _this->m->__get((int)14);		HX_STACK_VAR(l15,"l15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l16 = _this->m->__get((int)15);		HX_STACK_VAR(l16,"l16");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l17 = ((l11 * l16) - (l12 * l15));		HX_STACK_VAR(l17,"l17");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l18 = ((l10 * l16) - (l12 * l14));		HX_STACK_VAR(l18,"l18");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l19 = ((l10 * l15) - (l11 * l14));		HX_STACK_VAR(l19,"l19");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l20 = ((l9 * l16) - (l12 * l13));		HX_STACK_VAR(l20,"l20");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l21 = ((l9 * l15) - (l11 * l13));		HX_STACK_VAR(l21,"l21");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l22 = ((l9 * l14) - (l10 * l13));		HX_STACK_VAR(l22,"l22");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l23 = (((l6 * l17) - (l7 * l18)) + (l8 * l19));		HX_STACK_VAR(l23,"l23");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l24 = -(((((l5 * l17) - (l7 * l20)) + (l8 * l21))));		HX_STACK_VAR(l24,"l24");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l25 = (((l5 * l18) - (l6 * l20)) + (l8 * l22));		HX_STACK_VAR(l25,"l25");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l26 = -(((((l5 * l19) - (l6 * l21)) + (l7 * l22))));		HX_STACK_VAR(l26,"l26");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l27 = (Float(1.0) / Float((((((l1 * l23) + (l2 * l24)) + (l3 * l25)) + (l4 * l26)))));		HX_STACK_VAR(l27,"l27");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l28 = ((l7 * l16) - (l8 * l15));		HX_STACK_VAR(l28,"l28");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l29 = ((l6 * l16) - (l8 * l14));		HX_STACK_VAR(l29,"l29");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l30 = ((l6 * l15) - (l7 * l14));		HX_STACK_VAR(l30,"l30");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l31 = ((l5 * l16) - (l8 * l13));		HX_STACK_VAR(l31,"l31");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l32 = ((l5 * l15) - (l7 * l13));		HX_STACK_VAR(l32,"l32");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l33 = ((l5 * l14) - (l6 * l13));		HX_STACK_VAR(l33,"l33");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l34 = ((l7 * l12) - (l8 * l11));		HX_STACK_VAR(l34,"l34");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l35 = ((l6 * l12) - (l8 * l10));		HX_STACK_VAR(l35,"l35");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l36 = ((l6 * l11) - (l7 * l10));		HX_STACK_VAR(l36,"l36");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l37 = ((l5 * l12) - (l8 * l9));		HX_STACK_VAR(l37,"l37");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l38 = ((l5 * l11) - (l7 * l9));		HX_STACK_VAR(l38,"l38");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float l39 = ((l5 * l10) - (l6 * l9));		HX_STACK_VAR(l39,"l39");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)0] = (l23 * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)4] = (l24 * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)8] = (l25 * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)12] = (l26 * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)1] = (-(((((l2 * l17) - (l3 * l18)) + (l4 * l19)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)5] = (((((l1 * l17) - (l3 * l20)) + (l4 * l21))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)9] = (-(((((l1 * l18) - (l2 * l20)) + (l4 * l22)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)13] = (((((l1 * l19) - (l2 * l21)) + (l3 * l22))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)2] = (((((l2 * l28) - (l3 * l29)) + (l4 * l30))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)6] = (-(((((l1 * l28) - (l3 * l31)) + (l4 * l32)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)10] = (((((l1 * l29) - (l2 * l31)) + (l4 * l33))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)14] = (-(((((l1 * l30) - (l2 * l32)) + (l3 * l33)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)3] = (-(((((l2 * l34) - (l3 * l35)) + (l4 * l36)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)7] = (((((l1 * l34) - (l3 * l37)) + (l4 * l38))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)11] = (-(((((l1 * l35) - (l2 * l37)) + (l4 * l39)))) * l27);
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							_this->m[(int)15] = (((((l1 * l36) - (l2 * l38)) + (l3 * l39))) * l27);
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localPivotScalingRotation;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localBillboard;		HX_STACK_VAR(other,"other");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Array< Float > result = mesh->_localWorld->m;		HX_STACK_VAR(result,"result");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_rotateYByPI;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localWorld;		HX_STACK_VAR(other,"other");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Array< Float > result = mesh->_localPivotScalingRotation->m;		HX_STACK_VAR(result,"result");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
 				}
 				struct _Function_3_1{
 					inline static bool Block( ::com::gamestudiohx::babylonhx::mesh::Mesh &mesh){
-						HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",559,0x7b8a3c86)
+						HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",558,0x7b8a3c86)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							::com::gamestudiohx::babylonhx::tools::math::Matrix _g3 = mesh->parent->getWorldMatrix();		HX_STACK_VAR(_g3,"_g3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							return (_g3 != null());
 						}
 						return null();
 					}
 				};
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				if (((  (((  (((mesh->parent != null()))) ? bool(_Function_3_1::Block(mesh)) : bool(false) ))) ? bool((mesh->billboardMode == ::com::gamestudiohx::babylonhx::mesh::AbstractMesh_obj::BILLBOARDMODE_NONE)) : bool(false) ))){
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localPivotScalingRotation;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localTranslation;		HX_STACK_VAR(other,"other");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Array< Float > result = mesh->_localWorld->m;		HX_STACK_VAR(result,"result");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix parentWorld = mesh->parent->getWorldMatrix();		HX_STACK_VAR(parentWorld,"parentWorld");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localWorld;		HX_STACK_VAR(_this,"_this");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						{
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Array< Float > result = mesh->_worldMatrix->m;		HX_STACK_VAR(result,"result");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om0 = parentWorld->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om1 = parentWorld->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om2 = parentWorld->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om3 = parentWorld->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om4 = parentWorld->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om5 = parentWorld->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om6 = parentWorld->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om7 = parentWorld->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om8 = parentWorld->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om9 = parentWorld->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om10 = parentWorld->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om11 = parentWorld->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om12 = parentWorld->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om13 = parentWorld->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om14 = parentWorld->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							Float om15 = parentWorld->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							result;
 						}
 					}
 				}
 				else{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix _this = mesh->_localPivotScalingRotation;		HX_STACK_VAR(_this,"_this");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Matrix other = mesh->_localTranslation;		HX_STACK_VAR(other,"other");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Array< Float > result = mesh->_worldMatrix->m;		HX_STACK_VAR(result,"result");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm0 = _this->m->__get((int)0);		HX_STACK_VAR(tm0,"tm0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm1 = _this->m->__get((int)1);		HX_STACK_VAR(tm1,"tm1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm2 = _this->m->__get((int)2);		HX_STACK_VAR(tm2,"tm2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm3 = _this->m->__get((int)3);		HX_STACK_VAR(tm3,"tm3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm4 = _this->m->__get((int)4);		HX_STACK_VAR(tm4,"tm4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm5 = _this->m->__get((int)5);		HX_STACK_VAR(tm5,"tm5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm6 = _this->m->__get((int)6);		HX_STACK_VAR(tm6,"tm6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm7 = _this->m->__get((int)7);		HX_STACK_VAR(tm7,"tm7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm8 = _this->m->__get((int)8);		HX_STACK_VAR(tm8,"tm8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm9 = _this->m->__get((int)9);		HX_STACK_VAR(tm9,"tm9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm10 = _this->m->__get((int)10);		HX_STACK_VAR(tm10,"tm10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm11 = _this->m->__get((int)11);		HX_STACK_VAR(tm11,"tm11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm12 = _this->m->__get((int)12);		HX_STACK_VAR(tm12,"tm12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm13 = _this->m->__get((int)13);		HX_STACK_VAR(tm13,"tm13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm14 = _this->m->__get((int)14);		HX_STACK_VAR(tm14,"tm14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float tm15 = _this->m->__get((int)15);		HX_STACK_VAR(tm15,"tm15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om0 = other->m->__get((int)0);		HX_STACK_VAR(om0,"om0");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om1 = other->m->__get((int)1);		HX_STACK_VAR(om1,"om1");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om2 = other->m->__get((int)2);		HX_STACK_VAR(om2,"om2");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om3 = other->m->__get((int)3);		HX_STACK_VAR(om3,"om3");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om4 = other->m->__get((int)4);		HX_STACK_VAR(om4,"om4");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om5 = other->m->__get((int)5);		HX_STACK_VAR(om5,"om5");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om6 = other->m->__get((int)6);		HX_STACK_VAR(om6,"om6");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om7 = other->m->__get((int)7);		HX_STACK_VAR(om7,"om7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om8 = other->m->__get((int)8);		HX_STACK_VAR(om8,"om8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om9 = other->m->__get((int)9);		HX_STACK_VAR(om9,"om9");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om10 = other->m->__get((int)10);		HX_STACK_VAR(om10,"om10");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om11 = other->m->__get((int)11);		HX_STACK_VAR(om11,"om11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om12 = other->m->__get((int)12);		HX_STACK_VAR(om12,"om12");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om13 = other->m->__get((int)13);		HX_STACK_VAR(om13,"om13");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om14 = other->m->__get((int)14);		HX_STACK_VAR(om14,"om14");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float om15 = other->m->__get((int)15);		HX_STACK_VAR(om15,"om15");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)0] = ((((tm0 * om0) + (tm1 * om4)) + (tm2 * om8)) + (tm3 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)1] = ((((tm0 * om1) + (tm1 * om5)) + (tm2 * om9)) + (tm3 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)2] = ((((tm0 * om2) + (tm1 * om6)) + (tm2 * om10)) + (tm3 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)3] = ((((tm0 * om3) + (tm1 * om7)) + (tm2 * om11)) + (tm3 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)4] = ((((tm4 * om0) + (tm5 * om4)) + (tm6 * om8)) + (tm7 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)5] = ((((tm4 * om1) + (tm5 * om5)) + (tm6 * om9)) + (tm7 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)6] = ((((tm4 * om2) + (tm5 * om6)) + (tm6 * om10)) + (tm7 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)7] = ((((tm4 * om3) + (tm5 * om7)) + (tm6 * om11)) + (tm7 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)8] = ((((tm8 * om0) + (tm9 * om4)) + (tm10 * om8)) + (tm11 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)9] = ((((tm8 * om1) + (tm9 * om5)) + (tm10 * om9)) + (tm11 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)10] = ((((tm8 * om2) + (tm9 * om6)) + (tm10 * om10)) + (tm11 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)11] = ((((tm8 * om3) + (tm9 * om7)) + (tm10 * om11)) + (tm11 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)12] = ((((tm12 * om0) + (tm13 * om4)) + (tm14 * om8)) + (tm15 * om12));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)13] = ((((tm12 * om1) + (tm13 * om5)) + (tm14 * om9)) + (tm15 * om13));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)14] = ((((tm12 * om2) + (tm13 * om6)) + (tm14 * om10)) + (tm15 * om14));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result[(int)15] = ((((tm12 * om3) + (tm13 * om7)) + (tm14 * om11)) + (tm15 * om15));
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						result;
 					}
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				if (((mesh->_boundingInfo != null()))){
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					Float _g4 = ::Math_obj::max(mesh->scaling->x,mesh->scaling->y);		HX_STACK_VAR(_g4,"_g4");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_scaleFactor = _g4;
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					Float _g5 = ::Math_obj::max(mesh->_scaleFactor,mesh->scaling->z);		HX_STACK_VAR(_g5,"_g5");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_scaleFactor = _g5;
 					struct _Function_4_1{
 						inline static bool Block( ::com::gamestudiohx::babylonhx::mesh::Mesh &mesh){
-							HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",559,0x7b8a3c86)
+							HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",558,0x7b8a3c86)
 							{
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								Dynamic _g6 = ::Reflect_obj::field(mesh->parent,HX_CSTRING("_scaleFactor"));		HX_STACK_VAR(_g6,"_g6");
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								return (_g6 != null());
 							}
 							return null();
 						}
 					};
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					if (((  (((mesh->parent != null()))) ? bool(_Function_4_1::Block(mesh)) : bool(false) ))){
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Dynamic _g7 = ::Reflect_obj::field(mesh->parent,HX_CSTRING("_scaleFactor"));		HX_STACK_VAR(_g7,"_g7");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						Float _g8 = (mesh->_scaleFactor * _g7);		HX_STACK_VAR(_g8,"_g8");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						mesh->_scaleFactor = _g8;
 					}
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					mesh->_boundingInfo->_update(mesh->_worldMatrix,mesh->_scaleFactor);
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					{
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						int _g = mesh->subMeshes->length;		HX_STACK_VAR(_g,"_g");
-						HX_STACK_LINE(559)
+						HX_STACK_LINE(558)
 						while((true)){
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							if ((!(((_g11 < _g))))){
-								HX_STACK_LINE(559)
+								HX_STACK_LINE(558)
 								break;
 							}
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							int subIndex = (_g11)++;		HX_STACK_VAR(subIndex,"subIndex");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							::com::gamestudiohx::babylonhx::mesh::SubMesh subMesh = mesh->subMeshes->__get(subIndex).StaticCast< ::com::gamestudiohx::babylonhx::mesh::SubMesh >();		HX_STACK_VAR(subMesh,"subMesh");
-							HX_STACK_LINE(559)
+							HX_STACK_LINE(558)
 							subMesh->_boundingInfo->_update(mesh->_worldMatrix,mesh->_scaleFactor);
 						}
 					}
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				{
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					::com::gamestudiohx::babylonhx::tools::math::Vector3 _this = mesh->_absolutePosition;		HX_STACK_VAR(_this,"_this");
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					_this->x = mesh->_worldMatrix->m->__get((int)12);
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					_this->y = mesh->_worldMatrix->m->__get((int)13);
-					HX_STACK_LINE(559)
+					HX_STACK_LINE(558)
 					_this->z = mesh->_worldMatrix->m->__get((int)14);
 				}
-				HX_STACK_LINE(559)
+				HX_STACK_LINE(558)
 				ret = mesh->_worldMatrix;
 			}
-			HX_STACK_LINE(559)
+			HX_STACK_LINE(558)
 			ret;
 		}
-		HX_STACK_LINE(561)
+		HX_STACK_LINE(560)
 		::com::gamestudiohx::babylonhx::Scene scene = mesh->getScene();		HX_STACK_VAR(scene,"scene");
-		HX_STACK_LINE(562)
+		HX_STACK_LINE(561)
 		if (((scene->_selectionOctree != null()))){
-			HX_STACK_LINE(563)
+			HX_STACK_LINE(562)
 			scene->_selectionOctree->addMesh(mesh);
 		}
 	}
@@ -3122,184 +3122,184 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC2(SceneLoader_obj,_ImportGeometry,(void))
 
 Void SceneLoader_obj::ImportMesh( ::String meshName,::String rootUrl,::String sceneFilename,::com::gamestudiohx::babylonhx::Scene scene,Dynamic then,Dynamic progressCallBack){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.tools.SceneLoader","ImportMesh",0x685ec5e6,"com.gamestudiohx.babylonhx.tools.SceneLoader.ImportMesh","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",568,0x7b8a3c86)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.tools.SceneLoader","ImportMesh",0x685ec5e6,"com.gamestudiohx.babylonhx.tools.SceneLoader.ImportMesh","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",567,0x7b8a3c86)
 		HX_STACK_ARG(meshName,"meshName")
 		HX_STACK_ARG(rootUrl,"rootUrl")
 		HX_STACK_ARG(sceneFilename,"sceneFilename")
 		HX_STACK_ARG(scene,"scene")
 		HX_STACK_ARG(then,"then")
 		HX_STACK_ARG(progressCallBack,"progressCallBack")
-		HX_STACK_LINE(568)
+		HX_STACK_LINE(567)
 		Dynamic then1 = Dynamic( Array_obj<Dynamic>::__new().Add(then));		HX_STACK_VAR(then1,"then1");
-		HX_STACK_LINE(568)
+		HX_STACK_LINE(567)
 		Array< ::Dynamic > scene1 = Array_obj< ::Dynamic >::__new().Add(scene);		HX_STACK_VAR(scene1,"scene1");
-		HX_STACK_LINE(568)
+		HX_STACK_LINE(567)
 		Array< ::String > rootUrl1 = Array_obj< ::String >::__new().Add(rootUrl);		HX_STACK_VAR(rootUrl1,"rootUrl1");
-		HX_STACK_LINE(568)
+		HX_STACK_LINE(567)
 		Array< ::String > meshName1 = Array_obj< ::String >::__new().Add(meshName);		HX_STACK_VAR(meshName1,"meshName1");
 
 		HX_BEGIN_LOCAL_FUNC_S4(hx::LocalFunc,_Function_1_1,Array< ::Dynamic >,scene1,Array< ::String >,meshName1,Array< ::String >,rootUrl1,Dynamic,then1)
 		Void run(::String data){
-			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",570,0x7b8a3c86)
+			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",569,0x7b8a3c86)
 			HX_STACK_ARG(data,"data")
 			{
-				HX_STACK_LINE(571)
+				HX_STACK_LINE(570)
 				Dynamic parsedData = ::haxe::format::JsonParser_obj::__new(data)->parseRec();		HX_STACK_VAR(parsedData,"parsedData");
-				HX_STACK_LINE(574)
+				HX_STACK_LINE(573)
 				Array< ::Dynamic > meshes = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(meshes,"meshes");
-				HX_STACK_LINE(575)
+				HX_STACK_LINE(574)
 				Array< ::Dynamic > particleSystems = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(particleSystems,"particleSystems");
-				HX_STACK_LINE(576)
+				HX_STACK_LINE(575)
 				Array< ::Dynamic > skeletons = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(skeletons,"skeletons");
-				HX_STACK_LINE(577)
+				HX_STACK_LINE(576)
 				Array< ::String > loadedSkeletonsIds = Array_obj< ::String >::__new();		HX_STACK_VAR(loadedSkeletonsIds,"loadedSkeletonsIds");
-				HX_STACK_LINE(578)
+				HX_STACK_LINE(577)
 				Array< ::String > loadedMaterialsIds = Array_obj< ::String >::__new();		HX_STACK_VAR(loadedMaterialsIds,"loadedMaterialsIds");
-				HX_STACK_LINE(579)
+				HX_STACK_LINE(578)
 				Array< ::String > hierarchyIds = Array_obj< ::String >::__new();		HX_STACK_VAR(hierarchyIds,"hierarchyIds");
-				HX_STACK_LINE(581)
+				HX_STACK_LINE(580)
 				Dynamic _meshes = parsedData->__Field(HX_CSTRING("meshes"),true);		HX_STACK_VAR(_meshes,"_meshes");
-				HX_STACK_LINE(582)
+				HX_STACK_LINE(581)
 				{
-					HX_STACK_LINE(582)
+					HX_STACK_LINE(581)
 					int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-					HX_STACK_LINE(582)
+					HX_STACK_LINE(581)
 					int _g = _meshes->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g,"_g");
-					HX_STACK_LINE(582)
+					HX_STACK_LINE(581)
 					while(((_g1 < _g))){
-						HX_STACK_LINE(582)
+						HX_STACK_LINE(581)
 						int index = (_g1)++;		HX_STACK_VAR(index,"index");
-						HX_STACK_LINE(583)
+						HX_STACK_LINE(582)
 						Dynamic parsedMesh = _meshes->__GetItem(index);		HX_STACK_VAR(parsedMesh,"parsedMesh");
-						HX_STACK_LINE(585)
+						HX_STACK_LINE(584)
 						if (((bool((meshName1->__get((int)0) == null())) || bool(::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::isDescendantOf(parsedMesh,meshName1->__get((int)0),hierarchyIds))))){
-							HX_STACK_LINE(587)
+							HX_STACK_LINE(586)
 							if (((parsedMesh->__Field(HX_CSTRING("materialId"),true) != null()))){
-								HX_STACK_LINE(588)
+								HX_STACK_LINE(587)
 								bool materialFound = (::Lambda_obj::indexOf(loadedMaterialsIds,parsedMesh->__Field(HX_CSTRING("materialId"),true)) != (int)-1);		HX_STACK_VAR(materialFound,"materialFound");
-								HX_STACK_LINE(590)
+								HX_STACK_LINE(589)
 								if ((!(materialFound))){
-									HX_STACK_LINE(591)
+									HX_STACK_LINE(590)
 									Dynamic _multiMaterials = parsedData->__Field(HX_CSTRING("multiMaterials"),true);		HX_STACK_VAR(_multiMaterials,"_multiMaterials");
-									HX_STACK_LINE(592)
+									HX_STACK_LINE(591)
 									{
-										HX_STACK_LINE(592)
+										HX_STACK_LINE(591)
 										int _g3 = (int)0;		HX_STACK_VAR(_g3,"_g3");
-										HX_STACK_LINE(592)
+										HX_STACK_LINE(591)
 										int _g2 = _multiMaterials->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g2,"_g2");
-										HX_STACK_LINE(592)
+										HX_STACK_LINE(591)
 										while(((_g3 < _g2))){
-											HX_STACK_LINE(592)
+											HX_STACK_LINE(591)
 											int multimatIndex = (_g3)++;		HX_STACK_VAR(multimatIndex,"multimatIndex");
-											HX_STACK_LINE(593)
+											HX_STACK_LINE(592)
 											Dynamic parsedMultiMaterial = _multiMaterials->__GetItem(multimatIndex);		HX_STACK_VAR(parsedMultiMaterial,"parsedMultiMaterial");
-											HX_STACK_LINE(594)
+											HX_STACK_LINE(593)
 											if (((parsedMultiMaterial->__Field(HX_CSTRING("id"),true) == parsedMesh->__Field(HX_CSTRING("materialId"),true)))){
-												HX_STACK_LINE(595)
+												HX_STACK_LINE(594)
 												Dynamic _materials = parsedMultiMaterial->__Field(HX_CSTRING("materials"),true);		HX_STACK_VAR(_materials,"_materials");
-												HX_STACK_LINE(596)
+												HX_STACK_LINE(595)
 												{
-													HX_STACK_LINE(596)
+													HX_STACK_LINE(595)
 													int _g5 = (int)0;		HX_STACK_VAR(_g5,"_g5");
-													HX_STACK_LINE(596)
+													HX_STACK_LINE(595)
 													int _g4 = _materials->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g4,"_g4");
-													HX_STACK_LINE(596)
+													HX_STACK_LINE(595)
 													while(((_g5 < _g4))){
-														HX_STACK_LINE(596)
+														HX_STACK_LINE(595)
 														int matIndex = (_g5)++;		HX_STACK_VAR(matIndex,"matIndex");
-														HX_STACK_LINE(597)
+														HX_STACK_LINE(596)
 														::String subMatId = _materials->__GetItem(matIndex);		HX_STACK_VAR(subMatId,"subMatId");
-														HX_STACK_LINE(598)
+														HX_STACK_LINE(597)
 														loadedMaterialsIds->push(subMatId);
-														HX_STACK_LINE(599)
+														HX_STACK_LINE(598)
 														::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMaterialById(subMatId,parsedData,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >(),rootUrl1->__get((int)0));
 													}
 												}
-												HX_STACK_LINE(602)
+												HX_STACK_LINE(601)
 												loadedMaterialsIds->push(parsedMultiMaterial->__Field(HX_CSTRING("id"),true));
-												HX_STACK_LINE(603)
+												HX_STACK_LINE(602)
 												::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMultiMaterial(parsedMultiMaterial,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >());
-												HX_STACK_LINE(604)
+												HX_STACK_LINE(603)
 												materialFound = true;
-												HX_STACK_LINE(605)
+												HX_STACK_LINE(604)
 												break;
 											}
 										}
 									}
 								}
-								HX_STACK_LINE(609)
+								HX_STACK_LINE(608)
 								if ((!(materialFound))){
-									HX_STACK_LINE(610)
+									HX_STACK_LINE(609)
 									loadedMaterialsIds->push(parsedMesh->__Field(HX_CSTRING("materialId"),true));
-									HX_STACK_LINE(611)
+									HX_STACK_LINE(610)
 									::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMaterialById(parsedMesh->__Field(HX_CSTRING("materialId"),true),parsedData,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >(),rootUrl1->__get((int)0));
 								}
 							}
-							HX_STACK_LINE(616)
+							HX_STACK_LINE(615)
 							if (((bool((parsedMesh->__Field(HX_CSTRING("skeletonId"),true) > (int)-1)) && bool((scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >()->skeletons != null()))))){
-								HX_STACK_LINE(617)
+								HX_STACK_LINE(616)
 								bool skeletonAlreadyLoaded = (::Lambda_obj::indexOf(loadedSkeletonsIds,parsedMesh->__Field(HX_CSTRING("skeletonId"),true)) > (int)-1);		HX_STACK_VAR(skeletonAlreadyLoaded,"skeletonAlreadyLoaded");
-								HX_STACK_LINE(619)
+								HX_STACK_LINE(618)
 								if ((!(skeletonAlreadyLoaded))){
-									HX_STACK_LINE(620)
+									HX_STACK_LINE(619)
 									Dynamic _skeletons = parsedData->__Field(HX_CSTRING("skeletons"),true);		HX_STACK_VAR(_skeletons,"_skeletons");
-									HX_STACK_LINE(621)
+									HX_STACK_LINE(620)
 									{
-										HX_STACK_LINE(621)
+										HX_STACK_LINE(620)
 										int _g3 = (int)0;		HX_STACK_VAR(_g3,"_g3");
-										HX_STACK_LINE(621)
+										HX_STACK_LINE(620)
 										int _g2 = _skeletons->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g2,"_g2");
-										HX_STACK_LINE(621)
+										HX_STACK_LINE(620)
 										while(((_g3 < _g2))){
-											HX_STACK_LINE(621)
+											HX_STACK_LINE(620)
 											int skeletonIndex = (_g3)++;		HX_STACK_VAR(skeletonIndex,"skeletonIndex");
-											HX_STACK_LINE(622)
+											HX_STACK_LINE(621)
 											Dynamic parsedSkeleton = _skeletons->__GetItem(skeletonIndex);		HX_STACK_VAR(parsedSkeleton,"parsedSkeleton");
-											HX_STACK_LINE(624)
+											HX_STACK_LINE(623)
 											if (((parsedSkeleton->__Field(HX_CSTRING("id"),true) == parsedMesh->__Field(HX_CSTRING("skeletonId"),true)))){
-												HX_STACK_LINE(625)
+												HX_STACK_LINE(624)
 												skeletons->push(::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseSkeleton(parsedSkeleton,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >()));
-												HX_STACK_LINE(626)
+												HX_STACK_LINE(625)
 												loadedSkeletonsIds->push(parsedSkeleton->__Field(HX_CSTRING("id"),true));
 											}
 										}
 									}
 								}
 							}
-							HX_STACK_LINE(631)
+							HX_STACK_LINE(630)
 							::com::gamestudiohx::babylonhx::mesh::Mesh mesh = ::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMesh(parsedMesh,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >(),rootUrl1->__get((int)0));		HX_STACK_VAR(mesh,"mesh");
-							HX_STACK_LINE(632)
+							HX_STACK_LINE(631)
 							meshes->push(mesh);
 						}
 					}
 				}
-				HX_STACK_LINE(637)
+				HX_STACK_LINE(636)
 				if (((parsedData->__Field(HX_CSTRING("particleSystems"),true) != null()))){
-					HX_STACK_LINE(638)
+					HX_STACK_LINE(637)
 					Array< ::Dynamic > ps = parsedData->__Field(HX_CSTRING("particleSystems"),true);		HX_STACK_VAR(ps,"ps");
-					HX_STACK_LINE(639)
+					HX_STACK_LINE(638)
 					{
-						HX_STACK_LINE(639)
+						HX_STACK_LINE(638)
 						int _g1 = (int)0;		HX_STACK_VAR(_g1,"_g1");
-						HX_STACK_LINE(639)
+						HX_STACK_LINE(638)
 						int _g = ps->length;		HX_STACK_VAR(_g,"_g");
-						HX_STACK_LINE(639)
+						HX_STACK_LINE(638)
 						while(((_g1 < _g))){
-							HX_STACK_LINE(639)
+							HX_STACK_LINE(638)
 							int index = (_g1)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(640)
+							HX_STACK_LINE(639)
 							::com::gamestudiohx::babylonhx::particles::ParticleSystem parsedParticleSystem = ps->__get(index).StaticCast< ::com::gamestudiohx::babylonhx::particles::ParticleSystem >();		HX_STACK_VAR(parsedParticleSystem,"parsedParticleSystem");
-							HX_STACK_LINE(642)
+							HX_STACK_LINE(641)
 							if (((::Lambda_obj::indexOf(hierarchyIds,parsedParticleSystem->get_emitterId()) != (int)-1))){
-								HX_STACK_LINE(643)
+								HX_STACK_LINE(642)
 								particleSystems->push(::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseParticleSystem(parsedParticleSystem,scene1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Scene >(),rootUrl1->__get((int)0)));
 							}
 						}
 					}
 				}
-				HX_STACK_LINE(648)
+				HX_STACK_LINE(647)
 				if (((then1->__GetItem((int)0) != null()))){
-					HX_STACK_LINE(649)
+					HX_STACK_LINE(648)
 					then1->__GetItem((int)0)(meshes,particleSystems,skeletons).Cast< Void >();
 				}
 			}
@@ -3307,7 +3307,7 @@ Void SceneLoader_obj::ImportMesh( ::String meshName,::String rootUrl,::String sc
 		}
 		HX_END_LOCAL_FUNC1((void))
 
-		HX_STACK_LINE(570)
+		HX_STACK_LINE(569)
 		::com::gamestudiohx::babylonhx::tools::Tools_obj::LoadFile((rootUrl1->__get((int)0) + sceneFilename), Dynamic(new _Function_1_1(scene1,meshName1,rootUrl1,then1)),null(),null(),null());
 	}
 return null();
@@ -3318,382 +3318,382 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC6(SceneLoader_obj,ImportMesh,(void))
 
 Void SceneLoader_obj::Load( ::String rootUrl,::String sceneFilename,::com::gamestudiohx::babylonhx::Engine engine,Dynamic then){
 {
-		HX_STACK_FRAME("com.gamestudiohx.babylonhx.tools.SceneLoader","Load",0xfd11031a,"com.gamestudiohx.babylonhx.tools.SceneLoader.Load","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",654,0x7b8a3c86)
+		HX_STACK_FRAME("com.gamestudiohx.babylonhx.tools.SceneLoader","Load",0xfd11031a,"com.gamestudiohx.babylonhx.tools.SceneLoader.Load","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",653,0x7b8a3c86)
 		HX_STACK_ARG(rootUrl,"rootUrl")
 		HX_STACK_ARG(sceneFilename,"sceneFilename")
 		HX_STACK_ARG(engine,"engine")
 		HX_STACK_ARG(then,"then")
-		HX_STACK_LINE(654)
+		HX_STACK_LINE(653)
 		Dynamic then1 = Dynamic( Array_obj<Dynamic>::__new().Add(then));		HX_STACK_VAR(then1,"then1");
-		HX_STACK_LINE(654)
+		HX_STACK_LINE(653)
 		Array< ::Dynamic > engine1 = Array_obj< ::Dynamic >::__new().Add(engine);		HX_STACK_VAR(engine1,"engine1");
-		HX_STACK_LINE(654)
+		HX_STACK_LINE(653)
 		Array< ::String > rootUrl1 = Array_obj< ::String >::__new().Add(rootUrl);		HX_STACK_VAR(rootUrl1,"rootUrl1");
 
 		HX_BEGIN_LOCAL_FUNC_S3(hx::LocalFunc,_Function_1_1,Array< ::Dynamic >,engine1,Array< ::String >,rootUrl1,Dynamic,then1)
 		Void run(::String data){
-			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",655,0x7b8a3c86)
+			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","com/gamestudiohx/babylonhx/tools/SceneLoader.hx",654,0x7b8a3c86)
 			HX_STACK_ARG(data,"data")
 			{
-				HX_STACK_LINE(656)
+				HX_STACK_LINE(655)
 				Dynamic parsedData = ::haxe::format::JsonParser_obj::__new(data)->parseRec();		HX_STACK_VAR(parsedData,"parsedData");
-				HX_STACK_LINE(658)
+				HX_STACK_LINE(657)
 				::com::gamestudiohx::babylonhx::Scene scene = ::com::gamestudiohx::babylonhx::Scene_obj::__new(engine1->__get((int)0).StaticCast< ::com::gamestudiohx::babylonhx::Engine >());		HX_STACK_VAR(scene,"scene");
-				HX_STACK_LINE(662)
+				HX_STACK_LINE(661)
 				scene->useDelayedTextureLoading = parsedData->__Field(HX_CSTRING("useDelayedTextureLoading"),true);
-				HX_STACK_LINE(663)
+				HX_STACK_LINE(662)
 				scene->autoClear = parsedData->__Field(HX_CSTRING("autoClear"),true);
-				HX_STACK_LINE(664)
+				HX_STACK_LINE(663)
 				::com::gamestudiohx::babylonhx::tools::math::Color4 _g;		HX_STACK_VAR(_g,"_g");
-				HX_STACK_LINE(664)
+				HX_STACK_LINE(663)
 				{
-					HX_STACK_LINE(664)
+					HX_STACK_LINE(663)
 					Array< Float > array = parsedData->__Field(HX_CSTRING("clearColor"),true);		HX_STACK_VAR(array,"array");
-					HX_STACK_LINE(664)
+					HX_STACK_LINE(663)
 					int offset = (int)0;		HX_STACK_VAR(offset,"offset");
-					HX_STACK_LINE(664)
+					HX_STACK_LINE(663)
 					_g = ::com::gamestudiohx::babylonhx::tools::math::Color4_obj::__new(array->__get(offset),array->__get((offset + (int)1)),array->__get((offset + (int)2)),array->__get((offset + (int)3)));
 				}
-				HX_STACK_LINE(664)
+				HX_STACK_LINE(663)
 				scene->clearColor = _g;
-				HX_STACK_LINE(665)
+				HX_STACK_LINE(664)
 				::com::gamestudiohx::babylonhx::tools::math::Color3 _g1;		HX_STACK_VAR(_g1,"_g1");
-				HX_STACK_LINE(665)
+				HX_STACK_LINE(664)
 				{
-					HX_STACK_LINE(665)
+					HX_STACK_LINE(664)
 					Array< Float > array = parsedData->__Field(HX_CSTRING("ambientColor"),true);		HX_STACK_VAR(array,"array");
-					HX_STACK_LINE(665)
+					HX_STACK_LINE(664)
 					_g1 = ::com::gamestudiohx::babylonhx::tools::math::Color3_obj::__new(array->__get((int)0),array->__get((int)1),array->__get((int)2));
 				}
-				HX_STACK_LINE(665)
+				HX_STACK_LINE(664)
 				scene->ambientColor = _g1;
-				HX_STACK_LINE(666)
+				HX_STACK_LINE(665)
 				::com::gamestudiohx::babylonhx::tools::math::Vector3 _g2;		HX_STACK_VAR(_g2,"_g2");
-				HX_STACK_LINE(666)
+				HX_STACK_LINE(665)
 				{
-					HX_STACK_LINE(666)
+					HX_STACK_LINE(665)
 					Array< Float > array = parsedData->__Field(HX_CSTRING("gravity"),true);		HX_STACK_VAR(array,"array");
-					HX_STACK_LINE(666)
+					HX_STACK_LINE(665)
 					int offset = (int)0;		HX_STACK_VAR(offset,"offset");
-					HX_STACK_LINE(666)
+					HX_STACK_LINE(665)
 					_g2 = ::com::gamestudiohx::babylonhx::tools::math::Vector3_obj::__new(array->__get(offset),array->__get((offset + (int)1)),array->__get((offset + (int)2)));
 				}
-				HX_STACK_LINE(666)
+				HX_STACK_LINE(665)
 				scene->gravity = _g2;
-				HX_STACK_LINE(669)
+				HX_STACK_LINE(668)
 				Dynamic fogMode = parsedData->__Field(HX_CSTRING("fogMode"),true);		HX_STACK_VAR(fogMode,"fogMode");
-				HX_STACK_LINE(670)
+				HX_STACK_LINE(669)
 				if (((bool((fogMode != null())) && bool((fogMode != (int)0))))){
-					HX_STACK_LINE(671)
+					HX_STACK_LINE(670)
 					scene->fogMode = fogMode;
-					HX_STACK_LINE(672)
+					HX_STACK_LINE(671)
 					::com::gamestudiohx::babylonhx::tools::math::Color3 _g3;		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(672)
+					HX_STACK_LINE(671)
 					{
-						HX_STACK_LINE(672)
+						HX_STACK_LINE(671)
 						Array< Float > array = parsedData->__Field(HX_CSTRING("fogColor"),true);		HX_STACK_VAR(array,"array");
-						HX_STACK_LINE(672)
+						HX_STACK_LINE(671)
 						_g3 = ::com::gamestudiohx::babylonhx::tools::math::Color3_obj::__new(array->__get((int)0),array->__get((int)1),array->__get((int)2));
 					}
-					HX_STACK_LINE(672)
+					HX_STACK_LINE(671)
 					scene->fogColor = _g3;
-					HX_STACK_LINE(673)
+					HX_STACK_LINE(672)
 					scene->fogStart = parsedData->__Field(HX_CSTRING("fogStart"),true);
-					HX_STACK_LINE(674)
+					HX_STACK_LINE(673)
 					scene->fogEnd = parsedData->__Field(HX_CSTRING("fogEnd"),true);
-					HX_STACK_LINE(675)
+					HX_STACK_LINE(674)
 					scene->fogDensity = parsedData->__Field(HX_CSTRING("fogDensity"),true);
 				}
-				HX_STACK_LINE(680)
+				HX_STACK_LINE(679)
 				Dynamic _lights = parsedData->__Field(HX_CSTRING("lights"),true);		HX_STACK_VAR(_lights,"_lights");
-				HX_STACK_LINE(681)
+				HX_STACK_LINE(680)
 				{
-					HX_STACK_LINE(681)
+					HX_STACK_LINE(680)
 					int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-					HX_STACK_LINE(681)
+					HX_STACK_LINE(680)
 					int _g3 = _lights->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(681)
+					HX_STACK_LINE(680)
 					while((true)){
-						HX_STACK_LINE(681)
+						HX_STACK_LINE(680)
 						if ((!(((_g11 < _g3))))){
-							HX_STACK_LINE(681)
+							HX_STACK_LINE(680)
 							break;
 						}
-						HX_STACK_LINE(681)
+						HX_STACK_LINE(680)
 						int index = (_g11)++;		HX_STACK_VAR(index,"index");
-						HX_STACK_LINE(682)
+						HX_STACK_LINE(681)
 						Dynamic parsedLight = _lights->__GetItem(index);		HX_STACK_VAR(parsedLight,"parsedLight");
-						HX_STACK_LINE(683)
+						HX_STACK_LINE(682)
 						::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseLight(parsedLight,scene);
 					}
 				}
-				HX_STACK_LINE(687)
+				HX_STACK_LINE(686)
 				Dynamic _cameras = parsedData->__Field(HX_CSTRING("cameras"),true);		HX_STACK_VAR(_cameras,"_cameras");
-				HX_STACK_LINE(688)
+				HX_STACK_LINE(687)
 				{
-					HX_STACK_LINE(688)
+					HX_STACK_LINE(687)
 					int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-					HX_STACK_LINE(688)
+					HX_STACK_LINE(687)
 					int _g3 = _cameras->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(688)
+					HX_STACK_LINE(687)
 					while((true)){
-						HX_STACK_LINE(688)
+						HX_STACK_LINE(687)
 						if ((!(((_g11 < _g3))))){
-							HX_STACK_LINE(688)
+							HX_STACK_LINE(687)
 							break;
 						}
-						HX_STACK_LINE(688)
+						HX_STACK_LINE(687)
 						int index = (_g11)++;		HX_STACK_VAR(index,"index");
-						HX_STACK_LINE(689)
+						HX_STACK_LINE(688)
 						Dynamic parsedCamera = _cameras->__GetItem(index);		HX_STACK_VAR(parsedCamera,"parsedCamera");
-						HX_STACK_LINE(690)
+						HX_STACK_LINE(689)
 						::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseCamera(parsedCamera,scene);
 					}
 				}
-				HX_STACK_LINE(693)
+				HX_STACK_LINE(692)
 				if (((parsedData->__Field(HX_CSTRING("activeCameraID"),true) != null()))){
-					HX_STACK_LINE(694)
+					HX_STACK_LINE(693)
 					scene->activeCameraByID(parsedData->__Field(HX_CSTRING("activeCameraID"),true));
 				}
-				HX_STACK_LINE(698)
+				HX_STACK_LINE(697)
 				if (((parsedData->__Field(HX_CSTRING("materials"),true) != null()))){
-					HX_STACK_LINE(699)
+					HX_STACK_LINE(698)
 					Dynamic _materials = parsedData->__Field(HX_CSTRING("materials"),true);		HX_STACK_VAR(_materials,"_materials");
-					HX_STACK_LINE(700)
+					HX_STACK_LINE(699)
 					{
-						HX_STACK_LINE(700)
+						HX_STACK_LINE(699)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(700)
+						HX_STACK_LINE(699)
 						int _g3 = _materials->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(700)
+						HX_STACK_LINE(699)
 						while((true)){
-							HX_STACK_LINE(700)
+							HX_STACK_LINE(699)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(700)
+								HX_STACK_LINE(699)
 								break;
 							}
-							HX_STACK_LINE(700)
+							HX_STACK_LINE(699)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(701)
+							HX_STACK_LINE(700)
 							Dynamic parsedMaterial = _materials->__GetItem(index);		HX_STACK_VAR(parsedMaterial,"parsedMaterial");
-							HX_STACK_LINE(702)
+							HX_STACK_LINE(701)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMaterial(parsedMaterial,scene,rootUrl1->__get((int)0));
 						}
 					}
 				}
-				HX_STACK_LINE(706)
+				HX_STACK_LINE(705)
 				if (((parsedData->__Field(HX_CSTRING("multiMaterials"),true) != null()))){
-					HX_STACK_LINE(707)
+					HX_STACK_LINE(706)
 					Dynamic _multiMaterials = parsedData->__Field(HX_CSTRING("multiMaterials"),true);		HX_STACK_VAR(_multiMaterials,"_multiMaterials");
-					HX_STACK_LINE(708)
+					HX_STACK_LINE(707)
 					{
-						HX_STACK_LINE(708)
+						HX_STACK_LINE(707)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(708)
+						HX_STACK_LINE(707)
 						int _g3 = _multiMaterials->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(708)
+						HX_STACK_LINE(707)
 						while((true)){
-							HX_STACK_LINE(708)
+							HX_STACK_LINE(707)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(708)
+								HX_STACK_LINE(707)
 								break;
 							}
-							HX_STACK_LINE(708)
+							HX_STACK_LINE(707)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(709)
+							HX_STACK_LINE(708)
 							Dynamic parsedMultiMaterial = parsedData->__Field(HX_CSTRING("multiMaterials"),true)->__GetItem(index);		HX_STACK_VAR(parsedMultiMaterial,"parsedMultiMaterial");
-							HX_STACK_LINE(710)
+							HX_STACK_LINE(709)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMultiMaterial(parsedMultiMaterial,scene);
 						}
 					}
 				}
-				HX_STACK_LINE(715)
+				HX_STACK_LINE(714)
 				if (((parsedData->__Field(HX_CSTRING("skeletons"),true) != null()))){
-					HX_STACK_LINE(716)
+					HX_STACK_LINE(715)
 					Dynamic _skeletons = parsedData->__Field(HX_CSTRING("skeletons"),true);		HX_STACK_VAR(_skeletons,"_skeletons");
-					HX_STACK_LINE(717)
+					HX_STACK_LINE(716)
 					{
-						HX_STACK_LINE(717)
+						HX_STACK_LINE(716)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(717)
+						HX_STACK_LINE(716)
 						int _g3 = _skeletons->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(717)
+						HX_STACK_LINE(716)
 						while((true)){
-							HX_STACK_LINE(717)
+							HX_STACK_LINE(716)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(717)
+								HX_STACK_LINE(716)
 								break;
 							}
-							HX_STACK_LINE(717)
+							HX_STACK_LINE(716)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(718)
+							HX_STACK_LINE(717)
 							Dynamic parsedSkeleton = parsedData->__Field(HX_CSTRING("skeletons"),true)->__GetItem(index);		HX_STACK_VAR(parsedSkeleton,"parsedSkeleton");
-							HX_STACK_LINE(719)
+							HX_STACK_LINE(718)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseSkeleton(parsedSkeleton,scene);
 						}
 					}
 				}
-				HX_STACK_LINE(724)
+				HX_STACK_LINE(723)
 				Dynamic _meshes = parsedData->__Field(HX_CSTRING("meshes"),true);		HX_STACK_VAR(_meshes,"_meshes");
-				HX_STACK_LINE(725)
+				HX_STACK_LINE(724)
 				{
-					HX_STACK_LINE(725)
+					HX_STACK_LINE(724)
 					int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-					HX_STACK_LINE(725)
+					HX_STACK_LINE(724)
 					int _g3 = _meshes->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(725)
+					HX_STACK_LINE(724)
 					while((true)){
-						HX_STACK_LINE(725)
+						HX_STACK_LINE(724)
 						if ((!(((_g11 < _g3))))){
-							HX_STACK_LINE(725)
+							HX_STACK_LINE(724)
 							break;
 						}
-						HX_STACK_LINE(725)
+						HX_STACK_LINE(724)
 						int index = (_g11)++;		HX_STACK_VAR(index,"index");
-						HX_STACK_LINE(726)
+						HX_STACK_LINE(725)
 						Dynamic parsedMesh = _meshes->__GetItem(index);		HX_STACK_VAR(parsedMesh,"parsedMesh");
-						HX_STACK_LINE(727)
+						HX_STACK_LINE(726)
 						::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseMesh(parsedMesh,scene,rootUrl1->__get((int)0));
 					}
 				}
-				HX_STACK_LINE(731)
+				HX_STACK_LINE(730)
 				{
-					HX_STACK_LINE(731)
+					HX_STACK_LINE(730)
 					int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-					HX_STACK_LINE(731)
+					HX_STACK_LINE(730)
 					int _g3 = scene->cameras->length;		HX_STACK_VAR(_g3,"_g3");
-					HX_STACK_LINE(731)
+					HX_STACK_LINE(730)
 					while((true)){
-						HX_STACK_LINE(731)
+						HX_STACK_LINE(730)
 						if ((!(((_g11 < _g3))))){
-							HX_STACK_LINE(731)
+							HX_STACK_LINE(730)
 							break;
 						}
-						HX_STACK_LINE(731)
+						HX_STACK_LINE(730)
 						int index = (_g11)++;		HX_STACK_VAR(index,"index");
-						HX_STACK_LINE(732)
+						HX_STACK_LINE(731)
 						::com::gamestudiohx::babylonhx::cameras::Camera camera = scene->cameras->__get(index).StaticCast< ::com::gamestudiohx::babylonhx::cameras::Camera >();		HX_STACK_VAR(camera,"camera");
-						HX_STACK_LINE(733)
+						HX_STACK_LINE(732)
 						Dynamic _g4 = ::Reflect_obj::field(camera,HX_CSTRING("_waitingParentId"));		HX_STACK_VAR(_g4,"_g4");
-						HX_STACK_LINE(733)
+						HX_STACK_LINE(732)
 						if (((_g4 != null()))){
-							HX_STACK_LINE(734)
+							HX_STACK_LINE(733)
 							Dynamic _g5 = ::Reflect_obj::field(camera,HX_CSTRING("_waitingParentId"));		HX_STACK_VAR(_g5,"_g5");
-							HX_STACK_LINE(734)
+							HX_STACK_LINE(733)
 							Dynamic _g6 = scene->getLastEntryByID(_g5);		HX_STACK_VAR(_g6,"_g6");
-							HX_STACK_LINE(734)
+							HX_STACK_LINE(733)
 							camera->parent = _g6;
-							HX_STACK_LINE(735)
+							HX_STACK_LINE(734)
 							if (((camera != null()))){
-								HX_STACK_LINE(735)
+								HX_STACK_LINE(734)
 								camera->__SetField(HX_CSTRING("_waitingParentId"),null(),false);
 							}
 						}
-						HX_STACK_LINE(738)
+						HX_STACK_LINE(737)
 						Dynamic _g7 = ::Reflect_obj::field(camera,HX_CSTRING("_waitingLockedTargetId"));		HX_STACK_VAR(_g7,"_g7");
-						HX_STACK_LINE(738)
+						HX_STACK_LINE(737)
 						if (((_g7 != null()))){
-							HX_STACK_LINE(739)
+							HX_STACK_LINE(738)
 							{
-								HX_STACK_LINE(739)
+								HX_STACK_LINE(738)
 								Dynamic _g8 = ::Reflect_obj::field(camera,HX_CSTRING("_waitingLockedTargetId"));		HX_STACK_VAR(_g8,"_g8");
-								HX_STACK_LINE(739)
+								HX_STACK_LINE(738)
 								Dynamic value = scene->getLastEntryByID(_g8);		HX_STACK_VAR(value,"value");
-								HX_STACK_LINE(739)
+								HX_STACK_LINE(738)
 								if (((camera != null()))){
-									HX_STACK_LINE(739)
+									HX_STACK_LINE(738)
 									camera->__SetField(HX_CSTRING("lockedTarget"),value,false);
 								}
 							}
-							HX_STACK_LINE(740)
+							HX_STACK_LINE(739)
 							if (((camera != null()))){
-								HX_STACK_LINE(740)
+								HX_STACK_LINE(739)
 								camera->__SetField(HX_CSTRING("_waitingLockedTargetId"),null(),false);
 							}
 						}
 					}
 				}
-				HX_STACK_LINE(745)
+				HX_STACK_LINE(744)
 				if (((parsedData->__Field(HX_CSTRING("particleSystems"),true) != null()))){
-					HX_STACK_LINE(746)
+					HX_STACK_LINE(745)
 					Dynamic _particleSystems = parsedData->__Field(HX_CSTRING("particleSystems"),true);		HX_STACK_VAR(_particleSystems,"_particleSystems");
-					HX_STACK_LINE(747)
+					HX_STACK_LINE(746)
 					{
-						HX_STACK_LINE(747)
+						HX_STACK_LINE(746)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(747)
+						HX_STACK_LINE(746)
 						int _g3 = _particleSystems->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(747)
+						HX_STACK_LINE(746)
 						while((true)){
-							HX_STACK_LINE(747)
+							HX_STACK_LINE(746)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(747)
+								HX_STACK_LINE(746)
 								break;
 							}
-							HX_STACK_LINE(747)
+							HX_STACK_LINE(746)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(748)
+							HX_STACK_LINE(747)
 							Dynamic parsedParticleSystem = _particleSystems->__GetItem(index);		HX_STACK_VAR(parsedParticleSystem,"parsedParticleSystem");
-							HX_STACK_LINE(749)
+							HX_STACK_LINE(748)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseParticleSystem(parsedParticleSystem,scene,rootUrl1->__get((int)0));
 						}
 					}
 				}
-				HX_STACK_LINE(754)
+				HX_STACK_LINE(753)
 				if (((parsedData->__Field(HX_CSTRING("lensFlareSystems"),true) != null()))){
-					HX_STACK_LINE(755)
+					HX_STACK_LINE(754)
 					Dynamic _lensFlareSystems = parsedData->__Field(HX_CSTRING("lensFlareSystems"),true);		HX_STACK_VAR(_lensFlareSystems,"_lensFlareSystems");
-					HX_STACK_LINE(756)
+					HX_STACK_LINE(755)
 					{
-						HX_STACK_LINE(756)
+						HX_STACK_LINE(755)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(756)
+						HX_STACK_LINE(755)
 						int _g3 = _lensFlareSystems->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(756)
+						HX_STACK_LINE(755)
 						while((true)){
-							HX_STACK_LINE(756)
+							HX_STACK_LINE(755)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(756)
+								HX_STACK_LINE(755)
 								break;
 							}
-							HX_STACK_LINE(756)
+							HX_STACK_LINE(755)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(757)
+							HX_STACK_LINE(756)
 							Dynamic parsedLensFlareSystem = _lensFlareSystems->__GetItem(index);		HX_STACK_VAR(parsedLensFlareSystem,"parsedLensFlareSystem");
-							HX_STACK_LINE(758)
+							HX_STACK_LINE(757)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseLensFlareSystem(parsedLensFlareSystem,scene,rootUrl1->__get((int)0));
 						}
 					}
 				}
-				HX_STACK_LINE(763)
+				HX_STACK_LINE(762)
 				if (((parsedData->__Field(HX_CSTRING("shadowGenerators"),true) != null()))){
-					HX_STACK_LINE(764)
+					HX_STACK_LINE(763)
 					Dynamic _shadowGenerators = parsedData->__Field(HX_CSTRING("shadowGenerators"),true);		HX_STACK_VAR(_shadowGenerators,"_shadowGenerators");
-					HX_STACK_LINE(765)
+					HX_STACK_LINE(764)
 					{
-						HX_STACK_LINE(765)
+						HX_STACK_LINE(764)
 						int _g11 = (int)0;		HX_STACK_VAR(_g11,"_g11");
-						HX_STACK_LINE(765)
+						HX_STACK_LINE(764)
 						int _g3 = _shadowGenerators->__Field(HX_CSTRING("length"),true);		HX_STACK_VAR(_g3,"_g3");
-						HX_STACK_LINE(765)
+						HX_STACK_LINE(764)
 						while((true)){
-							HX_STACK_LINE(765)
+							HX_STACK_LINE(764)
 							if ((!(((_g11 < _g3))))){
-								HX_STACK_LINE(765)
+								HX_STACK_LINE(764)
 								break;
 							}
-							HX_STACK_LINE(765)
+							HX_STACK_LINE(764)
 							int index = (_g11)++;		HX_STACK_VAR(index,"index");
-							HX_STACK_LINE(766)
+							HX_STACK_LINE(765)
 							Dynamic parsedShadowGenerator = _shadowGenerators->__GetItem(index);		HX_STACK_VAR(parsedShadowGenerator,"parsedShadowGenerator");
-							HX_STACK_LINE(767)
+							HX_STACK_LINE(766)
 							::com::gamestudiohx::babylonhx::tools::SceneLoader_obj::parseShadowGenerator(parsedShadowGenerator,scene);
 						}
 					}
 				}
-				HX_STACK_LINE(772)
+				HX_STACK_LINE(771)
 				if (((then1->__GetItem((int)0) != null()))){
-					HX_STACK_LINE(773)
+					HX_STACK_LINE(772)
 					then1->__GetItem((int)0)(scene).Cast< Void >();
 				}
 			}
@@ -3701,9 +3701,9 @@ Void SceneLoader_obj::Load( ::String rootUrl,::String sceneFilename,::com::games
 		}
 		HX_END_LOCAL_FUNC1((void))
 
-		HX_STACK_LINE(655)
+		HX_STACK_LINE(654)
 		Dynamic loadSceneFromData =  Dynamic(new _Function_1_1(engine1,rootUrl1,then1));		HX_STACK_VAR(loadSceneFromData,"loadSceneFromData");
-		HX_STACK_LINE(777)
+		HX_STACK_LINE(776)
 		::com::gamestudiohx::babylonhx::tools::Tools_obj::LoadFile((rootUrl1->__get((int)0) + sceneFilename),loadSceneFromData,null(),null(),null());
 	}
 return null();
