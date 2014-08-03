@@ -34,14 +34,13 @@ Visit http://babylonjs.com/ for more info about the engine.
   <br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx1">
   <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx1/screenshot1.jpg" style="max-width:100%" /></a>
   * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">Example 2</a> targets Mac, Neko, HTML5 now works again,~~HTML5 is broken most likely due to an float array 32 issue.~~.
-<br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">
-<img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx2/screenshot1.jpg" style="max-width:100%"/>
-</a><br />
-* Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx3">Example 3</a> targets Mac, Neko, HTML5.
-<br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx3">
-<img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx3/screenshot1.jpg" style="max-width:100%"/>
-</a><br />
-<br />
+  <br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx2">
+  <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx2/screenshot1.jpg" style="max-width:100%"/>
+  </a><br />
+  * Currently works with <a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx3">Example 3</a> targets Mac, Neko, HTML5.
+  <br /><a href="https://github.com/seacloud9/BabylonHx/tree/master/samples/ds.babylonHxEx3">
+  <img src="https://raw.githubusercontent.com/seacloud9/BabylonHx/master/samples/ds.babylonHxEx3/screenshot1.jpg" style="max-width:100%"/>
+  </a><br />
 
 **TODO:**
 
