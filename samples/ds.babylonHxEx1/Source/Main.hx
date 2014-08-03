@@ -110,10 +110,15 @@ class Main extends Sprite {
     skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
     skyboxMaterial.specularColor = new Color3(0, 0, 0);
     skybox.material = skyboxMaterial;
+    trace('--sky material' + Reflect.fields(skybox.material));
+    //trace(Reflect.fields(skyboxMaterial));
+    // for( ff in Reflect.fields(skyboxMaterial) )
+    //  trace("  skyboxMaterial." + ff + " = " + Reflect.field(skyboxMaterial, ff));
 
     // Animations
     var alpha = .0;
     scene.registerBeforeRender(function () {
+
       light0.position = new Vector3(10 * Math.sin(alpha), 0, 10 * Math.cos(alpha));
       light1.position = new Vector3(10 * Math.sin(alpha), 0, -10 * Math.cos(alpha));
       light2.position = new Vector3(10 * Math.cos(alpha), 0, 10 * Math.sin(alpha));
