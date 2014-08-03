@@ -201,21 +201,16 @@ import openfl.utils.UInt8Array;
                 //var offset = this.positions ? this.positions.length / 3  :  0;
                 if(this.positions != null){
                     offset = cast(this.positions.length / 3, Int);
-                    trace('offset ==' + offset);
                 }else{
                     offset = 0;
                 }
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < other.indices.length; index++)
                 //todo double check this
-                trace('preloop in merge other indices =' + other.indices);
-                trace('preloop in merge this indices = ' + this.indices);
                 while( index < other.indices.length)  {
                     this.indices.push(other.indices[index] + offset);
                     index++;
                 }
-
-                trace('after in merge this indicies = ' + this.indices);
             }
 
             if (other.positions.length > 0) {
@@ -226,7 +221,6 @@ import openfl.utils.UInt8Array;
                 //  for (index = 0; index < other.positions.length; index++)
                 index = 0;
                 while( index < other.positions.length)  {
-                     trace(index);
                     this.positions.push(other.positions[index]);
                     index++;
 
@@ -974,7 +968,6 @@ import openfl.utils.UInt8Array;
             var vertexData = new VertexData();
 
             vertexData.indices = indices;
-            trace('CreatePlane' + indices);
             vertexData.positions = positions;
             vertexData.normals = normals;
             vertexData.uvs = uvs;

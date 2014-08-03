@@ -446,7 +446,10 @@ class Engine {
         trace('--hit 1');
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, vbo);
         trace('--hit 2');
-        trace('len >>> ' +  indices);
+        //var b:Array<Int> = cast(indices);
+        //trace(Type.typeof(b));
+        //trace('len >>> ' +  indices);
+
         GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(cast indices), GL.STATIC_DRAW);
         
         trace('--hit 3');

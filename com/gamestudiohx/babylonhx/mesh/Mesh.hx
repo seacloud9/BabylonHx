@@ -174,10 +174,9 @@ import openfl.utils.Float32Array;
             var totalVertices = this.getTotalVertices();
             //todo
             // 
-            trace('totalVertices >> ' + totalVertices);
-            trace('getIndices >> ' + this.getIndices());
+            //trace('totalVertices >> ' + totalVertices);
+            //trace('getIndices >> ' + this.getIndices());
             if (totalVertices == 0 || this.getIndices().length == 0) {
-                trace('--hit null');
                 return null;
             }
 
@@ -266,7 +265,6 @@ import openfl.utils.Float32Array;
             if (this._geometry == null) {
                 var vertexData = new VertexData();
                 vertexData.indices = indices;
-                trace( 'setIndices -' + indices );
                 var scene = this.getScene();
 
                 new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, false, this);

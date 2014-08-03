@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	
 	<meta title="BabylonHx" package="com.example.ds.babylonhx" version="1.0.0" company="Satan Loves Bacon" />
+	<window fps="60" />
 	<app main="Main" path="Export" file="BabylonHx" />
 	<haxelib name="openfl" />
+	<haxelib name='swf' />
 	<source path="../../" />
 	<source path="Source" />
-	
-	
-	
 	<assets path="assets" exclude="openfl.svg" />
-	
 	<icon path="assets/openfl.svg" />
-	
+	<haxedef name="dom" />
 </project>

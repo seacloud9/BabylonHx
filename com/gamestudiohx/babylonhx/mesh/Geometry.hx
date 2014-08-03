@@ -92,10 +92,9 @@ import openfl.utils.Float32Array;
                 // haxe does not support for loops with C/JS syntaxt ... unfolding : 
                 //  for (var index = 0; index < numOfMeshes; index++)
                 var index = 0;
-                trace('pre loop -- num of meshes ' + numOfMeshes);
+                
                 while( index < numOfMeshes)  {
                     var mesh = meshes[index];
-                    trace('in loop -' + index);
                     mesh._resetPointsArrayCache();
                     mesh._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
                     mesh._createGlobalSubMesh();
@@ -200,18 +199,16 @@ import openfl.utils.Float32Array;
         }
 
         public function setIndices(indices:Array<Int> ) : Void {
-            trace( 'setIndices ==='  + indices);
+            //trace( 'setIndices ==='  + indices);
             if (this._indexBuffer  != null) {
                 this._engine._releaseBuffer(this._indexBuffer);
             }
 
             this._indices = indices;
-            trace(this._meshes.length);
-            trace(this._indices.length);
             if (this._meshes.length != 0 && this._indices.length > 0) {
-                trace('geometry setIndices - in pre this._indexBuffer');
+                //trace('geometry setIndices - in pre this._indexBuffer');
                 this._indexBuffer = this._engine.createIndexBuffer(this._indices);
-                trace('geometry setIndices - in pre this._indexBuffer after???');
+                //trace('geometry setIndices - in pre this._indexBuffer after???');
             }
 
             var meshes = this._meshes;

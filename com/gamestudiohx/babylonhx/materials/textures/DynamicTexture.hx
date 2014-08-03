@@ -28,10 +28,8 @@ class DynamicTexture extends Texture{
             } else {
                 this._canvas = new BitmapData(options.width, options.height, false, 0xFFFFFFFF);
                 if (options.width != null) {
-                    trace(options.width + '== dynamic texture');
                     this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
                 } else {
-                     trace(options.width + '== dynamic texture really??');
                     this._texture = scene.getEngine().createDynamicTexture(options, options, generateMipMaps);
                 }
             }
