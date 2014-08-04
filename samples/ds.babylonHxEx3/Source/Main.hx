@@ -77,7 +77,7 @@ class Main extends Sprite {
     background.texture._canvas.draw(shape, m);
     background.texture.update();
     camera = new FreeCamera("camera", new Vector3(0, -128, 0), scene);
-    camera.attachControl(this);
+    //camera.attachControl(this);
         camera.fov = 30;
         camera.minZ = 1;
         camera.maxZ = 3000;

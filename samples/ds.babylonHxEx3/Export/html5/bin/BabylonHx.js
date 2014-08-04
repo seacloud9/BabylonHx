@@ -1163,7 +1163,6 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 		background.texture._canvas.draw(shape,m);
 		background.texture.update();
 		this.camera = new com.gamestudiohx.babylonhx.cameras.FreeCamera("camera",new com.gamestudiohx.babylonhx.tools.math.Vector3(0,-128,0),scene);
-		this.camera.attachControl(this);
 		this.camera.fov = 30;
 		this.camera.minZ = 1;
 		this.camera.maxZ = 3000;
