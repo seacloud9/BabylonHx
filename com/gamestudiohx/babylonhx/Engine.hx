@@ -759,23 +759,24 @@ class Engine {
     }
 
     public function setAlphaMode(mode:Int) {
+         #if html5
         switch (mode) {
             case Engine.ALPHA_DISABLE:
                 this.setDepthWrite(true);
-		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
+		        GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
                 GL.disable(GL.BLEND);
 				
             case Engine.ALPHA_COMBINE:
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
 				GL.enable(GL.BLEND);
-                
             case Engine.ALPHA_ADD:
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.ONE, GL.ONE, GL.ZERO, GL.ONE);
 				GL.enable(GL.BLEND);
                 
         }
+        #end
     }
 
     public function setAlphaTesting(enable:Bool) {
