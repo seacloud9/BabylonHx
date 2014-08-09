@@ -71,6 +71,8 @@ import openfl.Lib;
 		
 		
 		
+		
+		
 		var urlLoader = new URLLoader ();
 		urlLoader.dataFormat = BINARY;
 		urlLoaders.set("assets/font/Tup Wanders Font License.txt", urlLoader);

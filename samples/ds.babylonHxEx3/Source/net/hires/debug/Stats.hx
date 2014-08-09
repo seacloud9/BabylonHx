@@ -13,30 +13,36 @@
 
 package net.hires.debug; 
 	
-import flash.display.BitmapData;
-import flash.display.Sprite;
-import flash.display.Stage;
-import flash.events.Event;
-import flash.events.MouseEvent;
-import flash.geom.Matrix;
-import flash.geom.Rectangle;
-import flash.system.System;
-import flash.text.StyleSheet;
-import flash.text.TextField;
-import flash.xml.XML;
+import openfl.display.BitmapData;
+import openfl.display.Sprite;
+import openfl.display.Stage;
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.geom.Matrix;
+import openfl.geom.Rectangle;
+import openfl.system.System;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+import openfl.Assets;
+import Xml;
 
 
 class Stats extends Sprite {	
 
-	static inline var GRAPH_WIDTH : Int = 70;
-	static inline var XPOS : Int = 69;//width - 1
+	static inline var GRAPH_WIDTH : Int = 100;
+	static inline var XPOS : Int = 99;//width - 1
+	#if html5
+	static inline var GRAPH_HEIGHT : Int = 30;
+	static inline var TEXT_HEIGHT : Int = 30;
+	#else
 	static inline var GRAPH_HEIGHT : Int = 50;
 	static inline var TEXT_HEIGHT : Int = 50;
+	#end
 
-	private var xml : XML;
+	public var xml : Xml;
 
 	private var text : TextField;
-	private var style : StyleSheet;
+	//private var style : StyleSheet;
 
 	private var timer : Int;
 	private var fps : Int;
@@ -62,22 +68,12 @@ class Stats extends Sprite {
 		super();
 		mem_max = 0;
 		fps = 0;
+		var format = new TextFormat ( '_sans', 10, 0xdbf043);
 
-
-		xml = new XML("<xml><fps>FPS:</fps><ms>MS:</ms><mem>MEM:</mem><memMax>MAX:</memMax></xml>");
-
-		style = new StyleSheet();
-		style.setStyle('xml', {fontSize:'9px', fontFamily:'_sans', leading:'-2px'});
-		style.setStyle('fps', {color: Colors.fpsCSS });
-		style.setStyle('ms', {color: Colors.msCSS });
-		style.setStyle('mem', {color: Colors.memCSS });
-		style.setStyle('memMax', {color: Colors.memmaxCSS });
-		
 		text = new TextField();
 		text.width = GRAPH_WIDTH;
 		text.height = TEXT_HEIGHT;
-		text.styleSheet = style;
-		text.condenseWhite = true;
+		text.defaultTextFormat = format;
 		text.selectable = false;
 		text.mouseEnabled = false;
 		
@@ -119,12 +115,13 @@ class Stats extends Sprite {
 	}
 
 	private function update(e : Event) {
-
 		timer = flash.Lib.getTimer();
 		
 		//after a second has passed 
 		if( timer - 1000 > ms_prev ) {
-
+			#if html5
+			fps_graph = GRAPH_HEIGHT - Std.int( Math.min(GRAPH_HEIGHT, ( fps / _stage.frameRate ) * GRAPH_HEIGHT) );
+			#else
 			mem = System.totalMemory * 0.000000954;
 			mem_max = mem_max > mem ? mem_max : mem;
 
@@ -132,22 +129,22 @@ class Stats extends Sprite {
 
 			mem_graph = GRAPH_HEIGHT - normalizeMem(mem);
 			mem_max_graph = GRAPH_HEIGHT - normalizeMem(mem_max);
-			//milliseconds since last frame -- this fluctuates quite a bit
 			ms_graph = Std.int( GRAPH_HEIGHT - ( ( timer - ms ) >> 1 ));
+			#end
+			
 			graph.scroll(-1, 0);
 
 			graph.fillRect(rectangle, Colors.bg);
 			graph.lock();
+			#if html5
+			graph.setPixel(XPOS, fps_graph, Colors.fps);
+			#else
 			graph.setPixel(XPOS, fps_graph, Colors.fps);
 			graph.setPixel(XPOS, mem_graph, Colors.mem);
 			graph.setPixel(XPOS, mem_max_graph, Colors.memmax);
 			graph.setPixel(XPOS, ms_graph, Colors.ms);
+			#end
 			graph.unlock();
-
-			xml.fps = "FPS: " + fps + " / " + stage.frameRate; 
-			xml.mem = "MEM: " + mem;
-			xml.memMax = "MAX: " + mem_max;			
-
 			//reset frame and time counters
 			fps = 0;
 			ms_prev = timer;
@@ -156,11 +153,13 @@ class Stats extends Sprite {
 		}
 		//increment number of frames which have occurred in current second
 		fps++;
-
-		xml.ms = "MS: " + (timer - ms);
 		ms = timer;
+		#if html5
+		text.text= ("FPS: " + fps + " / " + stage.frameRate);
+		#else
+		text.text= ("FPS: " + fps + " / " + stage.frameRate) + ("\nMEM: " + mem) + ( "\nMAX: " + mem_max) + "\nMS: " + (timer - ms);
+		#end
 		
-		text.htmlText = xml.toString();
 	}
 
 

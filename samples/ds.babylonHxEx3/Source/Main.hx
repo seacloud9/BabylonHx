@@ -35,7 +35,7 @@ import openfl.display.GradientType;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.Assets;
-import openfl.display.FPS;
+import net.hires.debug.Stats;
 
 /**
 * ...
@@ -78,9 +78,9 @@ class Main extends Sprite {
     background.texture.update();
     camera = new FreeCamera("camera", new Vector3(0, -128, 0), scene);
     //camera.attachControl(this);
-        camera.fov = 30;
-        camera.minZ = 1;
-        camera.maxZ = 3000;
+    camera.fov = 30;
+    camera.minZ = 1;
+    camera.maxZ = 3000;
 
        var cloudMaterial = new ShaderMaterial("cloud", scene, {
             vertex: "clouds",
@@ -122,8 +122,13 @@ class Main extends Sprite {
         });
 
         addEventListener (Event.ENTER_FRAME, frameloop);
-        addChild(new openfl.display.FPS(20, 20));
+        addStats();
   }
+
+  private function addStats():Void{
+    addChild(new Stats());
+  }
+
 
   private function frameloop (event:Event):Void {
         var previousTime:Int = 0;

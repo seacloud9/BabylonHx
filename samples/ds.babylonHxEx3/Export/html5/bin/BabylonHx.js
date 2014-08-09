@@ -184,8 +184,8 @@ ApplicationMain.preloader_onComplete = function(event) {
 	if(hasMain) Reflect.callMethod(Main,Reflect.field(Main,"main"),[]); else {
 		var instance = Type.createInstance(DocumentClass,[]);
 		if(js.Boot.__instanceof(instance,openfl.display.DisplayObject)) openfl.Lib.current.addChild(instance); else {
-			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 375, className : "ApplicationMain", methodName : "preloader_onComplete"});
-			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 376, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 377, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 378, className : "ApplicationMain", methodName : "preloader_onComplete"});
 		}
 	}
 };
@@ -1125,13 +1125,13 @@ Main.safeDestroy = function(obj,destroy) {
 		if(destroy) try {
 			o.destroy();
 		} catch( e ) {
-			haxe.Log.trace("[Error on object: " + Std.string(o) + ", {" + Std.string(e) + "}",{ fileName : "Main.hx", lineNumber : 171, className : "Main", methodName : "safeDestroy"});
+			haxe.Log.trace("[Error on object: " + Std.string(o) + ", {" + Std.string(e) + "}",{ fileName : "Main.hx", lineNumber : 176, className : "Main", methodName : "safeDestroy"});
 		}
 		var parent = null;
 		try {
 			parent = o.parent;
 		} catch( e1 ) {
-			haxe.Log.trace(e1,{ fileName : "Main.hx", lineNumber : 173, className : "Main", methodName : "safeDestroy"});
+			haxe.Log.trace(e1,{ fileName : "Main.hx", lineNumber : 178, className : "Main", methodName : "safeDestroy"});
 		}
 		if(parent != null) parent.removeChild(o);
 	}
@@ -1192,7 +1192,10 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 			engine.runRenderLoop($bind(scene,scene.render));
 		});
 		this.addEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.frameloop));
-		this.addChild(new openfl.display.FPS(20,20));
+		this.addStats();
+	}
+	,addStats: function() {
+		this.addChild(new net.hires.debug.Stats());
 	}
 	,frameloop: function(event) {
 		var previousTime = 0;
@@ -1299,6 +1302,9 @@ var DefaultAssetLibrary = function() {
 	var id;
 	id = "assets/font/Aaargh.ttf";
 	this.className.set(id,__ASSET__assets_font_aaargh_ttf);
+	this.type.set(id,openfl.AssetType.FONT);
+	id = "assets/font/OpenSansRegular.ttf";
+	this.className.set(id,__ASSET__assets_font_opensansregular_ttf);
 	this.type.set(id,openfl.AssetType.FONT);
 	id = "assets/font/Tup Wanders Font License.txt";
 	this.path.set(id,id);
@@ -1500,6 +1506,16 @@ __ASSET__assets_font_aaargh_ttf.__name__ = ["__ASSET__assets_font_aaargh_ttf"];
 __ASSET__assets_font_aaargh_ttf.__super__ = openfl.text.Font;
 __ASSET__assets_font_aaargh_ttf.prototype = $extend(openfl.text.Font.prototype,{
 	__class__: __ASSET__assets_font_aaargh_ttf
+});
+var __ASSET__assets_font_opensansregular_ttf = function() {
+	openfl.text.Font.call(this);
+	this.fontName = "assets/font/OpenSansRegular.ttf";
+};
+$hxClasses["__ASSET__assets_font_opensansregular_ttf"] = __ASSET__assets_font_opensansregular_ttf;
+__ASSET__assets_font_opensansregular_ttf.__name__ = ["__ASSET__assets_font_opensansregular_ttf"];
+__ASSET__assets_font_opensansregular_ttf.__super__ = openfl.text.Font;
+__ASSET__assets_font_opensansregular_ttf.prototype = $extend(openfl.text.Font.prototype,{
+	__class__: __ASSET__assets_font_opensansregular_ttf
 });
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
@@ -1912,6 +1928,17 @@ Type["typeof"] = function(v) {
 		return ValueType.TUnknown;
 	}
 };
+var XmlType = $hxClasses["XmlType"] = { __ename__ : true, __constructs__ : [] };
+var Xml = function() { };
+$hxClasses["Xml"] = Xml;
+Xml.__name__ = ["Xml"];
+Xml.Element = null;
+Xml.PCData = null;
+Xml.CData = null;
+Xml.Comment = null;
+Xml.DocType = null;
+Xml.ProcessingInstruction = null;
+Xml.Document = null;
 var com = {};
 com.gamestudiohx = {};
 com.gamestudiohx.babylonhx = {};
@@ -2464,7 +2491,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		var _g2 = extensions.length;
 		while(_g1 < _g2) {
 			var i = _g1++;
-			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1086, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
+			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1087, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
 		}
 		openfl.gl.GL.texParameteri(34067,10240,9729);
 		openfl.gl.GL.texParameteri(34067,10241,9987);
@@ -12860,6 +12887,70 @@ js.Boot.__instanceof = function(o,cl) {
 js.Boot.__cast = function(o,t) {
 	if(js.Boot.__instanceof(o,t)) return o; else throw "Cannot cast " + Std.string(o) + " to " + Std.string(t);
 };
+var net = {};
+net.hires = {};
+net.hires.debug = {};
+net.hires.debug.Stats = function() {
+	openfl.display.Sprite.call(this);
+	this.mem_max = 0;
+	this.fps = 0;
+	var format = new openfl.text.TextFormat("_sans",10,14413891);
+	this.text = new openfl.text.TextField();
+	this.text.set_width(100);
+	this.text.set_height(30);
+	this.text.set_defaultTextFormat(format);
+	this.text.selectable = false;
+	this.text.mouseEnabled = false;
+	this.rectangle = new openfl.geom.Rectangle(99,0,1,30);
+	this.addEventListener(openfl.events.Event.ADDED_TO_STAGE,$bind(this,this.init),false,0,true);
+	this.addEventListener(openfl.events.Event.REMOVED_FROM_STAGE,$bind(this,this.destroy),false,0,true);
+};
+$hxClasses["net.hires.debug.Stats"] = net.hires.debug.Stats;
+net.hires.debug.Stats.__name__ = ["net","hires","debug","Stats"];
+net.hires.debug.Stats.__super__ = openfl.display.Sprite;
+net.hires.debug.Stats.prototype = $extend(openfl.display.Sprite.prototype,{
+	init: function(e) {
+		this._stage = openfl.Lib.current.stage;
+		this.get_graphics().beginFill(51);
+		this.get_graphics().drawRect(0,0,100,30);
+		this.get_graphics().endFill();
+		this.addChild(this.text);
+		this.graph = new openfl.display.BitmapData(100,30,false,51);
+		this.get_graphics().beginBitmapFill(this.graph,new openfl.geom.Matrix(1,0,0,1,0,30));
+		this.get_graphics().drawRect(0,30,100,30);
+		this.addEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.update));
+	}
+	,destroy: function(e) {
+		this.get_graphics().clear();
+		while(this.get_numChildren() > 0) this.removeChildAt(0);
+		this.graph.dispose();
+		this.removeEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.update));
+	}
+	,update: function(e) {
+		this.timer = openfl.Lib.getTimer();
+		if(this.timer - 1000 > this.ms_prev) {
+			this.fps_graph = 30 - Std["int"](Math.min(30,this.fps / this._stage.frameRate * 30));
+			this.graph.scroll(-1,0);
+			this.graph.fillRect(this.rectangle,51);
+			this.graph.lock();
+			this.graph.setPixel(99,this.fps_graph,16776960);
+			this.graph.unlock();
+			this.fps = 0;
+			this.ms_prev = this.timer;
+			return;
+		}
+		this.fps++;
+		this.ms = this.timer;
+		this.text.set_text("FPS: " + this.fps + " / " + this.stage.frameRate);
+	}
+	,normalizeMem: function(_mem) {
+		return Std["int"](Math.min(30,Math.sqrt(Math.sqrt(_mem * 5000))) - 2);
+	}
+	,__class__: net.hires.debug.Stats
+});
+net.hires.debug.Colors = function() { };
+$hxClasses["net.hires.debug.Colors"] = net.hires.debug.Colors;
+net.hires.debug.Colors.__name__ = ["net","hires","debug","Colors"];
 openfl.AssetCache = function() {
 	this.enabled = true;
 	this.bitmapData = new haxe.ds.StringMap();
@@ -14737,500 +14828,6 @@ openfl.display.DirectRenderer.prototype = $extend(openfl.display.DisplayObject.p
 	}
 	,__class__: openfl.display.DirectRenderer
 	,__properties__: $extend(openfl.display.DisplayObject.prototype.__properties__,{set_render:"set_render",get_render:"get_render"})
-});
-openfl.text.TextField = function() {
-	openfl.display.InteractiveObject.call(this);
-	this.__width = 100;
-	this.__height = 100;
-	this.__text = "";
-	this.set_type(openfl.text.TextFieldType.DYNAMIC);
-	this.set_autoSize(openfl.text.TextFieldAutoSize.NONE);
-	this.displayAsPassword = false;
-	this.embedFonts = false;
-	this.selectable = true;
-	this.set_borderColor(0);
-	this.set_border(false);
-	this.set_backgroundColor(16777215);
-	this.set_background(false);
-	this.gridFitType = openfl.text.GridFitType.PIXEL;
-	this.maxChars = 0;
-	this.multiline = false;
-	this.sharpness = 0;
-	this.scrollH = 0;
-	this.scrollV = 1;
-	this.set_wordWrap(false);
-	if(openfl.text.TextField.__defaultTextFormat == null) {
-		openfl.text.TextField.__defaultTextFormat = new openfl.text.TextFormat("Times New Roman",12,0,false,false,false,"","",openfl.text.TextFormatAlign.LEFT,0,0,0,0);
-		openfl.text.TextField.__defaultTextFormat.blockIndent = 0;
-		openfl.text.TextField.__defaultTextFormat.bullet = false;
-		openfl.text.TextField.__defaultTextFormat.letterSpacing = 0;
-		openfl.text.TextField.__defaultTextFormat.kerning = false;
-	}
-	this.__textFormat = openfl.text.TextField.__defaultTextFormat.clone();
-};
-$hxClasses["openfl.text.TextField"] = openfl.text.TextField;
-openfl.text.TextField.__name__ = ["openfl","text","TextField"];
-openfl.text.TextField.__defaultTextFormat = null;
-openfl.text.TextField.__super__ = openfl.display.InteractiveObject;
-openfl.text.TextField.prototype = $extend(openfl.display.InteractiveObject.prototype,{
-	appendText: function(text) {
-		var _g = this;
-		_g.set_text(_g.get_text() + text);
-	}
-	,getCharBoundaries: function(a) {
-		openfl.Lib.notImplemented("TextField.getCharBoundaries");
-		return null;
-	}
-	,getCharIndexAtPoint: function(x,y) {
-		openfl.Lib.notImplemented("TextField.getCharIndexAtPoint");
-		return 0;
-	}
-	,getLineIndexAtPoint: function(x,y) {
-		openfl.Lib.notImplemented("TextField.getLineIndexAtPoint");
-		return 0;
-	}
-	,getLineMetrics: function(lineIndex) {
-		openfl.Lib.notImplemented("TextField.getLineMetrics");
-		return null;
-	}
-	,getLineOffset: function(lineIndex) {
-		openfl.Lib.notImplemented("TextField.getLineOffset");
-		return 0;
-	}
-	,getLineText: function(lineIndex) {
-		openfl.Lib.notImplemented("TextField.getLineText");
-		return "";
-	}
-	,getTextFormat: function(beginIndex,endIndex) {
-		if(endIndex == null) endIndex = 0;
-		if(beginIndex == null) beginIndex = 0;
-		return this.__textFormat.clone();
-	}
-	,setSelection: function(beginIndex,endIndex) {
-		openfl.Lib.notImplemented("TextField.setSelection");
-	}
-	,setTextFormat: function(format,beginIndex,endIndex) {
-		if(endIndex == null) endIndex = 0;
-		if(beginIndex == null) beginIndex = 0;
-		if(format.font != null) this.__textFormat.font = format.font;
-		if(format.size != null) this.__textFormat.size = format.size;
-		if(format.color != null) this.__textFormat.color = format.color;
-		if(format.bold != null) this.__textFormat.bold = format.bold;
-		if(format.italic != null) this.__textFormat.italic = format.italic;
-		if(format.underline != null) this.__textFormat.underline = format.underline;
-		if(format.url != null) this.__textFormat.url = format.url;
-		if(format.target != null) this.__textFormat.target = format.target;
-		if(format.align != null) this.__textFormat.align = format.align;
-		if(format.leftMargin != null) this.__textFormat.leftMargin = format.leftMargin;
-		if(format.rightMargin != null) this.__textFormat.rightMargin = format.rightMargin;
-		if(format.indent != null) this.__textFormat.indent = format.indent;
-		if(format.leading != null) this.__textFormat.leading = format.leading;
-		if(format.blockIndent != null) this.__textFormat.blockIndent = format.blockIndent;
-		if(format.bullet != null) this.__textFormat.bullet = format.bullet;
-		if(format.kerning != null) this.__textFormat.kerning = format.kerning;
-		if(format.letterSpacing != null) this.__textFormat.letterSpacing = format.letterSpacing;
-		if(format.tabStops != null) this.__textFormat.tabStops = format.tabStops;
-		this.__dirty = true;
-	}
-	,__getBounds: function(rect,matrix) {
-		var bounds = new openfl.geom.Rectangle(0,0,this.__width,this.__height);
-		bounds.transform(this.__worldTransform);
-		rect.__expand(bounds.x,bounds.y,bounds.width,bounds.height);
-	}
-	,__getFont: function(format) {
-		var font;
-		if(format.italic) font = "italic "; else font = "normal ";
-		font += "normal ";
-		if(format.bold) font += "bold "; else font += "normal ";
-		font += format.size + "px";
-		font += "/" + (format.size + format.leading + 4) + "px ";
-		font += "'" + (function($this) {
-			var $r;
-			var _g = format.font;
-			$r = (function($this) {
-				var $r;
-				switch(_g) {
-				case "_sans":
-					$r = "sans-serif";
-					break;
-				case "_serif":
-					$r = "serif";
-					break;
-				case "_typewriter":
-					$r = "monospace";
-					break;
-				default:
-					$r = format.font;
-				}
-				return $r;
-			}($this));
-			return $r;
-		}(this));
-		font += "'";
-		return font;
-	}
-	,__hitTest: function(x,y,shapeFlag,stack,interactiveOnly) {
-		if(!this.get_visible() || interactiveOnly && !this.mouseEnabled) return false;
-		var point = this.globalToLocal(new openfl.geom.Point(x,y));
-		if(point.x > 0 && point.y > 0 && point.x <= this.__width && point.y <= this.__height) {
-			if(stack != null) stack.push(this);
-			return true;
-		}
-		return false;
-	}
-	,__measureText: function() {
-		if(this.__ranges == null) {
-			this.__context.font = this.__getFont(this.__textFormat);
-			return [this.__context.measureText(this.__text).width];
-		} else {
-			var measurements = [];
-			var _g = 0;
-			var _g1 = this.__ranges;
-			while(_g < _g1.length) {
-				var range = _g1[_g];
-				++_g;
-				this.__context.font = this.__getFont(range.format);
-				measurements.push(this.__context.measureText(this.get_text().substring(range.start,range.end)).width);
-			}
-			return measurements;
-		}
-	}
-	,__measureTextWithDOM: function() {
-		var div = this.__div;
-		if(this.__div == null) {
-			div = window.document.createElement("div");
-			div.innerHTML = this.__text;
-			div.style.setProperty("font",this.__getFont(this.__textFormat),null);
-			div.style.position = "absolute";
-			div.style.top = "110%";
-			window.document.body.appendChild(div);
-		}
-		this.__measuredWidth = div.clientWidth;
-		if(this.__div == null) div.style.width = Std.string(this.__width) + "px";
-		this.__measuredHeight = div.clientHeight;
-		if(this.__div == null) window.document.body.removeChild(div);
-	}
-	,__renderCanvas: function(renderSession) {
-		if(!this.__renderable || this.__worldAlpha <= 0) return;
-		if(this.__dirty) {
-			if((this.__text == null || this.__text == "") && !this.background && !this.border || (this.get_width() <= 0 || this.get_height() <= 0) && this.autoSize != openfl.text.TextFieldAutoSize.LEFT) {
-				this.__canvas = null;
-				this.__context = null;
-			} else {
-				if(this.__canvas == null) {
-					this.__canvas = window.document.createElement("canvas");
-					this.__context = this.__canvas.getContext("2d");
-				}
-				if(this.__text != null && this.__text != "") {
-					var measurements = this.__measureText();
-					var textWidth = 0.0;
-					var _g = 0;
-					while(_g < measurements.length) {
-						var measurement = measurements[_g];
-						++_g;
-						textWidth += measurement;
-					}
-					if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) this.__width = textWidth + 4;
-					this.__canvas.width = Math.ceil(this.__width);
-					this.__canvas.height = Math.ceil(this.__height);
-					if(this.border || this.background) {
-						this.__context.rect(0.5,0.5,this.__width - 1,this.__height - 1);
-						if(this.background) {
-							this.__context.fillStyle = "#" + StringTools.hex(this.backgroundColor,6);
-							this.__context.fill();
-						}
-						if(this.border) {
-							this.__context.lineWidth = 1;
-							this.__context.strokeStyle = "#" + StringTools.hex(this.borderColor,6);
-							this.__context.stroke();
-						}
-					}
-					if(this.__ranges == null) this.__renderText(this.get_text(),this.__textFormat,0); else {
-						var currentIndex = 0;
-						var range;
-						var offsetX = 0.0;
-						var _g1 = 0;
-						var _g2 = this.__ranges.length;
-						while(_g1 < _g2) {
-							var i = _g1++;
-							range = this.__ranges[i];
-							this.__renderText(this.get_text().substring(range.start,range.end),range.format,offsetX);
-							offsetX += measurements[i];
-						}
-					}
-				} else {
-					if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) this.__width = 4;
-					this.__canvas.width = Math.ceil(this.__width);
-					this.__canvas.height = Math.ceil(this.__height);
-					if(this.border || this.background) {
-						if(this.border) this.__context.rect(0.5,0.5,this.__width - 1,this.__height - 1); else this.__context.rect(0,0,this.__width,this.__height);
-						if(this.background) {
-							this.__context.fillStyle = "#" + StringTools.hex(this.backgroundColor,6);
-							this.__context.fill();
-						}
-						if(this.border) {
-							this.__context.lineWidth = 1;
-							this.__context.lineCap = "square";
-							this.__context.strokeStyle = "#" + StringTools.hex(this.borderColor,6);
-							this.__context.stroke();
-						}
-					}
-				}
-			}
-			this.__dirty = false;
-		}
-		if(this.__canvas != null) {
-			var context = renderSession.context;
-			context.globalAlpha = this.__worldAlpha;
-			var transform = this.__worldTransform;
-			if(renderSession.roundPixels) context.setTransform(transform.a,transform.b,transform.c,transform.d,transform.tx | 0,transform.ty | 0); else context.setTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
-			if(this.get_scrollRect() == null) context.drawImage(this.__canvas,0,0); else context.drawImage(this.__canvas,this.get_scrollRect().x,this.get_scrollRect().y,this.get_scrollRect().width,this.get_scrollRect().height,this.get_scrollRect().x,this.get_scrollRect().y,this.get_scrollRect().width,this.get_scrollRect().height);
-		}
-	}
-	,__renderDOM: function(renderSession) {
-		if(this.stage != null && this.__worldVisible && this.__renderable) {
-			if(this.__dirty || this.__div == null) {
-				if(this.__text != "" || this.background || this.border) {
-					if(this.__div == null) {
-						this.__div = window.document.createElement("div");
-						this.__initializeElement(this.__div,renderSession);
-						this.__style.setProperty("cursor","inherit",null);
-					}
-					this.__div.innerHTML = this.__text;
-					if(this.background) this.__style.setProperty("background-color","#" + StringTools.hex(this.backgroundColor,6),null); else this.__style.removeProperty("background-color");
-					if(this.border) this.__style.setProperty("border","solid 1px #" + StringTools.hex(this.borderColor,6),null); else this.__style.removeProperty("border");
-					this.__style.setProperty("font",this.__getFont(this.__textFormat),null);
-					this.__style.setProperty("color","#" + StringTools.hex(this.__textFormat.color,6),null);
-					if(this.autoSize != openfl.text.TextFieldAutoSize.NONE) this.__style.setProperty("width","auto",null); else this.__style.setProperty("width",this.__width + "px",null);
-					this.__style.setProperty("height",this.__height + "px",null);
-					var _g = this.__textFormat.align;
-					switch(_g[1]) {
-					case 3:
-						this.__style.setProperty("text-align","center",null);
-						break;
-					case 1:
-						this.__style.setProperty("text-align","right",null);
-						break;
-					default:
-						this.__style.setProperty("text-align","left",null);
-					}
-					this.__dirty = false;
-				} else if(this.__div != null) {
-					renderSession.element.removeChild(this.__div);
-					this.__div = null;
-				}
-			}
-			if(this.__div != null) this.__applyStyle(renderSession,true,true,false);
-		} else if(this.__div != null) {
-			renderSession.element.removeChild(this.__div);
-			this.__div = null;
-			this.__style = null;
-		}
-	}
-	,__renderText: function(text,format,offsetX) {
-		this.__context.font = this.__getFont(format);
-		this.__context.textBaseline = "top";
-		this.__context.fillStyle = "#" + StringTools.hex(format.color,6);
-		var lines = text.split("\n");
-		var yOffset = 0;
-		var _g = 0;
-		while(_g < lines.length) {
-			var line = lines[_g];
-			++_g;
-			var _g1 = format.align;
-			switch(_g1[1]) {
-			case 3:
-				this.__context.textAlign = "center";
-				this.__context.fillText(line,this.__width / 2,2 + yOffset,this.__width - 4);
-				break;
-			case 1:
-				this.__context.textAlign = "end";
-				this.__context.fillText(line,this.__width - 2,2 + yOffset,this.__width - 4);
-				break;
-			default:
-				this.__context.textAlign = "start";
-				this.__context.fillText(line,2 + offsetX,2 + yOffset,this.__width - 4);
-			}
-			yOffset += this.get_textHeight();
-		}
-	}
-	,set_autoSize: function(value) {
-		if(value != this.autoSize) this.__dirty = true;
-		return this.autoSize = value;
-	}
-	,set_background: function(value) {
-		if(value != this.background) this.__dirty = true;
-		return this.background = value;
-	}
-	,set_backgroundColor: function(value) {
-		if(value != this.backgroundColor) this.__dirty = true;
-		return this.backgroundColor = value;
-	}
-	,set_border: function(value) {
-		if(value != this.border) this.__dirty = true;
-		return this.border = value;
-	}
-	,set_borderColor: function(value) {
-		if(value != this.borderColor) this.__dirty = true;
-		return this.borderColor = value;
-	}
-	,get_bottomScrollV: function() {
-		return this.get_numLines();
-	}
-	,get_caretPos: function() {
-		return 0;
-	}
-	,get_defaultTextFormat: function() {
-		return this.__textFormat.clone();
-	}
-	,set_defaultTextFormat: function(value) {
-		this.__textFormat.__merge(value);
-		return value;
-	}
-	,get_height: function() {
-		return this.__height * this.get_scaleY();
-	}
-	,set_height: function(value) {
-		if(this.get_scaleY() != 1 || value != this.__height) {
-			if(!this.__transformDirty) {
-				this.__transformDirty = true;
-				openfl.display.DisplayObject.__worldTransformDirty++;
-			}
-			this.__dirty = true;
-		}
-		this.set_scaleY(1);
-		return this.__height = value;
-	}
-	,get_htmlText: function() {
-		return this.__text;
-	}
-	,set_htmlText: function(value) {
-		if(!this.__isHTML || this.__text != value) this.__dirty = true;
-		this.__ranges = null;
-		this.__isHTML = true;
-		return this.__text = value;
-	}
-	,get_maxScrollH: function() {
-		return 0;
-	}
-	,get_maxScrollV: function() {
-		return 1;
-	}
-	,get_numLines: function() {
-		if(this.get_text() != "" && this.get_text() != null) {
-			var count = this.get_text().split("\n").length;
-			if(this.__isHTML) count += this.get_text().split("<br>").length - 1;
-			return count;
-		}
-		return 1;
-	}
-	,get_text: function() {
-		if(this.__isHTML) {
-		}
-		return this.__text;
-	}
-	,set_text: function(value) {
-		if(this.__isHTML || this.__text != value) this.__dirty = true;
-		this.__ranges = null;
-		this.__isHTML = false;
-		return this.__text = value;
-	}
-	,get_textColor: function() {
-		return this.__textFormat.color;
-	}
-	,set_textColor: function(value) {
-		if(value != this.__textFormat.color) this.__dirty = true;
-		if(this.__ranges != null) {
-			var _g = 0;
-			var _g1 = this.__ranges;
-			while(_g < _g1.length) {
-				var range = _g1[_g];
-				++_g;
-				range.format.color = value;
-			}
-		}
-		return this.__textFormat.color = value;
-	}
-	,get_textWidth: function() {
-		if(this.__canvas != null) {
-			var sizes = this.__measureText();
-			var total = 0;
-			var _g = 0;
-			while(_g < sizes.length) {
-				var size = sizes[_g];
-				++_g;
-				total += size;
-			}
-			return total;
-		} else if(this.__div != null) return this.__div.clientWidth; else {
-			this.__measureTextWithDOM();
-			return this.__measuredWidth;
-		}
-	}
-	,get_textHeight: function() {
-		if(this.__canvas != null) return this.__textFormat.size * 1.185; else if(this.__div != null) return this.__div.clientHeight; else {
-			this.__measureTextWithDOM();
-			return this.__measuredHeight + this.__textFormat.size * 0.185;
-		}
-	}
-	,set_type: function(value) {
-		return this.type = value;
-	}
-	,get_width: function() {
-		if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) return (this.get_textWidth() + 4) * this.get_scaleX(); else return this.__width * this.get_scaleX();
-	}
-	,set_width: function(value) {
-		if(this.get_scaleX() != 1 || this.__width != value) {
-			if(!this.__transformDirty) {
-				this.__transformDirty = true;
-				openfl.display.DisplayObject.__worldTransformDirty++;
-			}
-			this.__dirty = true;
-		}
-		this.set_scaleX(1);
-		return this.__width = value;
-	}
-	,get_wordWrap: function() {
-		return this.wordWrap;
-	}
-	,set_wordWrap: function(value) {
-		return this.wordWrap = value;
-	}
-	,__class__: openfl.text.TextField
-	,__properties__: $extend(openfl.display.InteractiveObject.prototype.__properties__,{set_wordWrap:"set_wordWrap",get_wordWrap:"get_wordWrap",set_type:"set_type",get_textWidth:"get_textWidth",get_textHeight:"get_textHeight",set_textColor:"set_textColor",get_textColor:"get_textColor",set_text:"set_text",get_text:"get_text",get_numLines:"get_numLines",get_maxScrollV:"get_maxScrollV",get_maxScrollH:"get_maxScrollH",set_htmlText:"set_htmlText",get_htmlText:"get_htmlText",set_defaultTextFormat:"set_defaultTextFormat",get_defaultTextFormat:"get_defaultTextFormat",get_caretPos:"get_caretPos",get_bottomScrollV:"get_bottomScrollV",set_borderColor:"set_borderColor",set_border:"set_border",set_backgroundColor:"set_backgroundColor",set_background:"set_background",set_autoSize:"set_autoSize"})
-});
-openfl.display.FPS = function(x,y,color) {
-	if(color == null) color = 0;
-	if(y == null) y = 10;
-	if(x == null) x = 10;
-	openfl.text.TextField.call(this);
-	this.embedFonts = true;
-	this.set_x(x);
-	this.set_y(y);
-	this.currentFPS = 0;
-	this.selectable = false;
-	var font = openfl.Assets.getFont("assets/font/Aaargh.ttf");
-	haxe.Log.trace(font,{ fileName : "FPS.hx", lineNumber : 29, className : "openfl.display.FPS", methodName : "new"});
-	this.set_defaultTextFormat(new openfl.text.TextFormat(font.fontName,20.0,color));
-	this.set_text("FPS: ");
-	this.cacheCount = 0;
-	this.times = [];
-	this.addEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.this_onEnterFrame));
-};
-$hxClasses["openfl.display.FPS"] = openfl.display.FPS;
-openfl.display.FPS.__name__ = ["openfl","display","FPS"];
-openfl.display.FPS.__super__ = openfl.text.TextField;
-openfl.display.FPS.prototype = $extend(openfl.text.TextField.prototype,{
-	this_onEnterFrame: function(event) {
-		var currentTime = haxe.Timer.stamp();
-		this.times.push(currentTime);
-		while(this.times[0] < currentTime - 1) this.times.shift();
-		var currentCount = this.times.length;
-		this.currentFPS = Math.round((currentCount + this.cacheCount) / 2);
-		if(currentCount != this.cacheCount && this.get_visible()) this.set_text("FPS: " + this.currentFPS);
-		this.cacheCount = currentCount;
-	}
-	,__class__: openfl.display.FPS
 });
 openfl.display.FrameLabel = function(name,frame) {
 	openfl.events.EventDispatcher.call(this);
@@ -19635,6 +19232,32 @@ openfl.system.SecurityDomain.__name__ = ["openfl","system","SecurityDomain"];
 openfl.system.SecurityDomain.prototype = {
 	__class__: openfl.system.SecurityDomain
 };
+openfl.system.System = function() { };
+$hxClasses["openfl.system.System"] = openfl.system.System;
+openfl.system.System.__name__ = ["openfl","system","System"];
+openfl.system.System.__properties__ = {get_vmVersion:"get_vmVersion",get_totalMemory:"get_totalMemory"}
+openfl.system.System.totalMemory = null;
+openfl.system.System.vmVersion = null;
+openfl.system.System.exit = function(code) {
+	throw "System.exit is currently not supported for HTML5";
+};
+openfl.system.System.gc = function() {
+};
+openfl.system.System.pause = function() {
+	throw "System.pause is currently not supported for HTML5";
+};
+openfl.system.System.resume = function() {
+	throw "System.resume is currently not supported for HTML5";
+};
+openfl.system.System.setClipboard = function(string) {
+	throw "System.setClipboard is currently not supported for HTML5";
+};
+openfl.system.System.get_totalMemory = function() {
+	return 0;
+};
+openfl.system.System.get_vmVersion = function() {
+	return "1.0.0";
+};
 openfl.text._AntiAliasType = {};
 openfl.text._AntiAliasType.AntiAliasType_Impl_ = function() { };
 $hxClasses["openfl.text._AntiAliasType.AntiAliasType_Impl_"] = openfl.text._AntiAliasType.AntiAliasType_Impl_;
@@ -19672,6 +19295,467 @@ openfl.text.GridFitType.PIXEL.__enum__ = openfl.text.GridFitType;
 openfl.text.GridFitType.SUBPIXEL = ["SUBPIXEL",2];
 openfl.text.GridFitType.SUBPIXEL.toString = $estr;
 openfl.text.GridFitType.SUBPIXEL.__enum__ = openfl.text.GridFitType;
+openfl.text.TextField = function() {
+	openfl.display.InteractiveObject.call(this);
+	this.__width = 100;
+	this.__height = 100;
+	this.__text = "";
+	this.set_type(openfl.text.TextFieldType.DYNAMIC);
+	this.set_autoSize(openfl.text.TextFieldAutoSize.NONE);
+	this.displayAsPassword = false;
+	this.embedFonts = false;
+	this.selectable = true;
+	this.set_borderColor(0);
+	this.set_border(false);
+	this.set_backgroundColor(16777215);
+	this.set_background(false);
+	this.gridFitType = openfl.text.GridFitType.PIXEL;
+	this.maxChars = 0;
+	this.multiline = false;
+	this.sharpness = 0;
+	this.scrollH = 0;
+	this.scrollV = 1;
+	this.set_wordWrap(false);
+	if(openfl.text.TextField.__defaultTextFormat == null) {
+		openfl.text.TextField.__defaultTextFormat = new openfl.text.TextFormat("Times New Roman",12,0,false,false,false,"","",openfl.text.TextFormatAlign.LEFT,0,0,0,0);
+		openfl.text.TextField.__defaultTextFormat.blockIndent = 0;
+		openfl.text.TextField.__defaultTextFormat.bullet = false;
+		openfl.text.TextField.__defaultTextFormat.letterSpacing = 0;
+		openfl.text.TextField.__defaultTextFormat.kerning = false;
+	}
+	this.__textFormat = openfl.text.TextField.__defaultTextFormat.clone();
+};
+$hxClasses["openfl.text.TextField"] = openfl.text.TextField;
+openfl.text.TextField.__name__ = ["openfl","text","TextField"];
+openfl.text.TextField.__defaultTextFormat = null;
+openfl.text.TextField.__super__ = openfl.display.InteractiveObject;
+openfl.text.TextField.prototype = $extend(openfl.display.InteractiveObject.prototype,{
+	appendText: function(text) {
+		var _g = this;
+		_g.set_text(_g.get_text() + text);
+	}
+	,getCharBoundaries: function(a) {
+		openfl.Lib.notImplemented("TextField.getCharBoundaries");
+		return null;
+	}
+	,getCharIndexAtPoint: function(x,y) {
+		openfl.Lib.notImplemented("TextField.getCharIndexAtPoint");
+		return 0;
+	}
+	,getLineIndexAtPoint: function(x,y) {
+		openfl.Lib.notImplemented("TextField.getLineIndexAtPoint");
+		return 0;
+	}
+	,getLineMetrics: function(lineIndex) {
+		openfl.Lib.notImplemented("TextField.getLineMetrics");
+		return null;
+	}
+	,getLineOffset: function(lineIndex) {
+		openfl.Lib.notImplemented("TextField.getLineOffset");
+		return 0;
+	}
+	,getLineText: function(lineIndex) {
+		openfl.Lib.notImplemented("TextField.getLineText");
+		return "";
+	}
+	,getTextFormat: function(beginIndex,endIndex) {
+		if(endIndex == null) endIndex = 0;
+		if(beginIndex == null) beginIndex = 0;
+		return this.__textFormat.clone();
+	}
+	,setSelection: function(beginIndex,endIndex) {
+		openfl.Lib.notImplemented("TextField.setSelection");
+	}
+	,setTextFormat: function(format,beginIndex,endIndex) {
+		if(endIndex == null) endIndex = 0;
+		if(beginIndex == null) beginIndex = 0;
+		if(format.font != null) this.__textFormat.font = format.font;
+		if(format.size != null) this.__textFormat.size = format.size;
+		if(format.color != null) this.__textFormat.color = format.color;
+		if(format.bold != null) this.__textFormat.bold = format.bold;
+		if(format.italic != null) this.__textFormat.italic = format.italic;
+		if(format.underline != null) this.__textFormat.underline = format.underline;
+		if(format.url != null) this.__textFormat.url = format.url;
+		if(format.target != null) this.__textFormat.target = format.target;
+		if(format.align != null) this.__textFormat.align = format.align;
+		if(format.leftMargin != null) this.__textFormat.leftMargin = format.leftMargin;
+		if(format.rightMargin != null) this.__textFormat.rightMargin = format.rightMargin;
+		if(format.indent != null) this.__textFormat.indent = format.indent;
+		if(format.leading != null) this.__textFormat.leading = format.leading;
+		if(format.blockIndent != null) this.__textFormat.blockIndent = format.blockIndent;
+		if(format.bullet != null) this.__textFormat.bullet = format.bullet;
+		if(format.kerning != null) this.__textFormat.kerning = format.kerning;
+		if(format.letterSpacing != null) this.__textFormat.letterSpacing = format.letterSpacing;
+		if(format.tabStops != null) this.__textFormat.tabStops = format.tabStops;
+		this.__dirty = true;
+	}
+	,__getBounds: function(rect,matrix) {
+		var bounds = new openfl.geom.Rectangle(0,0,this.__width,this.__height);
+		bounds.transform(this.__worldTransform);
+		rect.__expand(bounds.x,bounds.y,bounds.width,bounds.height);
+	}
+	,__getFont: function(format) {
+		var font;
+		if(format.italic) font = "italic "; else font = "normal ";
+		font += "normal ";
+		if(format.bold) font += "bold "; else font += "normal ";
+		font += format.size + "px";
+		font += "/" + (format.size + format.leading + 4) + "px ";
+		font += "'" + (function($this) {
+			var $r;
+			var _g = format.font;
+			$r = (function($this) {
+				var $r;
+				switch(_g) {
+				case "_sans":
+					$r = "sans-serif";
+					break;
+				case "_serif":
+					$r = "serif";
+					break;
+				case "_typewriter":
+					$r = "monospace";
+					break;
+				default:
+					$r = format.font;
+				}
+				return $r;
+			}($this));
+			return $r;
+		}(this));
+		font += "'";
+		return font;
+	}
+	,__hitTest: function(x,y,shapeFlag,stack,interactiveOnly) {
+		if(!this.get_visible() || interactiveOnly && !this.mouseEnabled) return false;
+		var point = this.globalToLocal(new openfl.geom.Point(x,y));
+		if(point.x > 0 && point.y > 0 && point.x <= this.__width && point.y <= this.__height) {
+			if(stack != null) stack.push(this);
+			return true;
+		}
+		return false;
+	}
+	,__measureText: function() {
+		if(this.__ranges == null) {
+			this.__context.font = this.__getFont(this.__textFormat);
+			return [this.__context.measureText(this.__text).width];
+		} else {
+			var measurements = [];
+			var _g = 0;
+			var _g1 = this.__ranges;
+			while(_g < _g1.length) {
+				var range = _g1[_g];
+				++_g;
+				this.__context.font = this.__getFont(range.format);
+				measurements.push(this.__context.measureText(this.get_text().substring(range.start,range.end)).width);
+			}
+			return measurements;
+		}
+	}
+	,__measureTextWithDOM: function() {
+		var div = this.__div;
+		if(this.__div == null) {
+			div = window.document.createElement("div");
+			div.innerHTML = this.__text;
+			div.style.setProperty("font",this.__getFont(this.__textFormat),null);
+			div.style.position = "absolute";
+			div.style.top = "110%";
+			window.document.body.appendChild(div);
+		}
+		this.__measuredWidth = div.clientWidth;
+		if(this.__div == null) div.style.width = Std.string(this.__width) + "px";
+		this.__measuredHeight = div.clientHeight;
+		if(this.__div == null) window.document.body.removeChild(div);
+	}
+	,__renderCanvas: function(renderSession) {
+		if(!this.__renderable || this.__worldAlpha <= 0) return;
+		if(this.__dirty) {
+			if((this.__text == null || this.__text == "") && !this.background && !this.border || (this.get_width() <= 0 || this.get_height() <= 0) && this.autoSize != openfl.text.TextFieldAutoSize.LEFT) {
+				this.__canvas = null;
+				this.__context = null;
+			} else {
+				if(this.__canvas == null) {
+					this.__canvas = window.document.createElement("canvas");
+					this.__context = this.__canvas.getContext("2d");
+				}
+				if(this.__text != null && this.__text != "") {
+					var measurements = this.__measureText();
+					var textWidth = 0.0;
+					var _g = 0;
+					while(_g < measurements.length) {
+						var measurement = measurements[_g];
+						++_g;
+						textWidth += measurement;
+					}
+					if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) this.__width = textWidth + 4;
+					this.__canvas.width = Math.ceil(this.__width);
+					this.__canvas.height = Math.ceil(this.__height);
+					if(this.border || this.background) {
+						this.__context.rect(0.5,0.5,this.__width - 1,this.__height - 1);
+						if(this.background) {
+							this.__context.fillStyle = "#" + StringTools.hex(this.backgroundColor,6);
+							this.__context.fill();
+						}
+						if(this.border) {
+							this.__context.lineWidth = 1;
+							this.__context.strokeStyle = "#" + StringTools.hex(this.borderColor,6);
+							this.__context.stroke();
+						}
+					}
+					if(this.__ranges == null) this.__renderText(this.get_text(),this.__textFormat,0); else {
+						var currentIndex = 0;
+						var range;
+						var offsetX = 0.0;
+						var _g1 = 0;
+						var _g2 = this.__ranges.length;
+						while(_g1 < _g2) {
+							var i = _g1++;
+							range = this.__ranges[i];
+							this.__renderText(this.get_text().substring(range.start,range.end),range.format,offsetX);
+							offsetX += measurements[i];
+						}
+					}
+				} else {
+					if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) this.__width = 4;
+					this.__canvas.width = Math.ceil(this.__width);
+					this.__canvas.height = Math.ceil(this.__height);
+					if(this.border || this.background) {
+						if(this.border) this.__context.rect(0.5,0.5,this.__width - 1,this.__height - 1); else this.__context.rect(0,0,this.__width,this.__height);
+						if(this.background) {
+							this.__context.fillStyle = "#" + StringTools.hex(this.backgroundColor,6);
+							this.__context.fill();
+						}
+						if(this.border) {
+							this.__context.lineWidth = 1;
+							this.__context.lineCap = "square";
+							this.__context.strokeStyle = "#" + StringTools.hex(this.borderColor,6);
+							this.__context.stroke();
+						}
+					}
+				}
+			}
+			this.__dirty = false;
+		}
+		if(this.__canvas != null) {
+			var context = renderSession.context;
+			context.globalAlpha = this.__worldAlpha;
+			var transform = this.__worldTransform;
+			if(renderSession.roundPixels) context.setTransform(transform.a,transform.b,transform.c,transform.d,transform.tx | 0,transform.ty | 0); else context.setTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
+			if(this.get_scrollRect() == null) context.drawImage(this.__canvas,0,0); else context.drawImage(this.__canvas,this.get_scrollRect().x,this.get_scrollRect().y,this.get_scrollRect().width,this.get_scrollRect().height,this.get_scrollRect().x,this.get_scrollRect().y,this.get_scrollRect().width,this.get_scrollRect().height);
+		}
+	}
+	,__renderDOM: function(renderSession) {
+		if(this.stage != null && this.__worldVisible && this.__renderable) {
+			if(this.__dirty || this.__div == null) {
+				if(this.__text != "" || this.background || this.border) {
+					if(this.__div == null) {
+						this.__div = window.document.createElement("div");
+						this.__initializeElement(this.__div,renderSession);
+						this.__style.setProperty("cursor","inherit",null);
+					}
+					this.__div.innerHTML = this.__text;
+					if(this.background) this.__style.setProperty("background-color","#" + StringTools.hex(this.backgroundColor,6),null); else this.__style.removeProperty("background-color");
+					if(this.border) this.__style.setProperty("border","solid 1px #" + StringTools.hex(this.borderColor,6),null); else this.__style.removeProperty("border");
+					this.__style.setProperty("font",this.__getFont(this.__textFormat),null);
+					this.__style.setProperty("color","#" + StringTools.hex(this.__textFormat.color,6),null);
+					if(this.autoSize != openfl.text.TextFieldAutoSize.NONE) this.__style.setProperty("width","auto",null); else this.__style.setProperty("width",this.__width + "px",null);
+					this.__style.setProperty("height",this.__height + "px",null);
+					var _g = this.__textFormat.align;
+					switch(_g[1]) {
+					case 3:
+						this.__style.setProperty("text-align","center",null);
+						break;
+					case 1:
+						this.__style.setProperty("text-align","right",null);
+						break;
+					default:
+						this.__style.setProperty("text-align","left",null);
+					}
+					this.__dirty = false;
+				} else if(this.__div != null) {
+					renderSession.element.removeChild(this.__div);
+					this.__div = null;
+				}
+			}
+			if(this.__div != null) this.__applyStyle(renderSession,true,true,false);
+		} else if(this.__div != null) {
+			renderSession.element.removeChild(this.__div);
+			this.__div = null;
+			this.__style = null;
+		}
+	}
+	,__renderText: function(text,format,offsetX) {
+		this.__context.font = this.__getFont(format);
+		this.__context.textBaseline = "top";
+		this.__context.fillStyle = "#" + StringTools.hex(format.color,6);
+		var lines = text.split("\n");
+		var yOffset = 0;
+		var _g = 0;
+		while(_g < lines.length) {
+			var line = lines[_g];
+			++_g;
+			var _g1 = format.align;
+			switch(_g1[1]) {
+			case 3:
+				this.__context.textAlign = "center";
+				this.__context.fillText(line,this.__width / 2,2 + yOffset,this.__width - 4);
+				break;
+			case 1:
+				this.__context.textAlign = "end";
+				this.__context.fillText(line,this.__width - 2,2 + yOffset,this.__width - 4);
+				break;
+			default:
+				this.__context.textAlign = "start";
+				this.__context.fillText(line,2 + offsetX,2 + yOffset,this.__width - 4);
+			}
+			yOffset += this.get_textHeight();
+		}
+	}
+	,set_autoSize: function(value) {
+		if(value != this.autoSize) this.__dirty = true;
+		return this.autoSize = value;
+	}
+	,set_background: function(value) {
+		if(value != this.background) this.__dirty = true;
+		return this.background = value;
+	}
+	,set_backgroundColor: function(value) {
+		if(value != this.backgroundColor) this.__dirty = true;
+		return this.backgroundColor = value;
+	}
+	,set_border: function(value) {
+		if(value != this.border) this.__dirty = true;
+		return this.border = value;
+	}
+	,set_borderColor: function(value) {
+		if(value != this.borderColor) this.__dirty = true;
+		return this.borderColor = value;
+	}
+	,get_bottomScrollV: function() {
+		return this.get_numLines();
+	}
+	,get_caretPos: function() {
+		return 0;
+	}
+	,get_defaultTextFormat: function() {
+		return this.__textFormat.clone();
+	}
+	,set_defaultTextFormat: function(value) {
+		this.__textFormat.__merge(value);
+		return value;
+	}
+	,get_height: function() {
+		return this.__height * this.get_scaleY();
+	}
+	,set_height: function(value) {
+		if(this.get_scaleY() != 1 || value != this.__height) {
+			if(!this.__transformDirty) {
+				this.__transformDirty = true;
+				openfl.display.DisplayObject.__worldTransformDirty++;
+			}
+			this.__dirty = true;
+		}
+		this.set_scaleY(1);
+		return this.__height = value;
+	}
+	,get_htmlText: function() {
+		return this.__text;
+	}
+	,set_htmlText: function(value) {
+		if(!this.__isHTML || this.__text != value) this.__dirty = true;
+		this.__ranges = null;
+		this.__isHTML = true;
+		return this.__text = value;
+	}
+	,get_maxScrollH: function() {
+		return 0;
+	}
+	,get_maxScrollV: function() {
+		return 1;
+	}
+	,get_numLines: function() {
+		if(this.get_text() != "" && this.get_text() != null) {
+			var count = this.get_text().split("\n").length;
+			if(this.__isHTML) count += this.get_text().split("<br>").length - 1;
+			return count;
+		}
+		return 1;
+	}
+	,get_text: function() {
+		if(this.__isHTML) {
+		}
+		return this.__text;
+	}
+	,set_text: function(value) {
+		if(this.__isHTML || this.__text != value) this.__dirty = true;
+		this.__ranges = null;
+		this.__isHTML = false;
+		return this.__text = value;
+	}
+	,get_textColor: function() {
+		return this.__textFormat.color;
+	}
+	,set_textColor: function(value) {
+		if(value != this.__textFormat.color) this.__dirty = true;
+		if(this.__ranges != null) {
+			var _g = 0;
+			var _g1 = this.__ranges;
+			while(_g < _g1.length) {
+				var range = _g1[_g];
+				++_g;
+				range.format.color = value;
+			}
+		}
+		return this.__textFormat.color = value;
+	}
+	,get_textWidth: function() {
+		if(this.__canvas != null) {
+			var sizes = this.__measureText();
+			var total = 0;
+			var _g = 0;
+			while(_g < sizes.length) {
+				var size = sizes[_g];
+				++_g;
+				total += size;
+			}
+			return total;
+		} else if(this.__div != null) return this.__div.clientWidth; else {
+			this.__measureTextWithDOM();
+			return this.__measuredWidth;
+		}
+	}
+	,get_textHeight: function() {
+		if(this.__canvas != null) return this.__textFormat.size * 1.185; else if(this.__div != null) return this.__div.clientHeight; else {
+			this.__measureTextWithDOM();
+			return this.__measuredHeight + this.__textFormat.size * 0.185;
+		}
+	}
+	,set_type: function(value) {
+		return this.type = value;
+	}
+	,get_width: function() {
+		if(this.autoSize == openfl.text.TextFieldAutoSize.LEFT) return (this.get_textWidth() + 4) * this.get_scaleX(); else return this.__width * this.get_scaleX();
+	}
+	,set_width: function(value) {
+		if(this.get_scaleX() != 1 || this.__width != value) {
+			if(!this.__transformDirty) {
+				this.__transformDirty = true;
+				openfl.display.DisplayObject.__worldTransformDirty++;
+			}
+			this.__dirty = true;
+		}
+		this.set_scaleX(1);
+		return this.__width = value;
+	}
+	,get_wordWrap: function() {
+		return this.wordWrap;
+	}
+	,set_wordWrap: function(value) {
+		return this.wordWrap = value;
+	}
+	,__class__: openfl.text.TextField
+	,__properties__: $extend(openfl.display.InteractiveObject.prototype.__properties__,{set_wordWrap:"set_wordWrap",get_wordWrap:"get_wordWrap",set_type:"set_type",get_textWidth:"get_textWidth",get_textHeight:"get_textHeight",set_textColor:"set_textColor",get_textColor:"get_textColor",set_text:"set_text",get_text:"get_text",get_numLines:"get_numLines",get_maxScrollV:"get_maxScrollV",get_maxScrollH:"get_maxScrollH",set_htmlText:"set_htmlText",get_htmlText:"get_htmlText",set_defaultTextFormat:"set_defaultTextFormat",get_defaultTextFormat:"get_defaultTextFormat",get_caretPos:"get_caretPos",get_bottomScrollV:"get_bottomScrollV",set_borderColor:"set_borderColor",set_border:"set_border",set_backgroundColor:"set_backgroundColor",set_background:"set_background",set_autoSize:"set_autoSize"})
+});
 openfl.text.TextFormatRange = function(format,start,end) {
 	this.format = format;
 	this.start = start;
@@ -20276,6 +20360,13 @@ var Bool = $hxClasses.Bool = Boolean;
 Bool.__ename__ = ["Bool"];
 var Class = $hxClasses.Class = { __name__ : ["Class"]};
 var Enum = { };
+Xml.Element = "element";
+Xml.PCData = "pcdata";
+Xml.CData = "cdata";
+Xml.Comment = "comment";
+Xml.DocType = "doctype";
+Xml.ProcessingInstruction = "processingInstruction";
+Xml.Document = "document";
 if(window.createjs != null) createjs.Sound.alternateExtensions = ["ogg","mp3","wav"];
 ApplicationMain.images = new haxe.ds.StringMap();
 ApplicationMain.urlLoaders = new haxe.ds.StringMap();
@@ -20373,6 +20464,20 @@ haxe.Unserializer.DEFAULT_RESOLVER = Type;
 haxe.Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
 haxe.Unserializer.CODES = null;
 haxe.ds.ObjectMap.count = 0;
+net.hires.debug.Stats.GRAPH_WIDTH = 100;
+net.hires.debug.Stats.XPOS = 99;
+net.hires.debug.Stats.GRAPH_HEIGHT = 30;
+net.hires.debug.Stats.TEXT_HEIGHT = 30;
+net.hires.debug.Colors.bg = 51;
+net.hires.debug.Colors.fps = 16776960;
+net.hires.debug.Colors.ms = 65280;
+net.hires.debug.Colors.mem = 65535;
+net.hires.debug.Colors.memmax = 16711792;
+net.hires.debug.Colors.bgCSS = "#000033";
+net.hires.debug.Colors.fpsCSS = "#ffff00";
+net.hires.debug.Colors.msCSS = "#00ff00";
+net.hires.debug.Colors.memCSS = "#00ffff";
+net.hires.debug.Colors.memmaxCSS = "#ff0070";
 openfl.Assets.cache = new openfl.AssetCache();
 openfl.Assets.libraries = new haxe.ds.StringMap();
 openfl.Assets.dispatcher = new openfl.events.EventDispatcher();
@@ -20791,6 +20896,7 @@ openfl.net.URLRequestMethod.PUT = "PUT";
 openfl.system.ApplicationDomain.currentDomain = new openfl.system.ApplicationDomain(null);
 openfl.system.Capabilities.hasAccessibility = false;
 openfl.system.SecurityDomain.currentDomain = new openfl.system.SecurityDomain();
+openfl.system.System.useCodePage = false;
 openfl.text._AntiAliasType.AntiAliasType_Impl_.ADVANCED = "advanced";
 openfl.text._AntiAliasType.AntiAliasType_Impl_.NORMAL = "normal";
 openfl.ui._KeyLocation.KeyLocation_Impl_.STANDARD = 0;

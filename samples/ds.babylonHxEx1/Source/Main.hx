@@ -22,7 +22,6 @@ import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
 import flash.Vector.Vector;
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -132,6 +131,7 @@ class Main extends Sprite {
 
     scene.executeWhenReady(function() {
       engine.runRenderLoop(scene.render);
+      addChild(new openfl.display.FPS(20, 20));
     });
   }
 

@@ -48,6 +48,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/font/Aaargh.ttf", __ASSET__assets_font_aaargh_ttf);
 		type.set ("assets/font/Aaargh.ttf", AssetType.FONT);
+		className.set ("assets/font/OpenSansRegular.ttf", __ASSET__assets_font_opensansregular_ttf);
+		type.set ("assets/font/OpenSansRegular.ttf", AssetType.FONT);
 		className.set ("assets/font/Tup Wanders Font License.txt", __ASSET__assets_font_tup_wanders_font_license_txt);
 		type.set ("assets/font/Tup Wanders Font License.txt", AssetType.TEXT);
 		className.set ("assets/img/cloud.jpg", __ASSET__assets_img_cloud_jpg);
@@ -93,6 +95,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		var id;
 		id = "assets/font/Aaargh.ttf";
 		className.set (id, __ASSET__assets_font_aaargh_ttf);
+		type.set (id, AssetType.FONT);
+		id = "assets/font/OpenSansRegular.ttf";
+		className.set (id, __ASSET__assets_font_opensansregular_ttf);
 		type.set (id, AssetType.FONT);
 		id = "assets/font/Tup Wanders Font License.txt";
 		path.set (id, id);
@@ -161,6 +166,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/font/Aaargh.ttf", __ASSET__assets_font_aaargh_ttf);
 		type.set ("assets/font/Aaargh.ttf", AssetType.FONT);
+		
+		className.set ("assets/font/OpenSansRegular.ttf", __ASSET__assets_font_opensansregular_ttf);
+		type.set ("assets/font/OpenSansRegular.ttf", AssetType.FONT);
 		
 		className.set ("assets/font/Tup Wanders Font License.txt", __ASSET__assets_font_tup_wanders_font_license_txt);
 		type.set ("assets/font/Tup Wanders Font License.txt", AssetType.TEXT);
@@ -836,6 +844,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 #elseif flash
 
 @:keep class __ASSET__assets_font_aaargh_ttf extends null { }
+@:keep class __ASSET__assets_font_opensansregular_ttf extends null { }
 @:keep class __ASSET__assets_font_tup_wanders_font_license_txt extends null { }
 @:keep class __ASSET__assets_img_cloud_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_img_cloud_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -860,6 +869,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 #elseif html5
 
 @:keep class __ASSET__assets_font_aaargh_ttf extends flash.text.Font { #if (!openfl_html5_dom) public function new () { super (); fontName = "assets/font/Aaargh.ttf"; } #end }
+@:keep class __ASSET__assets_font_opensansregular_ttf extends flash.text.Font { #if (!openfl_html5_dom) public function new () { super (); fontName = "assets/font/OpenSansRegular.ttf"; } #end }
 
 
 
@@ -885,6 +895,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:font("assets/font/Aaargh.ttf") class __ASSET__assets_font_aaargh_ttf extends flash.text.Font {}
+@:font("assets/font/OpenSansRegular.ttf") class __ASSET__assets_font_opensansregular_ttf extends flash.text.Font {}
 @:file("assets/font/Tup Wanders Font License.txt") class __ASSET__assets_font_tup_wanders_font_license_txt extends flash.utils.ByteArray {}
 @:bitmap("assets/img/cloud.jpg") class __ASSET__assets_img_cloud_jpg extends flash.display.BitmapData {}
 @:bitmap("assets/img/cloud.png") class __ASSET__assets_img_cloud_png extends flash.display.BitmapData {}
