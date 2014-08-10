@@ -2309,7 +2309,6 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		case com.gamestudiohx.babylonhx.Engine.ALPHA_DISABLE:
 			this.setDepthWrite(true);
 			openfl.gl.GL.blendFuncSeparate(770,771,0,1);
-			openfl.gl.GL.disable(3042);
 			break;
 		case com.gamestudiohx.babylonhx.Engine.ALPHA_COMBINE:
 			this.setDepthWrite(false);
@@ -2491,7 +2490,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		var _g2 = extensions.length;
 		while(_g1 < _g2) {
 			var i = _g1++;
-			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1087, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
+			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1088, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
 		}
 		openfl.gl.GL.texParameteri(34067,10240,9729);
 		openfl.gl.GL.texParameteri(34067,10241,9987);

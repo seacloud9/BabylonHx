@@ -759,13 +759,13 @@ class Engine {
     }
 
     public function setAlphaMode(mode:Int) {
-         #if html5
+        //todo investigate this througly
+       //  #if (html5 || ios ) 
         switch (mode) {
             case Engine.ALPHA_DISABLE:
                 this.setDepthWrite(true);
 		        GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
-                GL.disable(GL.BLEND);
-				
+                //GL.disable(GL.BLEND);				
             case Engine.ALPHA_COMBINE:
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
@@ -774,9 +774,10 @@ class Engine {
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.ONE, GL.ONE, GL.ZERO, GL.ONE);
 				GL.enable(GL.BLEND);
+            
                 
         }
-        #end
+      //  #end
     }
 
     public function setAlphaTesting(enable:Bool) {
