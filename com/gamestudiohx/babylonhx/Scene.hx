@@ -33,6 +33,8 @@ import com.gamestudiohx.babylonhx.materials.textures.Texture;
 import com.gamestudiohx.babylonhx.materials.textures.BaseTexture;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.rendering.RenderingManager;
+import com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer;
+import com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer;
 import com.gamestudiohx.babylonhx.postprocess.PostProcessManager;
 import openfl.geom.Rectangle;
 import openfl.Lib;
@@ -139,6 +141,7 @@ class Scene {
 	public var postProcessesEnabled:Bool;
 	public var postProcessManager:PostProcessManager;
 	public var _animationStartDate:Int = -1;
+	private var _boundingBoxRenderer:BoundingBoxRenderer;
 	
 
 	public function new(engine:Engine) {
@@ -238,6 +241,8 @@ class Scene {
         this.postProcessesEnabled = true;
         this.postProcessManager = new PostProcessManager(this);
 
+        this._boundingBoxRenderer = new BoundingBoxRenderer(this);
+
         // Customs render targets
         this.renderTargetsEnabled = true;
         this.customRenderTargets = [];
@@ -253,6 +258,10 @@ class Scene {
 	public function getTotalVertices():Int {
 		return this._totalVertices;
 	}
+
+	public function getBoundingBoxRenderer(): BoundingBoxRenderer {
+            return this._boundingBoxRenderer;
+    }
 	
 	public function getActiveVertices():Int {
 		return this._activeVertices;
@@ -295,6 +304,7 @@ class Scene {
 	}
 
 	public function isReady():Bool {
+
 		if (this._pendingData.length > 0) {
 			trace("isReady pending data - " + this._pendingData.length);
             return false;
@@ -303,7 +313,7 @@ class Scene {
         for (index in 0...this.meshes.length) {
             var mesh = this.meshes[index];
             var mat = mesh.material;
-
+            trace(this.meshes.length);
             /*if (mesh.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
                 return false;
             }*/
@@ -314,7 +324,6 @@ class Scene {
                 }
             }
         }
-
         return true;
 	}
 	
@@ -586,6 +595,10 @@ class Scene {
 		if (mesh.subMeshes.length == 1 || subMesh.isInFrustrum(this._frustumPlanes)) {
             var material = subMesh.getMaterial();
 
+            if (mesh.showSubMeshesBoundingBox) {
+                    this._boundingBoxRenderer.renderList.push(subMesh.getBoundingInfo().boundingBox);
+            }
+
             if (material != null) {
                 // Render targets
                 if (Reflect.field(material, "getRenderTargetTextures") != null) {
@@ -609,6 +622,7 @@ class Scene {
         this._processedMaterials.reset();
         this._activeParticleSystems.reset();
         this._activeSkeletons.reset();
+        this._boundingBoxRenderer.reset();
 
         if (this._frustumPlanes == null) {
             this._frustumPlanes = Frustum.GetPlanes(this._transformMatrix);
@@ -778,6 +792,10 @@ class Scene {
 
         // Render
         this._renderingManager.render(null, null, true, true);
+
+        // Bounding boxes
+        // memory hog!! todo!
+        this._boundingBoxRenderer.render();
         
         // Lens flares
         for (lensFlareSystemIndex in 0...this.lensFlareSystems.length) {
@@ -894,6 +912,7 @@ class Scene {
             this.cameras[index].detachControl(canvas);
         }*/
 
+        this._boundingBoxRenderer.dispose();
         // Release lights
         while (this.lights.length > 0) {
             this.lights[0].dispose();

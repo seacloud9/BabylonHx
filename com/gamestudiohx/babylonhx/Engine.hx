@@ -98,7 +98,7 @@ class Engine {
 	public var _caps:BabylonCaps;
 	
 	public var _alphaTest:Bool;
-	
+	private var _depthMask:Bool = false;
 	public var _runningLoop:Bool;
 	
 	public var _loadedTexturesCache:Array<BabylonTexture>;
@@ -291,6 +291,18 @@ class Engine {
         return this._loadedTexturesCache;
     }
 
+    public function setDepthFunctionToGreaterOrEqual():Void {
+            GL.depthFunc(GL.GEQUAL);
+    }
+
+    public function setDepthFunctionToLessOrEqual():Void {
+            GL.depthFunc(GL.LEQUAL);
+    }
+
+    public function setDepthFunctionToLess():Void {
+            GL.depthFunc(GL.LESS);
+    }
+
     public function getCaps():BabylonCaps {
         return this._caps;
     }
@@ -339,13 +351,16 @@ class Engine {
 		} else {
 			GL.clearColor(color.r, color.g, color.b, 1.0);
 		}
-        GL.clearDepth(1.0);
+        if (this._depthMask) {
+            GL.clearDepth(1.0);
+        }
+        
         var mode:Int = 0;
 
         if (backBuffer)
             mode |= GL.COLOR_BUFFER_BIT;
 
-        if (depthStencil)
+        if (depthStencil && this._depthMask)
             mode |= GL.DEPTH_BUFFER_BIT;
 
         GL.clear(mode);
@@ -399,6 +414,8 @@ class Engine {
             GL.generateMipmap(GL.TEXTURE_2D);
             GL.bindTexture(GL.TEXTURE_2D, null);
         }
+        //todo check
+        GL.bindFramebuffer(GL.FRAMEBUFFER, null);
     }
 
     inline public function flushFramebuffer() {
@@ -410,13 +427,19 @@ class Engine {
         this.setViewport(this._cachedViewport);
         this.wipeCaches();
     }
+
+    // VBOs
+    private function _resetVertexBufferBinding(): Void {
+        GL.bindBuffer(GL.ARRAY_BUFFER, null);
+        this._cachedVertexBuffers = null;
+    }
 	
 	// VBOs
     public function createVertexBuffer(vertices:Array<Float>):BabylonGLBuffer {
         var vbo = GL.createBuffer();
         GL.bindBuffer(GL.ARRAY_BUFFER, vbo);
         GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(vertices), GL.STATIC_DRAW);
-        GL.bindBuffer(GL.ARRAY_BUFFER, null);
+        this._resetVertexBufferBinding();
         return new BabylonGLBuffer(vbo);
     }
 
@@ -424,20 +447,24 @@ class Engine {
         var vbo = GL.createBuffer();
         GL.bindBuffer(GL.ARRAY_BUFFER, vbo);
         GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(capacity), GL.DYNAMIC_DRAW);
-        GL.bindBuffer(GL.ARRAY_BUFFER, null);
+        this._resetVertexBufferBinding();
         return new BabylonGLBuffer(vbo);
     }
 
     inline public function updateDynamicVertexBuffer(vertexBuffer:BabylonGLBuffer, vertices:Dynamic, length:Int = 0) {
         GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer.buffer);
         // Should be (vertices instanceof Float32Array ? vertices : new Float32Array(vertices)) but Chrome raises an Exception in this case :(
-        if (length != 0) {
+        /*if (length != 0) {
             GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(cast vertices, 0, length));
         } else {
             GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(vertices));
+        }*/
+        if (Std.is(vertices, Float32Array)) {
+                GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(vertices));
+        } else {
+                GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(cast vertices, 0, length));
         }
-        
-        GL.bindBuffer(GL.ARRAY_BUFFER, null);
+        this._resetVertexBufferBinding();
     }
 
     public function createIndexBuffer(indices:Array<Int>):BabylonGLBuffer {
@@ -453,9 +480,8 @@ class Engine {
         GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(cast indices), GL.STATIC_DRAW);
         
         trace('--hit 3');
-        GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
-        this._cachedIndexBuffer = null;
-         trace('--hit 4');
+        this._resetVertexBufferBinding();
+        trace('--hit 4');
         return new BabylonGLBuffer(vbo);
     }
 
@@ -497,6 +523,10 @@ class Engine {
 
                 if (order >= 0) {
                     var vertexBuffer:VertexBuffer = vertexBuffers.get(attributes[index]);
+                    //todo investigate further
+                    if (vertexBuffer == null) {
+                            continue;
+                    }
                     var stride:Int = vertexBuffer.getStrideSize();
                     GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer._buffer.buffer);					
                     GL.vertexAttribPointer(order, stride, GL.FLOAT, false, stride * 4, 0);
@@ -552,7 +582,7 @@ class Engine {
 
 
     public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int, ?instancesCount:Int) {
-         //html5 todo
+         //html5 todo ?? invesitgate to see if necessary
          /*if (instancesCount) {
                 this._caps.instancedArrays.drawElementsInstancedANGLE(useTriangles ? this._gl.TRIANGLES : this._gl.LINES, indexCount, this._gl.UNSIGNED_SHORT, indexStart * 2, instancesCount);
                 return;
@@ -560,8 +590,29 @@ class Engine {
 
         GL.drawElements(useTriangles ? GL.TRIANGLES : GL.LINES, indexCount, GL.UNSIGNED_SHORT, indexStart * 2);
     }
-	
-	
+
+    /*
+     public _releaseEffect(effect: Effect): void {
+            if (this._compiledEffects[effect._key]) {
+                delete this._compiledEffects[effect._key];
+                if (effect.getProgram()) {
+                    this._gl.deleteProgram(effect.getProgram());
+                }
+            }
+        }
+
+    */
+
+	 public function _releaseEffect(effect: Effect) {
+            if (this._compiledEffects.exists(effect.name)) {
+                 this._compiledEffects.remove(effect.name);
+               // this._compiledEffects
+                if (effect.getProgram() != null) {
+                    GL.deleteProgram(effect.getProgram());
+                }
+            }
+    }
+
 	// Shaders
     public function createEffect(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, defines:String, optionalDefines:Array<String> = null):Effect {
         var vertex = Reflect.field(baseName, "vertex") != null ? baseName.vertex : baseName;
@@ -608,6 +659,7 @@ class Engine {
 
         var error:String = GL.getProgramInfoLog(shaderProgram);
         if (error != "") {
+            
             throw(error);
         }
 
@@ -649,6 +701,16 @@ class Engine {
 		
         // Use program
         GL.useProgram(effect.getProgram());
+
+        /*
+        for (var i in this._vertexAttribArrays) {
+                if (i > this._gl.VERTEX_ATTRIB_ARRAY_ENABLED || !this._vertexAttribArrays[i]) {
+                    continue;
+                }
+                this._vertexAttribArrays[i] = false;
+                this._gl.disableVertexAttribArray(i);
+            }
+        */
 		
         for (index in 0...effect.getAttributesCount()) {
             // Attributes
@@ -752,6 +814,7 @@ class Engine {
 
     public function setDepthWrite(enable:Bool) {
         GL.depthMask(enable);
+        this._depthMask = enable;
     }
 
     public function setColorWrite(enable:Bool) {
@@ -764,7 +827,7 @@ class Engine {
         switch (mode) {
             case Engine.ALPHA_DISABLE:
                 this.setDepthWrite(true);
-		        GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
+		        //GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
                 //GL.disable(GL.BLEND);				
             case Engine.ALPHA_COMBINE:
                 this.setDepthWrite(false);
@@ -797,6 +860,7 @@ class Engine {
         };
 
         this._cachedVertexBuffers = null;
+        this._cachedIndexBuffer = null;
         this._cachedEffectForVertexBuffers = null;
     }
 

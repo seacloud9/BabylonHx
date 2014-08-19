@@ -121,6 +121,7 @@ class AbstractMesh extends Node{
 	public var _indexBuffer:BabylonGLBuffer;
 	
 	public var parentId(get, null):String;
+	public var showSubMeshesBoundingBox = false;
 	function get_parentId():String {
 		if (this.parent != null) {
 			return this.parent.id;

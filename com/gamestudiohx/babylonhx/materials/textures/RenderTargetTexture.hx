@@ -74,6 +74,10 @@ class RenderTargetTexture extends Texture {
             }            
         } else {
 			// Bind
+			/*
+			if (!useCameraPostProcess || !scene.postProcessManager._prepareFrame(this._texture)) {
+                engine.bindFramebuffer(this._texture);
+            }*/
 			engine.bindFramebuffer(this._texture);
 
 			// Clear

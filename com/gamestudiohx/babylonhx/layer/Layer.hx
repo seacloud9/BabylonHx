@@ -40,11 +40,15 @@ class Layer {
         this._scene.layers.push(this);
         
         // VBO
-        var vertices:Array<Float> = [1, 1, -1, 1, -1, -1, 1, -1];
-        /*vertices.push(1, 1);
-        vertices.push(-1, 1);
-        vertices.push(-1, -1);
-        vertices.push(1, -1);*/
+        var vertices:Array<Float> = [];
+        vertices.push(1);
+        vertices.push(1);
+        vertices.push(-1);
+        vertices.push(1);
+        vertices.push(-1);
+        vertices.push(-1);
+        vertices.push(1);
+        vertices.push(-1);
         this._vertexDeclaration = [2];
         this._vertexStrideSize = 2 * 4;
         this._vertexBuffer = scene.getEngine().createVertexBuffer(vertices);

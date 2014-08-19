@@ -158,7 +158,7 @@ class ShaderMaterial extends Material {
             return true;
         }
 
-        inline override public function bind(world:Matrix, mesh:Mesh) {
+        inline override public function bind(world:Matrix, ?mesh:Mesh) {
             // Std values
             // look at shader material most likely a dynamic issue use lambda!!
             if (Lambda.indexOf(this._options.uniforms, "world") != -1) {

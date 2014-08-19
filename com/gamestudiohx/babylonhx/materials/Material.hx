@@ -77,7 +77,7 @@ class Material {
         engine.setState(this.backFaceCulling);
     }
 	
-	public function bind(world:Matrix, mesh:Mesh) { 		// to be overriden
+	public function bind(world:Matrix, ?mesh:Mesh) { 		// to be overriden
 		
     }
 	

@@ -82,6 +82,10 @@ class VertexBuffer {
         }
 	}
 	
+    public function getBuffer(): BabylonGLBuffer {
+            return this._buffer;
+    }
+
 	public function isUpdatable():Bool {
         return this._updatable;
     }

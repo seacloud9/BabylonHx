@@ -35,15 +35,8 @@ class DynamicTexture extends Texture{
             }
 
             var textureSize = this.getSize();
-
-            //this._canvas.width = textureSize.width;
-            //this._canvas.height = textureSize.height;
-            //this._context = this._canvas.getContext("2d");
         }
 
-        /*public function getContext():CanvasRenderingContext2D {
-            return this._context;
-        }*/
 
         public function getCanvas():BitmapData{
             return this._canvas;

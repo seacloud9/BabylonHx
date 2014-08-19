@@ -79,7 +79,8 @@ class RenderingManager {
 	
 	inline public function render(customRenderFunction:SmartArray->SmartArray->SmartArray->Dynamic->Bool, activeMeshes:Array<AbstractMesh>, renderParticles:Bool, renderSprites:Bool) {    
         for (index in 0...RenderingManager.MAX_RENDERINGGROUPS) {
-            this._depthBufferAlreadyCleaned = index == 0;
+            ///this._depthBufferAlreadyCleaned = index == 0;
+            this._depthBufferAlreadyCleaned = false;
             var renderingGroup:RenderingGroup = this._renderingGroups[index];
 
             if (renderingGroup != null) {

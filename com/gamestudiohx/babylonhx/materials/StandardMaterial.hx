@@ -307,7 +307,7 @@ class StandardMaterial extends Material {
         }
     }
 	
-	inline override public function bind(world:Matrix, mesh:Mesh) {
+	inline override public function bind(world:Matrix, ?mesh:Mesh) {
         this._baseColor.copyFrom(this.diffuseColor);
 
         // Matrices        
