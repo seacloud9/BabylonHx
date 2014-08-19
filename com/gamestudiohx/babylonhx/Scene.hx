@@ -34,7 +34,6 @@ import com.gamestudiohx.babylonhx.materials.textures.BaseTexture;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.rendering.RenderingManager;
 import com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer;
-import com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer;
 import com.gamestudiohx.babylonhx.postprocess.PostProcessManager;
 import openfl.geom.Rectangle;
 import openfl.Lib;
