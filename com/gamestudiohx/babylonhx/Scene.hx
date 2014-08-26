@@ -51,6 +51,8 @@ class Scene {
 	public static var FOGMODE_EXP:Int = 1;
 	public static var FOGMODE_EXP2:Int = 2;
 	public static var FOGMODE_LINEAR:Int = 3;
+	public static var MinDeltaTime:Float = 1.0;
+    public static var MaxDeltaTime:Float = 1000.0;
 	
 	private var _engine:Engine;
 	
@@ -446,7 +448,11 @@ class Scene {
 	
 	inline public function getTransformMatrix():Matrix {
 		return this._transformMatrix;
-	}	
+	}
+
+	inline public function updateTransformMatrix(?force: Bool): Void {
+            this.setTransformMatrix(this.activeCamera.getViewMatrix(), this.activeCamera.getProjectionMatrix(force));
+    }	
 	
 	inline public function setTransformMatrix(view:Matrix, projection:Matrix) {
 		this._viewMatrix = view;
@@ -733,14 +739,16 @@ class Scene {
         engine.setViewport(this.activeCamera.viewport);
 		
 		// Clear
+		/*
         if (mustClearDepth) {
             this._engine.clear(this.clearColor, false, true);
-        }
+        }*/
 
         // Camera
         this._renderId++;
-        this.setTransformMatrix(this.activeCamera.getViewMatrix(), this.activeCamera.getProjectionMatrix());
-
+        //this.setTransformMatrix(this.activeCamera.getViewMatrix(), this.activeCamera.getProjectionMatrix());
+        this.updateTransformMatrix();
+        // 
         // Meshes
         var beforeEvaluateActiveMeshesDate = Lib.getTimer();
         this._evaluateActiveMeshes();
@@ -819,7 +827,7 @@ class Scene {
         this.postProcessManager._finalizeFrame();
 
         // Update camera
-        this.activeCamera._update();
+        this.activeCamera._updateFromScene();
         
         // Reset some special arrays
         this._renderTargets.reset();

@@ -27,7 +27,31 @@ ApplicationMain.embed = $hx_exports.openfl.embed = function(elementName,width,he
 	var id;
 	var urlLoader = new openfl.net.URLLoader();
 	urlLoader.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
-	ApplicationMain.urlLoaders.set("assets/font/Tup Wanders Font License.txt",urlLoader);
+	ApplicationMain.urlLoaders.set("assets/font/Aaargh.eot",urlLoader);
+	ApplicationMain.total++;
+	var urlLoader1 = new openfl.net.URLLoader();
+	urlLoader1.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/Aaargh.svg",urlLoader1);
+	ApplicationMain.total++;
+	var urlLoader2 = new openfl.net.URLLoader();
+	urlLoader2.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/Aaargh.woff",urlLoader2);
+	ApplicationMain.total++;
+	var urlLoader3 = new openfl.net.URLLoader();
+	urlLoader3.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/OpenSansRegular.eot",urlLoader3);
+	ApplicationMain.total++;
+	var urlLoader4 = new openfl.net.URLLoader();
+	urlLoader4.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/OpenSansRegular.svg",urlLoader4);
+	ApplicationMain.total++;
+	var urlLoader5 = new openfl.net.URLLoader();
+	urlLoader5.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/OpenSansRegular.woff",urlLoader5);
+	ApplicationMain.total++;
+	var urlLoader6 = new openfl.net.URLLoader();
+	urlLoader6.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/font/Tup Wanders Font License.txt",urlLoader6);
 	ApplicationMain.total++;
 	var image = new Image();
 	id = "assets/img/cloud.jpg";
@@ -47,9 +71,9 @@ ApplicationMain.embed = $hx_exports.openfl.embed = function(elementName,width,he
 	image2.onload = ApplicationMain.image_onLoad;
 	image2.src = id;
 	ApplicationMain.total++;
-	var urlLoader1 = new openfl.net.URLLoader();
-	urlLoader1.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
-	ApplicationMain.urlLoaders.set("assets/img/skybox/README.TXT",urlLoader1);
+	var urlLoader7 = new openfl.net.URLLoader();
+	urlLoader7.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/img/skybox/README.TXT",urlLoader7);
 	ApplicationMain.total++;
 	var image3 = new Image();
 	id = "assets/img/skybox/skybox_nx.jpg";
@@ -123,21 +147,21 @@ ApplicationMain.embed = $hx_exports.openfl.embed = function(elementName,width,he
 	image14.onload = ApplicationMain.image_onLoad;
 	image14.src = id;
 	ApplicationMain.total++;
-	var urlLoader2 = new openfl.net.URLLoader();
-	urlLoader2.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
-	ApplicationMain.urlLoaders.set("assets/shaders/clouds.fragment.txt",urlLoader2);
+	var urlLoader8 = new openfl.net.URLLoader();
+	urlLoader8.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/shaders/clouds.fragment.txt",urlLoader8);
 	ApplicationMain.total++;
-	var urlLoader3 = new openfl.net.URLLoader();
-	urlLoader3.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
-	ApplicationMain.urlLoaders.set("assets/shaders/clouds.vertex.txt",urlLoader3);
+	var urlLoader9 = new openfl.net.URLLoader();
+	urlLoader9.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/shaders/clouds.vertex.txt",urlLoader9);
 	ApplicationMain.total++;
 	if(ApplicationMain.total == 0) ApplicationMain.start(); else {
 		var $it0 = ApplicationMain.urlLoaders.keys();
 		while( $it0.hasNext() ) {
 			var path = $it0.next();
-			var urlLoader4 = ApplicationMain.urlLoaders.get(path);
-			urlLoader4.addEventListener("complete",ApplicationMain.loader_onComplete);
-			urlLoader4.load(new openfl.net.URLRequest(path));
+			var urlLoader10 = ApplicationMain.urlLoaders.get(path);
+			urlLoader10.addEventListener("complete",ApplicationMain.loader_onComplete);
+			urlLoader10.load(new openfl.net.URLRequest(path));
 		}
 		var _g = 0;
 		while(_g < sounds.length) {
@@ -184,8 +208,8 @@ ApplicationMain.preloader_onComplete = function(event) {
 	if(hasMain) Reflect.callMethod(Main,Reflect.field(Main,"main"),[]); else {
 		var instance = Type.createInstance(DocumentClass,[]);
 		if(js.Boot.__instanceof(instance,openfl.display.DisplayObject)) openfl.Lib.current.addChild(instance); else {
-			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 377, className : "ApplicationMain", methodName : "preloader_onComplete"});
-			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 378, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 419, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 420, className : "ApplicationMain", methodName : "preloader_onComplete"});
 		}
 	}
 };
@@ -413,8 +437,6 @@ openfl.display.DisplayObject.prototype = $extend(openfl.events.EventDispatcher.p
 	,__renderCanvas: function(renderSession) {
 	}
 	,__renderDOM: function(renderSession) {
-	}
-	,__renderGL: function(renderSession) {
 	}
 	,__renderMask: function(renderSession) {
 	}
@@ -949,17 +971,6 @@ openfl.display.DisplayObjectContainer.prototype = $extend(openfl.display.Interac
 		}
 		this.__removedChildren = [];
 	}
-	,__renderGL: function(renderSession) {
-		if(!this.__renderable || this.__worldAlpha <= 0) return;
-		var _g = 0;
-		var _g1 = this.__children;
-		while(_g < _g1.length) {
-			var child = _g1[_g];
-			++_g;
-			child.__renderGL(renderSession);
-		}
-		this.__removedChildren = [];
-	}
 	,__renderMask: function(renderSession) {
 		var bounds = new openfl.geom.Rectangle();
 		this.__getTransform();
@@ -1020,10 +1031,10 @@ openfl.display.Sprite.__super__ = openfl.display.DisplayObjectContainer;
 openfl.display.Sprite.prototype = $extend(openfl.display.DisplayObjectContainer.prototype,{
 	startDrag: function(lockCenter,bounds) {
 		if(lockCenter == null) lockCenter = false;
-		if(this.stage != null) this.stage.__startDrag(this,lockCenter,bounds);
+		openfl.Lib.notImplemented("Sprite.startDrag");
 	}
 	,stopDrag: function() {
-		if(this.stage != null) this.stage.__stopDrag(this);
+		openfl.Lib.notImplemented("Sprite.stopDrag");
 	}
 	,__getBounds: function(rect,matrix) {
 		openfl.display.DisplayObjectContainer.prototype.__getBounds.call(this,rect,matrix);
@@ -1300,12 +1311,30 @@ var DefaultAssetLibrary = function() {
 	this.className = new haxe.ds.StringMap();
 	openfl.AssetLibrary.call(this);
 	var id;
+	id = "assets/font/Aaargh.eot";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.BINARY);
+	id = "assets/font/Aaargh.svg";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.TEXT);
 	id = "assets/font/Aaargh.ttf";
 	this.className.set(id,__ASSET__assets_font_aaargh_ttf);
 	this.type.set(id,openfl.AssetType.FONT);
+	id = "assets/font/Aaargh.woff";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.BINARY);
+	id = "assets/font/OpenSansRegular.eot";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.BINARY);
+	id = "assets/font/OpenSansRegular.svg";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.TEXT);
 	id = "assets/font/OpenSansRegular.ttf";
 	this.className.set(id,__ASSET__assets_font_opensansregular_ttf);
 	this.type.set(id,openfl.AssetType.FONT);
+	id = "assets/font/OpenSansRegular.woff";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.BINARY);
 	id = "assets/font/Tup Wanders Font License.txt";
 	this.path.set(id,id);
 	this.type.set(id,openfl.AssetType.TEXT);
@@ -1943,6 +1972,7 @@ var com = {};
 com.gamestudiohx = {};
 com.gamestudiohx.babylonhx = {};
 com.gamestudiohx.babylonhx.Engine = function(canvas,antialias) {
+	this._depthMask = false;
 	this._renderingCanvas = canvas;
 	if(!openfl.display.OpenGLView.get_isSupported()) throw "GL not supported";
 	this.forceWireframe = false;
@@ -2004,6 +2034,15 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 	,getLoadedTexturesCache: function() {
 		return this._loadedTexturesCache;
 	}
+	,setDepthFunctionToGreaterOrEqual: function() {
+		openfl.gl.GL.depthFunc(518);
+	}
+	,setDepthFunctionToLessOrEqual: function() {
+		openfl.gl.GL.depthFunc(515);
+	}
+	,setDepthFunctionToLess: function() {
+		openfl.gl.GL.depthFunc(513);
+	}
 	,getCaps: function() {
 		return this._caps;
 	}
@@ -2025,10 +2064,10 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 	}
 	,clear: function(color,backBuffer,depthStencil) {
 		if(js.Boot.__instanceof(color,com.gamestudiohx.babylonhx.tools.math.Color4)) openfl.gl.GL.clearColor(color.r,color.g,color.b,color.a); else openfl.gl.GL.clearColor(color.r,color.g,color.b,1.0);
-		openfl.gl.GL.clearDepth(1.0);
+		if(this._depthMask) openfl.gl.GL.clearDepth(1.0);
 		var mode = 0;
 		if(backBuffer) mode |= 16384;
-		if(depthStencil) mode |= 256;
+		if(depthStencil && this._depthMask) mode |= 256;
 		openfl.gl.GL.clear(mode);
 	}
 	,setViewport: function(viewport,requiredWidth,requiredHeight) {
@@ -2069,6 +2108,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 			openfl.gl.GL.generateMipmap(3553);
 			openfl.gl.GL.bindTexture(3553,null);
 		}
+		openfl.gl.GL.bindFramebuffer(36160,null);
 	}
 	,flushFramebuffer: function() {
 		openfl.gl.GL.flush();
@@ -2078,36 +2118,39 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		this.setViewport(this._cachedViewport);
 		this.wipeCaches();
 	}
+	,_resetVertexBufferBinding: function() {
+		openfl.gl.GL.bindBuffer(34962,null);
+		this._cachedVertexBuffers = null;
+	}
 	,createVertexBuffer: function(vertices) {
 		var vbo = openfl.gl.GL.createBuffer();
 		openfl.gl.GL.bindBuffer(34962,vbo);
 		openfl.gl.GL.bufferData(34962,new Float32Array(vertices),35044);
-		openfl.gl.GL.bindBuffer(34962,null);
+		this._resetVertexBufferBinding();
 		return new com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer(vbo);
 	}
 	,createDynamicVertexBuffer: function(capacity) {
 		var vbo = openfl.gl.GL.createBuffer();
 		openfl.gl.GL.bindBuffer(34962,vbo);
 		openfl.gl.GL.bufferData(34962,new Float32Array(capacity),35048);
-		openfl.gl.GL.bindBuffer(34962,null);
+		this._resetVertexBufferBinding();
 		return new com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer(vbo);
 	}
 	,updateDynamicVertexBuffer: function(vertexBuffer,vertices,length) {
 		if(length == null) length = 0;
 		openfl.gl.GL.bindBuffer(34962,vertexBuffer.buffer);
-		if(length != 0) openfl.gl.GL.bufferSubData(34962,0,new Float32Array(vertices,0,length)); else openfl.gl.GL.bufferSubData(34962,0,new Float32Array(vertices));
-		openfl.gl.GL.bindBuffer(34962,null);
+		if(js.Boot.__instanceof(vertices,Float32Array)) openfl.gl.GL.bufferSubData(34962,0,new Float32Array(vertices)); else openfl.gl.GL.bufferSubData(34962,0,new Float32Array(vertices,0,length));
+		this._resetVertexBufferBinding();
 	}
 	,createIndexBuffer: function(indices) {
 		var vbo = openfl.gl.GL.createBuffer();
-		haxe.Log.trace("--hit 1",{ fileName : "Engine.hx", lineNumber : 446, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		haxe.Log.trace("--hit 1",{ fileName : "Engine.hx", lineNumber : 473, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		openfl.gl.GL.bindBuffer(34963,vbo);
-		haxe.Log.trace("--hit 2",{ fileName : "Engine.hx", lineNumber : 448, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		haxe.Log.trace("--hit 2",{ fileName : "Engine.hx", lineNumber : 475, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		openfl.gl.GL.bufferData(34963,new Int16Array(indices),35044);
-		haxe.Log.trace("--hit 3",{ fileName : "Engine.hx", lineNumber : 455, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
-		openfl.gl.GL.bindBuffer(34963,null);
-		this._cachedIndexBuffer = null;
-		haxe.Log.trace("--hit 4",{ fileName : "Engine.hx", lineNumber : 458, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		haxe.Log.trace("--hit 3",{ fileName : "Engine.hx", lineNumber : 482, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		this._resetVertexBufferBinding();
+		haxe.Log.trace("--hit 4",{ fileName : "Engine.hx", lineNumber : 484, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		return new com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer(vbo);
 	}
 	,bindBuffers: function(vertexBuffer,indexBuffer,vertexDeclaration,vertexStrideSize,effect) {
@@ -2142,6 +2185,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 				var order = effect.getAttribute(index);
 				if(order >= 0) {
 					var vertexBuffer = vertexBuffers.get(attributes[index]);
+					if(vertexBuffer == null) continue;
 					var stride = vertexBuffer.getStrideSize();
 					openfl.gl.GL.bindBuffer(34962,vertexBuffer._buffer.buffer);
 					openfl.gl.GL.vertexAttribPointer(order,stride,5126,false,stride * 4,0);
@@ -2186,6 +2230,18 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 	}
 	,draw: function(useTriangles,indexStart,indexCount,instancesCount) {
 		openfl.gl.GL.drawElements(useTriangles?4:1,indexCount,5123,indexStart * 2);
+	}
+	,_releaseEffect: function(effect) {
+		if((function($this) {
+			var $r;
+			var key = effect.name;
+			$r = $this._compiledEffects.exists(key);
+			return $r;
+		}(this))) {
+			var key1 = effect.name;
+			this._compiledEffects.remove(key1);
+			if(effect.getProgram() != null) openfl.gl.GL.deleteProgram(effect.getProgram());
+		}
 	}
 	,createEffect: function(baseName,attributesNames,uniformsNames,samplers,defines,optionalDefines) {
 		var vertex;
@@ -2238,7 +2294,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 			try {
 				results.push(openfl.gl.GL.getAttribLocation(shaderProgram,attributesNames[index]));
 			} catch( e ) {
-				haxe.Log.trace("getAttributes() -> ERROR: " + Std.string(e),{ fileName : "Engine.hx", lineNumber : 636, className : "com.gamestudiohx.babylonhx.Engine", methodName : "getAttributes"});
+				haxe.Log.trace("getAttributes() -> ERROR: " + Std.string(e),{ fileName : "Engine.hx", lineNumber : 688, className : "com.gamestudiohx.babylonhx.Engine", methodName : "getAttributes"});
 				results.push(-1);
 			}
 		}
@@ -2300,6 +2356,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 	}
 	,setDepthWrite: function(enable) {
 		openfl.gl.GL.depthMask(enable);
+		this._depthMask = enable;
 	}
 	,setColorWrite: function(enable) {
 		openfl.gl.GL.colorMask(enable,enable,enable,enable);
@@ -2308,7 +2365,6 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		switch(mode) {
 		case com.gamestudiohx.babylonhx.Engine.ALPHA_DISABLE:
 			this.setDepthWrite(true);
-			openfl.gl.GL.blendFuncSeparate(770,771,0,1);
 			break;
 		case com.gamestudiohx.babylonhx.Engine.ALPHA_COMBINE:
 			this.setDepthWrite(false);
@@ -2333,6 +2389,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		this._currentEffect = null;
 		this._currentState = { culling : null};
 		this._cachedVertexBuffers = null;
+		this._cachedIndexBuffer = null;
 		this._cachedEffectForVertexBuffers = null;
 	}
 	,getExponantOfTwo: function(value,max) {
@@ -2490,7 +2547,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		var _g2 = extensions.length;
 		while(_g1 < _g2) {
 			var i = _g1++;
-			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1088, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
+			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1152, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
 		}
 		openfl.gl.GL.texParameteri(34067,10240,9729);
 		openfl.gl.GL.texParameteri(34067,10241,9987);
@@ -2759,6 +2816,7 @@ com.gamestudiohx.babylonhx.Scene = function(engine) {
 	this._scaledVelocity = com.gamestudiohx.babylonhx.tools.math.Vector3.Zero();
 	this.postProcessesEnabled = true;
 	this.postProcessManager = new com.gamestudiohx.babylonhx.postprocess.PostProcessManager(this);
+	this._boundingBoxRenderer = new com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer(this);
 	this.renderTargetsEnabled = true;
 	this.customRenderTargets = [];
 	this.activeCameras = [];
@@ -2771,6 +2829,9 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	}
 	,getTotalVertices: function() {
 		return this._totalVertices;
+	}
+	,getBoundingBoxRenderer: function() {
+		return this._boundingBoxRenderer;
 	}
 	,getActiveVertices: function() {
 		return this._activeVertices;
@@ -2804,7 +2865,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	}
 	,isReady: function() {
 		if(this._pendingData.length > 0) {
-			haxe.Log.trace("isReady pending data - " + this._pendingData.length,{ fileName : "Scene.hx", lineNumber : 299, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
+			haxe.Log.trace("isReady pending data - " + this._pendingData.length,{ fileName : "Scene.hx", lineNumber : 309, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
 			return false;
 		}
 		var _g1 = 0;
@@ -2813,7 +2874,8 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 			var index = _g1++;
 			var mesh = this.meshes[index];
 			var mat = mesh.material;
-			haxe.Log.trace("isReady - " + index,{ fileName : "Scene.hx", lineNumber : 310, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
+			haxe.Log.trace(this.meshes.length,{ fileName : "Scene.hx", lineNumber : 316, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
+			haxe.Log.trace("isReady - " + index,{ fileName : "Scene.hx", lineNumber : 320, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
 			if(mat != null) {
 				if(!mat.isReady(mesh)) return false;
 			}
@@ -2828,16 +2890,16 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 		if(index > -1) this._onBeforeRenderCallbacks.splice(index,1);
 	}
 	,_addPendingData: function(data) {
-		haxe.Log.trace("_addPendingData - " + Std.string(data),{ fileName : "Scene.hx", lineNumber : 334, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_addPendingData"});
+		haxe.Log.trace("_addPendingData - " + Std.string(data),{ fileName : "Scene.hx", lineNumber : 343, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_addPendingData"});
 		this._pendingData.push(data);
 	}
 	,_removePendingData: function(data) {
 		var index = Lambda.indexOf(this._pendingData,data);
-		haxe.Log.trace("_removePendingData - " + index,{ fileName : "Scene.hx", lineNumber : 340, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+		haxe.Log.trace("_removePendingData - " + index,{ fileName : "Scene.hx", lineNumber : 349, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 		if(index != -1) {
-			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 342, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 351, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 			this._pendingData.splice(index,1);
-			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 344, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 353, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 		}
 	}
 	,getWaitingItemsCount: function() {
@@ -2845,8 +2907,8 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	}
 	,executeWhenReady: function(func) {
 		this._onReadyCallbacks.push(func);
-		haxe.Log.trace("executeWhenReady -" + Std.string(func),{ fileName : "Scene.hx", lineNumber : 354, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
-		haxe.Log.trace("this._executeWhenReadyTimeoutId -" + this._executeWhenReadyTimeoutId,{ fileName : "Scene.hx", lineNumber : 355, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
+		haxe.Log.trace("executeWhenReady -" + Std.string(func),{ fileName : "Scene.hx", lineNumber : 363, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
+		haxe.Log.trace("this._executeWhenReadyTimeoutId -" + this._executeWhenReadyTimeoutId,{ fileName : "Scene.hx", lineNumber : 364, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
 		if(this._executeWhenReadyTimeoutId != -1) return;
 		this._checkIsReady();
 	}
@@ -3032,6 +3094,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	,_evaluateSubMesh: function(subMesh,mesh) {
 		if(mesh.subMeshes.length == 1 || subMesh._boundingInfo.isInFrustrum(this._frustumPlanes)) {
 			var material = subMesh.getMaterial();
+			if(mesh.showSubMeshesBoundingBox) this._boundingBoxRenderer.renderList.push(subMesh.getBoundingInfo().boundingBox);
 			if(material != null) {
 				if(Reflect.field(material,"getRenderTargetTextures") != null) {
 					if(this._processedMaterials.indexOf(material) == -1) {
@@ -3050,6 +3113,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 		this._processedMaterials.reset();
 		this._activeParticleSystems.reset();
 		this._activeSkeletons.reset();
+		this._boundingBoxRenderer.reset();
 		if(this._frustumPlanes == null) this._frustumPlanes = com.gamestudiohx.babylonhx.tools.math.Frustum.GetPlanes(this._transformMatrix); else this._frustumPlanes = com.gamestudiohx.babylonhx.tools.math.Frustum.GetPlanesToRef(this._transformMatrix,this._frustumPlanes);
 		if(this._selectionOctree != null) {
 			var selection = this._selectionOctree.select(this._frustumPlanes);
@@ -3178,6 +3242,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 			engine.setDepthBuffer(true);
 		}
 		this._renderingManager.render(null,null,true,true);
+		this._boundingBoxRenderer.render();
 		var _g14 = 0;
 		var _g5 = this.lensFlareSystems.length;
 		while(_g14 < _g5) {
@@ -3255,6 +3320,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 		this.beforeRender = null;
 		this.afterRender = null;
 		this.skeletons = [];
+		this._boundingBoxRenderer.dispose();
 		while(this.lights.length > 0) {
 			this.lights[0].dispose();
 			HxOverrides.remove(this.lights,this.lights[0]);
@@ -5006,7 +5072,15 @@ com.gamestudiohx.babylonhx.layer.Layer = function(name,imgUrl,scene,isBackground
 	if(color == null) this.color = new com.gamestudiohx.babylonhx.tools.math.Color4(1,1,1,1); else this.color = color;
 	this._scene = scene;
 	this._scene.layers.push(this);
-	var vertices = [1,1,-1,1,-1,-1,1,-1];
+	var vertices = [];
+	vertices.push(1);
+	vertices.push(1);
+	vertices.push(-1);
+	vertices.push(1);
+	vertices.push(-1);
+	vertices.push(-1);
+	vertices.push(1);
+	vertices.push(-1);
 	this._vertexDeclaration = [2];
 	this._vertexStrideSize = 8;
 	this._vertexBuffer = scene.getEngine().createVertexBuffer(vertices);
@@ -6614,6 +6688,7 @@ com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer.prototype = {
 	__class__: com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer
 };
 com.gamestudiohx.babylonhx.mesh.AbstractMesh = function(name,scene) {
+	this.showSubMeshesBoundingBox = false;
 	this._isDirty = false;
 	com.gamestudiohx.babylonhx.Node.call(this,scene);
 	this.name = name;
@@ -7080,10 +7155,10 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 	}
 	,releaseSubMeshes: function() {
 		if(this.subMeshes != null) while(this.subMeshes.length > 0) {
-			haxe.Log.trace("releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 766, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
+			haxe.Log.trace("releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 767, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
 			this.subMeshes[0].dispose();
 		} else {
-			haxe.Log.trace("new releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 770, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
+			haxe.Log.trace("new releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 771, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
 			this.subMeshes = new Array();
 		}
 	}
@@ -8209,8 +8284,8 @@ com.gamestudiohx.babylonhx.mesh.VertexBuffer = function(mesh,data,kind,updatable
 	if(updatable) {
 		this._buffer = this._engine.createDynamicVertexBuffer(data.length * 4);
 		openfl.gl.GL.bindBuffer(34962,this._buffer.buffer);
-		openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data));
-		openfl.gl.GL.bindBuffer(34962,null);
+		if(js.Boot.__instanceof(data,Float32Array)) openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data)); else openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data,0,0));
+		this._engine._resetVertexBufferBinding();
 	} else this._buffer = this._engine.createVertexBuffer(data);
 	this._data = data;
 	if(!postponeInternalCreation) this.create();
@@ -8243,7 +8318,10 @@ com.gamestudiohx.babylonhx.mesh.VertexBuffer = function(mesh,data,kind,updatable
 $hxClasses["com.gamestudiohx.babylonhx.mesh.VertexBuffer"] = com.gamestudiohx.babylonhx.mesh.VertexBuffer;
 com.gamestudiohx.babylonhx.mesh.VertexBuffer.__name__ = ["com","gamestudiohx","babylonhx","mesh","VertexBuffer"];
 com.gamestudiohx.babylonhx.mesh.VertexBuffer.prototype = {
-	isUpdatable: function() {
+	getBuffer: function() {
+		return this._buffer;
+	}
+	,isUpdatable: function() {
 		return this._updatable;
 	}
 	,getData: function() {
@@ -8260,15 +8338,15 @@ com.gamestudiohx.babylonhx.mesh.VertexBuffer.prototype = {
 		}
 		if(this._updatable) {
 			openfl.gl.GL.bindBuffer(34962,this._buffer.buffer);
-			openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data));
-			openfl.gl.GL.bindBuffer(34962,null);
+			if(js.Boot.__instanceof(data,Float32Array)) openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data)); else openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data,0,0));
+			this._engine._resetVertexBufferBinding();
 			this._data = data;
 		}
 	}
 	,update: function(data) {
 		openfl.gl.GL.bindBuffer(34962,this._buffer.buffer);
-		openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data));
-		openfl.gl.GL.bindBuffer(34962,null);
+		if(js.Boot.__instanceof(data,Float32Array)) openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data)); else openfl.gl.GL.bufferSubData(34962,0,new Float32Array(data,0,0));
+		this._engine._resetVertexBufferBinding();
 		this._data = data;
 		if(this._kind == com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind) this._mesh._resetPointsArrayCache();
 	}
@@ -9470,6 +9548,61 @@ com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess.prototype = $extend
 	__class__: com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess
 });
 com.gamestudiohx.babylonhx.rendering = {};
+com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer = function(scene) {
+	this.renderList = new com.gamestudiohx.babylonhx.tools.SmartArray();
+	this.showBackLines = true;
+	this.backColor = new com.gamestudiohx.babylonhx.tools.math.Color3(0.1,0.1,0.1);
+	this.frontColor = new com.gamestudiohx.babylonhx.tools.math.Color3(1,1,1);
+	this._scene = scene;
+	this.renderList.length = 32;
+	this._colorShader = new com.gamestudiohx.babylonhx.materials.ShaderMaterial("colorShader",scene,"color",{ attributes : ["position"], uniforms : ["worldViewProjection","color"]});
+	var engine = this._scene.getEngine();
+	var boxdata = com.gamestudiohx.babylonhx.mesh.VertexData.CreateBox(1.0);
+	this._vb = new com.gamestudiohx.babylonhx.mesh.VertexBuffer(engine,boxdata.positions,com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind,false);
+	this._ib = engine.createIndexBuffer([0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,7,1,6,2,5,3,4]);
+};
+$hxClasses["com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer"] = com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer;
+com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer.__name__ = ["com","gamestudiohx","babylonhx","rendering","BoundingBoxRenderer"];
+com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer.prototype = {
+	reset: function() {
+		this.renderList.reset();
+	}
+	,render: function() {
+		var engine = this._scene.getEngine();
+		engine.setDepthWrite(false);
+		this._colorShader._preBind();
+		var boundingBoxIndex = 0;
+		while(boundingBoxIndex < this.renderList.length) {
+			var boundingBox = this.renderList.data[boundingBoxIndex];
+			var min = boundingBox.minimum;
+			var max = boundingBox.maximum;
+			var diff = max.subtract(min);
+			var median = min.add(diff.scale(0.5));
+			var worldMatrix = com.gamestudiohx.babylonhx.tools.math.Matrix.Scaling(diff.x,diff.y,diff.z).multiply(com.gamestudiohx.babylonhx.tools.math.Matrix.Translation(median.x,median.y,median.z)).multiply(boundingBox.getWorldMatrix());
+			engine.bindBuffers(this._vb.getBuffer(),this._ib,[3],12,this._colorShader.getEffect());
+			if(this.showBackLines) {
+				engine.setDepthFunctionToGreaterOrEqual();
+				this._colorShader.setColor3("color",this.backColor);
+				this._colorShader.bind(worldMatrix,null);
+				engine.draw(false,0,24);
+			}
+			engine.setDepthFunctionToLess();
+			this._colorShader.setColor3("color",this.frontColor);
+			this._colorShader.bind(worldMatrix,null);
+			engine.draw(false,0,24);
+			boundingBoxIndex++;
+		}
+		this._colorShader.unbind();
+		engine.setDepthFunctionToLessOrEqual();
+		engine.setDepthWrite(true);
+	}
+	,dispose: function() {
+		this._colorShader.dispose();
+		this._vb.dispose();
+		this._scene.getEngine()._releaseBuffer(this._ib);
+	}
+	,__class__: com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer
+};
 com.gamestudiohx.babylonhx.rendering.RenderingGroup = function(index,scene) {
 	this.index = index;
 	this._scene = scene;
@@ -9599,7 +9732,7 @@ com.gamestudiohx.babylonhx.rendering.RenderingManager.prototype = {
 		var _g = com.gamestudiohx.babylonhx.rendering.RenderingManager.MAX_RENDERINGGROUPS;
 		while(_g1 < _g) {
 			var index = [_g1++];
-			this._depthBufferAlreadyCleaned = index[0] == 0;
+			this._depthBufferAlreadyCleaned = false;
 			var renderingGroup = this._renderingGroups[index[0]];
 			if(renderingGroup != null) {
 				this._clearDepthBuffer();
@@ -13494,68 +13627,6 @@ openfl.Lib.preventDefaultTouchMove = function() {
 openfl.Lib.trace = function(arg) {
 	haxe.Log.trace(arg,{ fileName : "Lib.hx", lineNumber : 134, className : "openfl.Lib", methodName : "trace"});
 };
-openfl.Memory = function() { };
-$hxClasses["openfl.Memory"] = openfl.Memory;
-openfl.Memory.__name__ = ["openfl","Memory"];
-openfl.Memory.gcRef = null;
-openfl.Memory.len = null;
-openfl.Memory._setPositionTemporarily = function(position,action) {
-	var oldPosition = openfl.Memory.gcRef.position;
-	openfl.Memory.gcRef.position = position;
-	var value = action();
-	openfl.Memory.gcRef.position = oldPosition;
-	return value;
-};
-openfl.Memory.getByte = function(addr) {
-	return openfl.Memory.gcRef.__get(addr);
-};
-openfl.Memory.getDouble = function(addr) {
-	return openfl.Memory._setPositionTemporarily(addr,function() {
-		return openfl.Memory.gcRef.readDouble();
-	});
-};
-openfl.Memory.getFloat = function(addr) {
-	return openfl.Memory._setPositionTemporarily(addr,function() {
-		return openfl.Memory.gcRef.readFloat();
-	});
-};
-openfl.Memory.getI32 = function(addr) {
-	return openfl.Memory._setPositionTemporarily(addr,function() {
-		return openfl.Memory.gcRef.readInt();
-	});
-};
-openfl.Memory.getUI16 = function(addr) {
-	return openfl.Memory._setPositionTemporarily(addr,function() {
-		return openfl.Memory.gcRef.readUnsignedShort();
-	});
-};
-openfl.Memory.select = function(inBytes) {
-	openfl.Memory.gcRef = inBytes;
-	if(inBytes != null) openfl.Memory.len = inBytes.length; else openfl.Memory.len = 0;
-};
-openfl.Memory.setByte = function(addr,v) {
-	openfl.Memory.gcRef.__set(addr,v);
-};
-openfl.Memory.setDouble = function(addr,v) {
-	openfl.Memory._setPositionTemporarily(addr,function() {
-		openfl.Memory.gcRef.writeDouble(v);
-	});
-};
-openfl.Memory.setFloat = function(addr,v) {
-	openfl.Memory._setPositionTemporarily(addr,function() {
-		openfl.Memory.gcRef.writeFloat(v);
-	});
-};
-openfl.Memory.setI16 = function(addr,v) {
-	openfl.Memory._setPositionTemporarily(addr,function() {
-		openfl.Memory.gcRef.writeUnsignedShort(v);
-	});
-};
-openfl.Memory.setI32 = function(addr,v) {
-	openfl.Memory._setPositionTemporarily(addr,function() {
-		openfl.Memory.gcRef.writeInt(v);
-	});
-};
 openfl._Vector = {};
 openfl._Vector.Vector_Impl_ = function() { };
 $hxClasses["openfl._Vector.Vector_Impl_"] = openfl._Vector.Vector_Impl_;
@@ -14080,9 +14151,6 @@ openfl.display.BitmapData.__base64Encode = function(bytes) {
 	if(openfl.display.BitmapData.__base64Encoder == null) openfl.display.BitmapData.__base64Encoder = new haxe.crypto.BaseCode(haxe.io.Bytes.ofString(openfl.display.BitmapData.__base64Chars));
 	return openfl.display.BitmapData.__base64Encoder.encodeBytes(haxe.io.Bytes.ofData(bytes.byteView)).toString() + extension;
 };
-openfl.display.BitmapData.__flipPixel = function(pixel) {
-	return (pixel & 255) << 24 | (pixel >> 8 & 255) << 16 | (pixel >> 16 & 255) << 8 | pixel >> 24 & 255;
-};
 openfl.display.BitmapData.__isJPG = function(bytes) {
 	bytes.position = 0;
 	return bytes.readByte() == 255 && bytes.readByte() == 216;
@@ -14098,25 +14166,6 @@ openfl.display.BitmapData.__isGIF = function(bytes) {
 		return (b == 7 || b == 9) && bytes.readByte() == 97;
 	}
 	return false;
-};
-openfl.display.BitmapData.__ucompare = function(n1,n2) {
-	var tmp1;
-	var tmp2;
-	tmp1 = n1 >> 24 & 255;
-	tmp2 = n2 >> 24 & 255;
-	if(tmp1 != tmp2) if(tmp1 > tmp2) return 1; else return -1; else {
-		tmp1 = n1 >> 16 & 255;
-		tmp2 = n2 >> 16 & 255;
-		if(tmp1 != tmp2) if(tmp1 > tmp2) return 1; else return -1; else {
-			tmp1 = n1 >> 8 & 255;
-			tmp2 = n2 >> 8 & 255;
-			if(tmp1 != tmp2) if(tmp1 > tmp2) return 1; else return -1; else {
-				tmp1 = n1 & 255;
-				tmp2 = n2 & 255;
-				if(tmp1 != tmp2) if(tmp1 > tmp2) return 1; else return -1; else return 0;
-			}
-		}
-	}
 };
 openfl.display.BitmapData.prototype = {
 	applyFilter: function(sourceBitmapData,sourceRect,destPoint,filter) {
@@ -14196,7 +14245,7 @@ openfl.display.BitmapData.prototype = {
 	}
 	,copyPixels: function(sourceBitmapData,sourceRect,destPoint,alphaBitmapData,alphaPoint,mergeAlpha) {
 		if(mergeAlpha == null) mergeAlpha = false;
-		if(!this.__valid || sourceBitmapData == null) return;
+		if(!this.__valid) return;
 		if(sourceRect.x + sourceRect.width > sourceBitmapData.width) sourceRect.width = sourceBitmapData.width - sourceRect.x;
 		if(sourceRect.y + sourceRect.height > sourceBitmapData.height) sourceRect.height = sourceBitmapData.height - sourceRect.y;
 		if(sourceRect.width <= 0 || sourceRect.height <= 0) return;
@@ -14358,60 +14407,23 @@ openfl.display.BitmapData.prototype = {
 		return byteArray;
 	}
 	,getVector: function(rect) {
-		var pixels = this.getPixels(rect);
-		var result = openfl._Vector.Vector_Impl_._new();
+		openfl.Lib.notImplemented("BitmapData.getVector");
+		var value = [];
+		var vectorData = new openfl.VectorData();
+		vectorData.length = value.length;
+		vectorData.fixed = true;
+		var vec;
+		var this1;
+		this1 = new Array(value.length);
+		vec = this1;
 		var _g1 = 0;
-		var _g = pixels.length / 4 | 0;
+		var _g = value.length;
 		while(_g1 < _g) {
 			var i = _g1++;
-			var x = pixels.readUnsignedInt();
-			if(!result.fixed) {
-				result.length++;
-				if(result.data.length < result.length) {
-					var data;
-					var this1;
-					this1 = new Array(result.data.length + 10);
-					data = this1;
-					haxe.ds._Vector.Vector_Impl_.blit(result.data,0,data,0,result.data.length);
-					result.data = data;
-				}
-				result.data[result.length - 1] = x;
-			}
-			result.length;
+			vec[i] = value[i];
 		}
-		return result;
-	}
-	,histogram: function(hRect) {
-		var rect;
-		if(hRect != null) rect = hRect; else rect = new openfl.geom.Rectangle(0,0,this.width,this.height);
-		var pixels = this.getPixels(rect);
-		var result;
-		var _g = [];
-		var _g1 = 0;
-		while(_g1 < 4) {
-			var i = _g1++;
-			_g.push((function($this) {
-				var $r;
-				var _g2 = [];
-				{
-					var _g3 = 0;
-					while(_g3 < 256) {
-						var j = _g3++;
-						_g2.push(0);
-					}
-				}
-				$r = _g2;
-				return $r;
-			}(this)));
-		}
-		result = _g;
-		var _g21 = 0;
-		var _g11 = pixels.length;
-		while(_g21 < _g11) {
-			var i1 = _g21++;
-			++result[i1 % 4][pixels.readUnsignedByte()];
-		}
-		return result;
+		vectorData.data = vec;
+		return vectorData;
 	}
 	,hitTest: function(firstPoint,firstAlphaThreshold,secondObject,secondBitmapDataPoint,secondAlphaThreshold) {
 		if(secondAlphaThreshold == null) secondAlphaThreshold = 1;
@@ -14429,39 +14441,6 @@ openfl.display.BitmapData.prototype = {
 		if(!this.__valid) return;
 		openfl.Lib.notImplemented("BitmapData.noise");
 	}
-	,paletteMap: function(sourceBitmapData,sourceRect,destPoint,redArray,greenArray,blueArray,alphaArray) {
-		var memory = new openfl.utils.ByteArray();
-		var sw = sourceRect.width | 0;
-		var sh = sourceRect.height | 0;
-		memory.set_length(sw * sh * 4);
-		memory = this.getPixels(sourceRect);
-		memory.position = 0;
-		openfl.Memory.select(memory);
-		var position;
-		var pixelValue;
-		var r;
-		var g;
-		var b;
-		var color;
-		var _g1 = 0;
-		var _g = sh * sw;
-		while(_g1 < _g) {
-			var i = _g1++;
-			position = i * 4;
-			pixelValue = openfl.Memory._setPositionTemporarily(position,function() {
-				return openfl.Memory.gcRef.readInt();
-			});
-			r = pixelValue >> 8 & 255;
-			g = pixelValue >> 16 & 255;
-			b = pixelValue >> 24 & 255;
-			color = openfl.display.BitmapData.__flipPixel(-16777216 | redArray[r] | greenArray[g] | blueArray[b]);
-			openfl.Memory.setI32(position,color);
-		}
-		memory.position = 0;
-		var destRect = new openfl.geom.Rectangle(destPoint.x,destPoint.y,sw,sh);
-		this.setPixels(destRect,memory);
-		openfl.Memory.select(null);
-	}
 	,perlinNoise: function(baseX,baseY,numOctaves,randomSeed,stitch,fractalNoise,channelOptions,grayScale,offsets) {
 		if(grayScale == null) grayScale = false;
 		if(channelOptions == null) channelOptions = 7;
@@ -14470,17 +14449,8 @@ openfl.display.BitmapData.prototype = {
 	,scroll: function(x,y) {
 		openfl.Lib.notImplemented("BitmapData.scroll");
 	}
-	,setVector: function(rect,inputVector) {
-		var byteArray = new openfl.utils.ByteArray();
-		byteArray.set_length(inputVector.length * 4);
-		var _g = 0;
-		while(_g < inputVector.length) {
-			var color = inputVector.data[_g];
-			++_g;
-			byteArray.writeUnsignedInt(color);
-		}
-		byteArray.position = 0;
-		this.setPixels(rect,byteArray);
+	,setVector: function(rect,pixels) {
+		openfl.Lib.notImplemented("BitmapData.setVector");
 	}
 	,setPixel: function(x,y,color) {
 		if(!this.__valid || x < 0 || y < 0 || x >= this.width || y >= this.height) return;
@@ -14532,115 +14502,8 @@ openfl.display.BitmapData.prototype = {
 		if(copySource == null) copySource = false;
 		if(mask == null) mask = -1;
 		if(color == null) color = 0;
-		if(sourceBitmapData == this && sourceRect.equals(this.rect) && destPoint.x == 0 && destPoint.y == 0) {
-			var hits = 0;
-			threshold = (threshold & 255) << 24 | (threshold >> 8 & 255) << 16 | (threshold >> 16 & 255) << 8 | threshold >> 24 & 255;
-			color = (color & 255) << 24 | (color >> 8 & 255) << 16 | (color >> 16 & 255) << 8 | color >> 24 & 255;
-			var memory = new openfl.utils.ByteArray();
-			memory.set_length(this.width * this.height * 4);
-			memory = this.getPixels(this.rect);
-			memory.position = 0;
-			openfl.Memory.select(memory);
-			var thresholdMask = threshold & mask;
-			var width_yy;
-			var position;
-			var pixelMask;
-			var pixelValue;
-			var i;
-			var test;
-			var _g1 = 0;
-			var _g = this.height;
-			while(_g1 < _g) {
-				var yy = _g1++;
-				width_yy = this.width * yy;
-				var _g3 = 0;
-				var _g2 = this.width;
-				while(_g3 < _g2) {
-					var xx = _g3++;
-					position = (width_yy + xx) * 4;
-					pixelValue = openfl.Memory._setPositionTemporarily(position,function() {
-						return openfl.Memory.gcRef.readInt();
-					});
-					pixelMask = pixelValue & mask;
-					i = openfl.display.BitmapData.__ucompare(pixelMask,thresholdMask);
-					test = false;
-					if(operation == "==") test = i == 0; else if(operation == "<") test = i == -1; else if(operation == ">") test = i == 1; else if(operation == "!=") test = i != 0; else if(operation == "<=") test = i == 0 || i == -1; else if(operation == ">=") test = i == 0 || i == 1;
-					if(test) {
-						openfl.Memory.setI32(position,color);
-						hits++;
-					}
-				}
-			}
-			memory.position = 0;
-			this.setPixels(this.rect,memory);
-			openfl.Memory.select(null);
-			return hits;
-		} else {
-			var sx = sourceRect.x | 0;
-			var sy = sourceRect.y | 0;
-			var sw = sourceBitmapData.width | 0;
-			var sh = sourceBitmapData.height | 0;
-			var dx = destPoint.x | 0;
-			var dy = destPoint.y | 0;
-			var bw = this.width - sw - dx;
-			var bh = this.height - sh - dy;
-			var dw;
-			if(bw < 0) dw = sw + (this.width - sw - dx); else dw = sw;
-			var dh;
-			if(bw < 0) dh = sh + (this.height - sh - dy); else dh = sh;
-			var hits1 = 0;
-			threshold = (threshold & 255) << 24 | (threshold >> 8 & 255) << 16 | (threshold >> 16 & 255) << 8 | threshold >> 24 & 255;
-			color = (color & 255) << 24 | (color >> 8 & 255) << 16 | (color >> 16 & 255) << 8 | color >> 24 & 255;
-			var canvasMemory = sw * sh * 4;
-			var sourceMemory = 0;
-			if(copySource) sourceMemory = sw * sh * 4;
-			var totalMemory = canvasMemory + sourceMemory;
-			var memory1 = new openfl.utils.ByteArray();
-			if(memory1.allocated < totalMemory) memory1.___resizeBuffer(memory1.allocated = Std["int"](Math.max(totalMemory,memory1.allocated * 2))); else if(memory1.allocated > totalMemory) memory1.___resizeBuffer(memory1.allocated = totalMemory);
-			memory1.length = totalMemory;
-			totalMemory;
-			memory1.position = 0;
-			var bitmapData = sourceBitmapData.clone();
-			var pixels = bitmapData.getPixels(sourceRect);
-			memory1.writeBytes(pixels);
-			memory1.position = canvasMemory;
-			if(copySource) memory1.writeBytes(pixels);
-			memory1.position = 0;
-			openfl.Memory.select(memory1);
-			var thresholdMask1 = threshold & mask;
-			var position1;
-			var pixelMask1;
-			var pixelValue1;
-			var i1;
-			var test1;
-			var _g4 = 0;
-			while(_g4 < dh) {
-				var yy1 = _g4++;
-				var _g11 = 0;
-				while(_g11 < dw) {
-					var xx1 = _g11++;
-					position1 = (xx1 + sx + (yy1 + sy) * sw) * 4;
-					pixelValue1 = openfl.Memory._setPositionTemporarily(position1,function() {
-						return openfl.Memory.gcRef.readInt();
-					});
-					pixelMask1 = pixelValue1 & mask;
-					i1 = openfl.display.BitmapData.__ucompare(pixelMask1,thresholdMask1);
-					test1 = false;
-					if(operation == "==") test1 = i1 == 0; else if(operation == "<") test1 = i1 == -1; else if(operation == ">") test1 = i1 == 1; else if(operation == "!=") test1 = i1 != 0; else if(operation == "<=") test1 = i1 == 0 || i1 == -1; else if(operation == ">=") test1 = i1 == 0 || i1 == 1;
-					if(test1) {
-						openfl.Memory.setI32(position1,color);
-						hits1++;
-					} else if(copySource) openfl.Memory.setI32(position1,openfl.Memory._setPositionTemporarily(canvasMemory + position1,function() {
-						return openfl.Memory.gcRef.readInt();
-					}));
-				}
-			}
-			memory1.position = 0;
-			bitmapData.setPixels(sourceRect,memory1);
-			this.copyPixels(bitmapData,bitmapData.rect,destPoint);
-			openfl.Memory.select(null);
-			return hits1;
-		}
+		openfl.Lib.notImplemented("BitmapData.threshold");
+		return 0;
 	}
 	,unlock: function(changeRect) {
 	}
@@ -14930,13 +14793,12 @@ openfl.display.Graphics.prototype = {
 	,drawRoundRectComplex: function(x,y,width,height,topLeftRadius,topRightRadius,bottomLeftRadius,bottomRightRadius) {
 		openfl.Lib.notImplemented("Graphics.drawRoundRectComplex");
 	}
-	,drawTiles: function(sheet,tileData,smooth,flags,count) {
-		if(count == null) count = -1;
+	,drawTiles: function(sheet,tileData,smooth,flags) {
 		if(flags == null) flags = 0;
 		if(smooth == null) smooth = false;
 		this.__inflateBounds(0,0);
 		this.__inflateBounds(openfl.Lib.current.stage.stageWidth,openfl.Lib.current.stage.stageHeight);
-		this.__commands.push(openfl.display.DrawCommand.DrawTiles(sheet,tileData,smooth,flags,count));
+		this.__commands.push(openfl.display.DrawCommand.DrawTiles(sheet,tileData,smooth,flags));
 		this.__dirty = true;
 		this.__visible = true;
 	}
@@ -14980,25 +14842,9 @@ openfl.display.Graphics.prototype = {
 			this.__inPath = true;
 		}
 	}
-	,__beginPatternFill: function(bitmapFill,bitmapRepeat) {
-		if(this.__setFill || bitmapFill == null) return;
-		if(this.__pattern == null) {
-			if(bitmapFill.__sourceImage != null) this.__pattern = this.__context.createPattern(bitmapFill.__sourceImage,bitmapRepeat?"repeat":"no-repeat"); else this.__pattern = this.__context.createPattern(bitmapFill.__sourceCanvas,bitmapRepeat?"repeat":"no-repeat");
-		}
-		this.__context.fillStyle = this.__pattern;
-		this.__setFill = true;
-	}
 	,__closePath: function(closeFill) {
 		if(this.__inPath) {
-			if(this.__hasFill) {
-				this.__context.translate(-this.__bounds.x,-this.__bounds.y);
-				if(this.__pendingMatrix != null) {
-					this.__context.transform(this.__pendingMatrix.a,this.__pendingMatrix.b,this.__pendingMatrix.c,this.__pendingMatrix.d,this.__pendingMatrix.tx,this.__pendingMatrix.ty);
-					this.__context.fill();
-					this.__context.transform(this.__inversePendingMatrix.a,this.__inversePendingMatrix.b,this.__inversePendingMatrix.c,this.__inversePendingMatrix.d,this.__inversePendingMatrix.tx,this.__inversePendingMatrix.ty);
-				} else this.__context.fill();
-				this.__context.translate(this.__bounds.x,this.__bounds.y);
-			}
+			if(this.__hasFill) this.__context.fill();
 			this.__context.closePath();
 			if(this.__hasStroke) this.__context.stroke();
 		}
@@ -15006,8 +14852,6 @@ openfl.display.Graphics.prototype = {
 		if(closeFill) {
 			this.__hasFill = false;
 			this.__hasStroke = false;
-			this.__pendingMatrix = null;
-			this.__inversePendingMatrix = null;
 		}
 	}
 	,__getBounds: function(rect,matrix) {
@@ -15056,7 +14900,10 @@ openfl.display.Graphics.prototype = {
 				var offsetX = this.__bounds.x;
 				var offsetY = this.__bounds.y;
 				var bitmapFill = null;
+				var bitmapMatrix = null;
 				var bitmapRepeat = false;
+				var pattern = null;
+				var setFill = false;
 				var _g = 0;
 				var _g1 = this.__commands;
 				while(_g < _g1.length) {
@@ -15072,18 +14919,11 @@ openfl.display.Graphics.prototype = {
 						if(bitmap != bitmapFill || repeat != bitmapRepeat) {
 							bitmapFill = bitmap;
 							bitmapRepeat = repeat;
-							this.__pattern = null;
-							this.__setFill = false;
+							pattern = null;
+							setFill = false;
 							bitmap.__syncImageData();
 						}
-						if(matrix != null) {
-							this.__pendingMatrix = matrix;
-							this.__inversePendingMatrix = new openfl.geom.Matrix(matrix.a,matrix.b,matrix.c,matrix.d,matrix.tx,matrix.ty);
-							this.__inversePendingMatrix.invert();
-						} else {
-							this.__pendingMatrix = null;
-							this.__inversePendingMatrix = null;
-						}
+						bitmapMatrix = matrix;
 						this.__hasFill = true;
 						break;
 					case 1:
@@ -15097,7 +14937,7 @@ openfl.display.Graphics.prototype = {
 							this.__context.fillStyle = "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
 						}
 						bitmapFill = null;
-						this.__setFill = true;
+						setFill = true;
 						this.__hasFill = true;
 						break;
 					case 2:
@@ -15105,7 +14945,6 @@ openfl.display.Graphics.prototype = {
 						var x = command[4];
 						var cy = command[3];
 						var cx = command[2];
-						this.__beginPatternFill(bitmapFill,bitmapRepeat);
 						this.__beginPath();
 						this.__context.quadraticCurveTo(cx - offsetX,cy - offsetY,x - offsetX,y - offsetY);
 						this.__positionX = x;
@@ -15115,16 +14954,30 @@ openfl.display.Graphics.prototype = {
 						var radius = command[4];
 						var y1 = command[3];
 						var x1 = command[2];
-						this.__beginPatternFill(bitmapFill,bitmapRepeat);
+						if(!setFill && bitmapFill != null) {
+							if(pattern == null) {
+								if(bitmapFill.__sourceImage != null) pattern = this.__context.createPattern(bitmapFill.__sourceImage,bitmapRepeat?"repeat":"no-repeat"); else pattern = this.__context.createPattern(bitmapFill.__sourceCanvas,bitmapRepeat?"repeat":"no-repeat");
+							}
+							this.__context.fillStyle = pattern;
+							setFill = true;
+						}
+						this.__closePath(false);
 						this.__beginPath();
-						this.__context.moveTo(x1 - offsetX + radius,y1 - offsetY);
 						this.__context.arc(x1 - offsetX,y1 - offsetY,radius,0,Math.PI * 2,true);
+						this.__closePath(false);
 						break;
 					case 4:
 						var height = command[5];
 						var width = command[4];
 						var y2 = command[3];
 						var x2 = command[2];
+						if(!setFill && bitmapFill != null) {
+							if(pattern == null) {
+								if(bitmapFill.__sourceImage != null) pattern = this.__context.createPattern(bitmapFill.__sourceImage,bitmapRepeat?"repeat":"no-repeat"); else pattern = this.__context.createPattern(bitmapFill.__sourceCanvas,bitmapRepeat?"repeat":"no-repeat");
+							}
+							this.__context.fillStyle = pattern;
+							setFill = true;
+						}
 						x2 -= offsetX;
 						y2 -= offsetY;
 						var kappa = .5522848;
@@ -15134,54 +14987,44 @@ openfl.display.Graphics.prototype = {
 						var ye = y2 + height;
 						var xm = x2 + width / 2;
 						var ym = y2 + height / 2;
-						this.__beginPatternFill(bitmapFill,bitmapRepeat);
+						this.__closePath(false);
 						this.__beginPath();
 						this.__context.moveTo(x2,ym);
 						this.__context.bezierCurveTo(x2,ym - oy,xm - ox,y2,xm,y2);
 						this.__context.bezierCurveTo(xm + ox,y2,xe,ym - oy,xe,ym);
 						this.__context.bezierCurveTo(xe,ym + oy,xm + ox,ye,xm,ye);
 						this.__context.bezierCurveTo(xm - ox,ye,x2,ym + oy,x2,ym);
+						this.__closePath(false);
 						break;
 					case 5:
 						var height1 = command[5];
 						var width1 = command[4];
 						var y3 = command[3];
 						var x3 = command[2];
-						var optimizationUsed = false;
-						if(bitmapFill != null) {
-							var st = 0;
-							var sr = 0;
-							var sb = 0;
-							var sl = 0;
-							var canOptimizeMatrix = true;
-							if(this.__pendingMatrix != null) {
-								if(this.__pendingMatrix.b != 0 || this.__pendingMatrix.c != 0) canOptimizeMatrix = false; else {
-									var stl = this.__inversePendingMatrix.transformPoint(new openfl.geom.Point(x3,y3));
-									var sbr = this.__inversePendingMatrix.transformPoint(new openfl.geom.Point(x3 + width1,y3 + height1));
-									st = stl.y;
-									sl = stl.x;
-									sb = sbr.y;
-									sr = sbr.x;
-								}
-							} else {
-								st = y3;
-								sl = x3;
-								sb = y3 + height1;
-								sr = x3 + width1;
+						if(bitmapFill != null && width1 <= bitmapFill.width && height1 <= bitmapFill.height) {
+							this.__closePath(false);
+							var dx = x3;
+							var dy = y3;
+							if(bitmapMatrix != null) {
+								dx -= bitmapMatrix.tx;
+								dy -= bitmapMatrix.ty;
 							}
-							if(canOptimizeMatrix && st >= 0 && sl >= 0 && sr <= bitmapFill.width && sb <= bitmapFill.height) {
-								optimizationUsed = true;
-								if(bitmapFill.__sourceImage != null) this.__context.drawImage(bitmapFill.__sourceImage,sl,st,sr - sl,sb - st,x3,y3,width1,height1); else this.__context.drawImage(bitmapFill.__sourceCanvas,sl,st,sr - sl,sb - st,x3,y3,width1,height1);
-							}
-						}
-						if(!optimizationUsed) {
-							this.__beginPatternFill(bitmapFill,bitmapRepeat);
+							if(bitmapFill.__sourceImage != null) this.__context.drawImage(bitmapFill.__sourceImage,dx,dy,width1,height1,x3,y3,width1,height1); else this.__context.drawImage(bitmapFill.__sourceCanvas,dx,dy,width1,height1,x3,y3,width1,height1);
+						} else {
+							this.__closePath(false);
 							this.__beginPath();
+							if(!setFill && bitmapFill != null) {
+								if(pattern == null) {
+									if(bitmapFill.__sourceImage != null) pattern = this.__context.createPattern(bitmapFill.__sourceImage,bitmapRepeat?"repeat":"no-repeat"); else pattern = this.__context.createPattern(bitmapFill.__sourceCanvas,bitmapRepeat?"repeat":"no-repeat");
+								}
+								this.__context.fillStyle = pattern;
+								setFill = true;
+							}
 							this.__context.rect(x3 - offsetX,y3 - offsetY,width1,height1);
+							this.__closePath(false);
 						}
 						break;
 					case 6:
-						var count = command[6];
 						var flags = command[5];
 						var smooth1 = command[4];
 						var tileData = command[3];
@@ -15223,7 +15066,6 @@ openfl.display.Graphics.prototype = {
 							numValues++;
 						}
 						var totalCount = tileData.length;
-						if(count >= 0 && totalCount > count) totalCount = count;
 						var itemCount = totalCount / numValues | 0;
 						var index = 0;
 						var rect = null;
@@ -15278,7 +15120,6 @@ openfl.display.Graphics.prototype = {
 					case 9:
 						var y4 = command[3];
 						var x4 = command[2];
-						this.__beginPatternFill(bitmapFill,bitmapRepeat);
 						this.__beginPath();
 						this.__context.lineTo(x4 - offsetX,y4 - offsetY);
 						this.__positionX = x4;
@@ -15382,7 +15223,7 @@ openfl.display.DrawCommand.CurveTo = function(cx,cy,x,y) { var $x = ["CurveTo",2
 openfl.display.DrawCommand.DrawCircle = function(x,y,radius) { var $x = ["DrawCircle",3,x,y,radius]; $x.__enum__ = openfl.display.DrawCommand; $x.toString = $estr; return $x; };
 openfl.display.DrawCommand.DrawEllipse = function(x,y,width,height) { var $x = ["DrawEllipse",4,x,y,width,height]; $x.__enum__ = openfl.display.DrawCommand; $x.toString = $estr; return $x; };
 openfl.display.DrawCommand.DrawRect = function(x,y,width,height) { var $x = ["DrawRect",5,x,y,width,height]; $x.__enum__ = openfl.display.DrawCommand; $x.toString = $estr; return $x; };
-openfl.display.DrawCommand.DrawTiles = function(sheet,tileData,smooth,flags,count) { var $x = ["DrawTiles",6,sheet,tileData,smooth,flags,count]; $x.__enum__ = openfl.display.DrawCommand; $x.toString = $estr; return $x; };
+openfl.display.DrawCommand.DrawTiles = function(sheet,tileData,smooth,flags) { var $x = ["DrawTiles",6,sheet,tileData,smooth,flags]; $x.__enum__ = openfl.display.DrawCommand; $x.toString = $estr; return $x; };
 openfl.display.DrawCommand.EndFill = ["EndFill",7];
 openfl.display.DrawCommand.EndFill.toString = $estr;
 openfl.display.DrawCommand.EndFill.__enum__ = openfl.display.DrawCommand;
@@ -15602,8 +15443,8 @@ openfl.display.OpenGLView.prototype = $extend(openfl.display.DirectRenderer.prot
 	__renderCanvas: function(renderSession) {
 		if(!this.__added) {
 			this.__added = true;
-			haxe.Log.trace("Warning: openfl-html5 only can run OpenGLView content using the DOM rendering mode",{ fileName : "OpenGLView.hx", lineNumber : 61, className : "openfl.display.OpenGLView", methodName : "__renderCanvas"});
-			haxe.Log.trace("Please compile your project using -Ddom (on the command-line) or <haxedef name=\"dom\" /> to enable",{ fileName : "OpenGLView.hx", lineNumber : 62, className : "openfl.display.OpenGLView", methodName : "__renderCanvas"});
+			haxe.Log.trace("Warning: openfl-html5 only can run OpenGLView content using the DOM rendering mode",{ fileName : "OpenGLView.hx", lineNumber : 57, className : "openfl.display.OpenGLView", methodName : "__renderCanvas"});
+			haxe.Log.trace("Please compile your project using -Ddom (on the command-line) or <haxedef name=\"dom\" /> to enable",{ fileName : "OpenGLView.hx", lineNumber : 58, className : "openfl.display.OpenGLView", methodName : "__renderCanvas"});
 		}
 	}
 	,__renderDOM: function(renderSession) {
@@ -15622,13 +15463,6 @@ openfl.display.OpenGLView.prototype = $extend(openfl.display.DirectRenderer.prot
 		} else if(this.__added) {
 			renderSession.element.removeChild(this.__canvas);
 			this.__added = false;
-		}
-	}
-	,__renderGL: function(renderSession) {
-		if(this.stage != null && this.__renderable) {
-			var rect = null;
-			if(this.get_scrollRect() == null) rect = new openfl.geom.Rectangle(0,0,this.stage.stageWidth,this.stage.stageHeight); else rect = new openfl.geom.Rectangle(this.get_x() + this.get_scrollRect().x,this.get_y() + this.get_scrollRect().y,this.get_scrollRect().width,this.get_scrollRect().height);
-			if(this.__render != null) this.__render(rect);
 		}
 	}
 	,__class__: openfl.display.OpenGLView
@@ -15737,7 +15571,24 @@ openfl.display.Stage = function(width,height,element,color) {
 	this.set_name(null);
 	this.__mouseX = 0;
 	this.__mouseY = 0;
-	this.__initializeDOM();
+	this.__div = window.document.createElement("div");
+	var style = this.__div.style;
+	if(!this.__transparent) style.backgroundColor = this.__colorString;
+	style.setProperty("-webkit-transform","translate3D(0,0,0)",null);
+	style.setProperty("transform","translate3D(0,0,0)",null);
+	style.position = "relative";
+	style.overflow = "hidden";
+	style.setProperty("-webkit-user-select","none",null);
+	style.setProperty("-moz-user-select","none",null);
+	style.setProperty("-ms-user-select","none",null);
+	style.setProperty("-o-user-select","none",null);
+	window.document.addEventListener("dragstart",function(e) {
+		if(e.target.nodeName.toLowerCase() == "img") {
+			e.preventDefault();
+			return false;
+		}
+		return true;
+	},false);
 	this.__originalWidth = width;
 	this.__originalHeight = height;
 	if(width == 0 && height == 0) {
@@ -15778,6 +15629,30 @@ openfl.display.Stage = function(width,height,element,color) {
 	this.stageFocusRect = true;
 	this.__clearBeforeRender = true;
 	this.__stack = [];
+	this.__renderSession = new openfl.display.RenderSession();
+	this.__renderSession.context = this.__context;
+	this.__renderSession.roundPixels = true;
+	if(this.__div != null) {
+		this.__renderSession.element = this.__div;
+		var prefix = (function () {
+			  var styles = window.getComputedStyle(document.documentElement, ''),
+			    pre = (Array.prototype.slice
+			      .call(styles)
+			      .join('') 
+			      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+			    )[1],
+			    dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+			  return {
+			    dom: dom,
+			    lowercase: pre,
+			    css: '-' + pre + '-',
+			    js: pre[0].toUpperCase() + pre.substr(1)
+			  };
+			})();
+		this.__renderSession.vendorPrefix = prefix.lowercase;
+		if(prefix.lowercase == "webkit") this.__renderSession.transformProperty = "-webkit-transform"; else this.__renderSession.transformProperty = "transform";
+		if(prefix.lowercase == "webkit") this.__renderSession.transformOriginProperty = "-webkit-transform-origin"; else this.__renderSession.transformOriginProperty = "transform-origin";
+	}
 	var keyEvents = ["keydown","keyup"];
 	var touchEvents = ["touchstart","touchmove","touchend"];
 	var mouseEvents = ["mousedown","mousemove","mouseup","dblclick","mousewheel"];
@@ -15823,18 +15698,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 	,localToGlobal: function(pos) {
 		return pos;
 	}
-	,__drag: function(mouse) {
-		var parent = this.__dragObject.parent;
-		if(parent != null) mouse = parent.globalToLocal(mouse);
-		var x = mouse.x + this.__dragOffsetX;
-		var y = mouse.y + this.__dragOffsetY;
-		if(this.__dragBounds != null) {
-			if(x < this.__dragBounds.x) x = this.__dragBounds.x; else if(x > this.__dragBounds.get_right()) x = this.__dragBounds.get_right();
-			if(y < this.__dragBounds.y) y = this.__dragBounds.y; else if(y > this.__dragBounds.get_bottom()) y = this.__dragBounds.get_bottom();
-		}
-		this.__dragObject.set_x(x);
-		this.__dragObject.set_y(y);
-	}
 	,__fireEvent: function(event,stack) {
 		var length = stack.length;
 		if(length == 0) {
@@ -15867,63 +15730,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 	,__getInteractive: function(stack) {
 		stack.push(this);
 	}
-	,__initializeCanvas: function() {
-		if(js.Boot.__instanceof(this.__element,HTMLCanvasElement)) this.__canvas = this.__element; else this.__canvas = window.document.createElement("canvas");
-		if(this.__transparent) this.__context = this.__canvas.getContext("2d"); else {
-			this.__canvas.setAttribute("moz-opaque","true");
-			this.__context = this.__canvas.getContext ("2d", { alpha: false });
-		}
-		var style = this.__canvas.style;
-		style.setProperty("-webkit-transform","translateZ(0)",null);
-		style.setProperty("transform","translateZ(0)",null);
-		this.__renderSession = new openfl.display.RenderSession();
-		this.__renderSession.context = this.__context;
-		this.__renderSession.roundPixels = true;
-	}
-	,__initializeDOM: function() {
-		this.__div = window.document.createElement("div");
-		var style = this.__div.style;
-		if(!this.__transparent) style.backgroundColor = this.__colorString;
-		style.setProperty("-webkit-transform","translate3D(0,0,0)",null);
-		style.setProperty("transform","translate3D(0,0,0)",null);
-		style.position = "relative";
-		style.overflow = "hidden";
-		style.setProperty("-webkit-user-select","none",null);
-		style.setProperty("-moz-user-select","none",null);
-		style.setProperty("-ms-user-select","none",null);
-		style.setProperty("-o-user-select","none",null);
-		window.document.addEventListener("dragstart",function(e) {
-			if(e.target.nodeName.toLowerCase() == "img") {
-				e.preventDefault();
-				return false;
-			}
-			return true;
-		},false);
-		this.__renderSession = new openfl.display.RenderSession();
-		this.__renderSession.element = this.__div;
-		this.__renderSession.roundPixels = true;
-		var prefix = (function () {
-		  var styles = window.getComputedStyle(document.documentElement, ''),
-			pre = (Array.prototype.slice
-			  .call(styles)
-			  .join('') 
-			  .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
-			)[1],
-			dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
-		  return {
-			dom: dom,
-			lowercase: pre,
-			css: '-' + pre + '-',
-			js: pre[0].toUpperCase() + pre.substr(1)
-		  };
-		})();
-		this.__renderSession.vendorPrefix = prefix.lowercase;
-		if(prefix.lowercase == "webkit") this.__renderSession.transformProperty = "-webkit-transform"; else this.__renderSession.transformProperty = "transform";
-		if(prefix.lowercase == "webkit") this.__renderSession.transformOriginProperty = "-webkit-transform-origin"; else this.__renderSession.transformOriginProperty = "transform-origin";
-	}
-	,__initializeGL: function() {
-		return false;
-	}
 	,__render: function() {
 		this.__broadcast(new openfl.events.Event(openfl.events.Event.ENTER_FRAME),true);
 		if(this.__invalidated) {
@@ -15942,23 +15748,13 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 				this.stageWidth = this.__canvas.width;
 				this.stageHeight = this.__canvas.height;
 			}
-			if(this.__gl != null) {
-				if(!this.__glContextLost) {
-					this.__gl.viewport(0,0,this.stageWidth,this.stageHeight);
-					this.__gl.bindFramebuffer(36160,null);
-					if(this.__transparent) this.__gl.clearColor(0,0,0,0); else this.__gl.clearColor(this.__colorSplit[0],this.__colorSplit[1],this.__colorSplit[2],1);
-					this.__gl.clear(16384);
-					this.__renderGL(this.__renderSession);
-				}
-			} else {
-				this.__context.setTransform(1,0,0,1,0,0);
-				this.__context.globalAlpha = 1;
-				if(!this.__transparent && this.__clearBeforeRender) {
-					this.__context.fillStyle = this.__colorString;
-					this.__context.fillRect(0,0,this.stageWidth,this.stageHeight);
-				} else if(this.__transparent && this.__clearBeforeRender) this.__context.clearRect(0,0,this.stageWidth,this.stageHeight);
-				this.__renderCanvas(this.__renderSession);
-			}
+			this.__context.setTransform(1,0,0,1,0,0);
+			this.__context.globalAlpha = 1;
+			if(!this.__transparent && this.__clearBeforeRender) {
+				this.__context.fillStyle = this.__colorString;
+				this.__context.fillRect(0,0,this.stageWidth,this.stageHeight);
+			} else if(this.__transparent && this.__clearBeforeRender) this.__context.clearRect(0,0,this.stageWidth,this.stageHeight);
+			this.__renderCanvas(this.__renderSession);
 		} else {
 			this.__renderSession.z = 1;
 			this.__renderDOM(this.__renderSession);
@@ -15966,7 +15762,7 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 		window.requestAnimationFrame($bind(this,this.__render));
 	}
 	,__resize: function() {
-		if(this.__element != null && (this.__div == null || this.__div != null && this.__fullscreen)) {
+		if(this.__element != null && this.__div == null) {
 			if(this.__fullscreen) {
 				this.stageWidth = this.__element.clientWidth;
 				this.stageHeight = this.__element.clientHeight;
@@ -16018,26 +15814,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 			if(value) element.style.cursor = "none"; else element.style.cursor = this.__cursor;
 		}
 	}
-	,__startDrag: function(sprite,lockCenter,bounds) {
-		if(bounds == null) this.__dragBounds = null; else this.__dragBounds = bounds.clone();
-		this.__dragObject = sprite;
-		if(this.__dragObject != null) {
-			if(lockCenter) {
-				this.__dragOffsetX = -this.__dragObject.get_width() / 2;
-				this.__dragOffsetY = -this.__dragObject.get_height() / 2;
-			} else {
-				var mouse = new openfl.geom.Point(this.get_mouseX(),this.get_mouseY());
-				var parent = this.__dragObject.parent;
-				if(parent != null) mouse = parent.globalToLocal(mouse);
-				this.__dragOffsetX = this.__dragObject.get_x() - mouse.x;
-				this.__dragOffsetY = this.__dragObject.get_y() - mouse.y;
-			}
-		}
-	}
-	,__stopDrag: function(sprite) {
-		this.__dragBounds = null;
-		this.__dragObject = null;
-	}
 	,__update: function(transformOnly,updateChildren) {
 		if(transformOnly) {
 			if(openfl.display.DisplayObject.__worldTransformDirty > 0) {
@@ -16065,12 +15841,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 	}
 	,get_mouseY: function() {
 		return this.__mouseY;
-	}
-	,canvas_onContextLost: function(event) {
-		this.__glContextLost = true;
-	}
-	,canvas_onContextRestored: function(event) {
-		this.__glContextLost = false;
 	}
 	,element_onFocus: function(event) {
 	}
@@ -16120,7 +15890,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 			this.__fireEvent(touchEvent1,[this]);
 			this.__fireEvent(mouseEvent1,[this]);
 		}
-		if(type == "touchMove" && this.__dragObject != null) this.__drag(point);
 	}
 	,element_onMouse: function(event) {
 		var rect;
@@ -16165,7 +15934,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 			this.__fireEvent(openfl.events.MouseEvent.__create(type,event,new openfl.geom.Point(this.get_mouseX(),this.get_mouseY()),this),[this]);
 			if(type == openfl.events.MouseEvent.MOUSE_UP) this.__fireEvent(openfl.events.MouseEvent.__create(openfl.events.MouseEvent.CLICK,event,new openfl.geom.Point(this.get_mouseX(),this.get_mouseY()),this),[this]);
 		}
-		if(this.__dragObject != null) this.__drag(new openfl.geom.Point(this.get_mouseX(),this.get_mouseY()));
 	}
 	,window_onKey: function(event) {
 		var keyCode;
@@ -16199,10 +15967,6 @@ openfl.display.Stage.prototype = $extend(openfl.display.Sprite.prototype,{
 		return this.__color;
 	}
 	,set_color: function(value) {
-		var r = (value & 16711680) >>> 16;
-		var g = (value & 65280) >>> 8;
-		var b = value & 255;
-		this.__colorSplit = [r / 255,g / 255,b / 255];
 		this.__colorString = "#" + StringTools.hex(value,6);
 		return this.__color = value;
 	}
@@ -16366,11 +16130,10 @@ openfl.display.Tilesheet.prototype = {
 		this.__tileUVs.push(new openfl.geom.Rectangle(rectangle.get_left() / this.__bitmap.width,rectangle.get_top() / this.__bitmap.height,rectangle.get_right() / this.__bitmap.width,rectangle.get_bottom() / this.__bitmap.height));
 		return this.__tileRects.length - 1;
 	}
-	,drawTiles: function(graphics,tileData,smooth,flags,count) {
-		if(count == null) count = -1;
+	,drawTiles: function(graphics,tileData,smooth,flags) {
 		if(flags == null) flags = 0;
 		if(smooth == null) smooth = false;
-		graphics.drawTiles(this,tileData,smooth,flags,count);
+		graphics.drawTiles(this,tileData,smooth,flags);
 	}
 	,getTileCenter: function(index) {
 		return this.__centerPoints[index];
@@ -19587,27 +19350,19 @@ openfl.text.TextField.prototype = $extend(openfl.display.InteractiveObject.proto
 		this.__context.font = this.__getFont(format);
 		this.__context.textBaseline = "top";
 		this.__context.fillStyle = "#" + StringTools.hex(format.color,6);
-		var lines = text.split("\n");
-		var yOffset = 0;
-		var _g = 0;
-		while(_g < lines.length) {
-			var line = lines[_g];
-			++_g;
-			var _g1 = format.align;
-			switch(_g1[1]) {
-			case 3:
-				this.__context.textAlign = "center";
-				this.__context.fillText(line,this.__width / 2,2 + yOffset,this.__width - 4);
-				break;
-			case 1:
-				this.__context.textAlign = "end";
-				this.__context.fillText(line,this.__width - 2,2 + yOffset,this.__width - 4);
-				break;
-			default:
-				this.__context.textAlign = "start";
-				this.__context.fillText(line,2 + offsetX,2 + yOffset,this.__width - 4);
-			}
-			yOffset += this.get_textHeight();
+		var _g = format.align;
+		switch(_g[1]) {
+		case 3:
+			this.__context.textAlign = "center";
+			this.__context.fillText(text,this.__width / 2,2,this.__width - 4);
+			break;
+		case 1:
+			this.__context.textAlign = "end";
+			this.__context.fillText(text,this.__width - 2,2,this.__width - 4);
+			break;
+		default:
+			this.__context.textAlign = "start";
+			this.__context.fillText(text,2 + offsetX,2,this.__width - 4);
 		}
 	}
 	,set_autoSize: function(value) {
@@ -20014,7 +19769,7 @@ openfl.utils.ByteArray.prototype = {
 		if(length == null) length = 0;
 		if(offset == null) offset = 0;
 		if(offset < 0 || length < 0) throw new openfl.errors.IOError("Read error - Out of bounds");
-		if(length == 0) length = this.length - this.position;
+		if(length == 0) length = this.length;
 		var lengthToEnsure = offset + length;
 		if(bytes.length < lengthToEnsure) {
 			if(bytes.allocated < lengthToEnsure) bytes.___resizeBuffer(bytes.allocated = Std["int"](Math.max(lengthToEnsure,bytes.allocated * 2))); else if(bytes.allocated > lengthToEnsure) bytes.___resizeBuffer(bytes.allocated = lengthToEnsure);
@@ -20054,9 +19809,6 @@ openfl.utils.ByteArray.prototype = {
 		var $int = this.data.getInt32(this.position,this.littleEndian);
 		this.position += 4;
 		return $int;
-	}
-	,readMultiByte: function(length,charSet) {
-		return this.readUTFBytes(length);
 	}
 	,readShort: function() {
 		var $short = this.data.getInt16(this.position,this.littleEndian);

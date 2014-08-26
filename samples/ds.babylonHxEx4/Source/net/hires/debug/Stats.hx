@@ -16,6 +16,7 @@ package net.hires.debug;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.display.Stage;
+import openfl.display.Graphics;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.geom.Matrix;
@@ -24,13 +25,14 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.Assets;
+import openfl.gl.GL;
 import Xml;
 
 
 class Stats extends Sprite {	
 
 	static inline var GRAPH_WIDTH : Int = 100;
-	static inline var XPOS : Int = 99;//width - 1
+	static inline var XPOS : Int = 98;//width - 1
 	#if html5
 	static inline var GRAPH_HEIGHT : Int = 30;
 	static inline var TEXT_HEIGHT : Int = 30;
@@ -52,7 +54,7 @@ class Stats extends Sprite {
 	private var mem_max : Float;
 
 	private var graph : BitmapData;
-	private var rectangle : Rectangle;
+	private var _rectangle : Rectangle;
 
 	private var fps_graph : Int;
 	private var mem_graph : Int;
@@ -71,22 +73,23 @@ class Stats extends Sprite {
 		var format = new TextFormat ( '_sans', 10, 0xdbf043);
 
 		text = new TextField();
-		text.width = GRAPH_WIDTH;
-		text.height = TEXT_HEIGHT;
+		//text.width = GRAPH_WIDTH;
+		//text.height = TEXT_HEIGHT;
 		text.defaultTextFormat = format;
 		text.selectable = false;
-		text.mouseEnabled = false;
-		
-		rectangle = new Rectangle(GRAPH_WIDTH - 1, 0, 1, GRAPH_HEIGHT);			
+		//text.mouseEnabled = false;
+		text.background = false;
+		text.multiline = true;	
+		_rectangle = new Rectangle(0, 0, GRAPH_WIDTH, GRAPH_HEIGHT);	
 
-		this.addEventListener(Event.ADDED_TO_STAGE, init, false, 0, true);
-		this.addEventListener(Event.REMOVED_FROM_STAGE, destroy, false, 0, true);
+		this.addEventListener(Event.ADDED_TO_STAGE, init);
+		this.addEventListener(Event.REMOVED_FROM_STAGE, destroy);
 		
 	}
 
 	private function init(e : Event) {
 
-		_stage = flash.Lib.current.stage;
+		_stage = openfl.Lib.current.stage;
 		graphics.beginFill(Colors.bg);
 		graphics.drawRect(0, 0, GRAPH_WIDTH, TEXT_HEIGHT);
 		graphics.endFill();
@@ -94,9 +97,9 @@ class Stats extends Sprite {
 		this.addChild(text);
 		
 		graph = new BitmapData(GRAPH_WIDTH, GRAPH_HEIGHT, false, Colors.bg);
-		graphics.beginBitmapFill(graph, new Matrix(1, 0, 0, 1, 0, TEXT_HEIGHT));
+		graphics.beginBitmapFill(graph, new Matrix(1, 0, 0, 1, 0, GRAPH_HEIGHT), false, true);
 		graphics.drawRect(0, TEXT_HEIGHT, GRAPH_WIDTH, GRAPH_HEIGHT);
-
+		graphics.endFill();
 		this.addEventListener(Event.ENTER_FRAME, update);
 		
 	}
@@ -115,7 +118,7 @@ class Stats extends Sprite {
 	}
 
 	private function update(e : Event) {
-		timer = flash.Lib.getTimer();
+		timer = openfl.Lib.getTimer();
 		
 		//after a second has passed 
 		if( timer - 1000 > ms_prev ) {
@@ -131,10 +134,9 @@ class Stats extends Sprite {
 			mem_max_graph = GRAPH_HEIGHT - normalizeMem(mem_max);
 			ms_graph = Std.int( GRAPH_HEIGHT - ( ( timer - ms ) >> 1 ));
 			#end
-			
-			graph.scroll(-1, 0);
 
-			graph.fillRect(rectangle, Colors.bg);
+			graph.scroll(-1, 0);
+			graph.fillRect(_rectangle, Colors.bg);
 			graph.lock();
 			#if html5
 			graph.setPixel(XPOS, fps_graph, Colors.fps);
@@ -145,6 +147,7 @@ class Stats extends Sprite {
 			graph.setPixel(XPOS, ms_graph, Colors.ms);
 			#end
 			graph.unlock();
+
 			//reset frame and time counters
 			fps = 0;
 			ms_prev = timer;
@@ -157,9 +160,8 @@ class Stats extends Sprite {
 		#if html5
 		text.text= ("FPS: " + fps + " / " + stage.frameRate);
 		#else
-		text.text= ("FPS: " + fps + " / " + stage.frameRate) + ("\nMEM: " + mem) + ( "\nMAX: " + mem_max) + "\nMS: " + (timer - ms);
+		text.htmlText= ("FPS: " + fps + " / " + stage.frameRate) + ("<br />MEM: " + Math.round(mem)) + ( "<br />MAX: " + Math.round(mem_max)) + "<br />MS: " + (timer - ms);
 		#end
-		
 	}
 
 

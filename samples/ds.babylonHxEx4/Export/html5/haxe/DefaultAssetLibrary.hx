@@ -46,10 +46,22 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
+		className.set ("assets/font/Aaargh.eot", __ASSET__assets_font_aaargh_eot);
+		type.set ("assets/font/Aaargh.eot", AssetType.BINARY);
+		className.set ("assets/font/Aaargh.svg", __ASSET__assets_font_aaargh_svg);
+		type.set ("assets/font/Aaargh.svg", AssetType.TEXT);
 		className.set ("assets/font/Aaargh.ttf", __ASSET__assets_font_aaargh_ttf);
 		type.set ("assets/font/Aaargh.ttf", AssetType.FONT);
+		className.set ("assets/font/Aaargh.woff", __ASSET__assets_font_aaargh_woff);
+		type.set ("assets/font/Aaargh.woff", AssetType.BINARY);
+		className.set ("assets/font/OpenSansRegular.eot", __ASSET__assets_font_opensansregular_eot);
+		type.set ("assets/font/OpenSansRegular.eot", AssetType.BINARY);
+		className.set ("assets/font/OpenSansRegular.svg", __ASSET__assets_font_opensansregular_svg);
+		type.set ("assets/font/OpenSansRegular.svg", AssetType.TEXT);
 		className.set ("assets/font/OpenSansRegular.ttf", __ASSET__assets_font_opensansregular_ttf);
 		type.set ("assets/font/OpenSansRegular.ttf", AssetType.FONT);
+		className.set ("assets/font/OpenSansRegular.woff", __ASSET__assets_font_opensansregular_woff);
+		type.set ("assets/font/OpenSansRegular.woff", AssetType.BINARY);
 		className.set ("assets/font/Tup Wanders Font License.txt", __ASSET__assets_font_tup_wanders_font_license_txt);
 		type.set ("assets/font/Tup Wanders Font License.txt", AssetType.TEXT);
 		className.set ("assets/img/cloud.jpg", __ASSET__assets_img_cloud_jpg);
@@ -219,12 +231,30 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#elseif html5
 		
 		var id;
+		id = "assets/font/Aaargh.eot";
+		path.set (id, id);
+		type.set (id, AssetType.BINARY);
+		id = "assets/font/Aaargh.svg";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
 		id = "assets/font/Aaargh.ttf";
 		className.set (id, __ASSET__assets_font_aaargh_ttf);
 		type.set (id, AssetType.FONT);
+		id = "assets/font/Aaargh.woff";
+		path.set (id, id);
+		type.set (id, AssetType.BINARY);
+		id = "assets/font/OpenSansRegular.eot";
+		path.set (id, id);
+		type.set (id, AssetType.BINARY);
+		id = "assets/font/OpenSansRegular.svg";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
 		id = "assets/font/OpenSansRegular.ttf";
 		className.set (id, __ASSET__assets_font_opensansregular_ttf);
 		type.set (id, AssetType.FONT);
+		id = "assets/font/OpenSansRegular.woff";
+		path.set (id, id);
+		type.set (id, AssetType.BINARY);
 		id = "assets/font/Tup Wanders Font License.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
@@ -479,11 +509,29 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		var useManifest = false;
 		
+		className.set ("assets/font/Aaargh.eot", __ASSET__assets_font_aaargh_eot);
+		type.set ("assets/font/Aaargh.eot", AssetType.BINARY);
+		
+		className.set ("assets/font/Aaargh.svg", __ASSET__assets_font_aaargh_svg);
+		type.set ("assets/font/Aaargh.svg", AssetType.TEXT);
+		
 		className.set ("assets/font/Aaargh.ttf", __ASSET__assets_font_aaargh_ttf);
 		type.set ("assets/font/Aaargh.ttf", AssetType.FONT);
 		
+		className.set ("assets/font/Aaargh.woff", __ASSET__assets_font_aaargh_woff);
+		type.set ("assets/font/Aaargh.woff", AssetType.BINARY);
+		
+		className.set ("assets/font/OpenSansRegular.eot", __ASSET__assets_font_opensansregular_eot);
+		type.set ("assets/font/OpenSansRegular.eot", AssetType.BINARY);
+		
+		className.set ("assets/font/OpenSansRegular.svg", __ASSET__assets_font_opensansregular_svg);
+		type.set ("assets/font/OpenSansRegular.svg", AssetType.TEXT);
+		
 		className.set ("assets/font/OpenSansRegular.ttf", __ASSET__assets_font_opensansregular_ttf);
 		type.set ("assets/font/OpenSansRegular.ttf", AssetType.FONT);
+		
+		className.set ("assets/font/OpenSansRegular.woff", __ASSET__assets_font_opensansregular_woff);
+		type.set ("assets/font/OpenSansRegular.woff", AssetType.BINARY);
 		
 		className.set ("assets/font/Tup Wanders Font License.txt", __ASSET__assets_font_tup_wanders_font_license_txt);
 		type.set ("assets/font/Tup Wanders Font License.txt", AssetType.TEXT);
@@ -1347,8 +1395,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if pixi
 #elseif flash
 
+@:keep class __ASSET__assets_font_aaargh_eot extends null { }
+@:keep class __ASSET__assets_font_aaargh_svg extends null { }
 @:keep class __ASSET__assets_font_aaargh_ttf extends null { }
+@:keep class __ASSET__assets_font_aaargh_woff extends null { }
+@:keep class __ASSET__assets_font_opensansregular_eot extends null { }
+@:keep class __ASSET__assets_font_opensansregular_svg extends null { }
 @:keep class __ASSET__assets_font_opensansregular_ttf extends null { }
+@:keep class __ASSET__assets_font_opensansregular_woff extends null { }
 @:keep class __ASSET__assets_font_tup_wanders_font_license_txt extends null { }
 @:keep class __ASSET__assets_img_cloud_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_img_cloud_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -1435,8 +1489,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 #elseif html5
 
+
+
 @:keep class __ASSET__assets_font_aaargh_ttf extends flash.text.Font { #if (!openfl_html5_dom) public function new () { super (); fontName = "assets/font/Aaargh.ttf"; } #end }
+
+
+
 @:keep class __ASSET__assets_font_opensansregular_ttf extends flash.text.Font { #if (!openfl_html5_dom) public function new () { super (); fontName = "assets/font/OpenSansRegular.ttf"; } #end }
+
 
 
 
@@ -1524,8 +1584,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 #elseif (windows || mac || linux)
 
 
+@:file("assets/font/Aaargh.eot") class __ASSET__assets_font_aaargh_eot extends flash.utils.ByteArray {}
+@:file("assets/font/Aaargh.svg") class __ASSET__assets_font_aaargh_svg extends flash.utils.ByteArray {}
 @:font("assets/font/Aaargh.ttf") class __ASSET__assets_font_aaargh_ttf extends flash.text.Font {}
+@:file("assets/font/Aaargh.woff") class __ASSET__assets_font_aaargh_woff extends flash.utils.ByteArray {}
+@:file("assets/font/OpenSansRegular.eot") class __ASSET__assets_font_opensansregular_eot extends flash.utils.ByteArray {}
+@:file("assets/font/OpenSansRegular.svg") class __ASSET__assets_font_opensansregular_svg extends flash.utils.ByteArray {}
 @:font("assets/font/OpenSansRegular.ttf") class __ASSET__assets_font_opensansregular_ttf extends flash.text.Font {}
+@:file("assets/font/OpenSansRegular.woff") class __ASSET__assets_font_opensansregular_woff extends flash.utils.ByteArray {}
 @:file("assets/font/Tup Wanders Font License.txt") class __ASSET__assets_font_tup_wanders_font_license_txt extends flash.utils.ByteArray {}
 @:bitmap("assets/img/cloud.jpg") class __ASSET__assets_img_cloud_jpg extends flash.display.BitmapData {}
 @:bitmap("assets/img/cloud.png") class __ASSET__assets_img_cloud_png extends flash.display.BitmapData {}

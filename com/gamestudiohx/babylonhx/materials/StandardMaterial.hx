@@ -181,7 +181,6 @@ class StandardMaterial extends Material {
                 if (!light.isEnabled()) {
                     continue;
                 }
-
                 if (mesh != null && Lambda.indexOf(light.excludedMeshes, mesh) != -1) {
                     continue;
                 }

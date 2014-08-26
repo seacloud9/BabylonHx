@@ -69,7 +69,49 @@ import openfl.Lib;
 		var id;
 		
 		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/Aaargh.eot", urlLoader);
+		total ++;
 		
+		
+		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/Aaargh.svg", urlLoader);
+		total ++;
+		
+		
+		
+		
+		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/Aaargh.woff", urlLoader);
+		total ++;
+		
+		
+		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/OpenSansRegular.eot", urlLoader);
+		total ++;
+		
+		
+		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/OpenSansRegular.svg", urlLoader);
+		total ++;
+		
+		
+		
+		
+		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/font/OpenSansRegular.woff", urlLoader);
+		total ++;
 		
 		
 		
