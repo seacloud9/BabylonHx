@@ -3,6 +3,7 @@ package com.gamestudiohx.babylonhx.animations;
 import com.gamestudiohx.babylonhx.animations.Animation.BabylonFrame;
 import com.gamestudiohx.babylonhx.tools.math.Quaternion;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
+import com.gamestudiohx.babylonhx.cameras.FreeCamera;
 
 /**
  * Port of BabylonJs project - http://www.babylonjs.com/
@@ -210,13 +211,15 @@ class Animation {
 			// Set value
 			if (this.targetPropertyPath.length > 1) {
 				var property = Reflect.getProperty(target, this.targetPropertyPath[0]);
-
 				for (index in 1...this.targetPropertyPath.length - 1) {
 					property = Reflect.getProperty(property, this.targetPropertyPath[index]);
+					//trace(Reflect.getProperty(property, this.targetPropertyPath[index]));
 				}
-
+				
 				Reflect.setProperty(property, this.targetPropertyPath[this.targetPropertyPath.length - 1], currentValue);
+
 			} else {
+				//trace(target);
 				Reflect.setProperty(target, this.targetPropertyPath[0], currentValue);
 			}
 			
@@ -224,7 +227,7 @@ class Animation {
 				target.markAsDirty(this.targetProperty);
 			}
 		}
-
+		//trace(returnValue);
         return returnValue;
     }
 	

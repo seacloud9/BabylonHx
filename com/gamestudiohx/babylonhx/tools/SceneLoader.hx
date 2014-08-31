@@ -217,8 +217,8 @@ class SceneLoader {
 	
 	public static function parseParticleSystem(parsedParticleSystem:Dynamic, scene:Scene, rootUrl:String):ParticleSystem {
         var emitter = scene.getLastMeshByID(parsedParticleSystem.emitterId);
-
-        var particleSystem = new ParticleSystem("particles#" + emitter.name, parsedParticleSystem.capacity, scene);
+        //todo chcek
+        var particleSystem = new ParticleSystem("particles_" + emitter.name, parsedParticleSystem.capacity, scene);
         if (parsedParticleSystem.textureName != null && parsedParticleSystem.textureName != "") {
             particleSystem.particleTexture = new Texture(rootUrl + parsedParticleSystem.textureName, scene);
         }
@@ -378,7 +378,6 @@ class SceneLoader {
         if (parsedCamera.autoAnimate != null) {
             scene.beginAnimation(camera, parsedCamera.autoAnimateFrom, parsedCamera.autoAnimateTo, parsedCamera.autoAnimateLoop, 1.0);
         }
-
         return camera;
     }
 	
@@ -487,7 +486,7 @@ class SceneLoader {
             //todo watch caused break in MAC target
             scene.beginAnimation(mesh, parsedMesh.autoAnimateFrom, parsedMesh.autoAnimateTo, parsedMesh.autoAnimateLoop, 1.0);
         }
-        trace('_ImportGeometry end mesh');
+        //trace('_ImportGeometry end mesh');
         return mesh;
     }
 	
@@ -651,7 +650,7 @@ class SceneLoader {
 	}
 	
 	public static function Load(rootUrl:String, sceneFilename:String, engine:Engine, ?then:Scene->Void) {
-		function loadSceneFromData(data:String) {			
+		function loadSceneFromData(data:String) {		
 			var parsedData = Json.parse(data);			
 						
 			var scene = new Scene(engine);
@@ -685,11 +684,13 @@ class SceneLoader {
 			// Cameras
 			var _cameras:Array<Dynamic> = cast parsedData.cameras;
 			for (index in 0..._cameras.length) {
-				var parsedCamera = _cameras[index];				
+				var parsedCamera = _cameras[index];		
 				parseCamera(parsedCamera, scene);				
 			}
 
+            //trace('cam array length =' + _cameras.length);
 			if (parsedData.activeCameraID != null) {
+                //trace( 'active id = '  + parsedData.activeCameraID);
 				scene.activeCameraByID(parsedData.activeCameraID);
 			}
 
@@ -727,6 +728,7 @@ class SceneLoader {
 			}
 
 			// Connecting cameras parents and locked target
+
 			for (index in 0...scene.cameras.length) {
 				var camera = scene.cameras[index];
 				if (Reflect.field(camera, "_waitingParentId") != null) {

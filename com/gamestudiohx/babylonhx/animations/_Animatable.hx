@@ -20,7 +20,8 @@ class _Animatable {
 	
 
 	public function new(target:Dynamic = null, from:Float = 0, to:Float = 100, loop:Bool = false, speedRatio:Float = 1.0, onAnimationEnd:Void->Void = null) {
-		this.target = target;
+		//trace('_Animatable' + target);
+        this.target = target;
         this.fromFrame = from;
         this.toFrame = to;
         this.loopAnimation = loop;
@@ -39,6 +40,7 @@ class _Animatable {
         var running:Bool = false;
         var animations:Array<Animation> = this.target.animations;
         for (index in 0...animations.length) {
+            //trace('Animating -' +  this.target );
             var isRunning:Bool = animations[index].animate(this.target, delay - this._localDelayOffset, this.fromFrame, this.toFrame, this.loopAnimation, this.speedRatio);
             running = running || isRunning;            
         }
@@ -46,6 +48,8 @@ class _Animatable {
         if (!running && this.onAnimationEnd != null) {
             this.onAnimationEnd();
         }
+
+        //trace(this.target +' _animate ' + running);
 
         return running;
 	}
