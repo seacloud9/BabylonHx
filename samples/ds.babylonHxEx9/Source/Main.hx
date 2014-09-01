@@ -24,12 +24,12 @@ import com.gamestudiohx.babylonhx.tools.SceneLoader;
 import com.gamestudiohx.babylonhx.mesh.Mesh;
 import com.gamestudiohx.babylonhx.Scene;
 import com.gamestudiohx.babylonhx.Engine;
-import flash.Vector.Vector;
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.geom.Rectangle;
-import flash.Lib;
+import openfl.Vector.Vector;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.events.KeyboardEvent;
+import openfl.geom.Rectangle;
+import openfl.Lib;
 import openfl.display.FPS;
 
 /**
@@ -43,6 +43,7 @@ class Main extends Sprite {
   var engine:Engine;
   var scene:Scene;
   var _c:FreeCamera;
+  var currentId:Int = 0;
   
   
   function resize(e) {
@@ -57,24 +58,9 @@ class Main extends Sprite {
     scene = new Scene(engine);
     SceneLoader.Load("assets/train/", "Train.babylon", engine, function(newScene:Scene) {
       this.scene = newScene;
-      scene.activeCamera = scene.cameras[0];
+      Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+      this.scene.activeCameraByID('7c547589-5d01-4648-a56c-6ab03ecd29b5');
       _c = cast scene.activeCamera;
-      //this.addEventListener(Event.ENTER_FRAME, update);
-      //this.scene.activeCameraByID('b2406c53-ea2e-4ab6-ad7e-bf978596156e');
-      //this.scene.activeCameraByID(scene.cameras[0].id);
-     
-      scene.activeCamera = scene.cameras[0];
-      if (scene.activeCamera != null) {
-        scene.activeCamera.attachControl(this);
-
-        var _c:FreeCamera = cast scene.activeCamera;
-
-        _c.keysUp.push(87); // W
-        _c.keysDown.push(83); // S
-        _c.keysLeft.push(65); // A
-        _c.keysRight.push(68); // D
-      }
-      
       scene.executeWhenReady(function() {
         engine.runRenderLoop(scene.render);
         addStats();
@@ -82,9 +68,19 @@ class Main extends Sprite {
     });
   }
 
-  public function update(e : Event){
-    //trace('In camera - ' + Reflect.fields(_c.position.z));
+  public function keyDownHandler(event:KeyboardEvent){
+    
+            if(event.keyCode == 32){
+              if(currentId < scene.cameras.length){
+                this.scene.activeCameraByID(scene.cameras[currentId++].id);
+                }else{
+                  currentId = 0;
+                  this.scene.activeCameraByID(scene.cameras[0].id);
+                } 
+            }
   }
+
+ 
 
   /* SETUP */
   public function new() {

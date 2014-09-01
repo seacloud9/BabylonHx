@@ -139,6 +139,9 @@ class Animation {
     }
 	
 	public function animate(target:Dynamic, delay:Float, from:Float, to:Float, loop:Bool, speedRatio:Float):Bool {
+		/*trace(target.name);
+		trace(target.id);
+		trace(target.position);*/
 		var returnValue:Bool = true;
         if (this.targetPropertyPath == null || this.targetPropertyPath.length < 1) {
             returnValue = false;

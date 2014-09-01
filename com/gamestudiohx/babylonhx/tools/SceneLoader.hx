@@ -732,6 +732,7 @@ class SceneLoader {
 			for (index in 0...scene.cameras.length) {
 				var camera = scene.cameras[index];
 				if (Reflect.field(camera, "_waitingParentId") != null) {
+                    var _target = scene.getLastEntryByID(Reflect.field(camera, "_waitingParentId"));
 					camera.parent = scene.getLastEntryByID(Reflect.field(camera, "_waitingParentId"));
 					Reflect.setField(camera, "_waitingParentId", null);
 				}
