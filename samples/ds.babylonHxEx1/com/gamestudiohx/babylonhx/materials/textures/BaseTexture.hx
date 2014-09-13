@@ -14,35 +14,35 @@ import openfl.gl.GLTexture;
  */
 
 class BaseTexture {
-	
-	public var _scene:Scene;
-	public var delayLoadState:Int;
+
+    public var _scene:Scene;
+    public var delayLoadState:Int;
     public var hasAlpha:Bool = false;
     public var level:Float = 1.0;
-	
-	public var _texture:BabylonTexture;		// TODO - it can be BabylonTexture or Texture ?
 
-    public var onDispose:Void->Void;
+    public var _texture:BabylonTexture; // TODO - it can be BabylonTexture or Texture ?
 
-	public function new(url:String, scene:Scene) {
-		this._scene = scene;
+    public var onDispose:Void -> Void;
+
+    public function new(url:String, scene:Scene) {
+        this._scene = scene;
         this._scene.textures.push(this);
-		delayLoadState = Engine.DELAYLOADSTATE_NONE;
-	}
-	
-	public function getInternalTexture():BabylonTexture {
+        delayLoadState = Engine.DELAYLOADSTATE_NONE;
+    }
+
+    public function getInternalTexture():BabylonTexture {
         return this._texture;
     }
-	
-	public function isReady():Bool {
+
+    public function isReady():Bool {
         if (this._texture != null) {
             return this._texture.isReady;
         }
-		
+
         return false;
     }
-	
-	public function getSize():Dynamic {
+
+    public function getSize():Dynamic {
         if (this._texture._width != -1) {
             return { width: this._texture._width, height: this._texture._height };
         }
@@ -53,8 +53,8 @@ class BaseTexture {
 
         return { width: 0, height: 0 };
     }
-	
-	public function getBaseSize():Dynamic {
+
+    public function getBaseSize():Dynamic {
         if (!this.isReady())
             return { width: 0, height: 0 };
 
@@ -64,8 +64,8 @@ class BaseTexture {
 
         return { width: this._texture._baseWidth, height: this._texture._baseHeight };
     }
-	
-	public function _getFromCache(url:String, noMipmap:Bool):BabylonTexture {
+
+    public function _getFromCache(url:String, noMipmap:Bool):BabylonTexture {
         var texturesCache:Array<BabylonTexture> = this._scene.getEngine().getLoadedTexturesCache();
         for (index in 0...texturesCache.length) {
             var texturesCacheEntry:BabylonTexture = texturesCache[index];
@@ -78,12 +78,12 @@ class BaseTexture {
 
         return null;
     }
-	
-	public function delayLoad() {
-		
+
+    public function delayLoad() {
+
     }
-	
-	public function releaseInternalTexture() {
+
+    public function releaseInternalTexture() {
         if (this._texture == null) {
             return;
         }
@@ -94,15 +94,15 @@ class BaseTexture {
         if (this._texture.references == 0) {
             //var index = Lambda.indexOf(texturesCache, this._texture);
             //texturesCache.splice(index, 1);
-			texturesCache.remove(this._texture);
+            texturesCache.remove(this._texture);
 
             this._scene.getEngine()._releaseTexture(this._texture);
 
             this._texture = null;
         }
     }
-	
-	public function dispose() {
+
+    public function dispose() {
         // Remove from scene
         var index:Int = Lambda.indexOf(this._scene.textures, this);
 
@@ -122,5 +122,5 @@ class BaseTexture {
             this.onDispose();
         }
     }
-	
+
 }

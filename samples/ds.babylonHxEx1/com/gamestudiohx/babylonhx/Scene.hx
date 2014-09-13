@@ -43,101 +43,101 @@ import openfl.gl.GL;
  */
 
 class Scene {
-	
-	public static var FOGMODE_NONE:Int = 0;
-	public static var FOGMODE_EXP:Int = 1;
-	public static var FOGMODE_EXP2:Int = 2;
-	public static var FOGMODE_LINEAR:Int = 3;
-	
-	private var _engine:Engine;
-	
-	public var beforeRender:Void->Void;
-	public var afterRender:Void->Void;
-	
-	public var _viewMatrix:Matrix;
-	public var _projectionMatrix:Matrix;
-	
-	public var _physicsEngine:Dynamic;
-	
-	public var useDelayedTextureLoading:Bool;
-	
-	public var _totalVertices:Int;
-	public var _activeVertices:Int;
-	public var _activeParticles:Int;
-	public var _lastFrameDuration:Float;
-	public var _evaluateActiveMeshesDuration:Float;
-	public var _renderTargetsDuration:Float;
-	public var _renderDuration:Float;
-	public var _particlesDuration:Float;
-	public var _spritesDuration:Float;
-	public var _animationRatio:Float;
-	
-	public var _renderId:Int;
-	public var _executeWhenReadyTimeoutId:Int;
-	
-	public var _frustumPlanes:Array<Plane>;
-	public var _selectionOctree:Octree;
-	
-	public var _toBeDisposed:SmartArray;
-	
-	public var _onReadyCallbacks:Array<Dynamic>;
-	public var _pendingData:Array<Dynamic>;
-	
-	public var _onBeforeRenderCallbacks:Array<Void->Void>;
-	
-	public var _pickWithRayInverseMatrix:Matrix;
-	
-	public var autoClear:Bool;
-	public var forceWireframe:Bool;
-	public var clearColor:Color4;
-	public var ambientColor:Color3;
 
-	public var fogMode:Int;
-	public var fogColor:Color3;
-	public var fogDensity:Float;
-	public var fogStart:Float;
-	public var fogEnd:Float;
-	
-	public var _activeMeshes:SmartArray; 	
-	public var _processedMaterials:SmartArray; 		
-	public var _renderTargets:SmartArray; 
-	public var _activeParticleSystems:SmartArray; 
-	public var _activeSkeletons:SmartArray; 		
-	
-	public var renderTargetsEnabled:Bool;
-	public var customRenderTargets:Array<Dynamic>;
-	public var _scaledVelocity:Vector3;
-	public var _scaledPosition:Vector3;
-	public var _transformMatrix:Matrix;
-	public var _activeAnimatables:Array<_Animatable>;
-	public var lensFlareSystems:Array<LensFlareSystem>;
-	public var _renderingManager:RenderingManager;
+    public static var FOGMODE_NONE:Int = 0;
+    public static var FOGMODE_EXP:Int = 1;
+    public static var FOGMODE_EXP2:Int = 2;
+    public static var FOGMODE_LINEAR:Int = 3;
 
-	public var lightsEnabled:Bool;
-	public var lights:Array<Light>;
-	public var cameras:Array<Camera>;
-	public var activeCamera:Camera;
-	public var activeCameras:Array<Camera>;
-	public var meshes:Array<Mesh>;
-	public var materials:Array<Material>;
-	public var multiMaterials:Array<MultiMaterial>;
-	public var defaultMaterial:StandardMaterial;
-	public var texturesEnabled:Bool;
-	public var textures:Array<BaseTexture>;
-	public var particlesEnabled:Bool;
-	public var particleSystems:Array<ParticleSystem>;
-	public var spriteManagers:Array<SpriteManager>;
-	public var layers:Array<Layer>;
-	public var skeletons:Array<Skeleton>;
-	public var collisionsEnabled:Bool;
-	public var gravity:Vector3;
-	public var postProcessesEnabled:Bool;
-	public var postProcessManager:PostProcessManager;
-	public var _animationStartDate:Int = -1;
-	
+    private var _engine:Engine;
 
-	public function new(engine:Engine) {
-		this._engine = engine;
+    public var beforeRender:Void -> Void;
+    public var afterRender:Void -> Void;
+
+    public var _viewMatrix:Matrix;
+    public var _projectionMatrix:Matrix;
+
+    public var _physicsEngine:Dynamic;
+
+    public var useDelayedTextureLoading:Bool;
+
+    public var _totalVertices:Int;
+    public var _activeVertices:Int;
+    public var _activeParticles:Int;
+    public var _lastFrameDuration:Float;
+    public var _evaluateActiveMeshesDuration:Float;
+    public var _renderTargetsDuration:Float;
+    public var _renderDuration:Float;
+    public var _particlesDuration:Float;
+    public var _spritesDuration:Float;
+    public var _animationRatio:Float;
+
+    public var _renderId:Int;
+    public var _executeWhenReadyTimeoutId:Int;
+
+    public var _frustumPlanes:Array<Plane>;
+    public var _selectionOctree:Octree;
+
+    public var _toBeDisposed:SmartArray;
+
+    public var _onReadyCallbacks:Array<Dynamic>;
+    public var _pendingData:Array<Dynamic>;
+
+    public var _onBeforeRenderCallbacks:Array<Void -> Void>;
+
+    public var _pickWithRayInverseMatrix:Matrix;
+
+    public var autoClear:Bool;
+    public var forceWireframe:Bool;
+    public var clearColor:Color4;
+    public var ambientColor:Color3;
+
+    public var fogMode:Int;
+    public var fogColor:Color3;
+    public var fogDensity:Float;
+    public var fogStart:Float;
+    public var fogEnd:Float;
+
+    public var _activeMeshes:SmartArray;
+    public var _processedMaterials:SmartArray;
+    public var _renderTargets:SmartArray;
+    public var _activeParticleSystems:SmartArray;
+    public var _activeSkeletons:SmartArray;
+
+    public var renderTargetsEnabled:Bool;
+    public var customRenderTargets:Array<Dynamic>;
+    public var _scaledVelocity:Vector3;
+    public var _scaledPosition:Vector3;
+    public var _transformMatrix:Matrix;
+    public var _activeAnimatables:Array<_Animatable>;
+    public var lensFlareSystems:Array<LensFlareSystem>;
+    public var _renderingManager:RenderingManager;
+
+    public var lightsEnabled:Bool;
+    public var lights:Array<Light>;
+    public var cameras:Array<Camera>;
+    public var activeCamera:Camera;
+    public var activeCameras:Array<Camera>;
+    public var meshes:Array<Mesh>;
+    public var materials:Array<Material>;
+    public var multiMaterials:Array<MultiMaterial>;
+    public var defaultMaterial:StandardMaterial;
+    public var texturesEnabled:Bool;
+    public var textures:Array<BaseTexture>;
+    public var particlesEnabled:Bool;
+    public var particleSystems:Array<ParticleSystem>;
+    public var spriteManagers:Array<SpriteManager>;
+    public var layers:Array<Layer>;
+    public var skeletons:Array<Skeleton>;
+    public var collisionsEnabled:Bool;
+    public var gravity:Vector3;
+    public var postProcessesEnabled:Bool;
+    public var postProcessManager:PostProcessManager;
+    public var _animationStartDate:Int = -1;
+
+
+    public function new(engine:Engine) {
+        this._engine = engine;
         this.autoClear = true;
         this.clearColor = new Color4(0.2, 0.2, 0.3);
         this.ambientColor = new Color3(0, 0, 0);
@@ -211,7 +211,7 @@ class Scene {
 
         // Skeletons
         this.skeletons = [];
-        
+
         // Lens flares
         this.lensFlareSystems = [];
 
@@ -239,58 +239,58 @@ class Scene {
 
         // Multi-cameras
         this.activeCameras = [];
-	}
+    }
 
-	public function getEngine():Engine {
-		return this._engine;
-	}
-	
-	public function getTotalVertices():Int {
-		return this._totalVertices;
-	}
-	
-	public function getActiveVertices():Int {
-		return this._activeVertices;
-	}
-	
-	public function getActiveParticles():Int {
-		return this._activeParticles;
-	}
-	
-	public function getLastFrameDuration():Float {
-		return this._lastFrameDuration;
-	}
-	
-	public function getEvaluateActiveMeshesDuration():Float {
-		return this._evaluateActiveMeshesDuration;
-	}
-	
-	public function getRenderTargetsDuration():Float {
-		return this._renderTargetsDuration;
-	}
-	
-	public function getRenderDuration():Float {
-		return this._renderDuration;
-	}
-	
-	public function getParticlesDuration():Float {
-		return this._particlesDuration;
-	}
-	
-	public function getSpritesDuration():Float {
-		return this._spritesDuration;
-	}
-	
-	public function getAnimationRatio():Float {
-		return this._animationRatio;
-	}
-	
-	public function getRenderId():Int {
-		return this._renderId;
-	}
+    public function getEngine():Engine {
+        return this._engine;
+    }
 
-	public function isReady():Bool {
-		if (this._pendingData.length > 0) {
+    public function getTotalVertices():Int {
+        return this._totalVertices;
+    }
+
+    public function getActiveVertices():Int {
+        return this._activeVertices;
+    }
+
+    public function getActiveParticles():Int {
+        return this._activeParticles;
+    }
+
+    public function getLastFrameDuration():Float {
+        return this._lastFrameDuration;
+    }
+
+    public function getEvaluateActiveMeshesDuration():Float {
+        return this._evaluateActiveMeshesDuration;
+    }
+
+    public function getRenderTargetsDuration():Float {
+        return this._renderTargetsDuration;
+    }
+
+    public function getRenderDuration():Float {
+        return this._renderDuration;
+    }
+
+    public function getParticlesDuration():Float {
+        return this._particlesDuration;
+    }
+
+    public function getSpritesDuration():Float {
+        return this._spritesDuration;
+    }
+
+    public function getAnimationRatio():Float {
+        return this._animationRatio;
+    }
+
+    public function getRenderId():Int {
+        return this._renderId;
+    }
+
+    public function isReady():Bool {
+        if (this._pendingData.length > 0) {
             return false;
         }
 
@@ -310,25 +310,25 @@ class Scene {
         }
 
         return true;
-	}
-	
-	public function registerBeforeRender(func:Dynamic) {
-		this._onBeforeRenderCallbacks.push(func);
-	}
-	
-	public function unregisterBeforeRender(func:Dynamic) {
-		var index = Lambda.indexOf(this._onBeforeRenderCallbacks, func);
+    }
+
+    public function registerBeforeRender(func:Dynamic) {
+        this._onBeforeRenderCallbacks.push(func);
+    }
+
+    public function unregisterBeforeRender(func:Dynamic) {
+        var index = Lambda.indexOf(this._onBeforeRenderCallbacks, func);
 
         if (index > -1) {
             this._onBeforeRenderCallbacks.splice(index, 1);
         }
-	}
-	
-	public function _addPendingData(data:Dynamic) {
+    }
+
+    public function _addPendingData(data:Dynamic) {
         this._pendingData.push(data);
     }
 
-	public function _removePendingData(data:Dynamic) {
+    public function _removePendingData(data:Dynamic) {
         var index = Lambda.indexOf(this._pendingData, data);
 
         if (index != -1) {
@@ -339,24 +339,24 @@ class Scene {
     public function getWaitingItemsCount():Int {
         return this._pendingData.length;
     }
-	
-	public function executeWhenReady(func:Dynamic) {
-		this._onReadyCallbacks.push(func);
+
+    public function executeWhenReady(func:Dynamic) {
+        this._onReadyCallbacks.push(func);
 
         if (this._executeWhenReadyTimeoutId != -1) {
             return;
         }
-		
-		this._checkIsReady();
+
+        this._checkIsReady();
 
         /*this._executeWhenReadyTimeoutId = setTimeout(function () {
             this._checkIsReady();
         }, 150);*/
-	}
-	
-	private function _checkIsReady() {
-		if (this.isReady()) {
-            for(func in this._onReadyCallbacks) {
+    }
+
+    private function _checkIsReady() {
+        if (this.isReady()) {
+            for (func in this._onReadyCallbacks) {
                 func();
             }
 
@@ -368,9 +368,9 @@ class Scene {
         /*this._executeWhenReadyTimeoutId = setTimeout(function () {
             this._checkIsReady();
         }, 150);*/
-	}
-	
-	public function beginAnimation(target:Dynamic, from:Float, to:Float, loop:Bool, speedRatio:Float = 1.0, onAnimationEnd:Void->Void = null) {			
+    }
+
+    public function beginAnimation(target:Dynamic, from:Float, to:Float, loop:Bool, speedRatio:Float = 1.0, onAnimationEnd:Void -> Void = null) {
         // Local animations
         if (target.animations != null) {
             this.stopAnimation(target);
@@ -383,194 +383,194 @@ class Scene {
         // Children animations		
         if (Reflect.getProperty(target, "getAnimatables") != null) {
             var animatables:Array<Dynamic> = target.getAnimatables();
-			for (animatable in animatables) {
-				this.beginAnimation(animatable, from, to, loop, speedRatio, onAnimationEnd);
-			}
+            for (animatable in animatables) {
+                this.beginAnimation(animatable, from, to, loop, speedRatio, onAnimationEnd);
+            }
         }
-	}
-	
-	public function stopAnimation(target:Dynamic) {
-		for (index in 0...this._activeAnimatables.length) {
+    }
+
+    public function stopAnimation(target:Dynamic) {
+        for (index in 0...this._activeAnimatables.length) {
             if (this._activeAnimatables[index].target == target) {
                 this._activeAnimatables.splice(index, 1);
                 return;
             }
         }
-	}
-	
-	public function _animate() {
+    }
+
+    public function _animate() {
         if (this._animationStartDate == -1) {
             this._animationStartDate = Lib.getTimer();
         }
         // Getting time
         var delay = Lib.getTimer() - this._animationStartDate;
 
-		var index:Int = 0;
-		while (index < this._activeAnimatables.length) {
+        var index:Int = 0;
+        while (index < this._activeAnimatables.length) {
             if (!this._activeAnimatables[index]._animate(delay)) {
                 this._activeAnimatables.splice(index, 1);
                 index--;
             }
-			index++;
+            index++;
         }
     }
 
-	public function getViewMatrix():Matrix {
-		return this._viewMatrix;
-	}
-	
-	public function getProjectionMatrix():Matrix {
-		return this._projectionMatrix;
-	}
-	
-	inline public function getTransformMatrix():Matrix {
-		return this._transformMatrix;
-	}	
-	
-	inline public function setTransformMatrix(view:Matrix, projection:Matrix) {
-		this._viewMatrix = view;
+    public function getViewMatrix():Matrix {
+        return this._viewMatrix;
+    }
+
+    public function getProjectionMatrix():Matrix {
+        return this._projectionMatrix;
+    }
+
+    inline public function getTransformMatrix():Matrix {
+        return this._transformMatrix;
+    }
+
+    inline public function setTransformMatrix(view:Matrix, projection:Matrix) {
+        this._viewMatrix = view;
         this._projectionMatrix = projection;
 
         this._viewMatrix.multiplyToRef(this._projectionMatrix, this._transformMatrix);
-	}
-	
-	public function activeCameraByID(id:String) {
-		for (index in 0...this.cameras.length) {
+    }
+
+    public function activeCameraByID(id:String) {
+        for (index in 0...this.cameras.length) {
             if (this.cameras[index].id == id) {
                 this.activeCamera = this.cameras[index];
                 return;
             }
         }
-	}
-	
-	public function getMaterialByID(id:String):Material {
-		for (index in 0...this.materials.length) {
+    }
+
+    public function getMaterialByID(id:String):Material {
+        for (index in 0...this.materials.length) {
             if (this.materials[index].id == id) {
                 return this.materials[index];
             }
         }
 
         return null;
-	}
-	
-	public function getMaterialByName(name:String):Material {
-		for (index in 0...this.materials.length) {
+    }
+
+    public function getMaterialByName(name:String):Material {
+        for (index in 0...this.materials.length) {
             if (this.materials[index].name == name) {
                 return this.materials[index];
             }
         }
 
         return null;
-	}
-	
-	public function getLightByID(id:String):Light {
-		for (index in 0...this.lights.length) {
+    }
+
+    public function getLightByID(id:String):Light {
+        for (index in 0...this.lights.length) {
             if (this.lights[index].id == id) {
                 return this.lights[index];
             }
-        }
-
-        return null;
-	}
-	
-	public function getMeshByID(id:String):Mesh {
-		for (index in 0...this.meshes.length) {
-            if (this.meshes[index].id == id) {
-                return this.meshes[index];
-            }
-        }
-
-        return null;
-	}
-	
-	public function getLastMeshByID(id:String):Mesh {
-		var index:Int = this.meshes.length - 1;
-		while(index >= 0) {
-            if (this.meshes[index].id == id) {
-                return this.meshes[index];
-            }
-			index--;
-        }
-
-        return null;
-	}
-	
-	public function getLastEntryByID(id:String):Dynamic {
-		var index:Int = this.meshes.length - 1;
-		while(index >= 0) {
-            if (this.meshes[index].id == id) {
-                return this.meshes[index];
-            }
-			index--;
-        }
-
-		index = this.cameras.length - 1;
-		while(index >= 0) {
-            if (this.cameras[index].id == id) {
-                return this.cameras[index];
-            }
-			index--;
-        }
-        
-		index = this.lights.length - 1;
-		while(index >= 0) {
-            if (this.lights[index].id == id) {
-                return this.lights[index];
-            }
-			index--;
         }
 
         return null;
     }
-	
-	public function getMeshByName(name:String):Mesh {
-		for (index in 0...this.meshes.length) {
+
+    public function getMeshByID(id:String):Mesh {
+        for (index in 0...this.meshes.length) {
+            if (this.meshes[index].id == id) {
+                return this.meshes[index];
+            }
+        }
+
+        return null;
+    }
+
+    public function getLastMeshByID(id:String):Mesh {
+        var index:Int = this.meshes.length - 1;
+        while (index >= 0) {
+            if (this.meshes[index].id == id) {
+                return this.meshes[index];
+            }
+            index--;
+        }
+
+        return null;
+    }
+
+    public function getLastEntryByID(id:String):Dynamic {
+        var index:Int = this.meshes.length - 1;
+        while (index >= 0) {
+            if (this.meshes[index].id == id) {
+                return this.meshes[index];
+            }
+            index--;
+        }
+
+        index = this.cameras.length - 1;
+        while (index >= 0) {
+            if (this.cameras[index].id == id) {
+                return this.cameras[index];
+            }
+            index--;
+        }
+
+        index = this.lights.length - 1;
+        while (index >= 0) {
+            if (this.lights[index].id == id) {
+                return this.lights[index];
+            }
+            index--;
+        }
+
+        return null;
+    }
+
+    public function getMeshByName(name:String):Mesh {
+        for (index in 0...this.meshes.length) {
             if (this.meshes[index].name == name) {
                 return this.meshes[index];
             }
         }
 
         return null;
-	}
-	
-	public function isActiveMesh(mesh:Mesh):Bool {
-		return (this._activeMeshes.indexOf(mesh) != -1);
-	}
-	
-	public function getLastSkeletonByID(id:String):Skeleton {
-		var index:Int = this.skeletons.length - 1;
-		while(index >= 0) {
+    }
+
+    public function isActiveMesh(mesh:Mesh):Bool {
+        return (this._activeMeshes.indexOf(mesh) != -1);
+    }
+
+    public function getLastSkeletonByID(id:String):Skeleton {
+        var index:Int = this.skeletons.length - 1;
+        while (index >= 0) {
             if (this.skeletons[index].id == id) {
                 return this.skeletons[index];
             }
-			index--;
+            index--;
         }
 
         return null;
-	}
-	
-	public function getSkeletonByID(id:String):Skeleton {
-		for (index in 0...this.skeletons.length) {
+    }
+
+    public function getSkeletonByID(id:String):Skeleton {
+        for (index in 0...this.skeletons.length) {
             if (this.skeletons[index].id == id) {
                 return this.skeletons[index];
             }
         }
 
         return null;
-	}
-	
-	public function getSkeletonByName(name:String):Skeleton {
-		for (index in 0...this.skeletons.length) {
+    }
+
+    public function getSkeletonByName(name:String):Skeleton {
+        for (index in 0...this.skeletons.length) {
             if (this.skeletons[index].name == name) {
                 return this.skeletons[index];
             }
         }
 
         return null;
-	}
+    }
 
-	inline public function _evaluateSubMesh(subMesh:SubMesh, mesh:Mesh) {
-		if (mesh.subMeshes.length == 1 || subMesh.isInFrustrum(this._frustumPlanes)) {
+    inline public function _evaluateSubMesh(subMesh:SubMesh, mesh:Mesh) {
+        if (mesh.subMeshes.length == 1 || subMesh.isInFrustrum(this._frustumPlanes)) {
             var material = subMesh.getMaterial();
 
             if (material != null) {
@@ -579,7 +579,7 @@ class Scene {
                     if (this._processedMaterials.indexOf(material) == -1) {
                         this._processedMaterials.push(material);
 
-						this._renderTargets.concat(material.getRenderTargetTextures());
+                        this._renderTargets.concat(material.getRenderTargetTextures());
                     }
                 }
 
@@ -588,11 +588,11 @@ class Scene {
                 this._renderingManager.dispatch(subMesh);
             }
         }
-	}
-	
-	inline public function _evaluateActiveMeshes() {
-		this._activeMeshes.reset();
-        this._renderingManager.reset(); 
+    }
+
+    inline public function _evaluateActiveMeshes() {
+        this._activeMeshes.reset();
+        this._renderingManager.reset();
         this._processedMaterials.reset();
         this._activeParticleSystems.reset();
         this._activeSkeletons.reset();
@@ -613,7 +613,7 @@ class Scene {
                 for (meshIndex in 0...block.meshes.length) {
                     var mesh:Mesh = block.meshes[meshIndex];
 
-                    if (mesh._renderId != this._renderId) {		// Math.abs ??    TODO
+                    if (mesh._renderId != this._renderId) { // Math.abs ??    TODO
                         this._totalVertices += mesh.getTotalVertices();
 
                         if (!mesh.isReady()) {
@@ -629,11 +629,11 @@ class Scene {
                             this._activeMeshes.push(mesh);
                         }
                         mesh._renderId = this._renderId;
-						
+
                         if (mesh.skeleton != null) {
-							if(this._activeSkeletons.indexOf(mesh.skeleton) != -1) {
-								this._activeSkeletons.pushNoDuplicate(mesh.skeleton);
-							}
+                            if (this._activeSkeletons.indexOf(mesh.skeleton) != -1) {
+                                this._activeSkeletons.pushNoDuplicate(mesh.skeleton);
+                            }
                         }
 
                         var subMeshes:Array<SubMesh> = block.subMeshes[meshIndex];
@@ -667,8 +667,8 @@ class Scene {
                 if (mesh.isEnabled() && mesh.isVisible && mesh.visibility > 0 && mesh.isInFrustrum(this._frustumPlanes)) {
                     this._activeMeshes.push(mesh);
 
-                    if (mesh.skeleton != null) {						
-						this._activeSkeletons.pushNoDuplicate(mesh.skeleton);
+                    if (mesh.skeleton != null) {
+                        this._activeSkeletons.pushNoDuplicate(mesh.skeleton);
                     }
 
                     for (subIndex in 0...mesh.subMeshes.length) {
@@ -693,9 +693,9 @@ class Scene {
             }
         }
         this._particlesDuration += Lib.getTimer() - beforeParticlesDate;
-	}
-	
-	inline public function _renderForCamera(camera:Camera = null, mustClearDepth:Bool = false) {
+    }
+
+    inline public function _renderForCamera(camera:Camera = null, mustClearDepth:Bool = false) {
         var engine:Engine = this._engine;
 
         this.activeCamera = camera;
@@ -705,8 +705,8 @@ class Scene {
 
         // Viewport
         engine.setViewport(this.activeCamera.viewport);
-		
-		// Clear
+
+        // Clear
         if (mustClearDepth) {
             this._engine.clear(this.clearColor, false, true);
         }
@@ -749,7 +749,7 @@ class Scene {
         // Prepare Frame
         this.postProcessManager._prepareFrame();
 
-        var beforeRenderDate = Lib.getTimer();        
+        var beforeRenderDate = Lib.getTimer();
         // Backgrounds
         if (this.layers.length > 0) {
             engine.setDepthBuffer(false);
@@ -765,7 +765,7 @@ class Scene {
 
         // Render
         this._renderingManager.render(null, null, true, true);
-        
+
         // Lens flares
         for (lensFlareSystemIndex in 0...this.lensFlareSystems.length) {
             this.lensFlareSystems[lensFlareSystemIndex].render();
@@ -790,13 +790,13 @@ class Scene {
 
         // Update camera
         this.activeCamera._update();
-        
+
         // Reset some special arrays
         this._renderTargets.reset();
-	}
-		
-	inline public function render(rect:Rectangle = null) {
-		var startDate = Lib.getTimer();
+    }
+
+    inline public function render(rect:Rectangle = null) {
+        var startDate = Lib.getTimer();
         this._particlesDuration = 0;
         this._spritesDuration = 0;
         this._activeParticles = 0;
@@ -813,20 +813,20 @@ class Scene {
         for (callbackIndex in 0...this._onBeforeRenderCallbacks.length) {
             this._onBeforeRenderCallbacks[callbackIndex]();
         }
-        
+
         // Animations
         var deltaTime = Tools.GetDeltaTime();
         this._animationRatio = deltaTime * (60.0 / 1000.0);
         this._animate();
-        
+
         // Physics
         if (this._physicsEngine != null) {
             this._physicsEngine._runOneStep(deltaTime / 1000.0);
         }
-        
+
         // Clear
         this._engine.clear(this.clearColor, this.autoClear || this.forceWireframe, true);
-        
+
         // Shadows
         for (lightIndex in 0...this.lights.length) {
             var light:Light = this.lights[lightIndex];
@@ -855,26 +855,26 @@ class Scene {
 
         // Cleaning
         for (index in 0...this._toBeDisposed.length) {
-            this._toBeDisposed.data[index].dispose();            
-        }		
+            this._toBeDisposed.data[index].dispose();
+        }
 
         this._toBeDisposed.reset();
-		
-		// TESTING: clearing GL state to allow mixing with OpenFL display list
-		GL.disable(GL.CULL_FACE);
-		GL.bindBuffer (GL.ARRAY_BUFFER, null);		
+
+        // TESTING: clearing GL state to allow mixing with OpenFL display list
+        GL.disable(GL.CULL_FACE);
+        GL.bindBuffer(GL.ARRAY_BUFFER, null);
 
         this._lastFrameDuration = Lib.getTimer() - startDate;
-	}
-	
-	public function dispose() {
-		this.beforeRender = null;
+    }
+
+    public function dispose() {
+        this.beforeRender = null;
         this.afterRender = null;
 
         this.skeletons = [];
 
         // Detach cameras
-		// TODO
+        // TODO
         /*var canvas = this._engine.getRenderingCanvas();
         var index;
         for (index = 0; index < this.cameras.length; index++) {
@@ -884,56 +884,56 @@ class Scene {
         // Release lights
         while (this.lights.length > 0) {
             this.lights[0].dispose();
-			this.lights.remove(this.lights[0]);
+            this.lights.remove(this.lights[0]);
         }
 
         // Release meshes
         while (this.meshes.length > 0) {
             this.meshes[0].dispose(true);
-			this.meshes.remove(this.meshes[0]);
+            this.meshes.remove(this.meshes[0]);
         }
 
         // Release cameras
         while (this.cameras.length > 0) {
             this.cameras[0].dispose();
-			this.cameras.remove(this.cameras[0]);
+            this.cameras.remove(this.cameras[0]);
         }
 
         // Release materials
         while (this.materials.length > 0) {
             this.materials[0].dispose();
-			this.materials.remove(this.materials[0]);
+            this.materials.remove(this.materials[0]);
         }
 
         // Release particles
         while (this.particleSystems.length > 0) {
             this.particleSystems[0].dispose();
-			this.particleSystems.remove(this.particleSystems[0]);
+            this.particleSystems.remove(this.particleSystems[0]);
         }
 
         // Release sprites
         while (this.spriteManagers.length > 0) {
             this.spriteManagers[0].dispose();
-			this.spriteManagers.remove(this.spriteManagers[0]);
+            this.spriteManagers.remove(this.spriteManagers[0]);
         }
 
         // Release layers
         while (this.layers.length > 0) {
             this.layers[0].dispose();
-			this.layers.remove(this.layers[0]);
+            this.layers.remove(this.layers[0]);
         }
 
         // Release textures
         while (this.textures.length > 0) {
             this.textures[0].dispose();
-			this.textures.remove(this.textures[0]);
+            this.textures.remove(this.textures[0]);
         }
 
         // Post-processes
         this.postProcessManager.dispose();
-        
+
         // Physics
-		// TODO
+        // TODO
         /*if (this._physicsEngine != null) {
             this.disablePhysicsEngine();
         }*/
@@ -941,13 +941,13 @@ class Scene {
         // Remove from engine
         /*var index = Lambda.indexOf(this._engine.scenes, this);
         this._engine.scenes.splice(index, 1);*/
-		this._engine.scenes.remove(this);
+        this._engine.scenes.remove(this);
 
         this._engine.wipeCaches();
-	}
-	
-	inline public function _getNewPosition(position:Vector3, velocity:Vector3, collider:Collider, maximumRetry:Int, finalPosition:Vector3) {
-		position.divideToRef(collider.radius, this._scaledPosition);
+    }
+
+    inline public function _getNewPosition(position:Vector3, velocity:Vector3, collider:Collider, maximumRetry:Int, finalPosition:Vector3) {
+        position.divideToRef(collider.radius, this._scaledPosition);
         velocity.divideToRef(collider.radius, this._scaledVelocity);
 
         collider.retry = 0;
@@ -956,47 +956,47 @@ class Scene {
         this._collideWithWorld(this._scaledPosition, this._scaledVelocity, collider, maximumRetry, finalPosition);
 
         finalPosition.multiplyInPlace(collider.radius);
-	}
-	
-	inline public function _collideWithWorld(position:Vector3, velocity:Vector3, collider:Collider, maximumRetry:Int, finalPosition:Vector3):Void {
-		var closeDistance = Engine.collisionsEpsilon * 10.0;
+    }
+
+    inline public function _collideWithWorld(position:Vector3, velocity:Vector3, collider:Collider, maximumRetry:Int, finalPosition:Vector3):Void {
+        var closeDistance = Engine.collisionsEpsilon * 10.0;
 
         if (collider.retry >= maximumRetry) {
             finalPosition.copyFrom(position);
             //return;
         } else {
 
-			collider._initialize(position, velocity, closeDistance);
+            collider._initialize(position, velocity, closeDistance);
 
-			// Check all meshes
-			for (index in 0...this.meshes.length) {
-				var mesh:Mesh = this.meshes[index];
-				if (mesh.isEnabled() && mesh.checkCollisions) {
-					mesh._checkCollision(collider);
-				}
-			}
+            // Check all meshes
+            for (index in 0...this.meshes.length) {
+                var mesh:Mesh = this.meshes[index];
+                if (mesh.isEnabled() && mesh.checkCollisions) {
+                    mesh._checkCollision(collider);
+                }
+            }
 
-			if (!collider.collisionFound) {
-				position.addToRef(velocity, finalPosition);
-				//return;
-			} else {
-				if (velocity.x != 0 || velocity.y != 0 || velocity.z != 0) {
-					collider._getResponse(position, velocity);
-				}
+            if (!collider.collisionFound) {
+                position.addToRef(velocity, finalPosition);
+                //return;
+            } else {
+                if (velocity.x != 0 || velocity.y != 0 || velocity.z != 0) {
+                    collider._getResponse(position, velocity);
+                }
 
-				if (velocity.length() <= closeDistance) {
-					finalPosition.copyFrom(position);
-					//return;
-				} else {
-					collider.retry++;
-					this._collideWithWorld(position, velocity, collider, maximumRetry, finalPosition);
-				}
-			}
-		}
-	}
+                if (velocity.length() <= closeDistance) {
+                    finalPosition.copyFrom(position);
+                    //return;
+                } else {
+                    collider.retry++;
+                    this._collideWithWorld(position, velocity, collider, maximumRetry, finalPosition);
+                }
+            }
+        }
+    }
 
-	inline public function createOrUpdateSelectionOctree() {
-		if (this._selectionOctree == null) {
+    inline public function createOrUpdateSelectionOctree() {
+        if (this._selectionOctree == null) {
             this._selectionOctree = new Octree();
         }
 
@@ -1032,27 +1032,27 @@ class Scene {
 
         // Update octree
         this._selectionOctree.update(min, max, this.meshes);
-	}
-	
-	inline public function createPickingRay(x:Float, y:Float, world:Matrix = null, camera:Camera = null):Ray {
-		var engine = this._engine;
+    }
+
+    inline public function createPickingRay(x:Float, y:Float, world:Matrix = null, camera:Camera = null):Ray {
+        var engine = this._engine;
 
         if (camera == null) {
             if (this.activeCamera == null)
                 throw("Active camera not set");
 
             //this.setTransformMatrix(this.activeCamera.getViewMatrix(), this.activeCamera.getProjectionMatrix());
-			camera = this.activeCamera;
+            camera = this.activeCamera;
         }
         var viewport = this.activeCamera.viewport.toGlobal(engine);
 
         //return Ray.CreateNew(x, y, viewport.width, viewport.height, world != null ? world : Matrix.Identity(), this._viewMatrix, this._projectionMatrix);
-		var viewport = camera.viewport.toGlobal(engine);
+        var viewport = camera.viewport.toGlobal(engine);
         return Ray.CreateNew(x, y, viewport.width, viewport.height, world != null ? world : Matrix.Identity(), camera.getViewMatrix(), camera.getProjectionMatrix());
-	}
-	
-	inline public function _internalPick(rayFunction:Matrix->Ray, predicate:Mesh->Bool, fastCheck:Bool):PickingInfo {
-		var pickingInfo:PickingInfo = null;
+    }
+
+    inline public function _internalPick(rayFunction:Matrix -> Ray, predicate:Mesh -> Bool, fastCheck:Bool):PickingInfo {
+        var pickingInfo:PickingInfo = null;
 
         for (meshIndex in 0...this.meshes.length) {
             var mesh:Mesh = this.meshes[meshIndex];
@@ -1081,30 +1081,30 @@ class Scene {
                 break;
             }
         }
-        
+
         return pickingInfo == null ? new PickingInfo() : pickingInfo;
-	}
-	
-	public function pick(x:Float, y:Float, predicate:Mesh->Bool, fastCheck:Bool, camera:Camera):PickingInfo {
+    }
+
+    public function pick(x:Float, y:Float, predicate:Mesh -> Bool, fastCheck:Bool, camera:Camera):PickingInfo {
         return this._internalPick(function(world:Matrix):Ray {
             return this.createPickingRay(x, y, world, camera);
         }, predicate, fastCheck);
     }
-	
-	public function pickWithRay(ray:Ray, predicate:Mesh->Bool, fastCheck:Bool):PickingInfo {
-		function param(world:Matrix):Ray {
+
+    public function pickWithRay(ray:Ray, predicate:Mesh -> Bool, fastCheck:Bool):PickingInfo {
+        function param(world:Matrix):Ray {
             if (this._pickWithRayInverseMatrix == null) {
                 this._pickWithRayInverseMatrix = Matrix.Identity();
             }
             world.invertToRef(this._pickWithRayInverseMatrix);
             return Ray.Transform(ray, this._pickWithRayInverseMatrix);
         }
-		
+
         return this._internalPick(param, predicate, fastCheck);
     }
-	
-	// TODO
-	// Physics
+
+    // TODO
+    // Physics
     /*BABYLON.Scene.prototype.enablePhysics = function(gravity) {
         if (this._physicsEngine) {
             return true;
@@ -1139,5 +1139,5 @@ class Scene {
 
         this._physicsEngine._setGravity(gravity);
     };*/
-	
+
 }

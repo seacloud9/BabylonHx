@@ -20,72 +20,74 @@ import openfl.utils.Float32Array;
  */
 
 class ParticleSystem {
-	
-	// Statics
+
+    // Statics
     public static var BLENDMODE_ONEONE:Int = 0;
     public static var BLENDMODE_STANDARD:Int = 1;
-	
-	public var name:String;
-	public var id:String;
-	public var _capacity:Int;
-	
-	public var _scene:Scene;
-	
-	public var _effect:Effect;
-	
-	public var gravity:Vector3;
-	public var direction1:Vector3;
-	public var direction2:Vector3;
-	public var minEmitBox:Vector3;
-	public var maxEmitBox:Vector3;
-	public var color1:Color4;
-	public var color2:Color4;
-	public var colorDead:Color4;
-	public var textureMask:Color4;
-	
-	public var particles:Array<Particle>;
-	public var _stockParticles:Array<Particle>;
-	public var _newPartsExcess:Float;
-	
-	private var _alive:Bool;
-	private var _started:Bool;
-	private var _stopped:Bool;
-	private var _actualFrame:Float;
-	
-	public var _vertexDeclaration:Array<Int>;
-	public var _vertexStrideSize:Int;
-	public var _vertexBuffer:BabylonGLBuffer;
-	public var _indexBuffer:BabylonGLBuffer;
-	#if html5
+
+    public var name:String;
+    public var id:String;
+    public var _capacity:Int;
+
+    public var _scene:Scene;
+
+    public var _effect:Effect;
+
+    public var gravity:Vector3;
+    public var direction1:Vector3;
+    public var direction2:Vector3;
+    public var minEmitBox:Vector3;
+    public var maxEmitBox:Vector3;
+    public var color1:Color4;
+    public var color2:Color4;
+    public var colorDead:Color4;
+    public var textureMask:Color4;
+
+
+    public var particles:Array<Particle>;
+    public var _stockParticles:Array<Particle>;
+    public var _newPartsExcess:Float;
+
+    private var _alive:Bool;
+    private var _started:Bool;
+    private var _stopped:Bool;
+    private var _actualFrame:Float;
+
+    public var _vertexDeclaration:Array<Int>;
+    public var _vertexStrideSize:Int;
+    public var _vertexBuffer:BabylonGLBuffer;
+    public var _indexBuffer:BabylonGLBuffer;
+    #if html5
 	public var _vertices:Float32Array;
 	#else
-	public var _vertices:Array<Float>;				
-	#end
-	public var _cachedDefines:String;
-	
-	public var _scaledUpdateSpeed:Float;
-	public var _scaledColorStep:Color4;
-	public var _colorDiff:Color4;
-	public var _scaledDirection:Vector3;
-	public var _scaledGravity:Vector3;
-	public var _currentRenderId:Int;
-	
-	// Members
+    public var _vertices:Array<Float>;
+    #end
+    public var _cachedDefines:String;
+
+    public var _scaledUpdateSpeed:Float;
+    public var _scaledColorStep:Color4;
+    public var _colorDiff:Color4;
+    public var _scaledDirection:Vector3;
+    public var _scaledGravity:Vector3;
+    public var _currentRenderId:Int;
+
+    // Members
     public var renderingGroupId:Int = 0;
-    public var emitter:Dynamic = null;				// Vector3		- TODO
+    public var emitter:Dynamic = null; // Vector3		- TODO
     public var emitRate:Int = 10;
     public var manualEmitCount:Int = -1;
     public var updateSpeed:Float = 0.01;
     public var targetStopDuration:Float = 0;
     public var disposeOnStop:Bool = false;
-	
-	public var emitterId(get, null):Dynamic;
-	function get_emitterId():Dynamic {
-		if (Reflect.field(this.emitter, "id") != null) {
-			return Reflect.field(this.emitter, "id");
-		} 
-		return "";
-	}
+
+    public var emitterId(get, null):Dynamic;
+
+    function get_emitterId():Dynamic {
+        if (Reflect.field(this.emitter, "id") != null) {
+            return Reflect.field(this.emitter, "id");
+        }
+        return "";
+    }
 
     public var minEmitPower:Float = 1;
     public var maxEmitPower:Float = 1;
@@ -99,21 +101,21 @@ class ParticleSystem {
     public var maxAngularSpeed:Float = 0;
 
     public var particleTexture:Texture;
-    
-    public var onDispose:Void->Void;
+
+    public var onDispose:Void -> Void;
 
     public var blendMode:Int;
-	
-	private var _engine:Engine;
-	
 
-	public function new(name:String, capacity:Int, scene:Scene) {
-		this.name = name;
+    private var _engine:Engine;
+
+
+    public function new(name:String, capacity:Int, scene:Scene) {
+        this.name = name;
         this.id = name;
         this._capacity = capacity;
 
         this._scene = scene;
-		this._engine = scene.getEngine();
+        this._engine = scene.getEngine();
 
         scene.particleSystems.push(this);
 
@@ -152,61 +154,62 @@ class ParticleSystem {
 
         this._indexBuffer = this._engine.createIndexBuffer(indices);
 
-		#if html5
+        #if html5
 		this._vertices = new Float32Array(capacity * this._vertexStrideSize);
 		#else
         this._vertices = [];
-		#end
-        
+        #end
+
         // Internals
         this._scaledColorStep = new Color4(0, 0, 0, 0);
         this._colorDiff = new Color4(0, 0, 0, 0);
         this._scaledDirection = Vector3.Zero();
         this._scaledGravity = Vector3.Zero();
         this._currentRenderId = -1;
-		
-		
-		this.renderingGroupId = 0;
-		this.emitter = null;
-		this.emitRate = 10;
-		this.manualEmitCount = -1;
-		this.updateSpeed = 0.01;
-		this.targetStopDuration = 0;
-		this.disposeOnStop = false;
 
-		this.minEmitPower = 1;
-		this.maxEmitPower = 1;
 
-		this.minLifeTime = 1;
-		this.maxLifeTime = 1;
+        this.renderingGroupId = 0;
+        this.emitter = null;
+        this.emitRate = 10;
+        this.manualEmitCount = -1;
+        this.updateSpeed = 0.01;
+        this.targetStopDuration = 0;
+        this.disposeOnStop = false;
 
-		this.minSize = 1;
-		this.maxSize = 1;
-		this.minAngularSpeed = 0;
-		this.maxAngularSpeed = 0;
+        this.minEmitPower = 1;
+        this.maxEmitPower = 1;
 
-		this.particleTexture = null;
-		
-		this.onDispose = null;
+        this.minLifeTime = 1;
+        this.maxLifeTime = 1;
 
-		this.blendMode = ParticleSystem.BLENDMODE_ONEONE;
-	}
-	
-	public function isAlive():Bool {
+        this.minSize = 1;
+        this.maxSize = 1;
+        this.minAngularSpeed = 0;
+        this.maxAngularSpeed = 0;
+
+        this.particleTexture = null;
+
+        this.onDispose = null;
+
+        this.blendMode = ParticleSystem.BLENDMODE_ONEONE;
+    }
+
+
+    public function isAlive():Bool {
         return this._alive;
     }
-	
-	public function start() {
+
+    public function start() {
         this._started = true;
         this._stopped = false;
         this._actualFrame = 0;
     }
-	
-	public function stop() {
+
+    public function stop() {
         this._stopped = true;
     }
-	
-	inline public function _appendParticleVertex(index:Int, particle:Particle, offsetX:Float, offsetY:Float) {
+
+    inline public function _appendParticleVertex(index:Int, particle:Particle, offsetX:Float, offsetY:Float) {
         var offset = index * 11;
         this._vertices[offset] = particle.position.x;
         this._vertices[offset + 1] = particle.position.y;
@@ -218,51 +221,75 @@ class ParticleSystem {
         this._vertices[offset + 7] = particle.angle;
         this._vertices[offset + 8] = particle.size;
         this._vertices[offset + 9] = offsetX;
-        this._vertices[offset + 10] = offsetY;		
+        this._vertices[offset + 10] = offsetY;
     }
-	
-	inline public inline function _update(newParticles:Int) {
-		var particle:Particle = null;
-		
+
+    public function getParent(id:String):Dynamic {
+        var _emmiter = this._scene.getLastMeshByID(id);
+        if (_emmiter.parent != null) {
+            return this.getParent(_emmiter.parent.id);
+        } else {
+            return _emmiter;
+        }
+    }
+
+    inline public inline function _update(newParticles:Int) {
+        var particle:Particle = null;
+
         // Update current
         this._alive = this.particles.length > 0;
-		
-		var index:Int = -1;
-		
-		while(++index < this.particles.length) {
-			particle = this.particles[index];						
-			particle.age += this._scaledUpdateSpeed;
 
-			if (particle.age >= particle.lifeTime) {
-				this._stockParticles.push(this.particles.splice(index, 1)[0]);
-				index--;
-				continue;
-			}
-			else {
-				particle.colorStep.scaleToRef(this._scaledUpdateSpeed, this._scaledColorStep);
-				particle.color.addInPlace(this._scaledColorStep);
+        var index:Int = -1;
 
-				if (particle.color.a < 0)
-					particle.color.a = 0;
+        while (++index < this.particles.length) {
+            particle = this.particles[index];
+            particle.age += this._scaledUpdateSpeed;
 
-				particle.direction.scaleToRef(this._scaledUpdateSpeed, this._scaledDirection);
-				particle.position.addInPlace(this._scaledDirection);
+            if (particle.age >= particle.lifeTime) {
+                this._stockParticles.push(this.particles.splice(index, 1)[0]);
+                index--;
+                continue;
+            } else {
+                particle.colorStep.scaleToRef(this._scaledUpdateSpeed, this._scaledColorStep);
+                particle.color.addInPlace(this._scaledColorStep);
 
-				particle.angle += particle.angularSpeed * this._scaledUpdateSpeed;
+                if (particle.color.a < 0)
+                    particle.color.a = 0;
 
-				this.gravity.scaleToRef(this._scaledUpdateSpeed, this._scaledGravity);
-				particle.direction.addInPlace(this._scaledGravity);
-			}
-			
-			//index++;
-		}
-        
+                particle.direction.scaleToRef(this._scaledUpdateSpeed, this._scaledDirection);
+                particle.position.addInPlace(this._scaledDirection);
+
+                particle.angle += particle.angularSpeed * this._scaledUpdateSpeed;
+
+                this.gravity.scaleToRef(this._scaledUpdateSpeed, this._scaledGravity);
+                particle.direction.addInPlace(this._scaledGravity);
+            }
+
+            //index++;
+        }
+
         // Add new ones
-        var worldMatrix:Matrix = Matrix.Translation(this.emitter.x, this.emitter.y, this.emitter.z);
+        var worldMatrix:Matrix;
 
-        if (this.emitter.position) {
+        if (this.emitter.position != null) {
+            // var _emmiter = this.getParent( this.emitter.id );
+           /* try{
+                trace('parent --');
+                trace(this.emitter.parent);
+            }catch(e:String){
+                trace(e);
+            }*/
+
             worldMatrix = this.emitter.getWorldMatrix();
-        } 
+       
+
+            
+
+            
+            //trace( 'worldMatrix =' + worldMatrix );
+        } else {
+            worldMatrix = Matrix.Translation(this.emitter.x, this.emitter.y, this.emitter.z);
+        }
 
         for (index in 0...newParticles) {
             if (this.particles.length == this._capacity) {
@@ -275,7 +302,7 @@ class ParticleSystem {
             } else {
                 particle = new Particle();
             }
-			this.particles.push(particle);
+            this.particles.push(particle);
 
             var emitPower:Float = Tools.randomNumber(this.minEmitPower, this.maxEmitPower);
 
@@ -295,37 +322,34 @@ class ParticleSystem {
             randZ = Tools.randomNumber(this.minEmitBox.z, this.maxEmitBox.z);
 
             Vector3.TransformCoordinatesFromFloatsToRef(randX, randY, randZ, worldMatrix, particle.position);
-			
+
             var step = Tools.randomNumber(0, 1.0);
 
             Color4.LerpToRef(this.color1, this.color2, step, particle.color);
 
             this.colorDead.subtractToRef(particle.color, this._colorDiff);
             this._colorDiff.scaleToRef(1.0 / particle.lifeTime, particle.colorStep);
-        }		
+        }
     }
-	
-	public function _getEffect():Effect {
+
+    public function _getEffect():Effect {
         var defines:Array<String> = [];
-        
+
         if (Engine.clipPlane != null) {
             defines.push("#define CLIPPLANE");
         }
-        
+
         // Effect
         var join = defines.join("\n");
         if (this._cachedDefines != join) {
             this._cachedDefines = join;
-            this._effect = this._engine.createEffect("particles",
-                ["position", "color", "options"],
-                ["invView", "view", "projection", "vClipPlane", "textureMask"],
-                ["diffuseSampler"], join);
+            this._effect = this._engine.createEffect("particles", ["position", "color", "options"], ["invView", "view", "projection", "vClipPlane", "textureMask"], ["diffuseSampler"], join);
         }
 
         return this._effect;
     }
-	
-	public function animate() {
+
+    public function animate() {
         if (!this._started)
             return;
 
@@ -334,7 +358,7 @@ class ParticleSystem {
         // Check
         if (this.emitter == null || !effect.isReady() || this.particleTexture == null || !this.particleTexture.isReady())
             return;
-        
+
         if (this._currentRenderId == this._scene.getRenderId()) {
             return;
         }
@@ -345,11 +369,11 @@ class ParticleSystem {
 
         // determine the number of particles we need to create   
         var emitCout:Int = this.emitRate;
-        
+
         if (this.manualEmitCount > -1) {
             emitCout = this.manualEmitCount;
             this.manualEmitCount = 0;
-        } 
+        }
 
         var newParticles = emitCout * this._scaledUpdateSpeed;
         this._newPartsExcess += emitCout * this._scaledUpdateSpeed - newParticles;
@@ -392,11 +416,11 @@ class ParticleSystem {
             this._appendParticleVertex(offset++, particle, 1, 1);
             this._appendParticleVertex(offset++, particle, 0, 1);
         }
-		
+
         this._engine.updateDynamicVertexBuffer(this._vertexBuffer, this._vertices, this.particles.length * this._vertexStrideSize);
-	}
-	
-	public function render():Int {
+    }
+
+    public function render():Int {
         var effect:Effect = this._getEffect();
 
         // Check
@@ -417,7 +441,7 @@ class ParticleSystem {
             invView.invert();
             effect.setMatrix("invView", invView);
             effect.setFloat4("vClipPlane", Engine.clipPlane.normal.x, Engine.clipPlane.normal.y, Engine.clipPlane.normal.z, Engine.clipPlane.d);
-        }        
+        }
 
         // VBOs
         this._engine.bindBuffers(this._vertexBuffer, this._indexBuffer, this._vertexDeclaration, this._vertexStrideSize, effect);
@@ -433,8 +457,8 @@ class ParticleSystem {
 
         return this.particles.length;
     }
-	
-	public function dispose() {
+
+    public function dispose() {
         if (this._vertexBuffer != null) {
             this._engine._releaseBuffer(this._vertexBuffer);
             this._vertexBuffer = null;
@@ -453,15 +477,15 @@ class ParticleSystem {
         // Remove from scene
         //var index = this._scene.particleSystems.indexOf(this);
         //this._scene.particleSystems.splice(index, 1);
-		this._scene.particleSystems.remove(this);
-        
+        this._scene.particleSystems.remove(this);
+
         // Callback
         if (this.onDispose != null) {
             this.onDispose();
         }
     }
-	
-	public function clone(name:String, newEmitter:Dynamic):ParticleSystem {
+
+    public function clone(name:String, newEmitter:Dynamic):ParticleSystem {
         var result:ParticleSystem = new ParticleSystem(name, this._capacity, this._scene);
 
         Tools.DeepCopy(this, result, ["particles"], ["_vertexDeclaration", "_vertexStrideSize"]);
@@ -479,5 +503,5 @@ class ParticleSystem {
 
         return result;
     }
-	
+
 }

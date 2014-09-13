@@ -11,57 +11,52 @@ import openfl.utils.Float32Array;
 
 class Matrix {
 
-	#if html5
+    #if html5
 	public var m:Float32Array;
 	#else
-	public var m:Array<Float>;	
-	#end
+    public var m:Array<Float>;
+    #end
 
-	public function new() {
-		#if html5
+    public function new() {
+        #if html5
 		m = new Float32Array(16);
 		#else
-		m = [];
-		#end
-	}
+        m = [];
+        #end
+    }
 
-	inline public function isIdentity():Bool {
-		var ret:Bool = true;
-		if (this.m[0] != 1.0 || this.m[5] != 1.0 || this.m[10] != 1.0 || this.m[15] != 1.0)
+    inline public function isIdentity():Bool {
+        var ret:Bool = true;
+        if (this.m[0] != 1.0 || this.m[5] != 1.0 || this.m[10] != 1.0 || this.m[15] != 1.0)
             ret = false;
 
-        if (this.m[1] != 0.0 || this.m[2] != 0.0 || this.m[3] != 0.0 ||
-            this.m[4] != 0.0 || this.m[6] != 0.0 || this.m[7] != 0.0 ||
-            this.m[8] != 0.0 || this.m[9] != 0.0 || this.m[11] != 0.0 ||
-            this.m[12] != 0.0 || this.m[13] != 0.0 || this.m[14] != 0.0)
+        if (this.m[1] != 0.0 || this.m[2] != 0.0 || this.m[3] != 0.0 || this.m[4] != 0.0 || this.m[6] != 0.0 || this.m[7] != 0.0 || this.m[8] != 0.0 || this.m[9] != 0.0 || this.m[11] != 0.0 || this.m[12] != 0.0 || this.m[13] != 0.0 || this.m[14] != 0.0)
             ret = false;
 
         return ret;
-	}
-	
-	inline public function determinant():Float {
-		var temp1 = (this.m[10] * this.m[15]) - (this.m[11] * this.m[14]);
+    }
+
+    inline public function determinant():Float {
+        var temp1 = (this.m[10] * this.m[15]) - (this.m[11] * this.m[14]);
         var temp2 = (this.m[9] * this.m[15]) - (this.m[11] * this.m[13]);
         var temp3 = (this.m[9] * this.m[14]) - (this.m[10] * this.m[13]);
         var temp4 = (this.m[8] * this.m[15]) - (this.m[11] * this.m[12]);
         var temp5 = (this.m[8] * this.m[14]) - (this.m[10] * this.m[12]);
         var temp6 = (this.m[8] * this.m[13]) - (this.m[9] * this.m[12]);
 
-        return ((((this.m[0] * (((this.m[5] * temp1) - (this.m[6] * temp2)) + (this.m[7] * temp3))) - (this.m[1] * (((this.m[4] * temp1) -
-                (this.m[6] * temp4)) + (this.m[7] * temp5)))) + (this.m[2] * (((this.m[4] * temp2) - (this.m[5] * temp4)) + (this.m[7] * temp6)))) -
-            (this.m[3] * (((this.m[4] * temp3) - (this.m[5] * temp5)) + (this.m[6] * temp6))));
-	}
-	
-	inline public function toArray(): #if html5 Float32Array #else Array<Float> #end {
-		return this.m;
-	}
-	
-	inline public function invert() {
-		this.invertToRef(this);
-	}
-	
-	inline public function invertToRef(other:Matrix) {
-		var l1 = this.m[0];
+        return ((((this.m[0] * (((this.m[5] * temp1) - (this.m[6] * temp2)) + (this.m[7] * temp3))) - (this.m[1] * (((this.m[4] * temp1) - (this.m[6] * temp4)) + (this.m[7] * temp5)))) + (this.m[2] * (((this.m[4] * temp2) - (this.m[5] * temp4)) + (this.m[7] * temp6)))) - (this.m[3] * (((this.m[4] * temp3) - (this.m[5] * temp5)) + (this.m[6] * temp6))));
+    }
+
+    inline public function toArray():#if html5 Float32Array #else Array<Float> #end {
+        return this.m;
+    }
+
+    inline public function invert() {
+        this.invertToRef(this);
+    }
+
+    inline public function invertToRef(other:Matrix) {
+        var l1 = this.m[0];
         var l2 = this.m[1];
         var l3 = this.m[2];
         var l4 = this.m[3];
@@ -117,32 +112,32 @@ class Matrix {
         other.m[7] = (((l1 * l34) - (l3 * l37)) + (l4 * l38)) * l27;
         other.m[11] = -(((l1 * l35) - (l2 * l37)) + (l4 * l39)) * l27;
         other.m[15] = (((l1 * l36) - (l2 * l38)) + (l3 * l39)) * l27;
-	}
-	
-	inline public function setTranslation(vector3:Vector3) {
-		this.m[12] = vector3.x;
+    }
+
+    inline public function setTranslation(vector3:Vector3) {
+        this.m[12] = vector3.x;
         this.m[13] = vector3.y;
         this.m[14] = vector3.z;
-	}
-	
-	inline public function multiply(other:Matrix):Matrix {
-		var result = new Matrix();
+    }
+
+    inline public function multiply(other:Matrix):Matrix {
+        var result = new Matrix();
         this.multiplyToRef(other, result);
         return result;
-	}
-	
-	inline public function copyFrom(other:Matrix) {
-		for (index in 0...16) {
+    }
+
+    inline public function copyFrom(other:Matrix) {
+        for (index in 0...16) {
             this.m[index] = other.m[index];
         }
-	}
-	
-	inline public function multiplyToRef(other:Matrix, result:Matrix) {
-		this.multiplyToArray(other, result.m, 0);
-	}
-	
-	inline public function multiplyToArray(other:Matrix, result: #if html5 Float32Array #else Array<Float> #end , offset:Int): #if html5 Float32Array #else Array<Float> #end {
-		var tm0 = this.m[0];
+    }
+
+    inline public function multiplyToRef(other:Matrix, result:Matrix) {
+        this.multiplyToArray(other, result.m, 0);
+    }
+
+    inline public function multiplyToArray(other:Matrix, result:#if html5 Float32Array #else Array<Float> #end, offset:Int):#if html5 Float32Array #else Array<Float> #end {
+        var tm0 = this.m[0];
         var tm1 = this.m[1];
         var tm2 = this.m[2];
         var tm3 = this.m[3];
@@ -195,44 +190,35 @@ class Matrix {
         result[offset + 13] = tm12 * om1 + tm13 * om5 + tm14 * om9 + tm15 * om13;
         result[offset + 14] = tm12 * om2 + tm13 * om6 + tm14 * om10 + tm15 * om14;
         result[offset + 15] = tm12 * om3 + tm13 * om7 + tm14 * om11 + tm15 * om15;
-		
-		return result;
-	}
-	
-	inline public function equals(value:Matrix):Bool {
-		return (this.m[0] == value.m[0] && this.m[1] == value.m[1] && this.m[2] == value.m[2] && this.m[3] == value.m[3] &&
-                this.m[4] == value.m[4] && this.m[5] == value.m[5] && this.m[6] == value.m[6] && this.m[7] == value.m[7] &&
-                this.m[8] == value.m[8] && this.m[9] == value.m[9] && this.m[10] == value.m[10] && this.m[11] == value.m[11] &&
-                this.m[12] == value.m[12] && this.m[13] == value.m[13] && this.m[14] == value.m[14] && this.m[15] == value.m[15]);
-	}
-	
-	inline public function clone():Matrix {
-		return Matrix.FromValues(this.m[0], this.m[1], this.m[2], this.m[3],
-            this.m[4], this.m[5], this.m[6], this.m[7],
-            this.m[8], this.m[9], this.m[10], this.m[11],
-            this.m[12], this.m[13], this.m[14], this.m[15]);
-	}
-	
 
-	inline public static function FromArray(array:Array<Float>, offset:Int = 0):Matrix {
-		var result = new Matrix();
+        return result;
+    }
+
+    inline public function equals(value:Matrix):Bool {
+        return (this.m[0] == value.m[0] && this.m[1] == value.m[1] && this.m[2] == value.m[2] && this.m[3] == value.m[3] && this.m[4] == value.m[4] && this.m[5] == value.m[5] && this.m[6] == value.m[6] && this.m[7] == value.m[7] && this.m[8] == value.m[8] && this.m[9] == value.m[9] && this.m[10] == value.m[10] && this.m[11] == value.m[11] && this.m[12] == value.m[12] && this.m[13] == value.m[13] && this.m[14] == value.m[14] && this.m[15] == value.m[15]);
+    }
+
+    inline public function clone():Matrix {
+        return Matrix.FromValues(this.m[0], this.m[1], this.m[2], this.m[3], this.m[4], this.m[5], this.m[6], this.m[7], this.m[8], this.m[9], this.m[10], this.m[11], this.m[12], this.m[13], this.m[14], this.m[15]);
+    }
+
+
+    inline public static function FromArray(array:Array<Float>, offset:Int = 0):Matrix {
+        var result = new Matrix();
         Matrix.FromArrayToRef(array, offset, result);
         return result;
-	}
-	
-	inline public static function FromArrayToRef(array:Array<Float>, offset:Int = 0, result:Matrix):Matrix {
-		for (index in 0...16) {
+    }
+
+    inline public static function FromArrayToRef(array:Array<Float>, offset:Int = 0, result:Matrix):Matrix {
+        for (index in 0...16) {
             result.m[index] = array[index + offset];
         }
-		return result;
-	}
-	
-	inline public static function FromValues(m11:Float, m12:Float, m13:Float, m14:Float,
-		m21:Float, m22:Float, m23:Float, m24:Float,
-		m31:Float, m32:Float, m33:Float, m34:Float,
-		m41:Float, m42:Float, m43:Float, m44:Float):Matrix {
-			
-		var result = new Matrix();
+        return result;
+    }
+
+    inline public static function FromValues(m11:Float, m12:Float, m13:Float, m14:Float, m21:Float, m22:Float, m23:Float, m24:Float, m31:Float, m32:Float, m33:Float, m34:Float, m41:Float, m42:Float, m43:Float, m44:Float):Matrix {
+
+        var result = new Matrix();
 
         result.m[0] = m11;
         result.m[1] = m12;
@@ -251,15 +237,12 @@ class Matrix {
         result.m[14] = m43;
         result.m[15] = m44;
 
-        return result;		
-	}
-	
-	inline public static function FromValuesToRef(m11:Float, m12:Float, m13:Float, m14:Float,
-		m21:Float, m22:Float, m23:Float, m24:Float,
-		m31:Float, m32:Float, m33:Float, m34:Float,
-		m41:Float, m42:Float, m43:Float, m44:Float, result:Matrix):Matrix {
-		
-		result.m[0] = m11;
+        return result;
+    }
+
+    inline public static function FromValuesToRef(m11:Float, m12:Float, m13:Float, m14:Float, m21:Float, m22:Float, m23:Float, m24:Float, m31:Float, m32:Float, m33:Float, m34:Float, m41:Float, m42:Float, m43:Float, m44:Float, result:Matrix):Matrix {
+
+        result.m[0] = m11;
         result.m[1] = m12;
         result.m[2] = m13;
         result.m[3] = m14;
@@ -275,48 +258,33 @@ class Matrix {
         result.m[13] = m42;
         result.m[14] = m43;
         result.m[15] = m44;
-		
-		return result;
-	}
-	
-	inline public static function Identity():Matrix {
-		return Matrix.FromValues(
-			1.0, 0, 0, 0,
-            0, 1.0, 0, 0,
-            0, 0, 1.0, 0,
-            0, 0, 0, 1.0
-		);
-	}
-	
-	inline public static function IdentityToRef(result:Matrix):Matrix {
-		Matrix.FromValuesToRef(
-			1.0, 0, 0, 0,
-            0, 1.0, 0, 0,
-            0, 0, 1.0, 0,
-            0, 0, 0, 1.0, result
-		);
-		
-		return result;
-	}
-	
-	inline public static function Zero():Matrix {
-		return Matrix.FromValues(
-			0, 0, 0, 0,
-            0, 0, 0, 0,
-            0, 0, 0, 0,
-            0, 0, 0, 0
-		);
-	}
-	
-	inline public static function RotationX(angle:Float):Matrix {
-		var result = new Matrix();
+
+        return result;
+    }
+
+    inline public static function Identity():Matrix {
+        return Matrix.FromValues(1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0);
+    }
+
+    inline public static function IdentityToRef(result:Matrix):Matrix {
+        Matrix.FromValuesToRef(1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, result);
+
+        return result;
+    }
+
+    inline public static function Zero():Matrix {
+        return Matrix.FromValues(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
+
+    inline public static function RotationX(angle:Float):Matrix {
+        var result = new Matrix();
         Matrix.RotationXToRef(angle, result);
 
         return result;
-	}
-	
-	inline public static function RotationXToRef(angle:Float, result:Matrix):Matrix {
-		var s = Math.sin(angle);
+    }
+
+    inline public static function RotationXToRef(angle:Float, result:Matrix):Matrix {
+        var s = Math.sin(angle);
         var c = Math.cos(angle);
 
         result.m[0] = 1.0;
@@ -337,19 +305,19 @@ class Matrix {
         result.m[12] = 0;
         result.m[13] = 0;
         result.m[14] = 0;
-		
-		return result;
-	}
-	
-	inline public static function RotationY(angle:Float):Matrix {
-		var result = new Matrix();
+
+        return result;
+    }
+
+    inline public static function RotationY(angle:Float):Matrix {
+        var result = new Matrix();
         Matrix.RotationYToRef(angle, result);
 
         return result;
-	}
-	
-	inline public static function RotationYToRef(angle:Float, result:Matrix):Matrix {
-		var s = Math.sin(angle);
+    }
+
+    inline public static function RotationYToRef(angle:Float, result:Matrix):Matrix {
+        var s = Math.sin(angle);
         var c = Math.cos(angle);
 
         result.m[5] = 1.0;
@@ -370,19 +338,19 @@ class Matrix {
         result.m[12] = 0;
         result.m[13] = 0;
         result.m[14] = 0;
-		
-		return result;
-	}
-	
-	inline public static function RotationZ(angle:Float):Matrix {
-		var result = new Matrix();
+
+        return result;
+    }
+
+    inline public static function RotationZ(angle:Float):Matrix {
+        var result = new Matrix();
         Matrix.RotationZToRef(angle, result);
 
         return result;
-	}
-	
-	inline public static function RotationZToRef(angle:Float, result:Matrix):Matrix {
-		var s = Math.sin(angle);
+    }
+
+    inline public static function RotationZToRef(angle:Float, result:Matrix):Matrix {
+        var s = Math.sin(angle);
         var c = Math.cos(angle);
 
         result.m[10] = 1.0;
@@ -403,12 +371,12 @@ class Matrix {
         result.m[12] = 0;
         result.m[13] = 0;
         result.m[14] = 0;
-		
-		return result;
-	}
-	
-	inline public static function RotationAxis(axis:Vector3, angle:Float):Matrix {
-		var s = Math.sin(-angle);
+
+        return result;
+    }
+
+    inline public static function RotationAxis(axis:Vector3, angle:Float):Matrix {
+        var s = Math.sin(-angle);
         var c = Math.cos(-angle);
         var c1 = 1 - c;
 
@@ -433,31 +401,31 @@ class Matrix {
         result.m[15] = 1.0;
 
         return result;
-	}
-	
-	inline public static function RotationYawPitchRoll(yaw:Float, pitch:Float, roll:Float):Matrix {
-		var result = new Matrix();
+    }
+
+    inline public static function RotationYawPitchRoll(yaw:Float, pitch:Float, roll:Float):Matrix {
+        var result = new Matrix();
         Matrix.RotationYawPitchRollToRef(yaw, pitch, roll, result);
 
         return result;
-	}
-	
-	inline public static function RotationYawPitchRollToRef(yaw:Float, pitch:Float, roll:Float, result:Matrix):Matrix {
-		var tempQuaternion = new Quaternion(); // For RotationYawPitchRoll
-		tempQuaternion = Quaternion.RotationYawPitchRollToRef(yaw, pitch, roll, tempQuaternion);
+    }
+
+    inline public static function RotationYawPitchRollToRef(yaw:Float, pitch:Float, roll:Float, result:Matrix):Matrix {
+        var tempQuaternion = new Quaternion(); // For RotationYawPitchRoll
+        tempQuaternion = Quaternion.RotationYawPitchRollToRef(yaw, pitch, roll, tempQuaternion);
 
         return tempQuaternion.toRotationMatrix(result);
-	}
-	
-	inline public static function Scaling(x:Float, y:Float, z:Float):Matrix {
-		var result = Matrix.Zero();
+    }
+
+    inline public static function Scaling(x:Float, y:Float, z:Float):Matrix {
+        var result = Matrix.Zero();
         Matrix.ScalingToRef(x, y, z, result);
 
         return result;
-	}
-	
-	inline public static function ScalingToRef(x:Float, y:Float, z:Float, result:Matrix):Matrix {
-		result.m[0] = x;
+    }
+
+    inline public static function ScalingToRef(x:Float, y:Float, z:Float, result:Matrix):Matrix {
+        result.m[0] = x;
         result.m[1] = 0;
         result.m[2] = 0;
         result.m[3] = 0;
@@ -473,39 +441,34 @@ class Matrix {
         result.m[13] = 0;
         result.m[14] = 0;
         result.m[15] = 1.0;
-		
-		return result;
-	}
-	
-	inline public static function Translation(x:Float, y:Float, z:Float):Matrix {
-		var result = Matrix.Identity();
+
+        return result;
+    }
+
+    inline public static function Translation(x:Float, y:Float, z:Float):Matrix {
+        var result = Matrix.Identity();
         Matrix.TranslationToRef(x, y, z, result);
 
         return result;
-	}
-	
-	inline public static function TranslationToRef(x:Float, y:Float, z:Float, result:Matrix) {
-		Matrix.FromValuesToRef(
-			1.0, 0, 0, 0,
-            0, 1.0, 0, 0,
-            0, 0, 1.0, 0,
-            x, y, z, 1.0, result
-		);
-	}
-	
-	inline public static function LookAtLH(eye:Vector3, target:Vector3, up:Vector3):Matrix {
-		var result = Matrix.Zero();
+    }
+
+    inline public static function TranslationToRef(x:Float, y:Float, z:Float, result:Matrix) {
+        Matrix.FromValuesToRef(1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, 0, x, y, z, 1.0, result);
+    }
+
+    inline public static function LookAtLH(eye:Vector3, target:Vector3, up:Vector3):Matrix {
+        var result = Matrix.Zero();
         Matrix.LookAtLHToRef(eye, target, up, result);
 
         return result;
-	}
-	
-	inline public static function LookAtLHToRef(eye:Vector3, target:Vector3, up:Vector3, result:Matrix):Matrix {
-		var xAxis = Vector3.Zero();
-		var yAxis = Vector3.Zero();
-		var zAxis = Vector3.Zero();
-		
-		// Z axis
+    }
+
+    inline public static function LookAtLHToRef(eye:Vector3, target:Vector3, up:Vector3, result:Matrix):Matrix {
+        var xAxis = Vector3.Zero();
+        var yAxis = Vector3.Zero();
+        var zAxis = Vector3.Zero();
+
+        // Z axis
         target.subtractToRef(eye, zAxis);
         zAxis.normalize();
 
@@ -522,52 +485,44 @@ class Matrix {
         var ey = -Vector3.Dot(yAxis, eye);
         var ez = -Vector3.Dot(zAxis, eye);
 
-        return Matrix.FromValuesToRef(xAxis.x, yAxis.x, zAxis.x, 0,
-            xAxis.y, yAxis.y, zAxis.y, 0,
-            xAxis.z, yAxis.z, zAxis.z, 0,
-            ex, ey, ez, 1, result);
-	}
-	
-	inline public static function OrthoLH(width:Float, height:Float, znear:Float, zfar:Float):Matrix {
-		var hw = 2.0 / width;
+        return Matrix.FromValuesToRef(xAxis.x, yAxis.x, zAxis.x, 0, xAxis.y, yAxis.y, zAxis.y, 0, xAxis.z, yAxis.z, zAxis.z, 0, ex, ey, ez, 1, result);
+    }
+
+    inline public static function OrthoLH(width:Float, height:Float, znear:Float, zfar:Float):Matrix {
+        var hw = 2.0 / width;
         var hh = 2.0 / height;
         var id = 1.0 / (zfar - znear);
         var nid = znear / (znear - zfar);
 
-        return Matrix.FromValues(
-			hw, 0, 0, 0,
-            0, hh, 0, 0,
-            0, 0, id, 0,
-            0, 0, nid, 1
-		);
-	}
-	
-	inline public static function OrthoOffCenterLH(left:Float, right:Float, bottom:Float, top:Float, znear:Float, zfar:Float):Matrix {
-		var matrix = Matrix.Zero();
+        return Matrix.FromValues(hw, 0, 0, 0, 0, hh, 0, 0, 0, 0, id, 0, 0, 0, nid, 1);
+    }
+
+    inline public static function OrthoOffCenterLH(left:Float, right:Float, bottom:Float, top:Float, znear:Float, zfar:Float):Matrix {
+        var matrix = Matrix.Zero();
         Matrix.OrthoOffCenterLHToRef(left, right, bottom, top, znear, zfar, matrix);
 
         return matrix;
-	}
-		
-	inline public static function OrthoOffCenterLHToRef(left:Float, right:Float, bottom:Float, top:Float, znear:Float, zfar:Float, result:Matrix):Matrix {
-		result.m[0] = 2.0 / (right - left);
+    }
+
+    inline public static function OrthoOffCenterLHToRef(left:Float, right:Float, bottom:Float, top:Float, znear:Float, zfar:Float, result:Matrix):Matrix {
+        result.m[0] = 2.0 / (right - left);
         result.m[1] = result.m[2] = result.m[3] = result.m[4] = 0;
         result.m[5] = 2.0 / (top - bottom);
-        result.m[6] = result.m[7] = 0;        
+        result.m[6] = result.m[7] = 0;
         result.m[8] = result.m[9] = 0;
-		result.m[10] = -1 / (znear - zfar);
-		result.m[11] = 0;
+        result.m[10] = -1 / (znear - zfar);
+        result.m[11] = 0;
         result.m[12] = (left + right) / (left - right);
         result.m[13] = (top + bottom) / (bottom - top);
         result.m[14] = znear / (znear - zfar);
         result.m[15] = 1.0;
-		
-		
-		return result;
-	}
-	
-	inline public static function PerspectiveLH(width:Float, height:Float, znear:Float, zfar:Float):Matrix {
-		var matrix = Matrix.Zero();
+
+
+        return result;
+    }
+
+    inline public static function PerspectiveLH(width:Float, height:Float, znear:Float, zfar:Float):Matrix {
+        var matrix = Matrix.Zero();
 
         matrix.m[0] = (2.0 * znear) / width;
         matrix.m[1] = matrix.m[2] = matrix.m[3] = 0.0;
@@ -580,17 +535,17 @@ class Matrix {
         matrix.m[14] = (znear * zfar) / (znear - zfar);
 
         return matrix;
-	}
-	
-	inline public static function PerspectiveFovLH(fov:Float, aspect:Float, znear:Float, zfar:Float):Matrix {
-		var matrix = Matrix.Zero();
+    }
+
+    inline public static function PerspectiveFovLH(fov:Float, aspect:Float, znear:Float, zfar:Float):Matrix {
+        var matrix = Matrix.Zero();
         Matrix.PerspectiveFovLHToRef(fov, aspect, znear, zfar, matrix);
 
         return matrix;
-	}
-	
-	inline public static function PerspectiveFovLHToRef(fov:Float, aspect:Float, znear:Float, zfar:Float, result:Matrix):Matrix {
-		var tan = 1.0 / (Math.tan(fov * 0.5));
+    }
+
+    inline public static function PerspectiveFovLHToRef(fov:Float, aspect:Float, znear:Float, zfar:Float, result:Matrix):Matrix {
+        var tan = 1.0 / (Math.tan(fov * 0.5));
 
         result.m[0] = tan / aspect;
         result.m[1] = result.m[2] = result.m[3] = 0.0;
@@ -601,33 +556,28 @@ class Matrix {
         result.m[11] = 1.0;
         result.m[12] = result.m[13] = result.m[15] = 0.0;
         result.m[14] = (znear * zfar) / (znear - zfar);
-		
-		return result;
-	}
-	
-	/*public static function AffineTransformation(scaling:Float, rotationCenter:Vector3, rotation:Quaternion, translation:Vector3):Matrix {
+
+        return result;
+    }
+
+    /*public static function AffineTransformation(scaling:Float, rotationCenter:Vector3, rotation:Quaternion, translation:Vector3):Matrix {
 		return Matrix.Scaling(scaling, scaling, scaling) * Matrix.Translation(-rotationCenter) *
             Matrix.RotationQuaternion(rotation) * Matrix.Translation(rotationCenter) * Matrix.Translation(translation);
 	}*/
-	
-	inline public static function GetFinalMatrix(viewport:Viewport, world:Matrix, view:Matrix, projection:Matrix, zmin:Float, zmax:Float):Matrix {
-		var cw = viewport.width;
+
+    inline public static function GetFinalMatrix(viewport:Viewport, world:Matrix, view:Matrix, projection:Matrix, zmin:Float, zmax:Float):Matrix {
+        var cw = viewport.width;
         var ch = viewport.height;
         var cx = viewport.x;
         var cy = viewport.y;
 
-        var viewportMatrix = Matrix.FromValues(
-			cw / 2.0, 0, 0, 0,
-            0, -ch / 2.0, 0, 0,
-            0, 0, zmax - zmin, 0,
-            cx + cw / 2.0, ch / 2.0 + cy, zmin, 1
-		);
+        var viewportMatrix = Matrix.FromValues(cw / 2.0, 0, 0, 0, 0, -ch / 2.0, 0, 0, 0, 0, zmax - zmin, 0, cx + cw / 2.0, ch / 2.0 + cy, zmin, 1);
 
         return world.multiply(view).multiply(projection).multiply(viewportMatrix);
-	}
-	
-	inline public static function Transpose(matrix:Matrix):Matrix {
-		var result = new Matrix();
+    }
+
+    inline public static function Transpose(matrix:Matrix):Matrix {
+        var result = new Matrix();
 
         result.m[0] = matrix.m[0];
         result.m[1] = matrix.m[4];
@@ -650,17 +600,17 @@ class Matrix {
         result.m[15] = matrix.m[15];
 
         return result;
-	}
-	
-	inline public static function Reflection(plane:Plane):Matrix {
-		var matrix = new Matrix();
+    }
+
+    inline public static function Reflection(plane:Plane):Matrix {
+        var matrix = new Matrix();
         Matrix.ReflectionToRef(plane, matrix);
 
         return matrix;
-	}
-	
-	inline public static function ReflectionToRef(plane:Plane, result:Matrix):Matrix {
-		plane.normalize();
+    }
+
+    inline public static function ReflectionToRef(plane:Plane, result:Matrix):Matrix {
+        plane.normalize();
         var x = plane.normal.x;
         var y = plane.normal.y;
         var z = plane.normal.z;
@@ -683,8 +633,8 @@ class Matrix {
         result.m[13] = temp2 * plane.d;
         result.m[14] = temp3 * plane.d;
         result.m[15] = 1.0;
-		
-		return result;
-	}
-	
+
+        return result;
+    }
+
 }

@@ -16,54 +16,54 @@ import com.gamestudiohx.babylonhx.mesh.Mesh;
  */
 
 class Light extends Node {
-			
-	public var intensity:Float = 1.0;
-	public var diffuse:Color3;
-	public var specular:Color3;
-	public var animations:Array<Animation>;		
-	public var excludedMeshes:Array<Mesh>;		
-	
-	public var _shadowGenerator:ShadowGenerator;	
-	public var _parentedWorldMatrix:Matrix;
-	public var _childrendFlag:Bool;
-		
 
-	public function new(name:String, scene:Scene) {
-		super(scene);
-		
-		this.name = name;
+    public var intensity:Float = 1.0;
+    public var diffuse:Color3;
+    public var specular:Color3;
+    public var animations:Array<Animation>;
+    public var excludedMeshes:Array<Mesh>;
+
+    public var _shadowGenerator:ShadowGenerator;
+    public var _parentedWorldMatrix:Matrix;
+    public var _childrendFlag:Bool;
+
+
+    public function new(name:String, scene:Scene) {
+        super(scene);
+
+        this.name = name;
         this.id = name;
         this._childrenFlag = 1;
-		
+
         this._scene = scene;
 
         _scene.lights.push(this);
-        
+
         // Animations
         this.animations = [];
-        
+
         // Exclusions
         this.excludedMeshes = [];
-	}
-	
-	public function getScene():Scene {
-		return this._scene;
-	}
-	
-	public function getShadowGenerator():ShadowGenerator {
-		return this._shadowGenerator;
-	}
-	
-	public function transferToEffect(effect:Effect, positionUniformName:String = "", directionUniformName:String = ""):Void {
-		
     }
-	
-	public function _getWorldMatrix():Matrix {
-		return Matrix.Zero();
-	}
-	
-	override public function getWorldMatrix():Matrix {
-		var worldMatrix:Matrix = this._getWorldMatrix();
+
+    public function getScene():Scene {
+        return this._scene;
+    }
+
+    public function getShadowGenerator():ShadowGenerator {
+        return this._shadowGenerator;
+    }
+
+    public function transferToEffect(effect:Effect, positionUniformName:String = "", directionUniformName:String = ""):Void {
+
+    }
+
+    public function _getWorldMatrix():Matrix {
+        return Matrix.Zero();
+    }
+
+    override public function getWorldMatrix():Matrix {
+        var worldMatrix:Matrix = this._getWorldMatrix();
 
         if (this.parent != null && this.parent.getWorldMatrix() != null) {
             if (this._parentedWorldMatrix == null) {
@@ -76,17 +76,17 @@ class Light extends Node {
         }
 
         return worldMatrix;
-	}
-	
-	public function dispose() {
+    }
+
+    public function dispose() {
         if (this._shadowGenerator != null) {
             this._shadowGenerator.dispose();
             this._shadowGenerator = null;
         }
-        
+
         // Remove from scene
         var index = Lambda.indexOf(this._scene.lights, this);
         this._scene.lights.splice(index, 1);
     }
-	
+
 }

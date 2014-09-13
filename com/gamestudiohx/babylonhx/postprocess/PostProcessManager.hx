@@ -12,16 +12,16 @@ import com.gamestudiohx.babylonhx.Scene;
  */
 
 class PostProcessManager {
-	
-	public var _scene:Scene;
-	public var _vertexDeclaration:Array<Int>;
-	public var _vertexStrideSize:Int;
-	public var _vertexBuffer:BabylonGLBuffer;
-	public var _indexBuffer:BabylonGLBuffer;
 
-	public function new(scene:Scene) {
-		this._scene = scene;
-        
+    public var _scene:Scene;
+    public var _vertexDeclaration:Array<Int>;
+    public var _vertexStrideSize:Int;
+    public var _vertexBuffer:BabylonGLBuffer;
+    public var _indexBuffer:BabylonGLBuffer;
+
+    public function new(scene:Scene) {
+        this._scene = scene;
+
         // VBO
         var vertices:Array<Float> = [1, 1, -1, 1, -1, -1, 1, -1];
         this._vertexDeclaration = [2];
@@ -31,30 +31,30 @@ class PostProcessManager {
         // Indices
         var indices = [0, 1, 2, 0, 2, 3];
         this._indexBuffer = scene.getEngine().createIndexBuffer(indices);
-	}
-	
-	public function _prepareFrame() {
+    }
+
+    public function _prepareFrame() {
         var postProcesses:Array<PostProcess> = this._scene.activeCamera._postProcesses;
-        
+
         var postProcessesTakenIndices = this._scene.activeCamera._postProcessesTakenIndices;
-    
+
         if (postProcessesTakenIndices.length == 0 || !this._scene.postProcessesEnabled) {
             return;
         }
 
         postProcesses[0].activate();
     }
-	
-	public function _finalizeFrame() {
+
+    public function _finalizeFrame() {
         var postProcesses:Array<PostProcess> = this._scene.activeCamera._postProcesses;
-        
+
         if (postProcesses.length == 0 || !this._scene.postProcessesEnabled) {
             return;
         }
 
         var engine = this._scene.getEngine();
-        
-        for (index in 0...postProcesses.length) {            
+
+        for (index in 0...postProcesses.length) {
             if (index < postProcesses.length - 1) {
                 postProcesses[index + 1].activate();
             } else {
@@ -66,18 +66,18 @@ class PostProcessManager {
             if (effect != null) {
                 // VBOs
                 engine.bindBuffers(this._vertexBuffer, this._indexBuffer, this._vertexDeclaration, this._vertexStrideSize, effect);
-                
+
                 // Draw order
                 engine.draw(true, 0, 6);
             }
         }
-        
+
         // Restore depth buffer
         engine.setDepthBuffer(true);
         engine.setDepthWrite(true);
     }
-	
-	public function dispose() {
+
+    public function dispose() {
         if (this._vertexBuffer != null) {
             this._scene.getEngine()._releaseBuffer(this._vertexBuffer);
             this._vertexBuffer = null;
@@ -88,5 +88,5 @@ class PostProcessManager {
             this._indexBuffer = null;
         }
     }
-	
+
 }

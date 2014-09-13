@@ -23,66 +23,65 @@ import openfl.Lib;
  */
 
 class FreeCamera extends Camera {
-	
-	public var cameraDirection:Vector3;
-	public var cameraRotation:Vector2;
-	public var rotation:Vector3;
-	public var ellipsoid:Vector3;
-		
-	public var _attachedCanvas:DisplayObject;
-	
-	public var _keys:Array<Int>;
-	public var keysUp:Array<Int>;
-	public var keysDown:Array<Int>;
-	public var keysLeft:Array<Int>;
-	public var keysRight:Array<Int>;
-	
-	public var _collider:Collider;
-	public var _needMoveForGravity:Bool;
-	
-	public var _currentTarget:Vector3;
-	public var _viewMatrix:Matrix;
-	public var _camMatrix:Matrix;
-	public var _cameraTransformMatrix:Matrix;
-	public var _cameraRotationMatrix:Matrix;
-	public var _referencePoint:Vector3;
-	public var _transformedReferencePoint:Vector3;
-	public var _oldPosition:Vector3;
-	public var _diffPosition:Vector3;
-	public var _newPosition:Vector3;
-	public var _lookAtTemp:Matrix;
-	public var _tempMatrix:Matrix;
-	
-	public var _localDirection:Vector3;
-	public var _transformedDirection:Vector3;
-	
-	public var speed:Float = 2.0;
+
+    public var cameraDirection:Vector3;
+    public var cameraRotation:Vector2;
+    public var rotation:Vector3;
+    public var ellipsoid:Vector3;
+
+    public var _attachedCanvas:DisplayObject;
+
+    public var _keys:Array<Int>;
+    public var keysUp:Array<Int>;
+    public var keysDown:Array<Int>;
+    public var keysLeft:Array<Int>;
+    public var keysRight:Array<Int>;
+
+    public var _collider:Collider;
+    public var _needMoveForGravity:Bool;
+
+    public var _currentTarget:Vector3;
+    public var _viewMatrix:Matrix;
+    public var _camMatrix:Matrix;
+    public var _cameraTransformMatrix:Matrix;
+    public var _cameraRotationMatrix:Matrix;
+    public var _referencePoint:Vector3;
+    public var _transformedReferencePoint:Vector3;
+    public var _oldPosition:Vector3;
+    public var _diffPosition:Vector3;
+    public var _newPosition:Vector3;
+    public var _lookAtTemp:Matrix;
+    public var _tempMatrix:Matrix;
+
+    public var _localDirection:Vector3;
+    public var _transformedDirection:Vector3;
+
+    public var speed:Float = 2.0;
     public var checkCollisions:Bool = false;
     public var applyGravity:Bool = false;
     public var noRotationConstraint:Bool = false;
     public var angularSensibility:Float = 2000.0;
     public var lockedTarget:Dynamic = null;
-    public var onCollide:AbstractMesh->Void = null;
-	
-	public var _onMouseDown:MouseEvent->Void;
-	public var _onMouseUp:MouseEvent->Void;
-	public var _onMouseOut:MouseEvent->Void;
-	public var _onMouseMove:MouseEvent->Void;
-	
-	public var _onKeyDown:KeyboardEvent->Void;
-	public var _onKeyUp:KeyboardEvent->Void;
-	public var _onLostFocus:Void->Void;
-	public var _reset:Void->Void;
-	
-	public var _waitingParentId:String;
-	public var _waitingLockedTargetId:String;
-	
-	
+    public var onCollide:AbstractMesh -> Void = null;
 
-	public function new(name:String, position:Vector3, scene:Scene) {
-		super(name, position, scene);
-				
-		this.cameraDirection = new Vector3(0, 0, 0);
+    public var _onMouseDown:MouseEvent -> Void;
+    public var _onMouseUp:MouseEvent -> Void;
+    public var _onMouseOut:MouseEvent -> Void;
+    public var _onMouseMove:MouseEvent -> Void;
+
+    public var _onKeyDown:KeyboardEvent -> Void;
+    public var _onKeyUp:KeyboardEvent -> Void;
+    public var _onLostFocus:Void -> Void;
+    public var _reset:Void -> Void;
+
+    public var _waitingParentId:String;
+    public var _waitingLockedTargetId:String;
+
+
+    public function new(name:String, position:Vector3, scene:Scene) {
+        super(name, position, scene);
+
+        this.cameraDirection = new Vector3(0, 0, 0);
         this.cameraRotation = new Vector2(0, 0);
         this.rotation = new Vector3(0, 0, 0);
         this.ellipsoid = new Vector3(0.5, 1, 0.5);
@@ -110,75 +109,60 @@ class FreeCamera extends Camera {
         this._newPosition = Vector3.Zero();
         this._lookAtTemp = Matrix.Zero();
         this._tempMatrix = Matrix.Zero();
-		
-		this._cache = { 
-			parent: null,
-			lockedTarget: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
-			rotation: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
-			position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
-			upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
 
-			mode: null,
-			minZ: null,
-			maxZ: null,
+        this._cache = {
+        parent: null, lockedTarget: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY), rotation: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY), position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY), upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
 
-			fov: null,
-			aspectRatio: null,
+        mode: null, minZ: null, maxZ: null,
 
-			orthoLeft: null,
-			orthoRight: null,
-			orthoBottom: null,
-			orthoTop: null,
-			renderWidth: null,
-			renderHeight: null
-		}
-	}
-	
-	public function _getLockedTargetPosition():Vector3 {
-		var ret:Vector3 = null;
+        fov: null, aspectRatio: null,
+
+        orthoLeft: null, orthoRight: null, orthoBottom: null, orthoTop: null, renderWidth: null, renderHeight: null
+        }
+    }
+
+    public function _getLockedTargetPosition():Vector3 {
+        var ret:Vector3 = null;
         if (this.lockedTarget != null) {
             ret = Std.is(this.lockedTarget, Vector3) ? this.lockedTarget : this.lockedTarget.position;
         }
         return ret;
     }
-	
-	override public function _updateCache(ignoreParentClass:Bool = true) {
-        if (!ignoreParentClass)
+
+    override public function _updateCache(ignoreParentClass:Bool = true) {
+        if ( !ignoreParentClass)
             super._updateCache(ignoreParentClass);
 
         var lockedTargetPosition = this._getLockedTargetPosition();
         if (lockedTargetPosition == null) {
             this._cache.lockedTarget = null;
-        }
-        else {
+        } else {
             if (this._cache.lockedTarget == null)
-                this._cache.lockedTarget = lockedTargetPosition.clone();
-            else
+                this._cache.lockedTarget = lockedTargetPosition.clone(); else
                 this._cache.lockedTarget.copyFrom(lockedTargetPosition);
         }
 
         this._cache.rotation.copyFrom(this.rotation);
     }
-	
-	override public function _isSynchronizedViewMatrix():Bool {
+
+    override public function _isSynchronizedViewMatrix():Bool {
         if (!super._isSynchronizedViewMatrix()) {
             return false;
         }
 
         var lockedTargetPosition:Vector3 = this._getLockedTargetPosition();
-		var _t:Bool = lockedTargetPosition != null;
+        var _t:Bool = lockedTargetPosition != null;
 
-        return (this._cache.lockedTarget != null ? this._cache.lockedTarget.equals(lockedTargetPosition) : !_t)
-            && this._cache.rotation.equals(this.rotation);
+        return (this._cache.lockedTarget != null ? this._cache.lockedTarget.equals(lockedTargetPosition) : !_t) && this._cache.rotation.equals(this.rotation);
     }
-	
-	inline public function _computeLocalCameraSpeed():Float {
-		return this.speed * (Tools.GetDeltaTime() / (Tools.GetFps() * 10.0));
+
+    inline public function _computeLocalCameraSpeed():Float {
+        return this.speed * (Tools.GetDeltaTime() / (Tools.GetFps() * 10.0));
     }
-	
-	public function setTarget(target:Vector3) {
+
+    public function setTarget(target:Vector3) {
         this.upVector.normalize();
-        
+
         Matrix.LookAtLHToRef(this.position, target, this.upVector, this._camMatrix);
         this._camMatrix.invert();
 
@@ -203,34 +187,33 @@ class FreeCamera extends Camera {
         if (Math.isNaN(this.rotation.z))
             this.rotation.z = 0;
     }
-	
-	override public function attachControl(canvas:DisplayObject, noPreventDefault:Bool = false) {
+
+    override public function attachControl(canvas:DisplayObject, noPreventDefault:Bool = false) {
         var previousPosition:Dynamic = null;
         var engine:Engine = this._scene.getEngine();
-        
+
         if (this._attachedCanvas != null) {
             return;
         }
         this._attachedCanvas = canvas;
 
         if (this._onMouseDown == null) {
-            this._onMouseDown = function (evt:MouseEvent) {
+            this._onMouseDown = function(evt:MouseEvent) {
                 previousPosition = {
-                    x: this._attachedCanvas.mouseX,
-                    y: this._attachedCanvas.mouseY
+                x: this._attachedCanvas.mouseX, y: this._attachedCanvas.mouseY
                 };
             };
 
-            this._onMouseUp = function (evt:MouseEvent) {
+            this._onMouseUp = function(evt:MouseEvent) {
                 previousPosition = null;
             };
 
-            this._onMouseOut = function (evt:MouseEvent) {
+            this._onMouseOut = function(evt:MouseEvent) {
                 previousPosition = null;
                 this._keys = [];
             };
 
-            this._onMouseMove = function (evt:MouseEvent) {
+            this._onMouseMove = function(evt:MouseEvent) {
                 if (previousPosition == null && !engine.isPointerLock) {
                     return;
                 }
@@ -241,22 +224,18 @@ class FreeCamera extends Camera {
                 if (!engine.isPointerLock) {
                     offsetX = this._attachedCanvas.mouseX - previousPosition.x;
                     offsetY = this._attachedCanvas.mouseY - previousPosition.y;
-                } 
+                }
 
                 this.cameraRotation.y += offsetX / this.angularSensibility;
                 this.cameraRotation.x += offsetY / this.angularSensibility;
 
                 previousPosition = {
-                    x: this._attachedCanvas.mouseX,
-                    y: this._attachedCanvas.mouseY
+                x: this._attachedCanvas.mouseX, y: this._attachedCanvas.mouseY
                 };
             };
 
-            this._onKeyDown = function (evt:KeyboardEvent) {
-                if (Lambda.indexOf(this.keysUp, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysDown, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysLeft, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysRight, evt.keyCode) != -1) {
+            this._onKeyDown = function(evt:KeyboardEvent) {
+                if (Lambda.indexOf(this.keysUp, evt.keyCode) != -1 || Lambda.indexOf(this.keysDown, evt.keyCode) != -1 || Lambda.indexOf(this.keysLeft, evt.keyCode) != -1 || Lambda.indexOf(this.keysRight, evt.keyCode) != -1) {
                     var index = Lambda.indexOf(this._keys, evt.keyCode);
 
                     if (index == -1) {
@@ -268,11 +247,8 @@ class FreeCamera extends Camera {
                 }
             };
 
-            this._onKeyUp = function (evt:KeyboardEvent) {
-                if (Lambda.indexOf(this.keysUp, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysDown, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysLeft, evt.keyCode) != -1 ||
-                    Lambda.indexOf(this.keysRight, evt.keyCode) != -1) {
+            this._onKeyUp = function(evt:KeyboardEvent) {
+                if (Lambda.indexOf(this.keysUp, evt.keyCode) != -1 || Lambda.indexOf(this.keysDown, evt.keyCode) != -1 || Lambda.indexOf(this.keysLeft, evt.keyCode) != -1 || Lambda.indexOf(this.keysRight, evt.keyCode) != -1) {
                     var index = Lambda.indexOf(this._keys, evt.keyCode);
 
                     if (index >= 0) {
@@ -284,7 +260,7 @@ class FreeCamera extends Camera {
                 }
             };
 
-            this._onLostFocus = function () {
+            this._onLostFocus = function() {
                 this._keys = [];
             };
 
@@ -304,8 +280,8 @@ class FreeCamera extends Camera {
         Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, this._onKeyUp, false);
         //window.addEventListener("blur", this._onLostFocus, false);
     }
-	
-	override public function detachControl(canvas:DisplayObject) {
+
+    override public function detachControl(canvas:DisplayObject) {
         if (this._attachedCanvas != canvas) {
             return;
         }
@@ -317,14 +293,14 @@ class FreeCamera extends Camera {
         Lib.current.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this._onKeyDown);
         Lib.current.stage.removeEventListener(KeyboardEvent.KEY_UP, this._onKeyUp);
         //window.removeEventListener("blur", this._onLostFocus);
-        
+
         this._attachedCanvas = null;
         if (this._reset != null) {
             this._reset();
         }
     }
-	
-	inline public function _collideWithWorld(velocity:Vector3) {
+
+    inline public function _collideWithWorld(velocity:Vector3) {
         this.position.subtractFromFloatsToRef(0, this.ellipsoid.y, 0, this._oldPosition);
         this._collider.radius = this.ellipsoid;
         this._scene._getNewPosition(this._oldPosition, velocity, this._collider, 3, this._newPosition);
@@ -336,8 +312,8 @@ class FreeCamera extends Camera {
             }
         }
     }
-	
-	inline public function _checkInputs() {
+
+    inline public function _checkInputs() {
         if (this._localDirection == null) {
             this._localDirection = Vector3.Zero();
             this._transformedDirection = Vector3.Zero();
@@ -363,13 +339,13 @@ class FreeCamera extends Camera {
             this.cameraDirection.addInPlace(this._transformedDirection);
         }
     }
-	
-	override inline public function _update() {
+
+    override inline public function _update() {
         this._checkInputs();
 
         var needToMove = this._needMoveForGravity || Math.abs(this.cameraDirection.x) > 0 || Math.abs(this.cameraDirection.y) > 0 || Math.abs(this.cameraDirection.z) > 0;
         var needToRotate = Math.abs(this.cameraRotation.x) > 0 || Math.abs(this.cameraRotation.y) > 0;
-        
+
         // Move
         if (needToMove) {
             if (this.checkCollisions && this._scene.collisionsEnabled) {
@@ -422,8 +398,8 @@ class FreeCamera extends Camera {
             this.cameraRotation.scaleInPlace(this.inertia);
         }
     }
-	
-	override inline public function _getViewMatrix():Matrix {
+
+    override inline public function _getViewMatrix():Matrix {
         Vector3.FromFloatsToRef(0, 0, 1, this._referencePoint);
 
         if (this.lockedTarget == null) {
@@ -446,9 +422,9 @@ class FreeCamera extends Camera {
         } else {
             this._currentTarget.copyFrom(this._getLockedTargetPosition());
         }
-        
+
         Matrix.LookAtLHToRef(this.position, this._currentTarget, this.upVector, this._viewMatrix);
         return this._viewMatrix;
     }
-	
+
 }

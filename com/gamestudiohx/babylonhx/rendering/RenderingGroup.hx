@@ -14,28 +14,28 @@ import com.gamestudiohx.babylonhx.tools.SmartArray;
  */
 
 class RenderingGroup {
-	
-	public var index:Int;
-	public var _scene:Scene;
-	
-	private var _opaqueSubMeshes:SmartArray;
-	public var _transparentSubMeshes:SmartArray;
-	public var _alphaTestSubMeshes:SmartArray;
-	
-	public var _activeVertices:Int;
 
-	public function new(index:Int, scene:Scene) {
-		this.index = index;
+    public var index:Int;
+    public var _scene:Scene;
+
+    private var _opaqueSubMeshes:SmartArray;
+    public var _transparentSubMeshes:SmartArray;
+    public var _alphaTestSubMeshes:SmartArray;
+
+    public var _activeVertices:Int;
+
+    public function new(index:Int, scene:Scene) {
+        this.index = index;
         this._scene = scene;
-		
-		this._activeVertices = 0;
+
+        this._activeVertices = 0;
 
         this._opaqueSubMeshes = new SmartArray();
         this._transparentSubMeshes = new SmartArray();
         this._alphaTestSubMeshes = new SmartArray();
-	}
-	
-	public function render(customRenderFunction:SmartArray->SmartArray->SmartArray->Dynamic->Void = null, beforeTransparents:Dynamic = null):Bool {
+    }
+
+    public function render(customRenderFunction:SmartArray -> SmartArray -> SmartArray -> Dynamic -> Void = null, beforeTransparents:Dynamic = null):Bool {
         if (customRenderFunction != null) {
             customRenderFunction(this._opaqueSubMeshes, this._alphaTestSubMeshes, this._transparentSubMeshes, beforeTransparents);
             return true;
@@ -49,7 +49,7 @@ class RenderingGroup {
         var submesh:SubMesh = null;
         for (subIndex in 0...this._opaqueSubMeshes.length) {
             submesh = this._opaqueSubMeshes.data[subIndex];
-			
+
             this._activeVertices += submesh.verticesCount;
 
             submesh.render();
@@ -59,7 +59,7 @@ class RenderingGroup {
         engine.setAlphaTesting(true);
         for (subIndex in 0...this._alphaTestSubMeshes.length) {
             submesh = this._alphaTestSubMeshes.data[subIndex];
-			
+
             this._activeVertices += submesh.verticesCount;
 
             submesh.render();
@@ -80,7 +80,7 @@ class RenderingGroup {
 
             var sortedArray = this._transparentSubMeshes.data.slice(0, this._transparentSubMeshes.length);
 
-            sortedArray.sort(function (a:SubMesh, b:SubMesh):Int {
+            sortedArray.sort(function(a:SubMesh, b:SubMesh):Int {
                 if (a._distanceToCamera < b._distanceToCamera) {
                     return 1;
                 }
@@ -103,14 +103,14 @@ class RenderingGroup {
         }
         return true;
     }
-	
-	public function prepare() {
+
+    public function prepare() {
         this._opaqueSubMeshes.reset();
         this._transparentSubMeshes.reset();
         this._alphaTestSubMeshes.reset();
     }
-	
-	public function dispatch(subMesh:SubMesh) {
+
+    public function dispatch(subMesh:SubMesh) {
         var material = subMesh.getMaterial();
         var mesh:AbstractMesh = subMesh.getMesh();
         if (Std.is(material, Material) && material.needAlphaBlending() || mesh.visibility < 1.0) { // Transparent
@@ -123,5 +123,5 @@ class RenderingGroup {
             this._opaqueSubMeshes.push(subMesh); // Opaque
         }
     }
-	
+
 }

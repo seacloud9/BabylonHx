@@ -13,14 +13,14 @@ import com.gamestudiohx.babylonhx.tools.math.Matrix;
  */
 
 class Material {
-	
-	public var name:String;
-	public var id:String;
-	
-	public var _renderId:Int;
-	private var _scene:Scene;
-	
-	// Members
+
+    public var name:String;
+    public var id:String;
+
+    public var _renderId:Int;
+    private var _scene:Scene;
+
+    // Members
     public var checkReadyOnEveryCall:Bool;
     public var checkReadyOnlyOnce:Bool;
     public var alpha:Float;
@@ -29,76 +29,76 @@ class Material {
     public var _effect:Effect;
     public var _wasPreviouslyReady:Bool;
 
-    public var onDispose:Void->Void;
+    public var onDispose:Void -> Void;
 
-	public function new(name:String, scene:Scene) {
-		this.name = name;
+    public function new(name:String, scene:Scene) {
+        this.name = name;
         this.id = name;
-        
+
         this._scene = scene;
         scene.materials.push(this);
-		
-		// Members
-		this.checkReadyOnEveryCall = true;
-		this.checkReadyOnlyOnce = false;
-		this.alpha = 1.0;
-		this.wireframe = false;
-		this.backFaceCulling = true;
-		this._effect = null;
-		this._wasPreviouslyReady = false;
 
-		this.onDispose = null;
-	}
-	
-	public function isReady(mesh:Mesh = null):Bool {		// to be overriden
+        // Members
+        this.checkReadyOnEveryCall = true;
+        this.checkReadyOnlyOnce = false;
+        this.alpha = 1.0;
+        this.wireframe = false;
+        this.backFaceCulling = true;
+        this._effect = null;
+        this._wasPreviouslyReady = false;
+
+        this.onDispose = null;
+    }
+
+    public function isReady(mesh:Mesh = null):Bool { // to be overriden
         return true;
     }
-	
-	public function getEffect():Effect {
+
+    public function getEffect():Effect {
         return this._effect;
     }
-	
-	public function getScene():Scene {
-            return this._scene;
+
+    public function getScene():Scene {
+        return this._scene;
     }
 
-	public function needAlphaBlending():Bool {
+    public function needAlphaBlending():Bool {
         return (this.alpha < 1.0);
     }
-	
-	public function needAlphaTesting():Bool {
+
+    public function needAlphaTesting():Bool {
         return false;
     }
-	
-	public function _preBind() {
+
+    public function _preBind() {
         var engine:Engine = this._scene.getEngine();
-        
+
         engine.enableEffect(this._effect);
         engine.setState(this.backFaceCulling);
     }
-	
-	public function bind(world:Matrix, ?mesh:Mesh) { 		// to be overriden
-		
+
+    public function bind(world:Matrix, ?mesh:Mesh) { // to be overriden
+
     }
-	
-	public function unbind() {								// to be overriden
-		
-	}
-	
-	public function baseDispose() {
+
+    public function unbind() { // to be overriden
+
+    }
+
+    public function baseDispose() {
         // Remove from scene
         var index = Lambda.indexOf(this._scene.materials, this);
         this._scene.materials.splice(index, 1);
-		//this._scene.materials.remove(this);
+        //this._scene.materials.remove(this);
 
         // Callback
         if (this.onDispose != null) {
             this.onDispose();
         }
     }
-	
-	public function dispose() {
+
+    public function dispose() {
         this.baseDispose();
     }
-	
+
 }

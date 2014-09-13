@@ -23,15 +23,14 @@ import sys.io.FileInput;
  */
 
 typedef BabylonMinMax = {
-	minimum: Vector3,
-	maximum: Vector3
+minimum:Vector3, maximum:Vector3
 }
- 
-class Tools {
-	
-	public static var timer:Timer;
 
-	public static inline function ExtractMinAndMax(positions:Array<Float>, start:Int, count:Int):BabylonMinMax {
+class Tools {
+
+    public static var timer:Timer;
+
+    public static inline function ExtractMinAndMax(positions:Array<Float>, start:Int, count:Int):BabylonMinMax {
         var minimum:Vector3 = new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY);
         var maximum:Vector3 = new Vector3(Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY);
 
@@ -43,29 +42,28 @@ class Tools {
         }
 
         return {
-            minimum: minimum,
-            maximum: maximum
+        minimum: minimum, maximum: maximum
         };
     }
-	
-	public static inline function randomNumber(min:Float, max:Float):Float {
-		var ret:Float = min;
+
+    public static inline function randomNumber(min:Float, max:Float):Float {
+        var ret:Float = min;
         if (min == max) {
             ret = min;
         } else {
-			var random = Math.random();
-			ret = ((random * (max - min)) + min);
-		}
-		return ret;
+            var random = Math.random();
+            ret = ((random * (max - min)) + min);
+        }
+        return ret;
     }
-	
-	public static inline function WithinEpsilon(a:Float, b:Float):Bool {
+
+    public static inline function WithinEpsilon(a:Float, b:Float):Bool {
         var num:Float = a - b;
         return -1.401298E-45 <= num && num <= 1.401298E-45;
     }
-	
-	public static function LoadFile(url:String, callbackFn:String->Void) {
-		#if html5		// Assets.getText doesn't work in html5 -> Chrome ????
+
+    public static function LoadFile(url:String, callbackFn:String -> Void) {
+        #if html5		// Assets.getText doesn't work in html5 -> Chrome ????
 		var loader:URLLoader = new URLLoader();
 		loader.addEventListener(Event.COMPLETE, function(data) {
 			callbackFn(loader.data);
@@ -73,24 +71,24 @@ class Tools {
 		loader.load(new URLRequest(url));
 		#else
         if (Assets.exists(url)) {
-			var file:String = Assets.getText(url);
-			callbackFn(file);
-		} else {
-			trace("File: " + url + " doesn't exist !");
-		}
-		#end
+            var file:String = Assets.getText(url);
+            callbackFn(file);
+        } else {
+            trace("File: " + url + " doesn't exist !");
+        }
+        #end
     }
-	
-	public static function LoadImage(url:String, onload:BitmapData->Void) {  
-		if (Assets.exists(url)) {
-			var img:BitmapData = Assets.getBitmapData(url);
-			onload(img);
-		} else {
-			trace("Error: Image '" + url + "' doesn't exist !");
-		}
+
+    public static function LoadImage(url:String, onload:BitmapData -> Void) {
+        if (Assets.exists(url)) {
+            var img:BitmapData = Assets.getBitmapData(url);
+            onload(img);
+        } else {
+            trace("Error: Image '" + url + "' doesn't exist !");
+        }
     }
-	
-	public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
+
+    public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
         for (prop in Reflect.fields(source)) {
 
             if (prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList, prop) == -1)) {
@@ -100,20 +98,19 @@ class Tools {
             if (doNotCopyList != null && Lambda.indexOf(doNotCopyList, prop) != -1) {
                 continue;
             }
-			
+
             var sourceValue = Reflect.field(source, prop);
 
             if (Reflect.isFunction(sourceValue)) {
                 continue;
             }
-			
-			Reflect.setField(destination, prop, Reflect.copy(sourceValue));			
+
+            Reflect.setField(destination, prop, Reflect.copy(sourceValue));
         }
     }
-	
-	
-	
-	// FPS
+
+
+    // FPS
     public static var fpsRange:Float = 60.0;
     public static var previousFramesDuration:Array<Float> = [];
     public static var fps:Float = 60.0;
@@ -150,5 +147,5 @@ class Tools {
             fps = 1000.0 / (sum / (length - 1));
         }
     }
-	
+
 }

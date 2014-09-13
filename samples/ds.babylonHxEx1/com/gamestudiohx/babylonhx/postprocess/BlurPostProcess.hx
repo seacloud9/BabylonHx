@@ -13,12 +13,12 @@ import com.gamestudiohx.babylonhx.tools.math.Vector2;
  */
 
 class BlurPostProcess extends PostProcess {
-	
-	public var direction:Vector2;
-	public var blurWidth:Float;
 
-	public function new(name:String, direction:Vector2, blurWidth:Float, ratio:Float, camera:Camera, samplingMode:Int = -1) {
-		if (samplingMode == -1) {
+    public var direction:Vector2;
+    public var blurWidth:Float;
+
+    public function new(name:String, direction:Vector2, blurWidth:Float, ratio:Float, camera:Camera, samplingMode:Int = -1) {
+        if (samplingMode == -1) {
             samplingMode = Texture.BILINEAR_SAMPLINGMODE;
         }
 
@@ -26,11 +26,11 @@ class BlurPostProcess extends PostProcess {
 
         this.direction = direction;
         this.blurWidth = blurWidth;
-        this.onApply = function (effect:Effect) {
+        this.onApply = function(effect:Effect) {
             effect.setFloat2("screenSize", this.width, this.height);
             effect.setVector2("direction", this.direction);
             effect.setFloat("blurWidth", this.blurWidth);
         };
-	}
-	
+    }
+
 }

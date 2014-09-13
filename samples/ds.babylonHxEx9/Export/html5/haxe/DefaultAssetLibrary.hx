@@ -318,6 +318,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/train/Train.babylon", AssetType.TEXT);
 		className.set ("assets/train/Train.babylon.manifest", __ASSET__assets_train_train_babylon_manifest);
 		type.set ("assets/train/Train.babylon.manifest", AssetType.TEXT);
+		className.set ("assets/train/Train.babylon_works", __ASSET__assets_train_train_babylon_works);
+		type.set ("assets/train/Train.babylon_works", AssetType.TEXT);
 		className.set ("assets/train/train_4.jpg", __ASSET__assets_train_train_4_jpg);
 		type.set ("assets/train/train_4.jpg", AssetType.IMAGE);
 		className.set ("assets/train/train_4_n.jpg", __ASSET__assets_train_train_4_n_jpg);
@@ -753,6 +755,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
 		id = "assets/train/Train.babylon.manifest";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
+		id = "assets/train/Train.babylon_works";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
 		id = "assets/train/train_4.jpg";
@@ -1206,6 +1211,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/train/Train.babylon.manifest", __ASSET__assets_train_train_babylon_manifest);
 		type.set ("assets/train/Train.babylon.manifest", AssetType.TEXT);
+		
+		className.set ("assets/train/Train.babylon_works", __ASSET__assets_train_train_babylon_works);
+		type.set ("assets/train/Train.babylon_works", AssetType.TEXT);
 		
 		className.set ("assets/train/train_4.jpg", __ASSET__assets_train_train_4_jpg);
 		type.set ("assets/train/train_4.jpg", AssetType.IMAGE);
@@ -1995,6 +2003,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep class __ASSET__assets_train_tracteur_n_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_train_train_babylon extends null { }
 @:keep class __ASSET__assets_train_train_babylon_manifest extends null { }
+@:keep class __ASSET__assets_train_train_babylon_works extends null { }
 @:keep class __ASSET__assets_train_train_4_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_train_train_4_n_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_train_train_cote_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -2018,6 +2027,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:keep class __ASSET__assets_font_opensansregular_ttf extends flash.text.Font { #if (!openfl_html5_dom) public function new () { super (); fontName = "assets/font/OpenSansRegular.ttf"; } #end }
+
 
 
 
@@ -2300,6 +2310,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:bitmap("assets/train/tracteur_n.jpg") class __ASSET__assets_train_tracteur_n_jpg extends flash.display.BitmapData {}
 @:file("assets/train/Train.babylon") class __ASSET__assets_train_train_babylon extends flash.utils.ByteArray {}
 @:file("assets/train/Train.babylon.manifest") class __ASSET__assets_train_train_babylon_manifest extends flash.utils.ByteArray {}
+@:file("assets/train/Train.babylon_works") class __ASSET__assets_train_train_babylon_works extends flash.utils.ByteArray {}
 @:bitmap("assets/train/train_4.jpg") class __ASSET__assets_train_train_4_jpg extends flash.display.BitmapData {}
 @:bitmap("assets/train/train_4_n.jpg") class __ASSET__assets_train_train_4_n_jpg extends flash.display.BitmapData {}
 @:bitmap("assets/train/train_cote.jpg") class __ASSET__assets_train_train_cote_jpg extends flash.display.BitmapData {}

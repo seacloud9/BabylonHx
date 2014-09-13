@@ -36,108 +36,109 @@ import net.hires.debug.Stats;
 */
 
 class Main extends Sprite {
-  var inited:Bool;
+    var inited:Bool;
 
-  
-  function resize(e) {
-    if (!inited) init();
-    // else (resize or orientation change)
-  }
 
-  function init() {
-    if (inited) return;
-    inited = true;
+    function resize(e) {
+        if (!inited) init();
+        // else (resize or orientation change)
+    }
 
-    var engine = new Engine(this, true);  
-    var scene = new Scene(engine);
-    var camera = new ArcRotateCamera("Camera", 0, 0, 100, Vector3.Zero(), scene);
-    var light = new DirectionalLight("dir01", new Vector3(0, -1, -0.2), scene);
-    var light2 = new DirectionalLight("dir02", new Vector3( -1, -2, -1), scene);
-    var light3 = new PointLight("Omni0", new Vector3(21.84, 50, -28.26), scene);
-    light.position = new Vector3(0, 30, 0);
-    light2.position = new Vector3(10, 20, 10);
+    function init() {
+        if (inited) return;
+        inited = true;
 
-    light.intensity = 0.6;
-    light2.intensity = 0.6;
+        var engine = new Engine(this, true);
+        var scene = new Scene(engine);
+        var camera = new ArcRotateCamera("Camera", 0, 0, 100, Vector3.Zero(), scene);
+        var light = new DirectionalLight("dir01", new Vector3(0, -1, -0.2), scene);
+        var light2 = new DirectionalLight("dir02", new Vector3( -1, -2, -1), scene);
+        var light3 = new PointLight("Omni0", new Vector3(21.84, 50, -28.26), scene);
+        light.position = new Vector3(0, 30, 0);
+        light2.position = new Vector3(10, 20, 10);
 
-    camera.setPosition(new Vector3(-60, 60, 0));
-    camera.lowerBetaLimit = (Math.PI / 2) * 0.8;
-    camera.attachControl(this);
+        light.intensity = 0.6;
+        light2.intensity = 0.6;
 
-    // Lens flares
-    var lensFlareSystem = new LensFlareSystem("lensFlareSystem", light3, scene);
-    var flare00 = new LensFlare(0.2, 0, new Color3(1, 1, 1), "assets/img/lens5.png", lensFlareSystem);
-    var flare01 = new LensFlare(0.5, 0.2, new Color3(0.5, 0.5, 1), "assets/img/lens4.png", lensFlareSystem);
-    var flare02 = new LensFlare(0.2, 1.0, new Color3(1, 1, 1), "assets/img/lens4.png", lensFlareSystem);
-    var flare03 = new LensFlare(0.4, 0.4, new Color3(1, 0.5, 1), "assets/img/Flare.png", lensFlareSystem);
-    var flare04 = new LensFlare(0.1, 0.6, new Color3(1, 1, 1), "assets/img/lens5.png", lensFlareSystem);
+        camera.setPosition(new Vector3(-60, 60, 0));
+        camera.lowerBetaLimit = (Math.PI / 2) * 0.8;
+        camera.attachControl(this);
 
-    // Skybox
-    var skybox = Mesh.CreateBox("skyBox", 1000.0, scene);
-    var skyboxMaterial = new StandardMaterial("skyBox", scene);
-    skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new CubeTexture("assets/img/skybox/skybox", scene);
-    skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
-    skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
-    skyboxMaterial.specularColor = new Color3(0, 0, 0);
-    skybox.material = skyboxMaterial;
+        // Lens flares
+        var lensFlareSystem = new LensFlareSystem("lensFlareSystem", light3, scene);
+        var flare00 = new LensFlare(0.2, 0, new Color3(1, 1, 1), "assets/img/lens5.png", lensFlareSystem);
+        var flare01 = new LensFlare(0.5, 0.2, new Color3(0.5, 0.5, 1), "assets/img/lens4.png", lensFlareSystem);
+        var flare02 = new LensFlare(0.2, 1.0, new Color3(1, 1, 1), "assets/img/lens4.png", lensFlareSystem);
+        var flare03 = new LensFlare(0.4, 0.4, new Color3(1, 0.5, 1), "assets/img/Flare.png", lensFlareSystem);
+        var flare04 = new LensFlare(0.1, 0.6, new Color3(1, 1, 1), "assets/img/lens5.png", lensFlareSystem);
 
-    // Spheres
-    var sphere0 = Mesh.CreateSphere("Sphere0", 16, 10, scene);
-    var sphere1 = Mesh.CreateSphere("Sphere1", 16, 10, scene);
-    var sphere2 = Mesh.CreateSphere("Sphere2", 16, 10, scene);
+        // Skybox
+        var skybox = Mesh.CreateBox("skyBox", 1000.0, scene);
+        var skyboxMaterial = new StandardMaterial("skyBox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new CubeTexture("assets/img/skybox/skybox", scene);
+        skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new Color3(0, 0, 0);
+        skybox.material = skyboxMaterial;
 
-    sphere0.material = new StandardMaterial("red", scene);
-    sphere0.material.specularColor = new Color3(0, 0, 0);
-    sphere0.material.diffuseColor = new Color3(1.0, 0, 0);
+        // Spheres
+        var sphere0 = Mesh.CreateSphere("Sphere0", 16, 10, scene);
+        var sphere1 = Mesh.CreateSphere("Sphere1", 16, 10, scene);
+        var sphere2 = Mesh.CreateSphere("Sphere2", 16, 10, scene);
 
-    sphere1.material = new StandardMaterial("green", scene);
-    sphere1.material.specularColor = new Color3(0, 0, 0);
-    sphere1.material.diffuseColor = new Color3(0, 1.0, 0);
+        sphere0.material = new StandardMaterial("red", scene);
+        sphere0.material.specularColor = new Color3(0, 0, 0);
+        sphere0.material.diffuseColor = new Color3(1.0, 0, 0);
 
-    sphere2.material = new StandardMaterial("blue", scene);
-    sphere2.material.specularColor = new Color3(0, 0, 0);
-    sphere2.material.diffuseColor = new Color3(0, 0, 1.0);
+        sphere1.material = new StandardMaterial("green", scene);
+        sphere1.material.specularColor = new Color3(0, 0, 0);
+        sphere1.material.diffuseColor = new Color3(0, 1.0, 0);
 
-    // Post-process
-    var postProcess = new RefractionPostProcess("Refraction", "assets/img/refMap.jpg", new Color3(1.0, 1.0, 1.0), 0.5, 0.5, 1.0, camera);
+        sphere2.material = new StandardMaterial("blue", scene);
+        sphere2.material.specularColor = new Color3(0, 0, 0);
+        sphere2.material.diffuseColor = new Color3(0, 0, 1.0);
 
-    // Animations
-    var alpha = .0;
-    scene.registerBeforeRender(function() {
-      sphere0.position = new Vector3(20 * Math.sin(alpha), 0, 20 * Math.cos(alpha));
-      sphere1.position = new Vector3(20 * Math.sin(alpha), 0, -20 * Math.cos(alpha));
-      sphere2.position = new Vector3(20 * Math.cos(alpha), 0, 20 * Math.sin(alpha));
+        // Post-process
+        var postProcess = new RefractionPostProcess("Refraction", "assets/img/refMap.jpg", new Color3(1.0, 1.0, 1.0), 0.5, 0.5, 1.0, camera);
 
-      alpha += 0.01;
-    });
+        // Animations
+        var alpha = .0;
+        scene.registerBeforeRender(function() {
+            sphere0.position = new Vector3(20 * Math.sin(alpha), 0, 20 * Math.cos(alpha));
+            sphere1.position = new Vector3(20 * Math.sin(alpha), 0, -20 * Math.cos(alpha));
+            sphere2.position = new Vector3(20 * Math.cos(alpha), 0, 20 * Math.sin(alpha));
 
-    scene.executeWhenReady(function() {
-      engine.runRenderLoop(scene.render);
-      addChild(new Stats());
-    });
-  }
+            alpha += 0.01;
+        });
 
-  /* SETUP */
-  public function new() {
-    super();  
-    addEventListener(Event.ADDED_TO_STAGE, added);
-  }
+        scene.executeWhenReady(function() {
+            engine.runRenderLoop(scene.render);
+            addChild(new Stats());
+        });
+    }
 
-  function added(e) {
-    removeEventListener(Event.ADDED_TO_STAGE, added);
-    stage.addEventListener(Event.RESIZE, resize);
-    #if ios
+    /* SETUP */
+
+    public function new() {
+        super();
+        addEventListener(Event.ADDED_TO_STAGE, added);
+    }
+
+    function added(e) {
+        removeEventListener(Event.ADDED_TO_STAGE, added);
+        stage.addEventListener(Event.RESIZE, resize);
+        #if ios
     haxe.Timer.delay(init, 100); // iOS 6
     #else
-    init();
-    #end
-  }
+        init();
+        #end
+    }
 
-  public static function main() {
-    // static entry point
-    Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-    Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-    Lib.current.addChild(new Main());
-  }
+    public static function main() {
+        // static entry point
+        Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
+        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        Lib.current.addChild(new Main());
+    }
 }

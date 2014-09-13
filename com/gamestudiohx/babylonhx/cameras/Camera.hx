@@ -34,44 +34,44 @@ import openfl.display.DisplayObject;
 	renderWidth: Null<Int>,
 	renderHeight: Null<Int>
 }*/
- 
-class Camera extends Node{
-	
-	public static var PERSPECTIVE_CAMERA:Int = 0;
-	public static var ORTHOGRAPHIC_CAMERA:Int = 1;
 
-	public var upVector:Vector3;
-		
-	public var _worldMatrix:Matrix;
-	public var _computedViewMatrix:Matrix;
-	public var _projectionMatrix:Matrix;
-	
-	public var fov:Float = 0.8;
-	public var orthoLeft:Null<Float> = null;
-	public var orthoRight:Null<Float> = null;
-	public var orthoBottom:Null<Float> = null;
-	public var orthoTop:Null<Float> = null;
-	public var minZ:Float = 0.1;
-	public var maxZ:Float = 1000.0;
-	public var inertia:Float = 0.9;
-	public var mode:Int;
-	
-	public var viewport:Viewport;
-	
-	public var animations:Array<Animation>;		
-	public var _postProcesses:Array<PostProcess>;	
-	public var _postProcessesTakenIndices:Array<Int>;
+class Camera extends Node {
 
-	public function new(name:String, position:Vector3, scene:Scene) {
-		super(scene);
-		
-		this.name = name;
+    public static var PERSPECTIVE_CAMERA:Int = 0;
+    public static var ORTHOGRAPHIC_CAMERA:Int = 1;
+
+    public var upVector:Vector3;
+
+    public var _worldMatrix:Matrix;
+    public var _computedViewMatrix:Matrix;
+    public var _projectionMatrix:Matrix;
+
+    public var fov:Float = 0.8;
+    public var orthoLeft:Null<Float> = null;
+    public var orthoRight:Null<Float> = null;
+    public var orthoBottom:Null<Float> = null;
+    public var orthoTop:Null<Float> = null;
+    public var minZ:Float = 0.1;
+    public var maxZ:Float = 1000.0;
+    public var inertia:Float = 0.9;
+    public var mode:Int;
+
+    public var viewport:Viewport;
+
+    public var animations:Array<Animation>;
+    public var _postProcesses:Array<PostProcess>;
+    public var _postProcessesTakenIndices:Array<Int>;
+
+    public function new(name:String, position:Vector3, scene:Scene) {
+        super(scene);
+
+        this.name = name;
         this.id = name;
         this.position = position;
         this.upVector = Vector3.Up();
         //this._childrenFlag = 1;
-				
-		this.mode = Camera.PERSPECTIVE_CAMERA;
+
+        this.mode = Camera.PERSPECTIVE_CAMERA;
 
         scene.cameras.push(this);
 
@@ -80,64 +80,45 @@ class Camera extends Node{
         }
 
         this._computedViewMatrix = Matrix.Identity();
-		this._projectionMatrix = Matrix.Identity();
+        this._projectionMatrix = Matrix.Identity();
 
         // Animations
         this.animations = [];
 
         // _postProcesses
         this._postProcesses = [];
-		this._postProcessesTakenIndices = [];
-        
+        this._postProcessesTakenIndices = [];
+
         // Viewport
         this.viewport = new Viewport(0, 0, 1.0, 1.0);
-		
-		//this._initCache();
-		this._cache = {
-			parent: null,
-			position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
-			upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
 
-			mode: null,
-			minZ: null,
-			maxZ: null,
+        //this._initCache();
+        this._cache = {
+        parent: null, position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY), upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
 
-			fov: null,
-			aspectRatio: null,
+        mode: null, minZ: null, maxZ: null,
 
-			orthoLeft: null,
-			orthoRight: null,
-			orthoBottom: null,
-			orthoTop: null,
-			renderWidth: null,
-			renderHeight: null
-		};		
-	}
-	
-	override public function _initCache() {
-		this._cache = {
-			position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
-			upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
+        fov: null, aspectRatio: null,
 
-			mode: null,
-			minZ: null,
-			maxZ: null,
-
-			fov: null,
-			aspectRatio: null,
-
-			orthoLeft: null,
-			orthoRight: null,
-			orthoBottom: null,
-			orthoTop: null,
-			renderWidth: null,
-			renderHeight: null
-		};
+        orthoLeft: null, orthoRight: null, orthoBottom: null, orthoTop: null, renderWidth: null, renderHeight: null
+        };
     }
-	
-	override public function _updateCache(ignoreParentClass:Bool = true) {
+
+    override public function _initCache() {
+        this._cache = {
+        position: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY), upVector: new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY),
+
+        mode: null, minZ: null, maxZ: null,
+
+        fov: null, aspectRatio: null,
+
+        orthoLeft: null, orthoRight: null, orthoBottom: null, orthoTop: null, renderWidth: null, renderHeight: null
+        };
+    }
+
+    override public function _updateCache(ignoreParentClass:Bool = true) {
         if (!ignoreParentClass) {
-			super._updateCache(ignoreParentClass);
+            super._updateCache(ignoreParentClass);
         }
 
         var engine:Engine = this._scene.getEngine();
@@ -159,29 +140,25 @@ class Camera extends Node{
         this._cache.renderWidth = engine.getRenderWidth();
         this._cache.renderHeight = engine.getRenderHeight();
     }
-	
-	public function _updateFromScene() {
+
+    public function _updateFromScene() {
         this.updateCache();
         this._update();
     }
-	
-	override public function _isSynchronized():Bool {
+
+    override public function _isSynchronized():Bool {
         return this._isSynchronizedViewMatrix() && this._isSynchronizedProjectionMatrix();
     }
-	
-	public function _isSynchronizedViewMatrix():Bool {
+
+    public function _isSynchronizedViewMatrix():Bool {
         if (!super._isSynchronized())
-            return false;			
-		
-        return this._cache.position.equals(this.position)
-            && this._cache.upVector.equals(this.upVector)
-            && this.isSynchronizedWithParent();
+            return false;
+
+        return this._cache.position.equals(this.position) && this._cache.upVector.equals(this.upVector) && this.isSynchronizedWithParent();
     }
-	
-	public function _isSynchronizedProjectionMatrix():Bool {
-        var check = this._cache.mode == this.mode
-             && this._cache.minZ == this.minZ
-             && this._cache.maxZ == this.maxZ;
+
+    public function _isSynchronizedProjectionMatrix():Bool {
+        var check = this._cache.mode == this.mode && this._cache.minZ == this.minZ && this._cache.maxZ == this.maxZ;
 
         if (!check) {
             return false;
@@ -190,38 +167,31 @@ class Camera extends Node{
         var engine = this._scene.getEngine();
 
         if (this.mode == Camera.PERSPECTIVE_CAMERA) {
-            check = this._cache.fov == this.fov
-                 && this._cache.aspectRatio == engine.getAspectRatio(this);
-        }
-        else {
-            check = this._cache.orthoLeft == this.orthoLeft
-                 && this._cache.orthoRight == this.orthoRight
-                 && this._cache.orthoBottom == this.orthoBottom
-                 && this._cache.orthoTop == this.orthoTop
-                 && this._cache.renderWidth == engine.getRenderWidth()
-                 && this._cache.renderHeight == engine.getRenderHeight();
+            check = this._cache.fov == this.fov && this._cache.aspectRatio == engine.getAspectRatio(this);
+        } else {
+            check = this._cache.orthoLeft == this.orthoLeft && this._cache.orthoRight == this.orthoRight && this._cache.orthoBottom == this.orthoBottom && this._cache.orthoTop == this.orthoTop && this._cache.renderWidth == engine.getRenderWidth() && this._cache.renderHeight == engine.getRenderHeight();
         }
 
         return check;
     }
-	
-	public function getScene():Scene {
-		return this._scene;
-	}
 
-	public function attachControl(canvas:DisplayObject, noPreventDefault:Bool = false) {
-		
-	}
+    public function getScene():Scene {
+        return this._scene;
+    }
 
-	public function detachControl(canvas:DisplayObject) {
-		
-	}
+    public function attachControl(canvas:DisplayObject, noPreventDefault:Bool = false) {
 
-	public function _update() {
-		
-	}
-	
-	public function attachPostProcess(postProcess:PostProcess, ?insertAt:Int):Int {
+    }
+
+    public function detachControl(canvas:DisplayObject) {
+
+    }
+
+    public function _update() {
+
+    }
+
+    public function attachPostProcess(postProcess:PostProcess, ?insertAt:Int):Int {
         if (!postProcess._reusable && Lambda.indexOf(this._postProcesses, postProcess) > -1) {
             return -1;
         }
@@ -236,10 +206,10 @@ class Camera extends Node{
         var add:Int = 0;
         if (this._postProcesses.length > insertAt) {
             var i = this._postProcesses.length - 1;
-			while (i >= insertAt) {
-				this._postProcesses[i + 1] = this._postProcesses[i];
-				--i;
-			}
+            while (i >= insertAt) {
+                this._postProcesses[i + 1] = this._postProcesses[i];
+                --i;
+            }
             add = 1;
         }
 
@@ -249,10 +219,10 @@ class Camera extends Node{
             }
 
             var j = this._postProcessesTakenIndices.length - 1;
-			while (j >= i) {
-				this._postProcessesTakenIndices[j + 1] = this._postProcessesTakenIndices[j] + add;
-				--j;
-			}
+            while (j >= i) {
+                this._postProcessesTakenIndices[j + 1] = this._postProcessesTakenIndices[j] + add;
+                --j;
+            }
             this._postProcessesTakenIndices[i] = insertAt;
             break;
         }
@@ -267,8 +237,8 @@ class Camera extends Node{
 
         return result;
     }
-	
-	public function detachPostProcess(postProcess:PostProcess, ?atIndices:Dynamic) {
+
+    public function detachPostProcess(postProcess:PostProcess, ?atIndices:Dynamic) {
         var result:Array<Int> = [];
 
 
@@ -280,14 +250,13 @@ class Camera extends Node{
                     continue;
                 }
 
-                this._postProcesses[i] = null;  // TODO: remove it from array ??
+                this._postProcesses[i] = null; // TODO: remove it from array ??
 
                 var index = Lambda.indexOf(this._postProcessesTakenIndices, i);
                 this._postProcessesTakenIndices.splice(index, 1);
             }
 
-        }
-        else {
+        } else {
             var _atIndices:Array<PostProcess> = Std.is(atIndices, Array) ? atIndices : [atIndices];
             for (i in 0..._atIndices.length) {
                 var foundPostProcess = this._postProcesses[atIndices[i]];
@@ -297,7 +266,7 @@ class Camera extends Node{
                     continue;
                 }
 
-                this._postProcesses[atIndices[i]] = null;		// TODO: remove it from array ??
+                this._postProcesses[atIndices[i]] = null; // TODO: remove it from array ??
 
                 var index = Lambda.indexOf(this._postProcessesTakenIndices, atIndices[i]);
                 this._postProcessesTakenIndices.splice(index, 1);
@@ -305,73 +274,71 @@ class Camera extends Node{
         }
         return result;
     }
-	
-	override inline public function getWorldMatrix():Matrix {
+
+    override inline public function getWorldMatrix():Matrix {
         if (this._worldMatrix == null) {
             this._worldMatrix = Matrix.Identity();
         }
 
-		var viewMatrix = this.getViewMatrix();
+        var viewMatrix = this.getViewMatrix();
         viewMatrix.invertToRef(this._worldMatrix);
 
         return this._worldMatrix;
-	}
-	
-	function _getViewMatrix():Matrix {
-		return Matrix.Identity();
-	}
+    }
 
-	inline public function getViewMatrix():Matrix {
-		this._computedViewMatrix = this._computeViewMatrix();
+    function _getViewMatrix():Matrix {
+        return Matrix.Identity();
+    }
 
-        if (!(this.parent == null
-            || this.parent.getWorldMatrix() == null
-            || (!this.hasNewParent() && this.parent.isSynchronized()))) {
-            
-			if (this._worldMatrix == null) {
-				this._worldMatrix = Matrix.Identity();
-			}
-			
-			this._computedViewMatrix.invertToRef(this._worldMatrix);
-			this._worldMatrix.multiplyToRef(this.parent.getWorldMatrix(), this._computedViewMatrix);
-			this._computedViewMatrix.invert();	
-        }        
+    inline public function getViewMatrix():Matrix {
+        this._computedViewMatrix = this._computeViewMatrix();
 
-        return this._computedViewMatrix;
-	}
-	
-	inline public function _computeViewMatrix(force:Bool = false):Matrix {
-		if (!(!force && this._isSynchronizedViewMatrix())) {
-            this._syncChildFlag();
-			this._computedViewMatrix = this._getViewMatrix();
-        }        
+        if (!(this.parent == null || this.parent.getWorldMatrix() == null || (!this.hasNewParent() && this.parent.isSynchronized()))) {
+
+            if (this._worldMatrix == null) {
+                this._worldMatrix = Matrix.Identity();
+            }
+
+            this._computedViewMatrix.invertToRef(this._worldMatrix);
+            this._worldMatrix.multiplyToRef(this.parent.getWorldMatrix(), this._computedViewMatrix);
+            this._computedViewMatrix.invert();
+        }
+
         return this._computedViewMatrix;
     }
 
-	inline public function getProjectionMatrix(force:Bool = false): Matrix {
-		if (!(!force && this._isSynchronizedProjectionMatrix())) {
-            var engine = this._scene.getEngine();
-			if (this.mode == Camera.PERSPECTIVE_CAMERA) {
-				Matrix.PerspectiveFovLHToRef(this.fov, engine.getAspectRatio(this), this.minZ, this.maxZ, this._projectionMatrix);			
-			} else {
-				var halfWidth = engine.getRenderWidth() / 2.0;
-				var halfHeight = engine.getRenderHeight() / 2.0;
-				Matrix.OrthoOffCenterLHToRef(this.orthoLeft == null ? -halfWidth : this.orthoLeft, this.orthoRight == null ? halfWidth : this.orthoRight, this.orthoBottom == null ? -halfHeight : this.orthoBottom, this.orthoTop == null ? halfHeight : this.orthoTop, this.minZ, this.maxZ, this._projectionMatrix);
-			}
+    inline public function _computeViewMatrix(force:Bool = false):Matrix {
+        if (!(!force && this._isSynchronizedViewMatrix())) {
+            this._syncChildFlag();
+            this._computedViewMatrix = this._getViewMatrix();
         }
-        
+        return this._computedViewMatrix;
+    }
+
+    inline public function getProjectionMatrix(force:Bool = false):Matrix {
+        if (!(!force && this._isSynchronizedProjectionMatrix())) {
+            var engine = this._scene.getEngine();
+            if (this.mode == Camera.PERSPECTIVE_CAMERA) {
+                Matrix.PerspectiveFovLHToRef(this.fov, engine.getAspectRatio(this), this.minZ, this.maxZ, this._projectionMatrix);
+            } else {
+                var halfWidth = engine.getRenderWidth() / 2.0;
+                var halfHeight = engine.getRenderHeight() / 2.0;
+                Matrix.OrthoOffCenterLHToRef(this.orthoLeft == null ? -halfWidth : this.orthoLeft, this.orthoRight == null ? halfWidth : this.orthoRight, this.orthoBottom == null ? -halfHeight : this.orthoBottom, this.orthoTop == null ? halfHeight : this.orthoTop, this.minZ, this.maxZ, this._projectionMatrix);
+            }
+        }
+
         return this._projectionMatrix;
-	}
-	
-	public function dispose() {
-		// Remove from scene
+    }
+
+    public function dispose() {
+        // Remove from scene
         var index = Lambda.indexOf(this._scene.cameras, this);
         this._scene.cameras.splice(index, 1);
-        
+
         // _postProcesses
         for (i in 0...this._postProcessesTakenIndices.length) {
             this._postProcesses[this._postProcessesTakenIndices[i]].dispose(this);
         }
-	}
-	
+    }
+
 }

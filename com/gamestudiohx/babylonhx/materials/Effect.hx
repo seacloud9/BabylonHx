@@ -23,8 +23,8 @@ import openfl.gl.GLUniformLocation;
  */
 
 class Effect {
-		
-	public static var ShadersStore:Map<String, String> = [
+
+    public static var ShadersStore:Map<String, String> = [
 		"blackAndWhitePixelShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Samplers\nvarying vec2 vUV;\nuniform sampler2D textureSampler;\n\nvoid main(void) \n{\n	float luminance = dot(texture2D(textureSampler, vUV).rgb, vec3(0.3, 0.59, 0.11));\n	gl_FragColor = vec4(luminance, luminance, luminance, 1.0);\n}",
 		"blurPixelShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Samplers\nvarying vec2 vUV;\nuniform sampler2D textureSampler;\n\n// Parameters\nuniform vec2 screenSize;\nuniform vec2 direction;\nuniform float blurWidth;\n\nvoid main(void)\n{\n	float weights[7];\n	weights[0] = 0.05;\n	weights[1] = 0.1;\n	weights[2] = 0.2;\n	weights[3] = 0.3;\n	weights[4] = 0.2;\n	weights[5] = 0.1;\n	weights[6] = 0.05;\n\n	vec2 texelSize = vec2(1.0 / screenSize.x, 1.0 / screenSize.y);\n	vec2 texelStep = texelSize * direction * blurWidth;\n	vec2 start = vUV - 3.0 * texelStep;\n\n	vec4 baseColor = vec4(0., 0., 0., 0.);\n	vec2 texelOffset = vec2(0., 0.);\n\n	for (int i = 0; i < 7; i++)\n	{\n		baseColor += texture2D(textureSampler, start + texelOffset) * weights[i];\n		texelOffset += texelStep;\n	}\n\n	gl_FragColor = baseColor;\n}",
 		"convolutionPixelShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Samplers\nvarying vec2 vUV;\nuniform sampler2D textureSampler;\n\nuniform mat4 kernelMatrix;\n\nvoid main(void) \n{\n	vec3 baseColor = texture2D(textureSampler, vUV).rgb;\n	vec3 updatedColor = (kernelMatrix * vec4(baseColor, 1.0)).rgb;\n\n	gl_FragColor = vec4(updatedColor, 1.0);\n}",
@@ -48,25 +48,25 @@ class Effect {
 		"spritesVertexShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Attributes\nattribute vec3 position;\nattribute vec4 options;\nattribute vec4 cellInfo;\nattribute vec4 color;\n\n// Uniforms\nuniform vec2 textureInfos;\nuniform mat4 view;\nuniform mat4 projection;\n\n// Output\nvarying vec2 vUV;\nvarying vec4 vColor;\n\n#ifdef FOG\nvarying float fFogDistance;\n#endif\n\nvoid main(void) {	\n	vec3 viewPos = (view * vec4(position, 1.0)).xyz; \n	vec3 cornerPos;\n	\n	float angle = options.x;\n	float size = options.y;\n	vec2 offset = options.zw;\n	vec2 uvScale = textureInfos.xy;\n\n	cornerPos = vec3(offset.x - 0.5, offset.y  - 0.5, 0.) * size;\n\n	// Rotate\n	vec3 rotatedCorner;\n	rotatedCorner.x = cornerPos.x * cos(angle) - cornerPos.y * sin(angle);\n	rotatedCorner.y = cornerPos.x * sin(angle) + cornerPos.y * cos(angle);\n	rotatedCorner.z = 0.;\n\n	// Position\n	viewPos += rotatedCorner;\n	gl_Position = projection * vec4(viewPos, 1.0);   \n\n	// Color\n	vColor = color;\n	\n	// Texture\n	vec2 uvOffset = vec2(abs(offset.x - cellInfo.x), 1.0 - abs(offset.y - cellInfo.y));\n\n	vUV = (uvOffset + cellInfo.zw) * uvScale;\n\n	// Fog\n#ifdef FOG\n	fFogDistance = viewPos.z;\n#endif\n}"
 		//"cloudsVertexShader" => "#ifdef GL_ES\nprecision mediump float;\n#endif\nattribute vec3 position;\nattribute vec2 uv;\nuniform mat4 worldViewProjection;\nvarying vec2 vUV;\nvoid main(void) {\ngl_Position = worldViewProjection * vec4(position, 1.0);\nvUV = uv;\n}\n"
 	];
-	
-	public var name:Dynamic;
-	public var _engine:Engine;
-	public var defines:String;
-	public var _uniforms:Array<GLUniformLocation>;
-	public var _uniformsNames:Array<String>;
-	public var _samplers:Array<String>;
-	public var _isReady:Bool;
-	public var _compilationError:String;
-	public var _attributes:Array<Int>;
-	public var _attributesNames:Array<String>;
-	public var _valueCache:Map<String, Array<Float>>;		// TODO
-	public var _program:GLProgram;
-	public var onCompiled:Effect->Void;
-	public var onError:Effect->String->Void;
+
+    public var name:Dynamic;
+    public var _engine:Engine;
+    public var defines:String;
+    public var _uniforms:Array<GLUniformLocation>;
+    public var _uniformsNames:Array<String>;
+    public var _samplers:Array<String>;
+    public var _isReady:Bool;
+    public var _compilationError:String;
+    public var _attributes:Array<Int>;
+    public var _attributesNames:Array<String>;
+    public var _valueCache:Map<String, Array<Float>>; // TODO
+    public var _program:GLProgram;
+    public var onCompiled:Effect -> Void;
+    public var onError:Effect -> String -> Void;
 
 
-	public function new(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, engine:Engine, defines:String, optionalDefines:Array<String> = null, ?onCompiled:Effect->Void, ?onError:Effect->String->Void) {
-		this._engine = engine;
+    public function new(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, engine:Engine, defines:String, optionalDefines:Array<String> = null, ?onCompiled:Effect -> Void, ?onError:Effect -> String -> Void) {
+        this._engine = engine;
         this.name = baseName;
         this.defines = defines;
         this._uniformsNames = uniformsNames.concat(samplers);
@@ -75,99 +75,100 @@ class Effect {
         this._compilationError = "";
         this._attributesNames = attributesNames;
 
-        if(onError != null){
-        	this.onError = onError;
+        if (onError != null) {
+            this.onError = onError;
         }
-        
-        if(onCompiled != null){
-        	this.onCompiled = onCompiled;
+
+        if (onCompiled != null) {
+            this.onCompiled = onCompiled;
         }
-        
-		
+
+
         var vertex:String = Reflect.field(baseName, "vertex") != null ? baseName.vertex : baseName;
         var fragment:String = Reflect.field(baseName, "fragment") != null ? baseName.fragment : baseName;
-						
-		var vertexShaderUrl:String = "";
+
+        var vertexShaderUrl:String = "";
         if (vertex.charAt(0) == ".") {
             vertexShaderUrl = vertex;
         } else {
             vertexShaderUrl = Engine.ShadersRepository + vertex;
         }
-		var fragmentShaderUrl:String = "";
+        var fragmentShaderUrl:String = "";
         if (fragment.charAt(0) == ".") {
             fragmentShaderUrl = fragment;
         } else {
             fragmentShaderUrl = Engine.ShadersRepository + fragment;
         }
-		
-		var _vertexCode:String = ""; 
-		if (Effect.ShadersStore.exists(vertex + "VertexShader")) {
-			_vertexCode = Effect.ShadersStore.get(vertex + "VertexShader");
-		} else {
-			_vertexCode = StringTools.trim(Assets.getText(vertexShaderUrl + ".vertex.txt"));
-		}
-		
-		var _fragmentCode:String = "";
-		if (Effect.ShadersStore.exists(fragment + "PixelShader")) {
-			_fragmentCode = Effect.ShadersStore.get(fragment + "PixelShader");
-		} else {
-			_fragmentCode = StringTools.trim(Assets.getText(fragmentShaderUrl + ".fragment.txt"));	
-		}
-		this._prepareEffect(_vertexCode, _fragmentCode, attributesNames, defines, optionalDefines, false);		
-		
+
+        var _vertexCode:String = "";
+        if (Effect.ShadersStore.exists(vertex + "VertexShader")) {
+            _vertexCode = Effect.ShadersStore.get(vertex + "VertexShader");
+        } else {
+            _vertexCode = StringTools.trim(Assets.getText(vertexShaderUrl + ".vertex.txt"));
+        }
+
+        var _fragmentCode:String = "";
+        if (Effect.ShadersStore.exists(fragment + "PixelShader")) {
+            _fragmentCode = Effect.ShadersStore.get(fragment + "PixelShader");
+        } else {
+            _fragmentCode = StringTools.trim(Assets.getText(fragmentShaderUrl + ".fragment.txt"));
+        }
+        this._prepareEffect(_vertexCode, _fragmentCode, attributesNames, defines, optionalDefines, false);
+
         // Cache
         this._valueCache = new Map<String, Array<Float>>();
-	}
-	
-	public function isReady():Bool {
+    }
+
+    public function isReady():Bool {
         return this._isReady;
     }
 
     public function getAttributeLocationByName(name:String):Int {
-            var index = this._attributesNames.indexOf(name);
-            return this._attributes[index];
-    }
-	
-	public function getProgram():GLProgram {
-        return this._program;
-    }
-	
-	public function getAttributesNames():Array<String> {
-        return this._attributesNames;
-    }
-	
-	public function getAttribute(index:Int):Int {
+        var index = this._attributesNames.indexOf(name);
         return this._attributes[index];
     }
-	
-	public function getAttributesCount():Int {
+
+    public function getProgram():GLProgram {
+        return this._program;
+    }
+
+    public function getAttributesNames():Array<String> {
+        return this._attributesNames;
+    }
+
+    public function getAttribute(index:Int):Int {
+        return this._attributes[index];
+    }
+
+    public function getAttributesCount():Int {
         return this._attributes.length;
     }
-	
-	public function getUniformIndex(uniformName:String):Int {
+
+    public function getUniformIndex(uniformName:String):Int {
         return Lambda.indexOf(this._uniformsNames, uniformName);
     }
-	
-	public function getUniform(uniformName:String):GLUniformLocation {	
+
+    public function getUniform(uniformName:String):GLUniformLocation {
         return this._uniforms[Lambda.indexOf(this._uniformsNames, uniformName)];
     }
-	
-	public function getSamplers():Array<String> {
+
+    public function getSamplers():Array<String> {
         return this._samplers;
     }
-	
-	public function getCompilationError():String {
+
+    public function getCompilationError():String {
         return this._compilationError;
     }
-	
-	//public function _loadVertexShader(vertex:String, callbackFn:String->Void) {
-	public function _loadVertexShader(vertex:String, callbackFn:String->Void) {
+
+    //public function _loadVertexShader(vertex:String, callbackFn:String->Void) {
+
+    public function _loadVertexShader(vertex:String, callbackFn:String -> Void) {
         // Is in local store ?
         if (Effect.ShadersStore.exists(vertex + "VertexShader")) {
             callbackFn(Effect.ShadersStore.get(vertex + "VertexShader"));
             return;
         }
-        
+
         var vertexShaderUrl:String = "";
 
         if (vertex.charAt(0) == ".") {
@@ -179,14 +180,14 @@ class Effect {
         // Vertex shader
         Tools.LoadFile(vertexShaderUrl + ".vertex.fx", callbackFn);
     }
-	
-	public function _loadFragmentShader(fragment:String, callbackFn:String->Void) {
+
+    public function _loadFragmentShader(fragment:String, callbackFn:String -> Void) {
         // Is in local store ?
         if (Effect.ShadersStore.exists(fragment + "PixelShader")) {
             callbackFn(Effect.ShadersStore.get(fragment + "PixelShader"));
             return;
         }
-        
+
         var fragmentShaderUrl:String = "";
 
         if (fragment.charAt(0) == ".") {
@@ -198,41 +199,42 @@ class Effect {
         // Fragment shader
         Tools.LoadFile(fragmentShaderUrl + ".fragment.fx", callbackFn);
     }
-	
-	public function _prepareEffect(vertexSourceCode:String, fragmentSourceCode:String, attributesNames:Array<String>, defines:String, optionalDefines:Array<String> = null, useFallback:Bool) {
+
+    public function _prepareEffect(vertexSourceCode:String, fragmentSourceCode:String, attributesNames:Array<String>, defines:String, optionalDefines:Array<String> = null, useFallback:Bool) {
         try {
             var engine:Engine = this._engine;
-            trace(defines);
-            trace('prepareEffect pre built..');
-            trace('vertex ----------');
-            trace( vertexSourceCode );
-            trace('vertex ----------');
-            trace('fragmentSourceCode ----------');
-            trace(fragmentSourceCode);
-            trace('fragmentSourceCode ----------');
+            if (Tools.isDebug) {
+                trace(defines);
+                trace('prepareEffect pre built..');
+                trace('vertex ----------');
+                trace(vertexSourceCode);
+                trace('vertex ----------');
+                trace('fragmentSourceCode ----------');
+                trace(fragmentSourceCode);
+                trace('fragmentSourceCode ----------');
+            }
+
             this._program = engine.createShaderProgram(vertexSourceCode, fragmentSourceCode, defines);
             this._uniforms = engine.getUniforms(this._program, this._uniformsNames);
-            this._attributes = engine.getAttributes(this._program, attributesNames);			
-			var index:Int = 0;
-
-			trace(this._samplers[0]);
-			while(index < this._samplers.length) {
+            this._attributes = engine.getAttributes(this._program, attributesNames);
+            var index:Int = 0;
+            while (index < this._samplers.length) {
                 var sampler = this.getUniform(this._samplers[index]);
-				#if html5
+                #if html5
 				if (sampler == null) {
 				#else
                 if (sampler < 0) {
-				#end
+                    #end
                     this._samplers.splice(index, 1);
                     index--;
                 }
-				
-				index++;
+
+                index++;
             }
             engine.bindSamplers(this);
             this._isReady = true;
         } catch (e:Dynamic) {
-			trace(e);
+            trace(e);
             if (!useFallback && optionalDefines != null) {
                 for (index in 0...optionalDefines.length) {
                     defines = StringTools.replace(defines, optionalDefines[index], "");
@@ -246,20 +248,20 @@ class Effect {
             }
         }
     }
-	
-	public function _bindTexture(channel:String, texture:BabylonTexture) {
+
+    public function _bindTexture(channel:String, texture:BabylonTexture) {
         this._engine._bindTexture(Lambda.indexOf(this._samplers, channel), texture);
     }
-	
-	public function setTexture(channel:String, texture:Texture) {
+
+    public function setTexture(channel:String, texture:Texture) {
         this._engine.setTexture(Lambda.indexOf(this._samplers, channel), texture);
     }
-	
-	public function setTextureFromPostProcess(channel:String, postProcess:PostProcess) {
+
+    public function setTextureFromPostProcess(channel:String, postProcess:PostProcess) {
         this._engine.setTextureFromPostProcess(Lambda.indexOf(this._samplers, channel), postProcess);
     }
-	
-	//public function _cacheMatrix = function (uniformName, matrix) {
+
+    //public function _cacheMatrix = function (uniformName, matrix) {
     //    if (!this._valueCache[uniformName]) {
     //        this._valueCache[uniformName] = new BABYLON.Matrix();
     //    }
@@ -273,40 +275,40 @@ class Effect {
         if (!this._valueCache.exists(uniformName)) {
             this._valueCache.set(uniformName, [x, y]);
         } else {
-			this._valueCache.get(uniformName)[0] = x;
-			this._valueCache.get(uniformName)[1] = y;
-		}
+            this._valueCache.get(uniformName)[0] = x;
+            this._valueCache.get(uniformName)[1] = y;
+        }
     }
 
-	inline public function _cacheFloat3(uniformName:String, x:Float, y:Float, z:Float) {
+    inline public function _cacheFloat3(uniformName:String, x:Float, y:Float, z:Float) {
         if (!this._valueCache.exists(uniformName)) {
             this._valueCache.set(uniformName, [x, y, z]);
         } else {
-			this._valueCache.get(uniformName)[0] = x;
-			this._valueCache.get(uniformName)[1] = y;
-			this._valueCache.get(uniformName)[2] = z;
-		}
+            this._valueCache.get(uniformName)[0] = x;
+            this._valueCache.get(uniformName)[1] = y;
+            this._valueCache.get(uniformName)[2] = z;
+        }
     }
 
-    inline public function _cacheFloat4(uniformName:String, x:Float, y:Float, z:Float, w:Float) {		
+    inline public function _cacheFloat4(uniformName:String, x:Float, y:Float, z:Float, w:Float) {
         if (!this._valueCache.exists(uniformName)) {
             this._valueCache.set(uniformName, [x, y, z, w]);
         } else {
-			this._valueCache.get(uniformName)[0] = x;
-			this._valueCache.get(uniformName)[1] = y;
-			this._valueCache.get(uniformName)[2] = z;
-			this._valueCache.get(uniformName)[3] = w;
-		}
+            this._valueCache.get(uniformName)[0] = x;
+            this._valueCache.get(uniformName)[1] = y;
+            this._valueCache.get(uniformName)[2] = z;
+            this._valueCache.get(uniformName)[3] = w;
+        }
     }
-	
-	inline public function setMatrices(uniformName:String, matrices: #if html5 Float32Array #else Array<Float> #end ) {
+
+    inline public function setMatrices(uniformName:String, matrices:#if html5 Float32Array #else Array<Float> #end) {
         this._engine.setMatrices(this.getUniform(uniformName), matrices);
     }
 
-    inline public function setArray(uniformName:String,  array:Array<Float>): Effect {
-            this._engine.setArray(this.getUniform(uniformName), array);
-            return this;
-     }
+    inline public function setArray(uniformName:String, array:Array<Float>):Effect {
+        this._engine.setArray(this.getUniform(uniformName), array);
+        return this;
+    }
 
     inline public function setMatrix(uniformName:String, matrix:Matrix) {
         //if (this._valueCache[uniformName] && this._valueCache[uniformName].equals(matrix))
@@ -319,66 +321,65 @@ class Effect {
 
     inline public function setFloat(uniformName:String, value:Float) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == value)) {
-			this._valueCache.set(uniformName, [value]);
-			this._engine.setFloat(this.getUniform(uniformName), value);
-		}
+            this._valueCache.set(uniformName, [value]);
+            this._engine.setFloat(this.getUniform(uniformName), value);
+        }
     }
 
     inline public function setBool(uniformName:String, bool:Bool) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == (bool ? 1.0 : 0.0))) {
-			this._valueCache.set(uniformName, (bool ? [1.0] : [0.0]));
-			this._engine.setBool(this.getUniform(uniformName), bool);
-		}
+            this._valueCache.set(uniformName, (bool ? [1.0] : [0.0]));
+            this._engine.setBool(this.getUniform(uniformName), bool);
+        }
     }
-    
+
     inline public function setVector2(uniformName:String, vector2:Vector2) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == vector2.x && this._valueCache.get(uniformName)[1] == vector2.y)) {
-			this._cacheFloat2(uniformName, vector2.x, vector2.y);
-			this._engine.setFloat2(this.getUniform(uniformName), vector2.x, vector2.y);
-		}
+            this._cacheFloat2(uniformName, vector2.x, vector2.y);
+            this._engine.setFloat2(this.getUniform(uniformName), vector2.x, vector2.y);
+        }
     }
 
     inline public function setFloat2(uniformName:String, x:Float, y:Float) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == x && this._valueCache.get(uniformName)[1] == y)) {
-			this._cacheFloat2(uniformName, x, y);
-			this._engine.setFloat2(this.getUniform(uniformName), x, y);
-		}
-    }
-    
-    inline public function setVector3(uniformName:String, vector3:Vector3) {
-        if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == vector3.x && this._valueCache.get(uniformName)[1] == vector3.y && this._valueCache.get(uniformName)[2] == vector3.z)) {
-			this._cacheFloat3(uniformName, vector3.x, vector3.y, vector3.z);
-			this._engine.setFloat3(this.getUniform(uniformName), vector3.x, vector3.y, vector3.z);
-		}
+            this._cacheFloat2(uniformName, x, y);
+            this._engine.setFloat2(this.getUniform(uniformName), x, y);
+        }
     }
 
-    inline public function setFloat3(uniformName:String, x:Float, y:Float, z:Float) {		
-        if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == x && this._valueCache.get(uniformName)[1] == y && this._valueCache.get(uniformName)[2] == z)) {		
-			//trace('-- setFloat3');
-			this._cacheFloat3(uniformName, x, y, z);
-			this._engine.setFloat3(this.getUniform(uniformName), x, y, z);
-		}
+    inline public function setVector3(uniformName:String, vector3:Vector3) {
+        if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == vector3.x && this._valueCache.get(uniformName)[1] == vector3.y && this._valueCache.get(uniformName)[2] == vector3.z)) {
+            this._cacheFloat3(uniformName, vector3.x, vector3.y, vector3.z);
+            this._engine.setFloat3(this.getUniform(uniformName), vector3.x, vector3.y, vector3.z);
+        }
+    }
+
+    inline public function setFloat3(uniformName:String, x:Float, y:Float, z:Float) {
+        if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == x && this._valueCache.get(uniformName)[1] == y && this._valueCache.get(uniformName)[2] == z)) {
+            this._cacheFloat3(uniformName, x, y, z);
+            this._engine.setFloat3(this.getUniform(uniformName), x, y, z);
+        }
     }
 
     inline public function setFloat4(uniformName:String, x:Float, y:Float, z:Float, w:Float) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == x && this._valueCache.get(uniformName)[1] == y && this._valueCache.get(uniformName)[2] == z && this._valueCache.get(uniformName)[3] == w)) {
-			this._cacheFloat4(uniformName, x, y, z, w);
-			this._engine.setFloat4(this.getUniform(uniformName), x, y, z, w);
-		}
+            this._cacheFloat4(uniformName, x, y, z, w);
+            this._engine.setFloat4(this.getUniform(uniformName), x, y, z, w);
+        }
     }
 
     inline public function setColor3(uniformName:String, color3:Color3) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == color3.r && this._valueCache.get(uniformName)[1] == color3.g && this._valueCache.get(uniformName)[2] == color3.b)) {
-			this._cacheFloat3(uniformName, color3.r, color3.g, color3.b);
-			this._engine.setColor3(this.getUniform(uniformName), color3);
-		}
+            this._cacheFloat3(uniformName, color3.r, color3.g, color3.b);
+            this._engine.setColor3(this.getUniform(uniformName), color3);
+        }
     }
 
     inline public function setColor4(uniformName:String, color3:Color3, alpha:Float) {
         if (!(this._valueCache.exists(uniformName) && this._valueCache.get(uniformName)[0] == color3.r && this._valueCache.get(uniformName)[1] == color3.g && this._valueCache.get(uniformName)[2] == color3.b && this._valueCache.get(uniformName)[3] == alpha)) {
-			this._cacheFloat4(uniformName, color3.r, color3.g, color3.b, alpha);
-			this._engine.setColor4(this.getUniform(uniformName), color3, alpha);
-		}
+            this._cacheFloat4(uniformName, color3.r, color3.g, color3.b, alpha);
+            this._engine.setColor4(this.getUniform(uniformName), color3, alpha);
+        }
     }
-	
+
 }

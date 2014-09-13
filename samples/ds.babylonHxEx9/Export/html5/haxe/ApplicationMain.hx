@@ -1503,6 +1503,13 @@ import openfl.Lib;
 		
 		
 		
+		var urlLoader = new URLLoader ();
+		urlLoader.dataFormat = BINARY;
+		urlLoaders.set("assets/train/Train.babylon_works", urlLoader);
+		total ++;
+		
+		
+		
 		var image = new Image ();
 		id = "assets/train/train_4.jpg";
 		images.set (id, image);

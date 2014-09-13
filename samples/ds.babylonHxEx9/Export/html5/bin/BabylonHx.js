@@ -807,6 +807,10 @@ ApplicationMain.embed = $hx_exports.openfl.embed = function(elementName,width,he
 	urlLoader10.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
 	ApplicationMain.urlLoaders.set("assets/train/Train.babylon.manifest",urlLoader10);
 	ApplicationMain.total++;
+	var urlLoader11 = new openfl.net.URLLoader();
+	urlLoader11.set_dataFormat(openfl.net.URLLoaderDataFormat.BINARY);
+	ApplicationMain.urlLoaders.set("assets/train/Train.babylon_works",urlLoader11);
+	ApplicationMain.total++;
 	var image123 = new Image();
 	id = "assets/train/train_4.jpg";
 	ApplicationMain.images.set(id,image123);
@@ -883,9 +887,9 @@ ApplicationMain.embed = $hx_exports.openfl.embed = function(elementName,width,he
 		var $it0 = ApplicationMain.urlLoaders.keys();
 		while( $it0.hasNext() ) {
 			var path = $it0.next();
-			var urlLoader11 = ApplicationMain.urlLoaders.get(path);
-			urlLoader11.addEventListener("complete",ApplicationMain.loader_onComplete);
-			urlLoader11.load(new openfl.net.URLRequest(path));
+			var urlLoader12 = ApplicationMain.urlLoaders.get(path);
+			urlLoader12.addEventListener("complete",ApplicationMain.loader_onComplete);
+			urlLoader12.load(new openfl.net.URLRequest(path));
 		}
 		var _g = 0;
 		while(_g < sounds.length) {
@@ -932,8 +936,8 @@ ApplicationMain.preloader_onComplete = function(event) {
 	if(hasMain) Reflect.callMethod(Main,Reflect.field(Main,"main"),[]); else {
 		var instance = Type.createInstance(DocumentClass,[]);
 		if(js.Boot.__instanceof(instance,openfl.display.DisplayObject)) openfl.Lib.current.addChild(instance); else {
-			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 1746, className : "ApplicationMain", methodName : "preloader_onComplete"});
-			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 1747, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("Error: No entry point found",{ fileName : "ApplicationMain.hx", lineNumber : 1753, className : "ApplicationMain", methodName : "preloader_onComplete"});
+			haxe.Log.trace("If you are using DCE with a static main, you may need to @:keep the function",{ fileName : "ApplicationMain.hx", lineNumber : 1754, className : "ApplicationMain", methodName : "preloader_onComplete"});
 		}
 	}
 };
@@ -1878,6 +1882,7 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 			_g.scene.activeCameraByID("7c547589-5d01-4648-a56c-6ab03ecd29b5");
 			_g._c = _g.scene.activeCamera;
 			_g.scene.executeWhenReady(function() {
+				_g.addEventListener(openfl.events.Event.ENTER_FRAME,$bind(_g,_g.update));
 				_g.engine.runRenderLoop(($_=_g.scene,$bind($_,$_.render)));
 				_g.addStats();
 			});
@@ -1890,6 +1895,9 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 				this.scene.activeCameraByID(this.scene.cameras[0].id);
 			}
 		}
+	}
+	,update: function(e) {
+		var wtf = this.scene.getMeshByID("3e82febf-36bb-4877-99ae-1d4e51dde48e");
 	}
 	,addStats: function() {
 		this.engine._renderingCanvas.addChild(new net.hires.debug.Stats());
@@ -2392,6 +2400,9 @@ var DefaultAssetLibrary = function() {
 	this.path.set(id,id);
 	this.type.set(id,openfl.AssetType.TEXT);
 	id = "assets/train/Train.babylon.manifest";
+	this.path.set(id,id);
+	this.type.set(id,openfl.AssetType.TEXT);
+	id = "assets/train/Train.babylon_works";
 	this.path.set(id,id);
 	this.type.set(id,openfl.AssetType.TEXT);
 	id = "assets/train/train_4.jpg";
@@ -3182,13 +3193,11 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 	}
 	,createIndexBuffer: function(indices) {
 		var vbo = openfl.gl.GL.createBuffer();
-		haxe.Log.trace("--hit 1",{ fileName : "Engine.hx", lineNumber : 473, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("createIndexBuffer - hit createBuffer",{ fileName : "Engine.hx", lineNumber : 463, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		openfl.gl.GL.bindBuffer(34963,vbo);
-		haxe.Log.trace("--hit 2",{ fileName : "Engine.hx", lineNumber : 475, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		openfl.gl.GL.bufferData(34963,new Int16Array(indices),35044);
-		haxe.Log.trace("--hit 3",{ fileName : "Engine.hx", lineNumber : 482, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		this._resetVertexBufferBinding();
-		haxe.Log.trace("--hit 4",{ fileName : "Engine.hx", lineNumber : 484, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("createIndexBuffer - pre BabylonGLBuffer",{ fileName : "Engine.hx", lineNumber : 469, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createIndexBuffer"});
 		return new com.gamestudiohx.babylonhx.mesh.BabylonGLBuffer(vbo);
 	}
 	,bindBuffers: function(vertexBuffer,indexBuffer,vertexDeclaration,vertexStrideSize,effect) {
@@ -3332,7 +3341,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 			try {
 				results.push(openfl.gl.GL.getAttribLocation(shaderProgram,attributesNames[index]));
 			} catch( e ) {
-				haxe.Log.trace("getAttributes() -> ERROR: " + Std.string(e),{ fileName : "Engine.hx", lineNumber : 688, className : "com.gamestudiohx.babylonhx.Engine", methodName : "getAttributes"});
+				if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("getAttributes() -> ERROR: " + Std.string(e),{ fileName : "Engine.hx", lineNumber : 675, className : "com.gamestudiohx.babylonhx.Engine", methodName : "getAttributes"});
 				results.push(-1);
 			}
 		}
@@ -3585,7 +3594,7 @@ com.gamestudiohx.babylonhx.Engine.prototype = {
 		var _g2 = extensions.length;
 		while(_g1 < _g2) {
 			var i = _g1++;
-			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1152, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
+			if(openfl.Assets.exists(rootUrl + extensions[i])) _setTex(rootUrl + extensions[i],i); else haxe.Log.trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !",{ fileName : "Engine.hx", lineNumber : 1141, className : "com.gamestudiohx.babylonhx.Engine", methodName : "createCubeTexture"});
 		}
 		openfl.gl.GL.texParameteri(34067,10240,9729);
 		openfl.gl.GL.texParameteri(34067,10241,9987);
@@ -3714,9 +3723,9 @@ com.gamestudiohx.babylonhx.Node = function(scene) {
 	this._scene = scene;
 	this.parent = null;
 	this._childrenFlag = -1;
+	this._currentRenderId = -1;
 	this._isReady = true;
 	this._isEnabled = true;
-	this._cache = { parent : null};
 };
 $hxClasses["com.gamestudiohx.babylonhx.Node"] = com.gamestudiohx.babylonhx.Node;
 com.gamestudiohx.babylonhx.Node.__name__ = ["com","gamestudiohx","babylonhx","Node"];
@@ -3725,13 +3734,13 @@ com.gamestudiohx.babylonhx.Node.prototype = {
 		this._cache = { parent : null};
 	}
 	,updateCache: function(force) {
-		if(force == null) force = true;
+		if(force == null) force = false;
 		if(!force && this.isSynchronized()) return;
 		this._cache.parent = this.parent;
 		this._updateCache();
 	}
 	,_updateCache: function(ignoreParentClass) {
-		if(ignoreParentClass == null) ignoreParentClass = true;
+		if(ignoreParentClass == null) ignoreParentClass = false;
 	}
 	,_isSynchronized: function() {
 		return true;
@@ -3740,10 +3749,10 @@ com.gamestudiohx.babylonhx.Node.prototype = {
 		if(this.parent != null) this._childrenFlag = this.parent._childrenFlag; else this._childrenFlag = this._scene.getRenderId();
 	}
 	,isSynchronizedWithParent: function() {
-		if(this.parent != null) return !this.parent._needToSynchonizeChildren(this._childrenFlag); else return true;
+		if(this.parent != null) return this.parent._currentRenderId <= this._currentRenderId; else return true;
 	}
 	,isSynchronized: function(updateCache) {
-		if(updateCache == null) updateCache = true;
+		if(updateCache == null) updateCache = false;
 		var check = this.hasNewParent();
 		check = check || !this.isSynchronizedWithParent();
 		check = check || !this._isSynchronized();
@@ -3751,7 +3760,7 @@ com.gamestudiohx.babylonhx.Node.prototype = {
 		return !check;
 	}
 	,hasNewParent: function(update) {
-		if(update == null) update = true;
+		if(update == null) update = false;
 		if(this._cache.parent == this.parent) return false;
 		if(update) this._cache.parent = this.parent;
 		return true;
@@ -3903,7 +3912,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	}
 	,isReady: function() {
 		if(this._pendingData.length > 0) {
-			haxe.Log.trace("isReady pending data - " + this._pendingData.length,{ fileName : "Scene.hx", lineNumber : 310, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("isReady pending data - " + this._pendingData.length,{ fileName : "Scene.hx", lineNumber : 311, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
 			return false;
 		}
 		var _g1 = 0;
@@ -3912,8 +3921,7 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 			var index = _g1++;
 			var mesh = this.meshes[index];
 			var mat = mesh.material;
-			haxe.Log.trace(this.meshes.length,{ fileName : "Scene.hx", lineNumber : 317, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
-			haxe.Log.trace("isReady - " + index,{ fileName : "Scene.hx", lineNumber : 321, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("isReady - " + index,{ fileName : "Scene.hx", lineNumber : 324, className : "com.gamestudiohx.babylonhx.Scene", methodName : "isReady"});
 			if(mat != null) {
 				if(!mat.isReady(mesh)) return false;
 			}
@@ -3928,16 +3936,16 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 		if(index > -1) this._onBeforeRenderCallbacks.splice(index,1);
 	}
 	,_addPendingData: function(data) {
-		haxe.Log.trace("_addPendingData - " + Std.string(data),{ fileName : "Scene.hx", lineNumber : 344, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_addPendingData"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("_addPendingData - " + Std.string(data),{ fileName : "Scene.hx", lineNumber : 350, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_addPendingData"});
 		this._pendingData.push(data);
 	}
 	,_removePendingData: function(data) {
 		var index = Lambda.indexOf(this._pendingData,data);
-		haxe.Log.trace("_removePendingData - " + index,{ fileName : "Scene.hx", lineNumber : 350, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("_removePendingData - " + index,{ fileName : "Scene.hx", lineNumber : 359, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 		if(index != -1) {
-			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 352, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 364, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 			this._pendingData.splice(index,1);
-			haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 354, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("_removePendingData - " + Std.string(this._pendingData),{ fileName : "Scene.hx", lineNumber : 369, className : "com.gamestudiohx.babylonhx.Scene", methodName : "_removePendingData"});
 		}
 	}
 	,getWaitingItemsCount: function() {
@@ -3945,8 +3953,10 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 	}
 	,executeWhenReady: function(func) {
 		this._onReadyCallbacks.push(func);
-		haxe.Log.trace("executeWhenReady -" + Std.string(func),{ fileName : "Scene.hx", lineNumber : 364, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
-		haxe.Log.trace("this._executeWhenReadyTimeoutId -" + this._executeWhenReadyTimeoutId,{ fileName : "Scene.hx", lineNumber : 365, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+			haxe.Log.trace("executeWhenReady -" + Std.string(func),{ fileName : "Scene.hx", lineNumber : 381, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
+			haxe.Log.trace("this._executeWhenReadyTimeoutId -" + this._executeWhenReadyTimeoutId,{ fileName : "Scene.hx", lineNumber : 382, className : "com.gamestudiohx.babylonhx.Scene", methodName : "executeWhenReady"});
+		}
 		if(this._executeWhenReadyTimeoutId != -1) return;
 		this._checkIsReady();
 	}
@@ -4168,12 +4178,10 @@ com.gamestudiohx.babylonhx.Scene.prototype = {
 				while(_g3 < _g2) {
 					var meshIndex = _g3++;
 					var mesh = block.meshes[meshIndex];
-					if(mesh._renderId != this._renderId) {
-						this._totalVertices += mesh.getTotalVertices();
-						if(!mesh.isReady()) continue;
-						mesh.computeWorldMatrix(null);
-						mesh._renderId = 0;
-					}
+					this._totalVertices += mesh.getTotalVertices();
+					if(!mesh.isReady()) continue;
+					mesh.computeWorldMatrix(null);
+					mesh._preActivate();
 					if(mesh._renderId == this._renderId || mesh._renderId == 0 && mesh.isEnabled() && mesh.isVisible && mesh.visibility > 0 && mesh.isInFrustum(this._frustumPlanes)) {
 						if(mesh._renderId == 0) this._activeMeshes.push(mesh);
 						mesh._renderId = this._renderId;
@@ -6666,19 +6674,20 @@ com.gamestudiohx.babylonhx.materials.Effect.prototype = {
 	,_prepareEffect: function(vertexSourceCode,fragmentSourceCode,attributesNames,defines,optionalDefines,useFallback) {
 		try {
 			var engine = this._engine;
-			haxe.Log.trace(defines,{ fileName : "Effect.hx", lineNumber : 205, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace("prepareEffect pre built..",{ fileName : "Effect.hx", lineNumber : 206, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace("vertex ----------",{ fileName : "Effect.hx", lineNumber : 207, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace(vertexSourceCode,{ fileName : "Effect.hx", lineNumber : 208, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace("vertex ----------",{ fileName : "Effect.hx", lineNumber : 209, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace("fragmentSourceCode ----------",{ fileName : "Effect.hx", lineNumber : 210, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace(fragmentSourceCode,{ fileName : "Effect.hx", lineNumber : 211, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-			haxe.Log.trace("fragmentSourceCode ----------",{ fileName : "Effect.hx", lineNumber : 212, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+				haxe.Log.trace(defines,{ fileName : "Effect.hx", lineNumber : 207, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("prepareEffect pre built..",{ fileName : "Effect.hx", lineNumber : 208, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("vertex ----------",{ fileName : "Effect.hx", lineNumber : 209, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace(vertexSourceCode,{ fileName : "Effect.hx", lineNumber : 210, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("vertex ----------",{ fileName : "Effect.hx", lineNumber : 211, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("fragmentSourceCode ----------",{ fileName : "Effect.hx", lineNumber : 212, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace(fragmentSourceCode,{ fileName : "Effect.hx", lineNumber : 213, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("fragmentSourceCode ----------",{ fileName : "Effect.hx", lineNumber : 214, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+			}
 			this._program = engine.createShaderProgram(vertexSourceCode,fragmentSourceCode,defines);
 			this._uniforms = engine.getUniforms(this._program,this._uniformsNames);
 			this._attributes = engine.getAttributes(this._program,attributesNames);
 			var index = 0;
-			haxe.Log.trace(this._samplers[0],{ fileName : "Effect.hx", lineNumber : 218, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
 			while(index < this._samplers.length) {
 				var sampler = this.getUniform(this._samplers[index]);
 				if(sampler == null) {
@@ -6690,7 +6699,7 @@ com.gamestudiohx.babylonhx.materials.Effect.prototype = {
 			engine.bindSamplers(this);
 			this._isReady = true;
 		} catch( e ) {
-			haxe.Log.trace(e,{ fileName : "Effect.hx", lineNumber : 235, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+			haxe.Log.trace(e,{ fileName : "Effect.hx", lineNumber : 237, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
 			if(!useFallback && optionalDefines != null) {
 				var _g1 = 0;
 				var _g = optionalDefines.length;
@@ -6700,9 +6709,9 @@ com.gamestudiohx.babylonhx.materials.Effect.prototype = {
 				}
 				this._prepareEffect(vertexSourceCode,fragmentSourceCode,attributesNames,defines,optionalDefines,true);
 			} else {
-				haxe.Log.trace("Unable to compile effect: " + Std.string(this.name),{ fileName : "Effect.hx", lineNumber : 242, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-				haxe.Log.trace("Defines: " + defines,{ fileName : "Effect.hx", lineNumber : 243, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
-				haxe.Log.trace("Optional defines: " + Std.string(optionalDefines),{ fileName : "Effect.hx", lineNumber : 244, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("Unable to compile effect: " + Std.string(this.name),{ fileName : "Effect.hx", lineNumber : 244, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("Defines: " + defines,{ fileName : "Effect.hx", lineNumber : 245, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
+				haxe.Log.trace("Optional defines: " + Std.string(optionalDefines),{ fileName : "Effect.hx", lineNumber : 246, className : "com.gamestudiohx.babylonhx.materials.Effect", methodName : "_prepareEffect"});
 				this._compilationError = e;
 			}
 		}
@@ -7786,11 +7795,7 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.ComputeNormal = function(positions,
 };
 com.gamestudiohx.babylonhx.mesh.AbstractMesh.__super__ = com.gamestudiohx.babylonhx.Node;
 com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudiohx.babylonhx.Node.prototype,{
-	get_parentId: function() {
-		if(this.parent != null) return this.parent.id;
-		return "";
-	}
-	,_resetPointsArrayCache: function() {
+	_resetPointsArrayCache: function() {
 		this._positions = null;
 	}
 	,_generatePointsArray: function() {
@@ -7843,6 +7848,10 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 	,getScene: function() {
 		return this._scene;
 	}
+	,get_parentId: function() {
+		if(this.parent != null) return this.parent.id;
+		return "";
+	}
 	,getWorldMatrix: function() {
 		if(this._currentRenderId != this._scene.getRenderId()) this.computeWorldMatrix(null);
 		return this._worldMatrix;
@@ -7875,33 +7884,16 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 			absolutePositionY = absolutePosition.y;
 			absolutePositionZ = absolutePosition.z;
 		}
-		var worldMatrix = ((function($this) {
-			var $r;
-			if($this._currentRenderId != $this._scene.getRenderId()) $this.computeWorldMatrix(null);
-			$r = $this._worldMatrix;
-			return $r;
-		}(this))).clone();
-		worldMatrix.m[12] = absolutePositionX;
-		worldMatrix.m[13] = absolutePositionY;
-		worldMatrix.m[14] = absolutePositionZ;
-		var invertRotationMatrix = this._localRotation.clone();
-		invertRotationMatrix.invertToRef(invertRotationMatrix);
-		var invertScalingMatrix = this._localScaling.clone();
-		invertScalingMatrix.invertToRef(invertScalingMatrix);
-		var invertPivotMatrix = this._pivotMatrix.clone();
-		invertPivotMatrix.invertToRef(invertPivotMatrix);
-		var translateMatrix = invertRotationMatrix.multiply(invertScalingMatrix);
-		translateMatrix.multiplyToArray(invertPivotMatrix,invertScalingMatrix.m,0);
-		invertScalingMatrix.multiplyToArray(worldMatrix,translateMatrix.m,0);
 		if(this.parent != null) {
 			var invertParentWorldMatrix = this.parent.getWorldMatrix().clone();
 			invertParentWorldMatrix.invertToRef(invertParentWorldMatrix);
-			translateMatrix.multiplyToArray(invertParentWorldMatrix,invertScalingMatrix.m,0);
-			translateMatrix = invertScalingMatrix;
+			var worldPosition = new com.gamestudiohx.babylonhx.tools.math.Vector3(absolutePositionX,absolutePositionY,absolutePositionZ);
+			this.position = com.gamestudiohx.babylonhx.tools.math.Vector3.TransformCoordinates(worldPosition,invertParentWorldMatrix);
+		} else {
+			this.position.x = absolutePositionX;
+			this.position.y = absolutePositionY;
+			this.position.z = absolutePositionZ;
 		}
-		this.position.x = translateMatrix.m[12];
-		this.position.y = translateMatrix.m[13];
-		this.position.z = translateMatrix.m[14];
 	}
 	,rotate: function(axis,amount,space) {
 		if(this.rotationQuaternion == null) {
@@ -7956,7 +7948,7 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 		return this._pivotMatrix;
 	}
 	,isSynchronized: function(updateCache) {
-		if(updateCache == null) updateCache = false;
+		if(updateCache == null) updateCache = true;
 		if(this._isDirty) return false;
 		if(this.billboardMode != com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_NONE) return false;
 		if(this._cache.pivotMatrixUpdated) return false;
@@ -8018,54 +8010,51 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 	,computeWorldMatrix: function(force) {
 		if(force == null) force = false;
 		var ret = this._worldMatrix;
-		if(!force && (this._currentRenderId == this._scene.getRenderId() || this.isSynchronized())) this._childrenFlag = 0; else {
-			this._childrenFlag = 1;
-			this._cache.position.copyFrom(this.position);
-			this._cache.scaling.copyFrom(this.scaling);
-			this._cache.pivotMatrixUpdated = false;
-			this._currentRenderId = this._scene.getRenderId();
-			com.gamestudiohx.babylonhx.tools.math.Matrix.ScalingToRef(this.scaling.x,this.scaling.y,this.scaling.z,this._localScaling);
-			if(this.rotationQuaternion != null) {
-				this.rotationQuaternion.toRotationMatrix(this._localRotation);
-				this._cache.rotationQuaternion.copyFrom(this.rotationQuaternion);
-			} else {
-				com.gamestudiohx.babylonhx.tools.math.Matrix.RotationYawPitchRollToRef(this.rotation.y,this.rotation.x,this.rotation.z,this._localRotation);
-				this._cache.rotation.copyFrom(this.rotation);
-			}
-			if(this.infiniteDistance) {
-				var camera = this._scene.activeCamera;
-				com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(this.position.x + camera.position.x,this.position.y + camera.position.y,this.position.z + camera.position.z,this._localTranslation);
-			} else com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(this.position.x,this.position.y,this.position.z,this._localTranslation);
-			this._pivotMatrix.multiplyToArray(this._localScaling,this._localPivotScaling.m,0);
-			this._localPivotScaling.multiplyToArray(this._localRotation,this._localPivotScalingRotation.m,0);
-			if(this.billboardMode != com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_NONE) {
-				var localPosition = this.position.clone();
-				var zero = this._scene.activeCamera.position.clone();
-				if(this.parent != null && this.parent.position != null) {
-					localPosition.addInPlace(this.parent.position);
-					com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(localPosition.x,localPosition.y,localPosition.z,this._localTranslation);
-				}
-				if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_ALL) == com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_ALL) zero = this._scene.activeCamera.position; else {
-					if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_X) != 0) zero.x = localPosition.x + com.gamestudiohx.babylonhx.Engine.epsilon;
-					if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_Y) != 0) zero.y = localPosition.y + com.gamestudiohx.babylonhx.Engine.epsilon;
-					if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_Z) != 0) zero.z = localPosition.z + com.gamestudiohx.babylonhx.Engine.epsilon;
-				}
-				com.gamestudiohx.babylonhx.tools.math.Matrix.LookAtLHToRef(localPosition,zero,com.gamestudiohx.babylonhx.tools.math.Vector3.Up(),this._localBillboard);
-				this._localBillboard.m[12] = this._localBillboard.m[13] = this._localBillboard.m[14] = 0;
-				this._localBillboard.invert();
-				this._localPivotScalingRotation.multiplyToArray(this._localBillboard,this._localWorld.m,0);
-				this._rotateYByPI.multiplyToArray(this._localWorld,this._localPivotScalingRotation.m,0);
-			}
-			if(this.parent != null && this.parent.getWorldMatrix() != null && this.billboardMode == com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_NONE) {
-				this._localPivotScalingRotation.multiplyToArray(this._localTranslation,this._localWorld.m,0);
-				var parentWorld = this.parent.getWorldMatrix();
-				this._localWorld.multiplyToArray(parentWorld,this._worldMatrix.m,0);
-			} else this._localPivotScalingRotation.multiplyToArray(this._localTranslation,this._worldMatrix.m,0);
-			this._updateBoundingInfo();
-			this._absolutePosition.copyFromFloats(this._worldMatrix.m[12],this._worldMatrix.m[13],this._worldMatrix.m[14]);
-			ret = this._worldMatrix;
+		if(!force && (this._currentRenderId == this._scene.getRenderId() || this.isSynchronized())) return this._worldMatrix;
+		this._cache.position.copyFrom(this.position);
+		this._cache.scaling.copyFrom(this.scaling);
+		this._cache.pivotMatrixUpdated = false;
+		this._currentRenderId = this._scene.getRenderId();
+		com.gamestudiohx.babylonhx.tools.math.Matrix.ScalingToRef(this.scaling.x,this.scaling.y,this.scaling.z,this._localScaling);
+		if(this.rotationQuaternion != null) {
+			this.rotationQuaternion.toRotationMatrix(this._localRotation);
+			this._cache.rotationQuaternion.copyFrom(this.rotationQuaternion);
+		} else {
+			com.gamestudiohx.babylonhx.tools.math.Matrix.RotationYawPitchRollToRef(this.rotation.y,this.rotation.x,this.rotation.z,this._localRotation);
+			this._cache.rotation.copyFrom(this.rotation);
 		}
-		return ret;
+		if(this.infiniteDistance && this.parent == null) {
+			var camera = this._scene.activeCamera;
+			com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(this.position.x + camera.position.x,this.position.y + camera.position.y,this.position.z + camera.position.z,this._localTranslation);
+		} else com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(this.position.x,this.position.y,this.position.z,this._localTranslation);
+		this._pivotMatrix.multiplyToArray(this._localScaling,this._localPivotScaling.m,0);
+		this._localPivotScaling.multiplyToArray(this._localRotation,this._localPivotScalingRotation.m,0);
+		if(this.billboardMode != com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_NONE) {
+			var localPosition = this.position.clone();
+			var zero = this._scene.activeCamera.position.clone();
+			if(this.parent != null && this.parent.position != null) {
+				localPosition.addInPlace(this.parent.position);
+				com.gamestudiohx.babylonhx.tools.math.Matrix.TranslationToRef(localPosition.x,localPosition.y,localPosition.z,this._localTranslation);
+			}
+			if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_ALL) == com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_ALL) zero = this._scene.activeCamera.position; else {
+				if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_X) != 0) zero.x = localPosition.x + com.gamestudiohx.babylonhx.Engine.epsilon;
+				if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_Y) != 0) zero.y = localPosition.y + com.gamestudiohx.babylonhx.Engine.epsilon;
+				if((this.billboardMode & com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_Z) != 0) zero.z = localPosition.z + com.gamestudiohx.babylonhx.Engine.epsilon;
+			}
+			com.gamestudiohx.babylonhx.tools.math.Matrix.LookAtLHToRef(localPosition,zero,com.gamestudiohx.babylonhx.tools.math.Vector3.Up(),this._localBillboard);
+			this._localBillboard.m[12] = this._localBillboard.m[13] = this._localBillboard.m[14] = 0;
+			this._localBillboard.invert();
+			this._localPivotScalingRotation.multiplyToArray(this._localBillboard,this._localWorld.m,0);
+			this._rotateYByPI.multiplyToArray(this._localWorld,this._localPivotScalingRotation.m,0);
+		}
+		this._localPivotScalingRotation.multiplyToArray(this._localTranslation,this._localWorld.m,0);
+		if(this.parent != null && this.parent.getWorldMatrix() != null && this.billboardMode == com.gamestudiohx.babylonhx.mesh.AbstractMesh.BILLBOARDMODE_NONE) {
+			haxe.Log.trace("---hit",{ fileName : "AbstractMesh.hx", lineNumber : 603, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "computeWorldMatrix"});
+			this._localWorld.multiplyToRef(this.parent.getWorldMatrix(),this._worldMatrix);
+		} else this._worldMatrix.copyFrom(this._localWorld);
+		this._updateBoundingInfo();
+		this._absolutePosition.copyFromFloats(this._worldMatrix.m[12],this._worldMatrix.m[13],this._worldMatrix.m[14]);
+		return this._worldMatrix;
 	}
 	,locallyTranslate: function(vector3) {
 		this.computeWorldMatrix(null);
@@ -8158,10 +8147,10 @@ com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype = $extend(com.gamestudioh
 	}
 	,releaseSubMeshes: function() {
 		if(this.subMeshes != null) while(this.subMeshes.length > 0) {
-			haxe.Log.trace("releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 767, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 775, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
 			this.subMeshes[0].dispose();
 		} else {
-			haxe.Log.trace("new releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 771, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("new releaseSubMeshes",{ fileName : "AbstractMesh.hx", lineNumber : 781, className : "com.gamestudiohx.babylonhx.mesh.AbstractMesh", methodName : "releaseSubMeshes"});
 			this.subMeshes = new Array();
 		}
 	}
@@ -8260,22 +8249,12 @@ com.gamestudiohx.babylonhx.mesh.Geometry.prototype = {
 		vertexData.applyToGeometry(this,updatable);
 	}
 	,setVerticesData: function(kind,data,updatable) {
-		haxe.Log.trace("In geometry setVerticesData",{ fileName : "Geometry.hx", lineNumber : 67, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
 		var extend = com.gamestudiohx.babylonhx.tools.Tools.ExtractMinAndMax(data,0,this._totalVertices);
-		haxe.Log.trace("after extend",{ fileName : "Geometry.hx", lineNumber : 69, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
-		if(this._vertexBuffers == null) {
-			haxe.Log.trace("setVerticesData vertex buffer be null",{ fileName : "Geometry.hx", lineNumber : 71, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
-			this._vertexBuffers = new haxe.ds.StringMap();
-		}
-		if(this._vertexBuffers.get(kind) != null) {
-			haxe.Log.trace("kind is null in dispose",{ fileName : "Geometry.hx", lineNumber : 76, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
-			this._vertexBuffers.get(kind).dispose();
-		}
+		if(this._vertexBuffers == null) this._vertexBuffers = new haxe.ds.StringMap();
+		if(this._vertexBuffers.get(kind) != null) this._vertexBuffers.get(kind).dispose();
 		var value = new com.gamestudiohx.babylonhx.mesh.VertexBuffer(this._engine,data,kind,updatable);
 		this._vertexBuffers.set(kind,value);
-		haxe.Log.trace("after _vertexBuffers.set",{ fileName : "Geometry.hx", lineNumber : 81, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
 		if(kind == com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind) {
-			haxe.Log.trace("kind is VertexBuffer.PositionKin",{ fileName : "Geometry.hx", lineNumber : 83, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
 			var stride = this._vertexBuffers.get(kind).getStrideSize();
 			this._totalVertices = data.length / stride | 0;
 			var meshes = this._meshes;
@@ -8290,7 +8269,6 @@ com.gamestudiohx.babylonhx.mesh.Geometry.prototype = {
 				index++;
 			}
 		}
-		haxe.Log.trace("setVerticesData end",{ fileName : "Geometry.hx", lineNumber : 106, className : "com.gamestudiohx.babylonhx.mesh.Geometry", methodName : "setVerticesData"});
 	}
 	,updateVerticesData: function(kind,data,updateExtends,makeItUnique) {
 		var vertexBuffer = this.getVertexBuffer(kind);
@@ -8707,6 +8685,9 @@ com.gamestudiohx.babylonhx.mesh.Mesh.prototype = $extend(com.gamestudiohx.babylo
 		return com.gamestudiohx.babylonhx.mesh.AbstractMesh.prototype.isReady.call(this);
 	}
 	,_preActivate: function() {
+		var sceneRenderId = this.getScene().getRenderId();
+		if(this._preActivateId == sceneRenderId) return;
+		this._preActivateId = sceneRenderId;
 		this._visibleInstances = null;
 	}
 	,_registerInstanceForRenderId: function(instance,renderId) {
@@ -8734,7 +8715,6 @@ com.gamestudiohx.babylonhx.mesh.Mesh.prototype = $extend(com.gamestudiohx.babylo
 		this._updateBoundingInfo();
 	}
 	,_createGlobalSubMesh: function() {
-		haxe.Log.trace("_createGlobalSubMesh",{ fileName : "Mesh.hx", lineNumber : 173, className : "com.gamestudiohx.babylonhx.mesh.Mesh", methodName : "_createGlobalSubMesh"});
 		var totalVertices = this.getTotalVertices();
 		if(totalVertices == 0 || this.getIndices().length == 0) return null;
 		this.releaseSubMeshes();
@@ -8761,7 +8741,7 @@ com.gamestudiohx.babylonhx.mesh.Mesh.prototype = $extend(com.gamestudiohx.babylo
 			var temp = data;
 			data = kind;
 			kind = temp;
-			haxe.Log.trace("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).",{ fileName : "Mesh.hx", lineNumber : 226, className : "com.gamestudiohx.babylonhx.mesh.Mesh", methodName : "setVerticesData"});
+			haxe.Log.trace("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).",{ fileName : "Mesh.hx", lineNumber : 230, className : "com.gamestudiohx.babylonhx.mesh.Mesh", methodName : "setVerticesData"});
 		}
 		if(this._geometry == null) {
 			var vertexData = new com.gamestudiohx.babylonhx.mesh.VertexData();
@@ -9031,7 +9011,6 @@ com.gamestudiohx.babylonhx.mesh.Mesh.prototype = $extend(com.gamestudiohx.babylo
 		var resultMesh = new com.gamestudiohx.babylonhx.mesh.Mesh(name,this.getScene());
 		var index = 0;
 		this._geometry.applyToMesh(resultMesh);
-		haxe.Log.trace("Mesh:clone -- ",{ fileName : "Mesh.hx", lineNumber : 723, className : "com.gamestudiohx.babylonhx.mesh.Mesh", methodName : "clone"});
 		com.gamestudiohx.babylonhx.tools.Tools.DeepCopy(this,resultMesh,["_onBeforeRenderCallbacks","name","material","skeleton"]);
 		resultMesh.material = this.material;
 		if(newParent != null) resultMesh.parent = newParent;
@@ -9910,7 +9889,6 @@ com.gamestudiohx.babylonhx.mesh.VertexData.prototype = {
 		}
 	}
 	,applyToMesh: function(mesh,updatable) {
-		haxe.Log.trace("VertexData in applyToMesh",{ fileName : "VertexData.hx", lineNumber : 65, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "applyToMesh"});
 		this._applyTo(mesh,updatable);
 	}
 	,applyToGeometry: function(geometry,updatable) {
@@ -9923,39 +9901,14 @@ com.gamestudiohx.babylonhx.mesh.VertexData.prototype = {
 		this._update(geometry);
 	}
 	,_applyTo: function(meshOrGeometry,updatable) {
-		haxe.Log.trace("VertexData in _applyTo",{ fileName : "VertexData.hx", lineNumber : 82, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-		if(this.positions.length > 0) {
-			haxe.Log.trace("_applyTo: positions " + this.positions.length,{ fileName : "VertexData.hx", lineNumber : 84, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind,this.positions,updatable);
-		}
-		if(this.normals.length > 0) {
-			haxe.Log.trace("_applyTo: normals " + this.normals.length,{ fileName : "VertexData.hx", lineNumber : 88, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.NormalKind,this.normals,updatable);
-		}
-		if(this.uvs.length > 0) {
-			haxe.Log.trace("_applyTo: uvs" + this.uvs.length,{ fileName : "VertexData.hx", lineNumber : 92, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.UVKind,this.uvs,updatable);
-		}
-		if(this.uv2s.length > 0) {
-			haxe.Log.trace("_applyTo: uv2s " + this.uv2s.length,{ fileName : "VertexData.hx", lineNumber : 96, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.UV2Kind,this.uv2s,updatable);
-		}
-		if(this.colors.length > 0) {
-			haxe.Log.trace("_applyTo: colors " + this.colors.length,{ fileName : "VertexData.hx", lineNumber : 100, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.ColorKind,this.colors,updatable);
-		}
-		if(this.matricesIndices.length > 0) {
-			haxe.Log.trace("_applyTo: matricesIndices" + this.matricesIndices.length,{ fileName : "VertexData.hx", lineNumber : 104, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.MatricesIndicesKind,this.matricesIndices,updatable);
-		}
-		if(this.matricesWeights.length > 0) {
-			haxe.Log.trace("_applyTo: matricesWeights " + this.matricesWeights.length,{ fileName : "VertexData.hx", lineNumber : 108, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.MatricesWeightsKind,this.matricesWeights,updatable);
-		}
-		if(this.indices.length > 0) {
-			haxe.Log.trace("_applyTo: indices " + this.indices.length,{ fileName : "VertexData.hx", lineNumber : 112, className : "com.gamestudiohx.babylonhx.mesh.VertexData", methodName : "_applyTo"});
-			meshOrGeometry.setIndices(this.indices);
-		}
+		if(this.positions.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind,this.positions,updatable);
+		if(this.normals.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.NormalKind,this.normals,updatable);
+		if(this.uvs.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.UVKind,this.uvs,updatable);
+		if(this.uv2s.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.UV2Kind,this.uv2s,updatable);
+		if(this.colors.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.ColorKind,this.colors,updatable);
+		if(this.matricesIndices.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.MatricesIndicesKind,this.matricesIndices,updatable);
+		if(this.matricesWeights.length > 0) meshOrGeometry.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.MatricesWeightsKind,this.matricesWeights,updatable);
+		if(this.indices.length > 0) meshOrGeometry.setIndices(this.indices);
 	}
 	,_update: function(meshOrGeometry,updateExtends,makeItUnique) {
 		if(this.positions.length > 0) meshOrGeometry.updateVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind,this.positions,updateExtends,makeItUnique);
@@ -10245,6 +10198,10 @@ com.gamestudiohx.babylonhx.particles.ParticleSystem.prototype = {
 		this._vertices[offset + 9] = offsetX;
 		this._vertices[offset + 10] = offsetY;
 	}
+	,getParent: function(id) {
+		var _emmiter = this._scene.getLastMeshByID(id);
+		if(_emmiter.parent != null) return this.getParent(_emmiter.parent.id); else return _emmiter;
+	}
 	,_update: function(newParticles) {
 		var particle = null;
 		this._alive = this.particles.length > 0;
@@ -10267,8 +10224,8 @@ com.gamestudiohx.babylonhx.particles.ParticleSystem.prototype = {
 				particle.direction.addInPlace(this._scaledGravity);
 			}
 		}
-		var worldMatrix = com.gamestudiohx.babylonhx.tools.math.Matrix.Translation(this.emitter.x,this.emitter.y,this.emitter.z);
-		if(this.emitter.position) worldMatrix = this.emitter.getWorldMatrix();
+		var worldMatrix;
+		if(this.emitter.position != null) worldMatrix = this.emitter.getWorldMatrix(); else worldMatrix = com.gamestudiohx.babylonhx.tools.math.Matrix.Translation(this.emitter.x,this.emitter.y,this.emitter.z);
 		var _g = 0;
 		while(_g < newParticles) {
 			var index1 = _g++;
@@ -10703,7 +10660,7 @@ com.gamestudiohx.babylonhx.rendering.RenderingManager.prototype = {
 				var particleSystem = this._scene._activeParticleSystems.data[particleIndex];
 				if(particleSystem.renderingGroupId == index) {
 					this._clearDepthBuffer();
-					if(!particleSystem.emitter.position || activeMeshes != null || Lambda.indexOf(activeMeshes,particleSystem.emitter) != -1) this._scene._activeParticles += particleSystem.render();
+					if(particleSystem.emitter.position == null || activeMeshes == null || Lambda.indexOf(activeMeshes,particleSystem.emitter) != -1) this._scene._activeParticles += particleSystem.render();
 				}
 			}
 			this._scene._particlesDuration += openfl.Lib.getTimer() - beforeParticlesDate;
@@ -11061,6 +11018,7 @@ com.gamestudiohx.babylonhx.tools.SceneLoader.parseLensFlareSystem = function(par
 };
 com.gamestudiohx.babylonhx.tools.SceneLoader.parseParticleSystem = function(parsedParticleSystem,scene,rootUrl) {
 	var emitter = scene.getLastMeshByID(parsedParticleSystem.emitterId);
+	haxe.Log.trace(Std.string(emitter) + " --Emitter",{ fileName : "SceneLoader.hx", lineNumber : 222, className : "com.gamestudiohx.babylonhx.tools.SceneLoader", methodName : "parseParticleSystem"});
 	var particleSystem = new com.gamestudiohx.babylonhx.particles.ParticleSystem("particles_" + emitter.name,parsedParticleSystem.capacity,scene);
 	if(parsedParticleSystem.textureName != null && parsedParticleSystem.textureName != "") particleSystem.particleTexture = new com.gamestudiohx.babylonhx.materials.textures.Texture(rootUrl + Std.string(parsedParticleSystem.textureName),scene);
 	particleSystem.minAngularSpeed = parsedParticleSystem.minAngularSpeed;
@@ -11195,7 +11153,7 @@ com.gamestudiohx.babylonhx.tools.SceneLoader.parseMesh = function(parsedMesh,sce
 	mesh.billboardMode = parsedMesh.billboardMode;
 	if(parsedMesh.visibility != null) mesh.visibility = parsedMesh.visibility;
 	mesh.checkCollisions = parsedMesh.checkCollisions;
-	if(parsedMesh.parentId != null && parsedMesh.parentId != "") mesh.parent = scene.getLastEntryByID(parsedMesh.parentId);
+	if(parsedMesh.parentId != null && parsedMesh.parentId != "") mesh.parent = scene.getLastEntryByID(Reflect.field(parsedMesh,"parentId"));
 	com.gamestudiohx.babylonhx.tools.SceneLoader._ImportGeometry(parsedMesh,mesh);
 	if(parsedMesh.materialId != null) mesh.setMaterialByID(parsedMesh.materialId); else mesh.material = null;
 	if(parsedMesh.skeletonId > -1) mesh.skeleton = scene.getLastSkeletonByID(parsedMesh.skeletonId);
@@ -11223,7 +11181,11 @@ com.gamestudiohx.babylonhx.tools.SceneLoader.isDescendantOf = function(mesh,name
 	return false;
 };
 com.gamestudiohx.babylonhx.tools.SceneLoader._ImportGeometry = function(parsedGeometry,mesh) {
-	if(parsedGeometry.positions != null && parsedGeometry.normals != null && parsedGeometry.indices != null) {
+	var scene = mesh.getScene();
+	if(parsedGeometry.geometryId != null) {
+		var geometry = scene.getGeometryByID(parsedGeometry.geometryId);
+		if(geometry != null) geometry.applyToMesh(mesh);
+	} else if(parsedGeometry.positions != null && parsedGeometry.normals != null && parsedGeometry.indices != null) {
 		mesh.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.PositionKind,parsedGeometry.positions,false);
 		mesh.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.NormalKind,parsedGeometry.normals,false);
 		if(parsedGeometry.uvs != null) mesh.setVerticesData(com.gamestudiohx.babylonhx.mesh.VertexBuffer.UVKind,parsedGeometry.uvs,false);
@@ -11257,7 +11219,6 @@ com.gamestudiohx.babylonhx.tools.SceneLoader._ImportGeometry = function(parsedGe
 		}
 	}
 	mesh.computeWorldMatrix(true);
-	var scene = mesh.getScene();
 	if(scene._selectionOctree != null) scene._selectionOctree.addMesh(mesh);
 };
 com.gamestudiohx.babylonhx.tools.SceneLoader.ImportMesh = function(meshName,rootUrl,sceneFilename,scene,then,progressCallBack) {
@@ -11886,7 +11847,7 @@ com.gamestudiohx.babylonhx.tools.Tools.WithinEpsilon = function(a,b) {
 };
 com.gamestudiohx.babylonhx.tools.Tools.LoadFile = function(url,callbackFn,progressCallBack,database,useArrayBuffer) {
 	if(useArrayBuffer == null) useArrayBuffer = false;
-	haxe.Log.trace("LoadFile URL - " + url,{ fileName : "Tools.hx", lineNumber : 84, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "LoadFile"});
+	if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) haxe.Log.trace("LoadFile URL - " + url,{ fileName : "Tools.hx", lineNumber : 84, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "LoadFile"});
 	var loader = new openfl.net.URLLoader();
 	loader.addEventListener(openfl.events.Event.COMPLETE,function(data) {
 		callbackFn(loader.data);
@@ -11897,7 +11858,6 @@ com.gamestudiohx.babylonhx.tools.Tools.LoadImage = function(url,onload) {
 	if(url != null) {
 		if(openfl.Assets.exists(url)) {
 			var img = openfl.Assets.getBitmapData(url);
-			haxe.Log.trace(img,{ fileName : "Tools.hx", lineNumber : 144, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "LoadImage"});
 			onload(img);
 		} else haxe.Log.trace("Error: Image '" + url + "' doesn't exist !",{ fileName : "Tools.hx", lineNumber : 147, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "LoadImage"});
 	}
@@ -11910,28 +11870,36 @@ com.gamestudiohx.babylonhx.tools.Tools.DeepCopy = function(source,destination,do
 		var prop = _g1[_g];
 		++_g;
 		i++;
-		haxe.Log.trace("DeepCopy - PROP = " + Std.string(Type["typeof"](prop)),{ fileName : "Tools.hx", lineNumber : 159, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("DeepCopy - int " + i,{ fileName : "Tools.hx", lineNumber : 160, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+			haxe.Log.trace("DeepCopy - PROP = " + Std.string(Type["typeof"](prop)),{ fileName : "Tools.hx", lineNumber : 158, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("DeepCopy - int " + i,{ fileName : "Tools.hx", lineNumber : 159, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		}
 		if(prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList,prop) == -1)) continue;
 		if(doNotCopyList != null && Lambda.indexOf(doNotCopyList,prop) != -1) continue;
-		haxe.Log.trace("=== DeepCopy hitCount " + i,{ fileName : "Tools.hx", lineNumber : 168, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("=== DeepCopy hitCount " + prop,{ fileName : "Tools.hx", lineNumber : 169, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+			haxe.Log.trace("=== DeepCopy hitCount " + i,{ fileName : "Tools.hx", lineNumber : 169, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("=== DeepCopy hitCount " + prop,{ fileName : "Tools.hx", lineNumber : 170, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		}
 		var sourceValue = Reflect.field(source,prop);
 		if(Reflect.isFunction(sourceValue)) {
-			haxe.Log.trace("=== DeepCopy - sourcevalue and prop  " + sourceValue + "  " + prop,{ fileName : "Tools.hx", lineNumber : 178, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-			haxe.Log.trace("=== DeepCopy - int " + i,{ fileName : "Tools.hx", lineNumber : 179, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+				haxe.Log.trace("=== DeepCopy - sourcevalue and prop  " + sourceValue + "  " + prop,{ fileName : "Tools.hx", lineNumber : 181, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+				haxe.Log.trace("=== DeepCopy - int " + i,{ fileName : "Tools.hx", lineNumber : 182, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			}
 			continue;
 		}
-		haxe.Log.trace("DeepCopy - sourcevalue and prop " + sourceValue + "  " + prop,{ fileName : "Tools.hx", lineNumber : 182, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("DeepCopy  " + i,{ fileName : "Tools.hx", lineNumber : 183, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("DeepCopy type " + Std.string(Type["typeof"](sourceValue)),{ fileName : "Tools.hx", lineNumber : 184, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("DeepCopy -" + sourceValue + ">>>>>PROP>>>> " + prop,{ fileName : "Tools.hx", lineNumber : 185, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
-		haxe.Log.trace("________________",{ fileName : "Tools.hx", lineNumber : 186, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		if(com.gamestudiohx.babylonhx.tools.Tools.isDebug) {
+			haxe.Log.trace("DeepCopy - sourcevalue and prop " + sourceValue + "  " + prop,{ fileName : "Tools.hx", lineNumber : 187, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("DeepCopy  " + i,{ fileName : "Tools.hx", lineNumber : 188, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("DeepCopy type " + Std.string(Type["typeof"](sourceValue)),{ fileName : "Tools.hx", lineNumber : 189, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("DeepCopy -" + sourceValue + ">>>>>PROP>>>> " + prop,{ fileName : "Tools.hx", lineNumber : 190, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+			haxe.Log.trace("________________",{ fileName : "Tools.hx", lineNumber : 191, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+		}
 		try {
 			destination[prop] = sourceValue;
 		} catch( e ) {
 			if( js.Boot.__instanceof(e,String) ) {
-				haxe.Log.trace("Error: " + e,{ fileName : "Tools.hx", lineNumber : 191, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
+				haxe.Log.trace("Error: " + e,{ fileName : "Tools.hx", lineNumber : 197, className : "com.gamestudiohx.babylonhx.tools.Tools", methodName : "DeepCopy"});
 			} else throw(e);
 		}
 	}
@@ -14029,6 +13997,8 @@ net.hires.debug.Stats = function() {
 	openfl.display.Sprite.call(this);
 	this.mem_max = 0;
 	this.fps = 0;
+	this.cacheCount = 0;
+	this.times = [];
 	var format = new openfl.text.TextFormat("_sans",10,14413891);
 	this.text = new openfl.text.TextField();
 	this.text.set_defaultTextFormat(format);
@@ -14050,7 +14020,7 @@ net.hires.debug.Stats.prototype = $extend(openfl.display.Sprite.prototype,{
 		this.get_graphics().endFill();
 		this.addChild(this.text);
 		this.graph = new openfl.display.BitmapData(100,30,false,51);
-		this.get_graphics().beginBitmapFill(this.graph,new openfl.geom.Matrix(1,0,0,1,0,30),false,true);
+		this.get_graphics().beginBitmapFill(this.graph,new openfl.geom.Matrix(1,0,0,1,0,30));
 		this.get_graphics().drawRect(0,30,100,30);
 		this.get_graphics().endFill();
 		this.addEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.update));
@@ -14062,6 +14032,11 @@ net.hires.debug.Stats.prototype = $extend(openfl.display.Sprite.prototype,{
 		this.removeEventListener(openfl.events.Event.ENTER_FRAME,$bind(this,this.update));
 	}
 	,update: function(e) {
+		var currentTime = haxe.Timer.stamp();
+		this.times.push(currentTime);
+		while(this.times[0] < currentTime - 1) this.times.shift();
+		var currentCount = this.times.length;
+		this.currentFPS = Math.round((currentCount + this.cacheCount) / 2);
 		this.timer = openfl.Lib.getTimer();
 		if(this.timer - 1000 > this.ms_prev) {
 			this.fps_graph = 30 - Std["int"](Math.min(30,this.fps / this._stage.frameRate * 30));
@@ -14076,7 +14051,8 @@ net.hires.debug.Stats.prototype = $extend(openfl.display.Sprite.prototype,{
 		}
 		this.fps++;
 		this.ms = this.timer;
-		this.text.set_text("FPS: " + this.fps + " / " + this.stage.frameRate);
+		this.text.set_text("FPS: " + this.fps + " / " + this.currentFPS);
+		this.cacheCount = currentCount;
 	}
 	,normalizeMem: function(_mem) {
 		return Std["int"](Math.min(30,Math.sqrt(Math.sqrt(_mem * 5000))) - 2);
@@ -21624,6 +21600,7 @@ com.gamestudiohx.babylonhx.rendering.RenderingManager.MAX_RENDERINGGROUPS = 4;
 com.gamestudiohx.babylonhx.tools.Axis.X = new com.gamestudiohx.babylonhx.tools.math.Vector3(1,0,0);
 com.gamestudiohx.babylonhx.tools.Axis.Y = new com.gamestudiohx.babylonhx.tools.math.Vector3(0,1,0);
 com.gamestudiohx.babylonhx.tools.Axis.Z = new com.gamestudiohx.babylonhx.tools.math.Vector3(0,0,1);
+com.gamestudiohx.babylonhx.tools.Tools.isDebug = false;
 com.gamestudiohx.babylonhx.tools.Tools.fpsRange = 60.0;
 com.gamestudiohx.babylonhx.tools.Tools.previousFramesDuration = [];
 com.gamestudiohx.babylonhx.tools.Tools.fps = 60.0;

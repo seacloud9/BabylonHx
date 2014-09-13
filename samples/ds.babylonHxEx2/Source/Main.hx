@@ -37,63 +37,64 @@ import openfl.display.FPS;
 
 class Main extends Sprite {
 
-  var inited:Bool;
-  var scene:Scene;
-  
-  
-  function resize(e) {
-    if (!inited) init();
-    // else (resize or orientation change)
-  }
+    var inited:Bool;
+    var scene:Scene;
 
-  function init() {
-    if (inited) return;
-    inited = true;
 
-    var engine = new Engine(this, true);  
-    SceneLoader.Load("assets/scenes/WCafe/", "WCafe.babylon", engine, function(newScene:Scene) {
-      this.scene = newScene;
+    function resize(e) {
+        if (!inited) init();
+        // else (resize or orientation change)
+    }
 
-      scene.activeCamera = scene.cameras[0];
-      if (scene.activeCamera != null) {
-        scene.activeCamera.attachControl(this);
+    function init() {
+        if (inited) return;
+        inited = true;
 
-        var _c:FreeCamera = cast scene.activeCamera;
+        var engine = new Engine(this, true);
+        SceneLoader.Load("assets/scenes/WCafe/", "WCafe.babylon", engine, function(newScene:Scene) {
+            this.scene = newScene;
 
-        _c.keysUp.push(87); // W
-        _c.keysDown.push(83); // S
-        _c.keysLeft.push(65); // A
-        _c.keysRight.push(68); // D
-      }
+            scene.activeCamera = scene.cameras[0];
+            if (scene.activeCamera != null) {
+                scene.activeCamera.attachControl(this);
 
-      scene.executeWhenReady(function() {
-        engine.runRenderLoop(scene.render);
-      });
-    });
-  }
+                var _c:FreeCamera = cast scene.activeCamera;
 
-  /* SETUP */
-  public function new() {
-    super();  
-    addEventListener(Event.ADDED_TO_STAGE, added);
-  }
+                _c.keysUp.push(87); // W
+                _c.keysDown.push(83); // S
+                _c.keysLeft.push(65); // A
+                _c.keysRight.push(68); // D
+            }
 
-  function added(e) {
-    removeEventListener(Event.ADDED_TO_STAGE, added);
-    stage.addEventListener(Event.RESIZE, resize);
-    #if ios
+            scene.executeWhenReady(function() {
+                engine.runRenderLoop(scene.render);
+            });
+        });
+    }
+
+    /* SETUP */
+
+    public function new() {
+        super();
+        addEventListener(Event.ADDED_TO_STAGE, added);
+    }
+
+    function added(e) {
+        removeEventListener(Event.ADDED_TO_STAGE, added);
+        stage.addEventListener(Event.RESIZE, resize);
+        #if ios
     haxe.Timer.delay(init, 100); // iOS 6
     #else
-    init();
-    #end
-  }
+        init();
+        #end
+    }
 
-  public static function main() {
-    // static entry point
-    Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-    Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-    Lib.current.addChild(new Main());
-  }
+    public static function main() {
+        // static entry point
+        Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
+        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        Lib.current.addChild(new Main());
+    }
 }
 
             

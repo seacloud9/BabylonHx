@@ -12,46 +12,46 @@ import com.gamestudiohx.babylonhx.tools.math.Plane;
  */
 
 class MirrorTexture extends RenderTargetTexture {
-	
-	public var _transformMatrix:Matrix;
-	public var _savedViewMatrix:Matrix;
-	public var _mirrorMatrix:Matrix;
-	public var mirrorPlane:Plane;
 
-	public function new(name:String, size:Float, scene:Scene, generateMipMaps:Bool) {
-		super(name, size, scene, generateMipMaps);
-		
-		this._transformMatrix = Matrix.Zero();
-        this._mirrorMatrix = Matrix.Zero();	
-		
-		this.mirrorPlane = new Plane(0, 1, 0, 1);
-		
-		this.onBeforeRender = function() {
-			var scene:Scene = this._scene;
+    public var _transformMatrix:Matrix;
+    public var _savedViewMatrix:Matrix;
+    public var _mirrorMatrix:Matrix;
+    public var mirrorPlane:Plane;
 
-			Matrix.ReflectionToRef(this.mirrorPlane, this._mirrorMatrix);
-			this._savedViewMatrix = scene.getViewMatrix();
+    public function new(name:String, size:Float, scene:Scene, generateMipMaps:Bool) {
+        super(name, size, scene, generateMipMaps);
 
-			this._mirrorMatrix.multiplyToRef(this._savedViewMatrix, this._transformMatrix);
+        this._transformMatrix = Matrix.Zero();
+        this._mirrorMatrix = Matrix.Zero();
 
-			scene.setTransformMatrix(this._transformMatrix, scene.getProjectionMatrix());
+        this.mirrorPlane = new Plane(0, 1, 0, 1);
 
-			Engine.clipPlane = this.mirrorPlane;
+        this.onBeforeRender = function() {
+            var scene:Scene = this._scene;
 
-			scene.getEngine().cullBackFaces = false;
-		}
-		
-		this.onAfterRender = function() {
-			var scene = this._scene;
+            Matrix.ReflectionToRef(this.mirrorPlane, this._mirrorMatrix);
+            this._savedViewMatrix = scene.getViewMatrix();
 
-			scene.setTransformMatrix(this._savedViewMatrix, scene.getProjectionMatrix());
-			scene.getEngine().cullBackFaces = true;
+            this._mirrorMatrix.multiplyToRef(this._savedViewMatrix, this._transformMatrix);
 
-			Engine.clipPlane = null;
-		}
-	}
-	
-	override public function clone():Texture {
+            scene.setTransformMatrix(this._transformMatrix, scene.getProjectionMatrix());
+
+            Engine.clipPlane = this.mirrorPlane;
+
+            scene.getEngine().cullBackFaces = false;
+        }
+
+        this.onAfterRender = function() {
+            var scene = this._scene;
+
+            scene.setTransformMatrix(this._savedViewMatrix, scene.getProjectionMatrix());
+            scene.getEngine().cullBackFaces = true;
+
+            Engine.clipPlane = null;
+        }
+    }
+
+    override public function clone():Texture {
         var textureSize = this.getSize();
         var newTexture:MirrorTexture = new MirrorTexture(this.name, textureSize.width, this._scene, this._generateMipMaps);
 
@@ -65,5 +65,5 @@ class MirrorTexture extends RenderTargetTexture {
 
         return newTexture;
     }
-	
+
 }

@@ -9,8 +9,8 @@ package com.gamestudiohx.babylonhx.tools.math;
 
 class Frustum {
 
-	public static function GetPlanes(transform:Matrix):Array<Plane> {
-		var frustumPlanes = [];
+    public static function GetPlanes(transform:Matrix):Array<Plane> {
+        var frustumPlanes = [];
 
         for (index in 0...6) {
             frustumPlanes.push(new Plane(0, 0, 0, 0));
@@ -19,10 +19,10 @@ class Frustum {
         Frustum.GetPlanesToRef(transform, frustumPlanes);
 
         return frustumPlanes;
-	}
-	
-	inline public static function GetPlanesToRef(transform:Matrix, frustumPlanes:Array<Plane>):Array<Plane> {
-		// Near
+    }
+
+    inline public static function GetPlanesToRef(transform:Matrix, frustumPlanes:Array<Plane>):Array<Plane> {
+        // Near
         frustumPlanes[0].normal.x = transform.m[3] + transform.m[2];
         frustumPlanes[0].normal.y = transform.m[7] + transform.m[6];
         frustumPlanes[0].normal.z = transform.m[10] + transform.m[10];
@@ -63,8 +63,8 @@ class Frustum {
         frustumPlanes[5].normal.z = transform.m[11] + transform.m[9];
         frustumPlanes[5].d = transform.m[15] + transform.m[13];
         frustumPlanes[5].normalize();
-		
-		return frustumPlanes;
-	}
-	
+
+        return frustumPlanes;
+    }
+
 }

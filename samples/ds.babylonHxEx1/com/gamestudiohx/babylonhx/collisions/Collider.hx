@@ -12,51 +12,50 @@ import com.gamestudiohx.babylonhx.tools.math.Vector3;
  */
 
 typedef LowestRootResult = {
-	root: Float,
-	found: Bool
+root:Float, found:Bool
 }
 
 class Collider {
-	
-	public var radius:Vector3;
-	public var retry:Int;
-	public var basePoint:Vector3;
-	public var basePointWorld:Vector3;
-	public var velocityWorld:Vector3;
-	public var normalizedVelocity:Vector3;				// Vector2 or Vector3 or Matrix   ???
-	public var velocityWorldLength:Float;
-	public var velocity:Vector3;
-	public var collisionFound:Bool;
-	public var epsilon:Float;
-	public var nearestDistance:Float;
-	public var collidedMesh:Mesh;
-	public var intersectionPoint:Vector3;
-	public var initialVelocity:Vector3;
-	public var initialPosition:Vector3;
-	
-	private var _collisionPoint:Vector3;
-	private var _planeIntersectionPoint:Vector3;
-	private var _tempVector:Vector3;
-	private var _tempVector2:Vector3;
-	private var _tempVector3:Vector3;
-	private var _tempVector4:Vector3;
-	private var _edge:Vector3;
-	private var _baseToVertex:Vector3;
-	private var _destinationPoint:Vector3;
-	private var _slidePlaneNormal:Vector3;
-	private var _displacementVector:Vector3;
 
-	public function new() {
-		this.radius = new Vector3(1, 1, 1);
+    public var radius:Vector3;
+    public var retry:Int;
+    public var basePoint:Vector3;
+    public var basePointWorld:Vector3;
+    public var velocityWorld:Vector3;
+    public var normalizedVelocity:Vector3; // Vector2 or Vector3 or Matrix   ???
+    public var velocityWorldLength:Float;
+    public var velocity:Vector3;
+    public var collisionFound:Bool;
+    public var epsilon:Float;
+    public var nearestDistance:Float;
+    public var collidedMesh:Mesh;
+    public var intersectionPoint:Vector3;
+    public var initialVelocity:Vector3;
+    public var initialPosition:Vector3;
+
+    private var _collisionPoint:Vector3;
+    private var _planeIntersectionPoint:Vector3;
+    private var _tempVector:Vector3;
+    private var _tempVector2:Vector3;
+    private var _tempVector3:Vector3;
+    private var _tempVector4:Vector3;
+    private var _edge:Vector3;
+    private var _baseToVertex:Vector3;
+    private var _destinationPoint:Vector3;
+    private var _slidePlaneNormal:Vector3;
+    private var _displacementVector:Vector3;
+
+    public function new() {
+        this.radius = new Vector3(1, 1, 1);
         this.retry = 0;
 
-		this.basePoint = Vector3.Zero();
-		this.velocity = Vector3.Zero();
-		
+        this.basePoint = Vector3.Zero();
+        this.velocity = Vector3.Zero();
+
         this.basePointWorld = Vector3.Zero();
         this.velocityWorld = Vector3.Zero();
         this.normalizedVelocity = Vector3.Zero();
-        
+
         // Internals
         this._collisionPoint = Vector3.Zero();
         this._planeIntersectionPoint = Vector3.Zero();
@@ -69,9 +68,9 @@ class Collider {
         this._destinationPoint = Vector3.Zero();
         this._slidePlaneNormal = Vector3.Zero();
         this._displacementVector = Vector3.Zero();
-	}
-	
-	public function _initialize(source:Vector3, dir:Vector3, e:Float) {
+    }
+
+    public function _initialize(source:Vector3, dir:Vector3, e:Float) {
         this.velocity = dir;
         Vector3.NormalizeToRef(dir, this.normalizedVelocity);
         this.basePoint = source;
@@ -84,8 +83,8 @@ class Collider {
         this.epsilon = e;
         this.collisionFound = false;
     }
-	
-	public function _checkPointInTriangle(point:Vector3, pa:Vector3, pb:Vector3, pc:Vector3, n:Vector3):Bool {
+
+    public function _checkPointInTriangle(point:Vector3, pa:Vector3, pb:Vector3, pc:Vector3, n:Vector3):Bool {
         pa.subtractToRef(point, this._tempVector);
         pb.subtractToRef(point, this._tempVector2);
 
@@ -104,8 +103,8 @@ class Collider {
         d = Vector3.Dot(this._tempVector4, n);
         return d >= 0;
     }
-	
-	public function intersectBoxAASphere(boxMin:Vector3, boxMax:Vector3, sphereCenter:Vector3, sphereRadius:Float) {
+
+    public function intersectBoxAASphere(boxMin:Vector3, boxMax:Vector3, sphereCenter:Vector3, sphereRadius:Float) {
         if (boxMin.x > sphereCenter.x + sphereRadius)
             return false;
 
@@ -126,8 +125,8 @@ class Collider {
 
         return true;
     }
-	
-	public function getLowestRoot(a:Float, b:Float, c:Float, maxR:Float):LowestRootResult {
+
+    public function getLowestRoot(a:Float, b:Float, c:Float, maxR:Float):LowestRootResult {
         var determinant = b * b - 4.0 * a * c;
         var result:LowestRootResult = { root: 0, found: false };
 
@@ -158,8 +157,8 @@ class Collider {
 
         return result;
     }
-	
-	public function _canDoCollision(sphereCenter:Vector3, sphereRadius:Float, vecMin:Vector3, vecMax:Vector3):Bool {
+
+    public function _canDoCollision(sphereCenter:Vector3, sphereRadius:Float, vecMin:Vector3, vecMax:Vector3):Bool {
         var distance:Float = Vector3.Distance(this.basePointWorld, sphereCenter);
 
         var max:Float = Math.max(this.radius.x, this.radius.y);
@@ -174,15 +173,15 @@ class Collider {
 
         return true;
     }
-	
-	public function _testTriangle(faceIndex:Int, subMesh:SubMesh, p1:Vector3, p2:Vector3, p3:Vector3) {
+
+    public function _testTriangle(faceIndex:Int, subMesh:SubMesh, p1:Vector3, p2:Vector3, p3:Vector3) {
         var t0:Float = 0;
         var embeddedInPlane:Bool = false;
 
         if (subMesh._trianglePlanes == null) {
             subMesh._trianglePlanes = [];
         }
-        
+
         if (faceIndex >= subMesh._trianglePlanes.length) {
             subMesh._trianglePlanes[faceIndex] = new Plane(0, 0, 0, 0);
             subMesh._trianglePlanes[faceIndex].copyFromPoints(p1, p2, p3);
@@ -201,8 +200,7 @@ class Collider {
                 return;
             embeddedInPlane = true;
             t0 = 0;
-        }
-        else {
+        } else {
             t0 = (-1.0 - signedDistToTrianglePlane) / normalDotVelocity;
             var t1 = (1.0 - signedDistToTrianglePlane) / normalDotVelocity;
 
@@ -351,26 +349,26 @@ class Collider {
                 } else {
                     this.intersectionPoint.copyFrom(this._collisionPoint);
                 }
-                this.nearestDistance = distToCollision;                
+                this.nearestDistance = distToCollision;
                 this.collisionFound = true;
                 this.collidedMesh = subMesh.getMesh();
             }
         }
     }
-	
-	inline public function _collide(subMesh:SubMesh, pts:Array<Vector3>, indices:Array<Int>, indexStart:Int, indexEnd:Int, decal:Int) {
-		var i:Int = indexStart;
+
+    inline public function _collide(subMesh:SubMesh, pts:Array<Vector3>, indices:Array<Int>, indexStart:Int, indexEnd:Int, decal:Int) {
+        var i:Int = indexStart;
         while (i < indexEnd) {
             var p1 = pts[indices[i] - decal];
             var p2 = pts[indices[i + 1] - decal];
             var p3 = pts[indices[i + 2] - decal];
 
             this._testTriangle(i, subMesh, p3, p2, p1);
-			i += 3;
+            i += 3;
         }
     }
-	
-	inline public function _getResponse(pos:Vector3, vel:Vector3) {
+
+    inline public function _getResponse(pos:Vector3, vel:Vector3) {
         pos.addToRef(vel, this._destinationPoint);
         vel.scaleInPlace((this.nearestDistance / vel.length()));
 
@@ -387,5 +385,5 @@ class Collider {
 
         this._destinationPoint.subtractToRef(this.intersectionPoint, vel);
     }
-	
+
 }

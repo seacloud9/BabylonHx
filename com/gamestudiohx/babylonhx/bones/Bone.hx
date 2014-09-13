@@ -11,21 +11,21 @@ import com.gamestudiohx.babylonhx.animations.Animation;
 
 class Bone {
 
-	public var name:String;
-	public var _skeleton:Skeleton;
-	public var _matrix:Matrix;
-	public var _baseMatrix:Matrix;
-	public var _worldTransform:Matrix;
-	public var _absoluteTransform:Matrix;
-	public var _invertedAbsoluteTransform:Matrix;
-	public var children:Array<Bone>;
-	public var animations:Array<Animation>;
-	
-	private var _parent:Bone;
-	
+    public var name:String;
+    public var _skeleton:Skeleton;
+    public var _matrix:Matrix;
+    public var _baseMatrix:Matrix;
+    public var _worldTransform:Matrix;
+    public var _absoluteTransform:Matrix;
+    public var _invertedAbsoluteTransform:Matrix;
+    public var children:Array<Bone>;
+    public var animations:Array<Animation>;
 
-	public function new(name:String, skeleton:Skeleton, parentBone:Bone, matrix:Matrix) {
-		this.name = name;
+    private var _parent:Bone;
+
+
+    public function new(name:String, skeleton:Skeleton, parentBone:Bone, matrix:Matrix) {
+        this.name = name;
         this._skeleton = skeleton;
         this._matrix = matrix;
         this._baseMatrix = matrix;
@@ -36,27 +36,27 @@ class Bone {
         this.animations = [];
 
         skeleton.bones.push(this);
-        
+
         if (parentBone != null) {
             this._parent = parentBone;
             parentBone.children.push(this);
         } else {
             this._parent = null;
         }
-        
-        this._updateDifferenceMatrix();
-	}
 
-	public function getParent():Bone {
-		return this._parent;
-	}
-	
-	public function getLocalMatrix():Matrix {
-		return this._matrix;
-	}
-	
-	public function getAbsoluteMatrix():Matrix {
-		var matrix:Matrix = this._matrix.clone();
+        this._updateDifferenceMatrix();
+    }
+
+    public function getParent():Bone {
+        return this._parent;
+    }
+
+    public function getLocalMatrix():Matrix {
+        return this._matrix;
+    }
+
+    public function getAbsoluteMatrix():Matrix {
+        var matrix:Matrix = this._matrix.clone();
         var parent:Bone = this._parent;
 
         while (parent != null) {
@@ -65,10 +65,10 @@ class Bone {
         }
 
         return matrix;
-	}
-	
-	public function _updateDifferenceMatrix() {
-		if (this._parent != null) {
+    }
+
+    public function _updateDifferenceMatrix() {
+        if (this._parent != null) {
             this._matrix.multiplyToRef(this._parent._absoluteTransform, this._absoluteTransform);
         } else {
             this._absoluteTransform.copyFrom(this._matrix);
@@ -79,17 +79,17 @@ class Bone {
         for (index in 0...this.children.length) {
             this.children[index]._updateDifferenceMatrix();
         }
-	}
-	
-	public function updateMatrix(matrix:Matrix) {
-		this._matrix = matrix;
+    }
+
+    public function updateMatrix(matrix:Matrix) {
+        this._matrix = matrix;
         this._skeleton._markAsDirty();
 
         this._updateDifferenceMatrix();
-	}
-	
-	public function markAsDirty() {
-		this._skeleton._markAsDirty();
-	}
-	
+    }
+
+    public function markAsDirty() {
+        this._skeleton._markAsDirty();
+    }
+
 }

@@ -17,40 +17,41 @@ import openfl.Lib;
  */
 
 class RenderingManager {
-	
-	public static var MAX_RENDERINGGROUPS:Int = 4;
-	
-	public var _scene:Scene;
-	public var _renderingGroups:Array<RenderingGroup>;
-	public var _depthBufferAlreadyCleaned:Bool;
 
-	public function new(scene:Scene) {
-		this._scene = scene;
+    public static var MAX_RENDERINGGROUPS:Int = 4;
+
+    public var _scene:Scene;
+    public var _renderingGroups:Array<RenderingGroup>;
+    public var _depthBufferAlreadyCleaned:Bool;
+
+    public function new(scene:Scene) {
+        this._scene = scene;
         this._renderingGroups = [];
-		
-		_depthBufferAlreadyCleaned = false;
-	}
-	
-	inline public function _renderParticles(index:Int, activeMeshes:Array<AbstractMesh>) {
+
+        _depthBufferAlreadyCleaned = false;
+    }
+
+    inline public function _renderParticles(index:Int, activeMeshes:Array<AbstractMesh>) {
         if (this._scene._activeParticleSystems.length != 0) {
             // Particles
-			var beforeParticlesDate = Lib.getTimer();
-			for (particleIndex in 0...this._scene._activeParticleSystems.length) {
-				var particleSystem:ParticleSystem = this._scene._activeParticleSystems.data[particleIndex];
+            var beforeParticlesDate = Lib.getTimer();
+            for (particleIndex in 0...this._scene._activeParticleSystems.length) {
+                var particleSystem:ParticleSystem = this._scene._activeParticleSystems.data[particleIndex];
 
-				if (particleSystem.renderingGroupId == index) {
-					this._clearDepthBuffer();
+                if (particleSystem.renderingGroupId == index) {
+                    this._clearDepthBuffer();
 
-					if (!particleSystem.emitter.position || activeMeshes != null || Lambda.indexOf(activeMeshes, particleSystem.emitter) != -1) {
-						this._scene._activeParticles += particleSystem.render();
-					}
-				}				
-			}
-			this._scene._particlesDuration += Lib.getTimer() - beforeParticlesDate;
-        }        
+
+                    if (particleSystem.emitter.position == null || activeMeshes == null || Lambda.indexOf(activeMeshes, particleSystem.emitter) != -1) {
+                        this._scene._activeParticles += particleSystem.render();
+                    }
+                }
+            }
+            this._scene._particlesDuration += Lib.getTimer() - beforeParticlesDate;
+        }
     }
-	
-	public function _renderSprites(index:Int) {
+
+    public function _renderSprites(index:Int) {
         if (this._scene.spriteManagers.length == 0) {
             return;
         }
@@ -67,8 +68,8 @@ class RenderingManager {
         }
         this._scene._spritesDuration += Lib.getTimer() - beforeSpritessDate;
     }
-	
-	public function _clearDepthBuffer() {
+
+    public function _clearDepthBuffer() {
         if (this._depthBufferAlreadyCleaned) {
             return;
         }
@@ -76,8 +77,11 @@ class RenderingManager {
         this._scene.getEngine().clear(new Color4(0, 0, 0), false, true);
         this._depthBufferAlreadyCleaned = true;
     }
-	
-	inline public function render(customRenderFunction:SmartArray->SmartArray->SmartArray->Dynamic->Bool, activeMeshes:Array<AbstractMesh>, renderParticles:Bool, renderSprites:Bool) {    
+
+    inline public function render(customRenderFunction:SmartArray -> SmartArray -> SmartArray -> Dynamic -> Bool, activeMeshes:Array<AbstractMesh>, renderParticles:Bool, renderSprites:Bool) {
+        /* if(activeMeshes == null){
+            activeMeshes = new Array<AbstractMesh>();
+        }*/
         for (index in 0...RenderingManager.MAX_RENDERINGGROUPS) {
             ///this._depthBufferAlreadyCleaned = index == 0;
             this._depthBufferAlreadyCleaned = false;
@@ -85,10 +89,10 @@ class RenderingManager {
 
             if (renderingGroup != null) {
                 this._clearDepthBuffer();
-                if (!renderingGroup.render(customRenderFunction, function () {
+                if (!renderingGroup.render(customRenderFunction, function() {
                     if (renderSprites) {
                         this._renderSprites(index);
-                }
+                    }
                 })) {
                     this._renderingGroups.splice(index, 1);
                 }
@@ -101,14 +105,14 @@ class RenderingManager {
             }
         }
     }
-	
-	public function reset() {
+
+    public function reset() {
         for (renderingGroup in this._renderingGroups) {
             renderingGroup.prepare();
         }
     }
-	
-	inline public function dispatch(subMesh:SubMesh) {
+
+    inline public function dispatch(subMesh:SubMesh) {
         var mesh:AbstractMesh = subMesh.getMesh();
         var renderingGroupId = mesh.renderingGroupId;
 
@@ -118,5 +122,5 @@ class RenderingManager {
 
         this._renderingGroups[renderingGroupId].dispatch(subMesh);
     }
-	
+
 }

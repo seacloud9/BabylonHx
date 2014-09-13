@@ -12,19 +12,19 @@ import openfl.utils.Float32Array;
 
 class Skeleton {
 
-	public var id:String;
-	public var name:String;
-	public var bones:Array<Bone>;
-	public var _scene:Scene;
-	public var _isDirty:Bool;
-	
-	private var _transformMatrices: #if html5 Float32Array #else Array<Float> #end ;
-	
-	private var _animatables:Array<Dynamic>; // Array<Bone>;
-	
+    public var id:String;
+    public var name:String;
+    public var bones:Array<Bone>;
+    public var _scene:Scene;
+    public var _isDirty:Bool;
 
-	public function new(name:String, id:String, scene:Scene) {
-		this.id = id;
+    private var _transformMatrices:#if html5 Float32Array #else Array<Float> #end ;
+
+    private var _animatables:Array<Dynamic>; // Array<Bone>;
+
+
+    public function new(name:String, id:String, scene:Scene) {
+        this.id = id;
         this.name = name;
         this.bones = [];
 
@@ -33,22 +33,22 @@ class Skeleton {
         scene.skeletons.push(this);
 
         this._isDirty = true;
-	}
-	
-	public function _markAsDirty() {
+    }
+
+    public function _markAsDirty() {
         this._isDirty = true;
     }
 
-	public function getTransformMatrices(): #if html5 Float32Array #else Array<Float> #end {
-		return this._transformMatrices;
-	}
-	
-	public function prepare() {		
-		if (!this._isDirty) {
+    public function getTransformMatrices():#if html5 Float32Array #else Array<Float> #end {
+        return this._transformMatrices;
+    }
+
+    public function prepare() {
+        if (!this._isDirty) {
             return;
         }
 
-        if (this._transformMatrices == null #if html5 || this._transformMatrices.length != 16 * this.bones.length #end ) {
+        if (this._transformMatrices == null #if html5 || this._transformMatrices.length != 16 * this.bones.length #end) {
             this._transformMatrices = #if html5 new Float32Array(16 * this.bones.length) #else [] #end ;
         }
 
@@ -66,27 +66,27 @@ class Skeleton {
         }
 
         this._isDirty = false;
-	}
-	
-	public function getAnimatables():Array<Dynamic> { // Array<Animation> {
-		if (this._animatables == null || this._animatables.length != this.bones.length) {
+    }
+
+    public function getAnimatables():Array<Dynamic> { // Array<Animation> {
+        if (this._animatables == null || this._animatables.length != this.bones.length) {
             this._animatables = [];
-            
+
             for (index in 0...this.bones.length) {
                 this._animatables.push(this.bones[index]);
             }
         }
 
         return this._animatables;
-	}
-	
-	public function clone(name:String, id:String):Skeleton {
-		var result:Skeleton = new Skeleton(name, id, this._scene);
+    }
+
+    public function clone(name:String, id:String):Skeleton {
+        var result:Skeleton = new Skeleton(name, id, this._scene);
 
         for (index in 0...this.bones.length) {
             var source:Bone = this.bones[index];
             var parentBone:Bone = null;
-            
+
             if (source.getParent() != null) {
                 var parentIndex = Lambda.indexOf(this.bones, source.getParent());
                 parentBone = result.bones[parentIndex];
@@ -94,11 +94,11 @@ class Skeleton {
 
             var bone = new Bone(source.name, result, parentBone, source._baseMatrix);
             //BABYLON.Tools.DeepCopy(source.animations, bone.animations);
-			// TODO - should this work ?? test it
-			bone.animations = source.animations.copy();
+            // TODO - should this work ?? test it
+            bone.animations = source.animations.copy();
         }
 
         return result;
-	}
-	
+    }
+
 }

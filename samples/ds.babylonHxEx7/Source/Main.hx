@@ -43,82 +43,83 @@ import openfl.display.FPS;
 
 class Main extends Sprite {
 
-  var inited:Bool;
-  var engine:Engine;
-  var background:Layer;
-  
-  function resize(e) {
-    if (!inited) init();
-    // else (resize or orientation change)
-  }
+    var inited:Bool;
+    var engine:Engine;
+    var background:Layer;
 
-  function init() {
-    if (inited) return;
-    inited = true;
+    function resize(e) {
+        if (!inited) init();
+        // else (resize or orientation change)
+    }
 
-    engine = new Engine(this, true);  
-    var scene = new Scene(engine);
-    var camera = new ArcRotateCamera("Camera", 0, 0, 10, Vector3.Zero(), scene);
-    camera.attachControl(this);
-    background = new Layer("back0", null, scene);
-    background.texture = new DynamicTexture("dynamic texture", {width:1024, height:1024}, scene, true);
-    var size = background.texture.getSize();
-    var shape:Shape = new Shape();
-    var m:openfl.geom.Matrix = new openfl.geom.Matrix();
-    var bounds:Rectangle = shape.getBounds(shape);
-    m.translate(-bounds.left, -bounds.top);
-    shape.graphics.beginFill(0x4584b4);
-    shape.graphics.drawRect( 0, 0, size.width, size.height);
-    shape.graphics.endFill();
-    background.texture._canvas.draw(shape, m);
-    background.texture.update(0);
+    function init() {
+        if (inited) return;
+        inited = true;
 
-    var light = new PointLight("Omni", new Vector3(20, 100, 2), scene);
-    var sphere = Mesh.CreateSphere("Sphere", 16, 3, scene);
-    var material:StandardMaterial = new StandardMaterial("kosh", scene);
-    material.bumpTexture = new Texture("assets/img/normalMap.jpg", scene);
-    material.diffuseColor = new Color3(1, 0, 0);
+        engine = new Engine(this, true);
+        var scene = new Scene(engine);
+        var camera = new ArcRotateCamera("Camera", 0, 0, 10, Vector3.Zero(), scene);
+        camera.attachControl(this);
+        background = new Layer("back0", null, scene);
+        background.texture = new DynamicTexture("dynamic texture", {width:1024, height:1024}, scene, true);
+        var size = background.texture.getSize();
+        var shape:Shape = new Shape();
+        var m:openfl.geom.Matrix = new openfl.geom.Matrix();
+        var bounds:Rectangle = shape.getBounds(shape);
+        m.translate(-bounds.left, -bounds.top);
+        shape.graphics.beginFill(0x4584b4);
+        shape.graphics.drawRect(0, 0, size.width, size.height);
+        shape.graphics.endFill();
+        background.texture._canvas.draw(shape, m);
+        background.texture.update(0);
 
-    sphere.material = material;
+        var light = new PointLight("Omni", new Vector3(20, 100, 2), scene);
+        var sphere = Mesh.CreateSphere("Sphere", 16, 3, scene);
+        var material:StandardMaterial = new StandardMaterial("kosh", scene);
+        material.bumpTexture = new Texture("assets/img/normalMap.jpg", scene);
+        material.diffuseColor = new Color3(1, 0, 0);
 
-    camera.setPosition(new Vector3(-5, 5, 0));
+        sphere.material = material;
 
-    // Animations
-    scene.registerBeforeRender(function() {
-      sphere.rotation.y += 0.02;
-    });
+        camera.setPosition(new Vector3(-5, 5, 0));
 
-    scene.executeWhenReady(function() {
-      engine.runRenderLoop(scene.render);
-      addStats();
-    });
-  }
+        // Animations
+        scene.registerBeforeRender(function() {
+            sphere.rotation.y += 0.02;
+        });
 
-  private function addStats(){
-     engine._renderingCanvas.addChild(new Stats());
-  }
-  
+        scene.executeWhenReady(function() {
+            engine.runRenderLoop(scene.render);
+            addStats();
+        });
+    }
 
-  /* SETUP */
-  public function new() {
-    super();  
-    addEventListener(Event.ADDED_TO_STAGE, added);
-  }
+    private function addStats() {
+        engine._renderingCanvas.addChild(new Stats());
+    }
 
-  function added(e) {
-    removeEventListener(Event.ADDED_TO_STAGE, added);
-    stage.addEventListener(Event.RESIZE, resize);
-    #if ios
+
+    /* SETUP */
+
+    public function new() {
+        super();
+        addEventListener(Event.ADDED_TO_STAGE, added);
+    }
+
+    function added(e) {
+        removeEventListener(Event.ADDED_TO_STAGE, added);
+        stage.addEventListener(Event.RESIZE, resize);
+        #if ios
     haxe.Timer.delay(init, 100); // iOS 6
     #else
-    init();
-    #end
-  }
+        init();
+        #end
+    }
 
-  public static function main() {
-    // static entry point
-    Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-    Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-    Lib.current.addChild(new Main());
-  }
+    public static function main() {
+        // static entry point
+        Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
+        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        Lib.current.addChild(new Main());
+    }
 }

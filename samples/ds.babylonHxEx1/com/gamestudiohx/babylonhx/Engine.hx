@@ -47,32 +47,25 @@ import sys.io.File;
  */
 
 typedef BabylonState = {
-	culling: Null<Dynamic>
+culling:Null<Dynamic>
 }
 
 typedef BabylonCaps = {
-	maxTexturesImageUnits: Null<Dynamic>,
-	maxTextureSize: Null<Dynamic>,
-	maxCubemapTextureSize: Null<Dynamic>,
-	maxRenderTextureSize: Null<Dynamic>,
-	standardDerivatives: Null<Dynamic>,
-	textureFloat: Null<Dynamic>,
-	textureAnisotropicFilterExtension: Null<Dynamic>,
-	maxAnisotropy: Null<Dynamic>	
+maxTexturesImageUnits:Null<Dynamic>, maxTextureSize:Null<Dynamic>, maxCubemapTextureSize:Null<Dynamic>, maxRenderTextureSize:Null<Dynamic>, standardDerivatives:Null<Dynamic>, textureFloat:Null<Dynamic>, textureAnisotropicFilterExtension:Null<Dynamic>, maxAnisotropy:Null<Dynamic>
 }
- 
+
 class Engine {
-	
-	// GLOBAL var ...
-	public static var clipPlane:Plane = null;
-	
-	// Statics
+
+    // GLOBAL var ...
+    public static var clipPlane:Plane = null;
+
+    // Statics
     public static var ShadersRepository:String = "assets/shaders/";
 
     public static var ALPHA_DISABLE:Int = 0;
     public static var ALPHA_ADD:Int = 1;
     public static var ALPHA_COMBINE:Int = 2;
-    
+
     public static var DELAYLOADSTATE_NONE:Int = 0;
     public static var DELAYLOADSTATE_LOADED:Int = 1;
     public static var DELAYLOADSTATE_LOADING:Int = 2;
@@ -80,48 +73,48 @@ class Engine {
 
     public static var epsilon:Float = 0.001;
     public static var collisionsEpsilon:Float = 0.001;
-	
-	public var forceWireframe:Bool;
-	public var cullBackFaces:Bool;
-	
-	public var scenes:Array<Scene>;
-	
-	public var _hardwareScalingLevel:Int;
-	public var _aspectRatio:Float;
-	public var _cachedViewport:Viewport;
-	
-	public var _caps:BabylonCaps;
-	
-	public var _alphaTest:Bool;
-	
-	public var _runningLoop:Bool;
-	
-	public var _loadedTexturesCache:Array<BabylonTexture>;
-	public var _activeTexturesCache:Array<Texture>;
-	
-	public var _currentEffect:Effect;
-	public var _currentState:BabylonState;
-	public var _compiledEffects:Map<String, Effect>;
-	public var _cachedEffectForVertexBuffers:Effect;
-	public var _cachedVertexBuffers:Dynamic;  
-	public var _cachedIndexBuffer:BabylonGLBuffer;
-	
-	public var _renderingCanvas:Sprite;
-	
-	public var isFullscreen:Bool;
-	public var isPointerLock:Bool;
-	
-	public var _renderFunction:Rectangle->Void;
-	public var _workingCanvas:BitmapData;
-	public var _workingContext:OpenGLView;
-		
 
-	public function new(canvas:Sprite, antialias:Bool) {
-		this._renderingCanvas = canvas;
-		
-		if (!OpenGLView.isSupported) {
-			throw("GL not supported");
-		}
+    public var forceWireframe:Bool;
+    public var cullBackFaces:Bool;
+
+    public var scenes:Array<Scene>;
+
+    public var _hardwareScalingLevel:Int;
+    public var _aspectRatio:Float;
+    public var _cachedViewport:Viewport;
+
+    public var _caps:BabylonCaps;
+
+    public var _alphaTest:Bool;
+
+    public var _runningLoop:Bool;
+
+    public var _loadedTexturesCache:Array<BabylonTexture>;
+    public var _activeTexturesCache:Array<Texture>;
+
+    public var _currentEffect:Effect;
+    public var _currentState:BabylonState;
+    public var _compiledEffects:Map<String, Effect>;
+    public var _cachedEffectForVertexBuffers:Effect;
+    public var _cachedVertexBuffers:Dynamic;
+    public var _cachedIndexBuffer:BabylonGLBuffer;
+
+    public var _renderingCanvas:Sprite;
+
+    public var isFullscreen:Bool;
+    public var isPointerLock:Bool;
+
+    public var _renderFunction:Rectangle -> Void;
+    public var _workingCanvas:BitmapData;
+    public var _workingContext:OpenGLView;
+
+
+    public function new(canvas:Sprite, antialias:Bool) {
+        this._renderingCanvas = canvas;
+
+        if (!OpenGLView.isSupported) {
+            throw("GL not supported");
+        }
 
         // Options
         this.forceWireframe = false;
@@ -129,80 +122,73 @@ class Engine {
 
         // Scenes
         this.scenes = [];
-		
-		this._runningLoop = false;
+
+        this._runningLoop = false;
 
         // Textures
         this._workingContext = new OpenGLView();
-		canvas.addChild(this._workingContext);
-		
+        canvas.addChild(this._workingContext);
+
         // Viewport
         this._hardwareScalingLevel = Std.int(1.0 / (Capabilities.pixelAspectRatio));
         this.resize();
 
         // Caps
         this._caps = {
-			maxTexturesImageUnits: null,
-			maxTextureSize: null,
-			maxCubemapTextureSize: null,
-			maxRenderTextureSize: null,
-			standardDerivatives: null,
-			textureFloat: null,
-			textureAnisotropicFilterExtension: null,
-			maxAnisotropy: null
-		};
+        maxTexturesImageUnits: null, maxTextureSize: null, maxCubemapTextureSize: null, maxRenderTextureSize: null, standardDerivatives: null, textureFloat: null, textureAnisotropicFilterExtension: null, maxAnisotropy: null
+        };
         this._caps.maxTexturesImageUnits = GL.getParameter(GL.MAX_TEXTURE_IMAGE_UNITS);
-		
+
         this._caps.maxTextureSize = GL.getParameter(GL.MAX_TEXTURE_SIZE);
-		
+
         this._caps.maxCubemapTextureSize = GL.getParameter(GL.MAX_CUBE_MAP_TEXTURE_SIZE);
-		
-		// TODO - this fails on desktops
+
+        // TODO - this fails on desktops
         this._caps.maxRenderTextureSize = 8192;// GL.getParameter(GL.MAX_RENDERBUFFER_SIZE);
-		
+
 
         // Extensions
-        this._caps.standardDerivatives = GL.getExtension('OES_standard_derivatives') != null;		
-        this._caps.textureFloat = GL.getExtension('OES_texture_float') != null;  
-		
-		// TODO - this fails on desktops
-		function get_EXT_texture_filter_anisotropic():Dynamic {				
-			if (GL.getExtension('EXT_texture_filter_anisotropic') != null) {
-				return GL.getExtension('EXT_texture_filter_anisotropic');
-			}
-			if (GL.getExtension('GL_EXT_texture_filter_anisotropic') != null) {
-				return GL.getExtension('GL_EXT_texture_filter_anisotropic');
-			}
-			if (GL.getExtension('WEBKIT_EXT_texture_filter_anisotropic') != null) {
-				return GL.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
-			}
-			if (GL.getExtension('MOZ_EXT_texture_filter_anisotropic') != null) {
-				return GL.getExtension('MOZ_EXT_texture_filter_anisotropic');
-			}	
-			return null;
-		}		
-		
-		this._caps.textureAnisotropicFilterExtension = get_EXT_texture_filter_anisotropic();
-		
+        this._caps.standardDerivatives = GL.getExtension('OES_standard_derivatives') != null;
+        this._caps.textureFloat = GL.getExtension('OES_texture_float') != null;
+
+        // TODO - this fails on desktops
+        function get_EXT_texture_filter_anisotropic():Dynamic {
+            if (GL.getExtension('EXT_texture_filter_anisotropic') != null) {
+                return GL.getExtension('EXT_texture_filter_anisotropic');
+            }
+            if (GL.getExtension('GL_EXT_texture_filter_anisotropic') != null) {
+                return GL.getExtension('GL_EXT_texture_filter_anisotropic');
+            }
+            if (GL.getExtension('WEBKIT_EXT_texture_filter_anisotropic') != null) {
+                return GL.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+            }
+            if (GL.getExtension('MOZ_EXT_texture_filter_anisotropic') != null) {
+                return GL.getExtension('MOZ_EXT_texture_filter_anisotropic');
+            }
+            return null;
+        }
+
+        this._caps.textureAnisotropicFilterExtension = get_EXT_texture_filter_anisotropic();
+
         this._caps.maxAnisotropy = this._caps.textureAnisotropicFilterExtension != null ? GL.getParameter(this._caps.textureAnisotropicFilterExtension.MAX_TEXTURE_MAX_ANISOTROPY_EXT) : 1;
-				
+
         // Cache
         this._loadedTexturesCache = [];
         this._activeTexturesCache = [];
         this._currentEffect = null;
         this._currentState = {
-            culling: null
+        culling: null
         };
 
         this._compiledEffects = new Map();
 
-		GL.enable(GL.DEPTH_TEST);
+        GL.enable(GL.DEPTH_TEST);
         GL.depthFunc(GL.LEQUAL);
-		
+
         // Fullscreen
         this.isFullscreen = false;
-        
-		// TODO - remove
+
+        // TODO - remove
         /*var onFullscreenChange = function () {
             if (document.fullscreen !== undefined) {
                 that.isFullscreen = document.fullscreen;
@@ -235,7 +221,7 @@ class Engine {
         // Pointer lock
         this.isPointerLock = false;
 
-		// TODO - remove this
+        // TODO - remove this
         /*var onPointerLockChange = function () {
             that.isPointerLock = (document.mozPointerLockElement === canvas ||
                                   document.webkitPointerLockElement === canvas ||
@@ -248,24 +234,25 @@ class Engine {
         document.addEventListener("mspointerlockchange", onPointerLockChange, false);
         document.addEventListener("mozpointerlockchange", onPointerLockChange, false);
         document.addEventListener("webkitpointerlockchange", onPointerLockChange, false);*/
-	}
-	
-	// Properties
+    }
+
+    // Properties
+
     public function getAspectRatio(camera:Camera):Float {
         return this._aspectRatio;
-		// TODO - what is this ??
-		//var viewport = camera.viewport;
+        // TODO - what is this ??
+        //var viewport = camera.viewport;
         //return (this.getRenderWidth() * viewport.width) / (this.getRenderWidth() * viewport.height);
     }
 
     public function getRenderWidth():Int {
         //return this._renderingCanvas.width;
-		return cast Lib.current.stage.stageWidth;
+        return cast Lib.current.stage.stageWidth;
     }
 
     public function getRenderHeight():Int {
         //return this._renderingCanvas.height;
-		return cast Lib.current.stage.stageHeight;
+        return cast Lib.current.stage.stageHeight;
     }
 
     public function getRenderingCanvas():Sprite {
@@ -288,9 +275,10 @@ class Engine {
     public function getCaps():BabylonCaps {
         return this._caps;
     }
-	
-	
-	// Methods
+
+
+    // Methods
+
     public function stopRenderLoop() {
         this._renderFunction = null;
         this._runningLoop = false;
@@ -301,21 +289,21 @@ class Engine {
         this.beginFrame();
 
         if (this._renderFunction != null) {
-            this._renderFunction(new Rectangle());			
+            this._renderFunction(new Rectangle());
         }
 
         // Present
         this.endFrame();
     }
 
-    public function runRenderLoop(renderFunction:Rectangle->Void) {
+    public function runRenderLoop(renderFunction:Rectangle -> Void) {
         this._runningLoop = true;
-        this._renderFunction = renderFunction;		
-		this._workingContext.render = this._renderLoop;
+        this._renderFunction = renderFunction;
+        this._workingContext.render = this._renderLoop;
     }
 
     public function switchFullscreen(requestPointerLock) {
-		// TODO
+        // TODO
         /*if (this.isFullscreen) {
             BABYLON.Tools.ExitFullscreen();
         } else {
@@ -324,13 +312,14 @@ class Engine {
         }*/
     }
 
-	// color can be Color4 or Color3
+    // color can be Color4 or Color3
+
     public function clear(color:Dynamic, backBuffer:Bool, depthStencil:Bool) {
-		if(Std.is(color, Color4)) {
-			GL.clearColor(color.r, color.g, color.b, color.a);
-		} else {
-			GL.clearColor(color.r, color.g, color.b, 1.0);
-		}
+        if (Std.is(color, Color4)) {
+            GL.clearColor(color.r, color.g, color.b, color.a);
+        } else {
+            GL.clearColor(color.r, color.g, color.b, 1.0);
+        }
         GL.clearDepth(1.0);
         var mode:Int = 0;
 
@@ -342,20 +331,20 @@ class Engine {
 
         GL.clear(mode);
     }
-    
+
     public function setViewport(viewport:Viewport, requiredWidth:Float = 0, requiredHeight:Float = 0) {
         var width = requiredWidth == 0 ? getRenderWidth() : requiredWidth;
         var height = requiredHeight == 0 ? getRenderHeight() : requiredHeight;
-		
+
         var x = viewport.x;
         var y = viewport.y;
-        
+
         this._cachedViewport = viewport;
-		
+
         GL.viewport(Std.int(x * width), Std.int(y * height), Std.int(width * viewport.width), Std.int(height * viewport.height));
         this._aspectRatio = (width * viewport.width) / (height * viewport.height);
     }
-    
+
     public function setDirectViewport(x:Float, y:Float, width:Float, height:Float) {
         this._cachedViewport = null;
 
@@ -364,7 +353,7 @@ class Engine {
     }
 
     public function beginFrame() {
-		Tools._MeasureFps();
+        Tools._MeasureFps();
     }
 
     public function endFrame() {
@@ -372,7 +361,7 @@ class Engine {
     }
 
     public function resize() {
-		// This is handled by OpenFL
+        // This is handled by OpenFL
         //this._renderingCanvas.width = this._renderingCanvas.clientWidth / this._hardwareScalingLevel;
         //this._renderingCanvas.height = this._renderingCanvas.clientHeight / this._hardwareScalingLevel;        
     }
@@ -402,8 +391,9 @@ class Engine {
         this.setViewport(this._cachedViewport);
         this.wipeCaches();
     }
-	
-	// VBOs
+
+    // VBOs
+
     public function createVertexBuffer(vertices:Array<Float>):BabylonGLBuffer {
         var vbo = GL.createBuffer();
         GL.bindBuffer(GL.ARRAY_BUFFER, vbo);
@@ -428,7 +418,7 @@ class Engine {
         } else {
             GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(vertices));
         }
-        
+
         GL.bindBuffer(GL.ARRAY_BUFFER, null);
     }
 
@@ -444,9 +434,9 @@ class Engine {
         if (this._cachedVertexBuffers != vertexBuffer || this._cachedEffectForVertexBuffers != effect) {
             this._cachedVertexBuffers = vertexBuffer;
             this._cachedEffectForVertexBuffers = effect;
-			
+
             GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer.buffer);
-			
+
             var offset:Int = 0;
             for (index in 0...vertexDeclaration.length) {
                 var order:Int = effect.getAttribute(index);
@@ -470,14 +460,14 @@ class Engine {
             this._cachedEffectForVertexBuffers = effect;
 
             var attributes:Array<String> = effect.getAttributesNames();
-			
+
             for (index in 0...attributes.length) {
                 var order:Int = effect.getAttribute(index);
 
                 if (order >= 0) {
                     var vertexBuffer:VertexBuffer = vertexBuffers.get(attributes[index]);
                     var stride:Int = vertexBuffer.getStrideSize();
-                    GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer._buffer.buffer);					
+                    GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer._buffer.buffer);
                     GL.vertexAttribPointer(order, stride, GL.FLOAT, false, stride * 4, 0);
                 }
             }
@@ -500,13 +490,14 @@ class Engine {
     public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int) {
         GL.drawElements(useTriangles ? GL.TRIANGLES : GL.LINES, indexCount, GL.UNSIGNED_SHORT, indexStart * 2);
     }
-	
-	
-	// Shaders
+
+
+    // Shaders
+
     public function createEffect(baseName:Dynamic, attributesNames:Array<String>, uniformsNames:Array<String>, samplers:Array<String>, defines:String, optionalDefines:Array<String> = null):Effect {
         var vertex = Reflect.field(baseName, "vertex") != null ? baseName.vertex : baseName;
         var fragment = Reflect.field(baseName, "fragment") != null ? baseName.fragment : baseName;
-		        
+
         var name = vertex + "+" + fragment + "@" + defines;
         if (this._compiledEffects.exists(name)) {
             return this._compiledEffects.get(name);
@@ -520,7 +511,7 @@ class Engine {
 
     public function compileShader(source:String, type:String, ?defines:String):GLShader {
         var shader:GLShader = GL.createShader(type == "vertex" ? GL.VERTEX_SHADER : GL.FRAGMENT_SHADER);
-		
+
         GL.shaderSource(shader, (defines != null ? defines + "\n" : "") + source);
         GL.compileShader(shader);
 
@@ -530,7 +521,7 @@ class Engine {
         return shader;
     }
 
-    public function createShaderProgram(vertexCode:String, fragmentCode:String, defines:String):GLProgram {					
+    public function createShaderProgram(vertexCode:String, fragmentCode:String, defines:String):GLProgram {
         var vertexShader = compileShader(vertexCode, "vertex", defines);
         var fragmentShader = compileShader(fragmentCode, "fragment", defines);
 
@@ -566,9 +557,9 @@ class Engine {
 
         for (index in 0...attributesNames.length) {
             try {
-				results.push(GL.getAttribLocation(shaderProgram, attributesNames[index]));
+                results.push(GL.getAttribLocation(shaderProgram, attributesNames[index]));
             } catch (e:Dynamic) {
-				trace("getAttributes() -> ERROR: " + e);
+                trace("getAttributes() -> ERROR: " + e);
                 results.push(-1);
             }
         }
@@ -577,14 +568,14 @@ class Engine {
     }
 
     public function enableEffect(effect:Effect) {
-		
+
         if (effect == null || effect.getAttributesCount() == 0 || this._currentEffect == effect) {
             return;
         }
-		
+
         // Use program
         GL.useProgram(effect.getProgram());
-		
+
         for (index in 0...effect.getAttributesCount()) {
             // Attributes
             var order:Int = effect.getAttribute(index);
@@ -596,70 +587,71 @@ class Engine {
         this._currentEffect = effect;
     }
 
-    inline public function setMatrices(uniform:GLUniformLocation = null, matrices: #if html5 Float32Array #else Array<Float> #end ) {
+    inline public function setMatrices(uniform:GLUniformLocation = null, matrices:#if html5 Float32Array #else Array<Float> #end) {
         if (uniform != null) {
-			GL.uniformMatrix4fv(uniform, false, #if html5 matrices #else new Float32Array(matrices) #end );
-		}
+            GL.uniformMatrix4fv(uniform, false, #if html5 matrices #else new Float32Array(matrices) #end);
+        }
     }
 
     inline public function setMatrix(uniform:GLUniformLocation = null, matrix:Matrix) {
         if (uniform != null) {
-			GL.uniformMatrix4fv(uniform, false, #if html5 matrix.toArray() #else new Float32Array(matrix.toArray()) #end );
-		}
+            GL.uniformMatrix4fv(uniform, false, #if html5 matrix.toArray() #else new Float32Array(matrix.toArray()) #end);
+        }
     }
-    
+
     inline public function setFloat(uniform:GLUniformLocation = null, value:Float) {
         if (uniform != null) {
-			GL.uniform1f(uniform, value);
-		}
+            GL.uniform1f(uniform, value);
+        }
     }
 
     inline public function setFloat2(uniform:GLUniformLocation = null, x:Float, y:Float) {
         if (uniform != null) {
-			GL.uniform2f(uniform, x, y);
-		}
+            GL.uniform2f(uniform, x, y);
+        }
     }
 
     inline public function setFloat3(uniform:GLUniformLocation = null, x:Float, y:Float, z:Float) {
         if (uniform != null) {
-			GL.uniform3f(uniform, x, y, z);
-		}
+            GL.uniform3f(uniform, x, y, z);
+        }
     }
-    
+
     inline public function setBool(uniform:GLUniformLocation = null, bool:Bool) {
         if (uniform != null) {
-			GL.uniform1i(uniform, bool ? 1 : 0);
-		}
+            GL.uniform1i(uniform, bool ? 1 : 0);
+        }
     }
 
     inline public function setFloat4(uniform:GLUniformLocation = null, x:Float, y:Float, z:Float, w:Float) {
         if (uniform != null) {
-			GL.uniform4f(uniform, x, y, z, w);
-		}
+            GL.uniform4f(uniform, x, y, z, w);
+        }
     }
 
     inline public function setColor3(uniform:GLUniformLocation = null, color3:Color3) {
         if (uniform != null) {
-			GL.uniform3f(uniform, color3.r, color3.g, color3.b);
-		}
+            GL.uniform3f(uniform, color3.r, color3.g, color3.b);
+        }
     }
 
     inline public function setColor4(uniform:GLUniformLocation = null, color3:Color3, alpha:Float) {
         if (uniform != null) {
-			GL.uniform4f(uniform, color3.r, color3.g, color3.b, alpha);
-		}
+            GL.uniform4f(uniform, color3.r, color3.g, color3.b, alpha);
+        }
     }
-	
-	
-	// States
+
+
+    // States
+
     public function setState(culling:Bool) {
         // Culling 
         if (this._currentState.culling != culling) {
             if (culling) {
                 GL.cullFace(this.cullBackFaces ? GL.BACK : GL.FRONT);
-				GL.enable(GL.CULL_FACE);
+                GL.enable(GL.CULL_FACE);
             } else {
-				GL.disable(GL.CULL_FACE);
+                GL.disable(GL.CULL_FACE);
             }
 
             this._currentState.culling = culling;
@@ -668,9 +660,9 @@ class Engine {
 
     public function setDepthBuffer(enable:Bool) {
         if (enable) {
-			GL.enable(GL.DEPTH_TEST);
+            GL.enable(GL.DEPTH_TEST);
         } else {
-			GL.disable(GL.DEPTH_TEST);
+            GL.disable(GL.DEPTH_TEST);
         }
     }
 
@@ -686,19 +678,19 @@ class Engine {
         switch (mode) {
             case Engine.ALPHA_DISABLE:
                 this.setDepthWrite(true);
-		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
+                GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
                 GL.disable(GL.BLEND);
-				
+
             case Engine.ALPHA_COMBINE:
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ZERO, GL.ONE);
-				GL.enable(GL.BLEND);
-                
+                GL.enable(GL.BLEND);
+
             case Engine.ALPHA_ADD:
                 this.setDepthWrite(false);
                 GL.blendFuncSeparate(GL.ONE, GL.ONE, GL.ZERO, GL.ONE);
-				GL.enable(GL.BLEND);
-                
+                GL.enable(GL.BLEND);
+
         }
     }
 
@@ -711,18 +703,19 @@ class Engine {
     }
 
     // Textures
+
     public function wipeCaches() {
         this._activeTexturesCache = [];
         this._currentEffect = null;
         this._currentState = {
-            culling: null
+        culling: null
         };
 
         this._cachedVertexBuffers = null;
         this._cachedEffectForVertexBuffers = null;
     }
 
-	function getExponantOfTwo(value:Int, max:Int):Int {
+    function getExponantOfTwo(value:Int, max:Int):Int {
         var count:Int = 1;
 
         do {
@@ -734,43 +727,43 @@ class Engine {
 
         return count;
     }
-	
-	function getScaled(source:BitmapData, newWidth:Int, newHeight:Int):BitmapData {
-		var m:flash.geom.Matrix = new flash.geom.Matrix();
-		m.scale(newWidth / source.width, newHeight / source.height);
-		var bmp:BitmapData = new BitmapData(newWidth, newHeight, true);
-		bmp.draw(source, m);
-		return bmp;
-	}
 
-    public function createTexture(url:String, ?noMipmap:Bool, ?invertY:Int, scene:Scene = null):BabylonTexture {		
+    function getScaled(source:BitmapData, newWidth:Int, newHeight:Int):BitmapData {
+        var m:flash.geom.Matrix = new flash.geom.Matrix();
+        m.scale(newWidth / source.width, newHeight / source.height);
+        var bmp:BitmapData = new BitmapData(newWidth, newHeight, true);
+        bmp.draw(source, m);
+        return bmp;
+    }
+
+    public function createTexture(url:String, ?noMipmap:Bool, ?invertY:Int, scene:Scene = null):BabylonTexture {
         var texture:BabylonTexture = new BabylonTexture(url, GL.createTexture());
-		            
+
         function onload(img:BitmapData) {
             var potWidth = getExponantOfTwo(img.width, this._caps.maxTextureSize);
             var potHeight = getExponantOfTwo(img.height, this._caps.maxTextureSize);
             var isPot = (img.width == potWidth && img.height == potHeight);
-			this._workingCanvas = img;
+            this._workingCanvas = img;
 
             if (!isPot) {
-                this._workingCanvas = getScaled(img, Std.int(potWidth/2), Std.int(potHeight/2));
+                this._workingCanvas = getScaled(img, Std.int(potWidth / 2), Std.int(potHeight / 2));
             }
-												
-			#if html5
+
+            #if html5
 			var pixelData = this._workingCanvas.getPixels(this._workingCanvas.rect).byteView;
 			#else
-			var pixelData = new UInt8Array(BitmapData.getRGBAPixels(this._workingCanvas));
-			#end
-			
-						
+            var pixelData = new UInt8Array(BitmapData.getRGBAPixels(this._workingCanvas));
+            #end
+
+
             GL.bindTexture(GL.TEXTURE_2D, texture.data);
-			
-			// IMAGE FLIPPING IS DISABLED AS IT IS ONLY SUPPORTED IN WebGL
-			/*#if html5
+
+            // IMAGE FLIPPING IS DISABLED AS IT IS ONLY SUPPORTED IN WebGL
+            /*#if html5
             GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, invertY != null ? 1 : 0);
 			#end*/
-						
-			GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, this._workingCanvas.width, this._workingCanvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, pixelData);
+
+            GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, this._workingCanvas.width, this._workingCanvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, pixelData);
             GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
 
             if (noMipmap != null && noMipmap == true) {
@@ -780,7 +773,7 @@ class Engine {
                 GL.generateMipmap(GL.TEXTURE_2D);
             }
             GL.bindTexture(GL.TEXTURE_2D, null);
-			
+
             this._activeTexturesCache = [];
             texture._baseWidth = img.width;
             texture._baseHeight = img.height;
@@ -833,17 +826,17 @@ class Engine {
 
     public function updateDynamicTexture(texture:BabylonTexture, canvas:BitmapData, invertY:Int) {
         GL.bindTexture(GL.TEXTURE_2D, texture.data);
-		/*#if html5
+        /*#if html5
         GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, invertY);
 		#end*/
-		
-		#if html5
+
+        #if html5
 		var pixelData = canvas.getPixels(canvas.rect).byteView;
 		#else
-		var pixelData = new UInt8Array(BitmapData.getRGBAPixels(canvas));
-		#end
-		
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, canvas.width, canvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, cast pixelData);
+        var pixelData = new UInt8Array(BitmapData.getRGBAPixels(canvas));
+        #end
+
+        GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, canvas.width, canvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, cast pixelData);
         if (texture.generateMipMaps) {
             GL.generateMipmap(GL.TEXTURE_2D);
         }
@@ -853,7 +846,7 @@ class Engine {
     }
 
     public function updateVideoTexture(texture:BabylonTexture, video:Dynamic) {
-		// TODO
+        // TODO
         /*GL.bindTexture(GL.TEXTURE_2D, texture.data);
         GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, false);
 
@@ -896,7 +889,7 @@ class Engine {
                 samplingMode = options.samplingMode;
             }
         }
-		
+
         var texture:BabylonTexture = new BabylonTexture("", GL.createTexture());
         GL.bindTexture(GL.TEXTURE_2D, texture.data);
 
@@ -960,72 +953,71 @@ class Engine {
 
         return texture;
     }
-	
-	public function createCubeTexture(rootUrl:String, scene:Scene, extensions:Array<String> = null):BabylonTexture {	
-		if (extensions == null) {
-			extensions = ["_px.jpg", "_py.jpg", "_pz.jpg", "_nx.jpg", "_ny.jpg", "_nz.jpg"];
-		}
-		/*var extensions:Array<String> = ["_px." + imageType, "_py." + imageType, "_pz." + imageType, "_nx." + imageType, "_ny." + imageType, "_nz." + imageType];
+
+    public function createCubeTexture(rootUrl:String, scene:Scene, extensions:Array<String> = null):BabylonTexture {
+        if (extensions == null) {
+            extensions = ["_px.jpg", "_py.jpg", "_pz.jpg", "_nx.jpg", "_ny.jpg", "_nz.jpg"];
+        }
+        /*var extensions:Array<String> = ["_px." + imageType, "_py." + imageType, "_pz." + imageType, "_nx." + imageType, "_ny." + imageType, "_nz." + imageType];
 		var extensions2:Array<String> = ["_ft." + imageType, "_up." + imageType, "_rt." + imageType, "_bk." + imageType, "_dn." + imageType, "_lf." + imageType];*/
-		
-		var texture = new BabylonTexture(rootUrl, GL.createTexture());
+
+        var texture = new BabylonTexture(rootUrl, GL.createTexture());
         texture.isCube = true;
         texture.url = rootUrl;
-        texture.references = 1;        
-		
-		var faces = [
-                GL.TEXTURE_CUBE_MAP_POSITIVE_X, GL.TEXTURE_CUBE_MAP_POSITIVE_Y, GL.TEXTURE_CUBE_MAP_POSITIVE_Z,
-                GL.TEXTURE_CUBE_MAP_NEGATIVE_X, GL.TEXTURE_CUBE_MAP_NEGATIVE_Y, GL.TEXTURE_CUBE_MAP_NEGATIVE_Z
-            ];
-		
-		function _setTex(imagePath:String, index:Int) {
-			var img:BitmapData = Assets.getBitmapData(imagePath);				
-				
-			var potWidth = getExponantOfTwo(img.width, this._caps.maxTextureSize);
-			var potHeight = getExponantOfTwo(img.height, this._caps.maxTextureSize);
-			var isPot = (img.width == potWidth && img.height == potHeight);
-			this._workingCanvas = img;
-			
-			if (!isPot) {
-				this._workingCanvas = getScaled(img, Std.int(potWidth/2), Std.int(potHeight/2));
-			}
-					
-			#if html5
+        texture.references = 1;
+
+        var faces = [
+        GL.TEXTURE_CUBE_MAP_POSITIVE_X, GL.TEXTURE_CUBE_MAP_POSITIVE_Y, GL.TEXTURE_CUBE_MAP_POSITIVE_Z, GL.TEXTURE_CUBE_MAP_NEGATIVE_X, GL.TEXTURE_CUBE_MAP_NEGATIVE_Y, GL.TEXTURE_CUBE_MAP_NEGATIVE_Z
+        ];
+
+        function _setTex(imagePath:String, index:Int) {
+            var img:BitmapData = Assets.getBitmapData(imagePath);
+
+            var potWidth = getExponantOfTwo(img.width, this._caps.maxTextureSize);
+            var potHeight = getExponantOfTwo(img.height, this._caps.maxTextureSize);
+            var isPot = (img.width == potWidth && img.height == potHeight);
+            this._workingCanvas = img;
+
+            if (!isPot) {
+                this._workingCanvas = getScaled(img, Std.int(potWidth / 2), Std.int(potHeight / 2));
+            }
+
+            #if html5
 			var pixelData = this._workingCanvas.getPixels(this._workingCanvas.rect).byteView;
 			#else
-			var pixelData = new UInt8Array(BitmapData.getRGBAPixels(this._workingCanvas));
-			#end
-							
-			GL.texImage2D(faces[index], 0, GL.RGBA, this._workingCanvas.width, this._workingCanvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, cast pixelData);
-		}
-		
-		GL.bindTexture(GL.TEXTURE_CUBE_MAP, texture.data);	
-		
-		GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-		GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-		
-		for (i in 0...extensions.length) {
-			if (Assets.exists(rootUrl + extensions[i])) {	
-				_setTex(rootUrl + extensions[i], i);
-			} else {
-				trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !");
-			}
-		}		
-		
-		GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
-		GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
-		
-		GL.generateMipmap(GL.TEXTURE_CUBE_MAP);
-		GL.bindTexture(GL.TEXTURE_CUBE_MAP, null);
+            var pixelData = new UInt8Array(BitmapData.getRGBAPixels(this._workingCanvas));
+            #end
 
-		this._activeTexturesCache = [];
-		
-		texture.isReady = true;
-		
-		this._loadedTexturesCache.push(texture);
-		
-		return texture;
-	}   
+            GL.texImage2D(faces[index], 0, GL.RGBA, this._workingCanvas.width, this._workingCanvas.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, cast pixelData);
+        }
+
+        GL.bindTexture(GL.TEXTURE_CUBE_MAP, texture.data);
+
+        GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+        GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+
+        for (i in 0...extensions.length) {
+            if (Assets.exists(rootUrl + extensions[i])) {
+                _setTex(rootUrl + extensions[i], i);
+            } else {
+                trace("Image '" + rootUrl + extensions[i] + "' doesn't exist !");
+            }
+        }
+
+        GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+        GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
+
+        GL.generateMipmap(GL.TEXTURE_CUBE_MAP);
+        GL.bindTexture(GL.TEXTURE_CUBE_MAP, null);
+
+        this._activeTexturesCache = [];
+
+        texture.isReady = true;
+
+        this._loadedTexturesCache.push(texture);
+
+        return texture;
+    }
 
     public function _releaseTexture(texture:BabylonTexture) {
         if (texture._framebuffer != null) {
@@ -1040,7 +1032,7 @@ class Engine {
 
         // Unbind channels
         for (channel in 0...this._caps.maxTexturesImageUnits) {
-			GL.activeTexture(getGLTexture(channel));
+            GL.activeTexture(getGLTexture(channel));
             GL.bindTexture(GL.TEXTURE_2D, null);
             GL.bindTexture(GL.TEXTURE_CUBE_MAP, null);
             this._activeTexturesCache[channel] = null;
@@ -1064,28 +1056,28 @@ class Engine {
 
 
     public function _bindTexture(channel:Int, texture:BabylonTexture) {
-		GL.activeTexture(getGLTexture(channel));
-        GL.bindTexture(GL.TEXTURE_2D, texture.data);	        
+        GL.activeTexture(getGLTexture(channel));
+        GL.bindTexture(GL.TEXTURE_2D, texture.data);
         this._activeTexturesCache[channel] = null;
     }
 
     public function setTextureFromPostProcess(channel:Int, postProcess:PostProcess) {
         this._bindTexture(channel, postProcess._textures.data[postProcess._currentRenderTextureInd]);
     }
-	
-	function getGLTexture(channel:Int):Int {
-		return GL.TEXTURE0 + channel;
-	}
+
+    function getGLTexture(channel:Int):Int {
+        return GL.TEXTURE0 + channel;
+    }
 
     public function setTexture(channel:Int, texture:Texture) {
         if (channel < 0) {
             return;
         }
-		
+
         // Not ready?
         if (texture == null || !texture.isReady()) {
-            if (this._activeTexturesCache[channel] != null) {					
-				GL.activeTexture(getGLTexture(channel));
+            if (this._activeTexturesCache[channel] != null) {
+                GL.activeTexture(getGLTexture(channel));
                 GL.bindTexture(GL.TEXTURE_2D, null);
                 GL.bindTexture(GL.TEXTURE_CUBE_MAP, null);
                 this._activeTexturesCache[channel] = null;
@@ -1094,7 +1086,7 @@ class Engine {
         }
 
         // Video
-		// TODO
+        // TODO
         /*if (texture instanceof BABYLON.VideoTexture) {
             if (texture._update()) {
                 this._activeTexturesCache[channel] = null;
@@ -1110,20 +1102,20 @@ class Engine {
         this._activeTexturesCache[channel] = texture;
 
         var internalTexture:BabylonTexture = texture.getInternalTexture();
-		GL.activeTexture(getGLTexture(channel));
-		
+        GL.activeTexture(getGLTexture(channel));
+
         if (internalTexture.isCube) {
-            GL.bindTexture(GL.TEXTURE_CUBE_MAP, internalTexture.data);		
-			// TODO !!!!!!!!
+            GL.bindTexture(GL.TEXTURE_CUBE_MAP, internalTexture.data);
+            // TODO !!!!!!!!
             /*if (internalTexture._cachedCoordinatesMode != texture.coordinatesMode) {
                 internalTexture._cachedCoordinatesMode = texture.coordinatesMode;*/
-			/*if (texture._cachedCoordinatesMode != texture.coordinatesMode) {
+            /*if (texture._cachedCoordinatesMode != texture.coordinatesMode) {
                 texture._cachedCoordinatesMode = texture.coordinatesMode;
                 GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_S, texture.coordinatesMode != Texture.CUBIC_MODE ? GL.REPEAT : GL.CLAMP_TO_EDGE);
                 GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, texture.coordinatesMode != Texture.CUBIC_MODE ? GL.REPEAT : GL.CLAMP_TO_EDGE);
             }*/
-			GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-			GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+            GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+            GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
 
             this._setAnisotropicLevel(GL.TEXTURE_CUBE_MAP, texture);
         } else {
@@ -1134,13 +1126,13 @@ class Engine {
                 switch (texture.wrapU) {
                     case Texture.WRAP_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
-						
+
                     case Texture.CLAMP_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-						
+
                     case Texture.MIRROR_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.MIRRORED_REPEAT);
-						
+
                 }
             }
 
@@ -1149,13 +1141,13 @@ class Engine {
                 switch (texture.wrapV) {
                     case Texture.WRAP_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
-                        
+
                     case Texture.CLAMP_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-                        
+
                     case Texture.MIRROR_ADDRESSMODE:
                         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.MIRRORED_REPEAT);
-                        
+
                 }
             }
 
@@ -1164,7 +1156,7 @@ class Engine {
     }
 
     public function _setAnisotropicLevel(key:Int, texture:Texture) {
-        var anisotropicFilterExtension = this._caps.textureAnisotropicFilterExtension;		
+        var anisotropicFilterExtension = this._caps.textureAnisotropicFilterExtension;
         if (anisotropicFilterExtension != null && texture._cachedAnisotropicFilteringLevel != texture.anisotropicFilteringLevel) {
             GL.texParameterf(key, anisotropicFilterExtension.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(texture.anisotropicFilteringLevel, this._caps.maxAnisotropy));
             texture._cachedAnisotropicFilteringLevel = texture.anisotropicFilteringLevel;
@@ -1172,11 +1164,12 @@ class Engine {
     }
 
     // Dispose
+
     public function dispose() {
         // Release scenes
         while (this.scenes.length > 0) {
             this.scenes[0].dispose();
-			this.scenes.shift();
+            this.scenes.shift();
         }
 
         // Release effects
@@ -1184,5 +1177,5 @@ class Engine {
             GL.deleteProgram(this._compiledEffects.get(name)._program);
         }
     }
-	
+
 }

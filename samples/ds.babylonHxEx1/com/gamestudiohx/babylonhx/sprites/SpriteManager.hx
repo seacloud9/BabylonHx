@@ -18,31 +18,30 @@ import openfl.utils.Float32Array;
 
 class SpriteManager {
 
-	public var name:String;
-	public var cellSize:Int;
-	public var index:Int;
-	public var sprites:Array<Sprite>;
-	
-	public var renderingGroupId:Int;
-	
-	private var _scene:Scene;
-	private var _vertexDeclaration:Array<Int>;	
-	private var _vertexStrideSize:Int;
-	private var _epsilon:Float;
-	private var _spriteTexture:Texture;
-	private var _vertexBuffer:BabylonGLBuffer;				
-	
-	private var _vertices:Array<Float>;
-	private var _indexBuffer:BabylonGLBuffer;				
-	
-	private var _effectBase:Effect;				
-	public var _effectFog:Effect;
-	public var _capacity:Int;
+    public var name:String;
+    public var cellSize:Int;
+    public var index:Int;
+    public var sprites:Array<Sprite>;
 
-	
+    public var renderingGroupId:Int;
 
-	public function new(name:String, imgUrl:String, capacity:Int, cellSize:Int, scene:Scene, epsilon:Float = 0.01) {
-		this.name = name;
+    private var _scene:Scene;
+    private var _vertexDeclaration:Array<Int>;
+    private var _vertexStrideSize:Int;
+    private var _epsilon:Float;
+    private var _spriteTexture:Texture;
+    private var _vertexBuffer:BabylonGLBuffer;
+
+    private var _vertices:Array<Float>;
+    private var _indexBuffer:BabylonGLBuffer;
+
+    private var _effectBase:Effect;
+    public var _effectFog:Effect;
+    public var _capacity:Int;
+
+
+    public function new(name:String, imgUrl:String, capacity:Int, cellSize:Int, scene:Scene, epsilon:Float = 0.01) {
+        this.name = name;
         this._capacity = capacity;
         this.cellSize = cellSize;
         this._spriteTexture = new Texture(imgUrl, scene, true, false);
@@ -52,7 +51,7 @@ class SpriteManager {
 
         this._scene = scene;
         this._scene.spriteManagers.push(this);
-        
+
         // VBO
         this._vertexDeclaration = [3, 4, 4, 4];
         this._vertexStrideSize = 15 * 4; // 15 floats per sprite (x, y, z, angle, size, offsetX, offsetY, invertU, invertV, cellIndexX, cellIndexY, color)
@@ -72,28 +71,22 @@ class SpriteManager {
 
         this._indexBuffer = scene.getEngine().createIndexBuffer(indices);
         this._vertices = [];
-        
+
         // Sprites
         this.sprites = [];
-        
+
         // Effects
-        this._effectBase = this._scene.getEngine().createEffect("sprites",
-                    ["position", "options", "cellInfo", "color"],
-                    ["view", "projection", "textureInfos", "alphaTest"],
-                    ["diffuseSampler"], "");
-        
-        this._effectFog = this._scene.getEngine().createEffect("sprites",
-                    ["position", "options", "cellInfo", "color"],
-                    ["view", "projection", "textureInfos", "alphaTest", "vFogInfos", "vFogColor"],
-                    ["diffuseSampler"], "#define FOG");
-	}
+        this._effectBase = this._scene.getEngine().createEffect("sprites", ["position", "options", "cellInfo", "color"], ["view", "projection", "textureInfos", "alphaTest"], ["diffuseSampler"], "");
 
-	public function onDispose() {
-		
-	}
+        this._effectFog = this._scene.getEngine().createEffect("sprites", ["position", "options", "cellInfo", "color"], ["view", "projection", "textureInfos", "alphaTest", "vFogInfos", "vFogColor"], ["diffuseSampler"], "#define FOG");
+    }
 
-	public function render():Int {
-		// Check
+    public function onDispose() {
+
+    }
+
+    public function render():Int {
+        // Check
         if (!this._effectBase.isReady() || !this._effectFog.isReady() || this._spriteTexture != null || !this._spriteTexture.isReady())
             return 0;
 
@@ -109,9 +102,9 @@ class SpriteManager {
         for (index in 0...max) {
             var sprite:Sprite = this.sprites[index];
             if (sprite == null) {
-                 continue;
+                continue;
             }
-            
+
             sprite.animate(deltaTime);
 
             this._appendSpriteVertex(offset++, sprite, 0, 0, rowSize);
@@ -120,14 +113,14 @@ class SpriteManager {
             this._appendSpriteVertex(offset++, sprite, 0, 1, rowSize);
         }
         engine.updateDynamicVertexBuffer(this._vertexBuffer, this._vertices, max * this._vertexStrideSize);
-       
+
         // Render
         var effect = this._effectBase;
 
         if (this._scene.fogMode != Scene.FOGMODE_NONE) {
             effect = this._effectFog;
         }
-        
+
         engine.enableEffect(effect);
 
         var viewMatrix = this._scene.getViewMatrix();
@@ -136,7 +129,7 @@ class SpriteManager {
         effect.setMatrix("projection", this._scene.getProjectionMatrix());
 
         effect.setFloat2("textureInfos", this.cellSize / baseSize.width, this.cellSize / baseSize.height);
-        
+
         // Fog
         if (this._scene.fogMode != Scene.FOGMODE_NONE) {
             effect.setFloat4("vFogInfos", this._scene.fogMode, this._scene.fogStart, this._scene.fogEnd, this._scene.fogDensity);
@@ -152,15 +145,15 @@ class SpriteManager {
         engine.draw(true, 0, max * 6);
         engine.setColorWrite(true);
         effect.setBool("alphaTest", false);
-        
+
         engine.setAlphaMode(Engine.ALPHA_COMBINE);
         engine.draw(true, 0, max * 6);
         engine.setAlphaMode(Engine.ALPHA_DISABLE);
-		return 1;
-	}
+        return 1;
+    }
 
-	public function dispose() {
-		if (this._vertexBuffer != null) {
+    public function dispose() {
+        if (this._vertexBuffer != null) {
             this._scene.getEngine()._releaseBuffer(this._vertexBuffer);
             this._vertexBuffer = null;
         }
@@ -178,25 +171,23 @@ class SpriteManager {
         // Remove from scene
         /*var index = Lambda.indexOf(this._scene.spriteManagers, this);
         this._scene.spriteManagers.splice(index, 1);*/
-		this._scene.spriteManagers.remove(this);
-        
+        this._scene.spriteManagers.remove(this);
+
         // Callback
         if (this.onDispose != null) {
             this.onDispose();
         }
-	}
-	
-	private function _appendSpriteVertex(index:Int, sprite:Sprite, offsetX:Float, offsetY:Float, rowSize:Float) {
-		var arrayOffset = index * 15;
+    }
+
+    private function _appendSpriteVertex(index:Int, sprite:Sprite, offsetX:Float, offsetY:Float, rowSize:Float) {
+        var arrayOffset = index * 15;
 
         if (offsetX == 0)
-            offsetX = this._epsilon;
-        else if (offsetX == 1)
+            offsetX = this._epsilon; else if (offsetX == 1)
             offsetX = 1 - this._epsilon;
 
         if (offsetY == 0)
-            offsetY = this._epsilon;
-        else if (offsetY == 1)
+            offsetY = this._epsilon; else if (offsetY == 1)
             offsetY = 1 - this._epsilon;
 
         this._vertices[arrayOffset] = sprite.position.x;
@@ -216,6 +207,6 @@ class SpriteManager {
         this._vertices[arrayOffset + 12] = sprite.color.g;
         this._vertices[arrayOffset + 13] = sprite.color.b;
         this._vertices[arrayOffset + 14] = sprite.color.a;
-	}
-	
+    }
+
 }

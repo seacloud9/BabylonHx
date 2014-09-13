@@ -23,36 +23,36 @@ import com.gamestudiohx.babylonhx.materials.textures.CubeTexture;
  */
 
 class StandardMaterial extends Material {
-	
-	public var diffuseTexture:Texture = null;
-	public var ambientTexture:Texture = null;
-	public var opacityTexture:Texture = null;
-	public var reflectionTexture:Texture = null;
-	public var emissiveTexture:Texture = null;
-	public var specularTexture:Texture = null;
-	public var bumpTexture:Texture = null;
 
-	public var ambientColor:Color3;
-	public var diffuseColor:Color3;
-	public var specularColor:Color3;
-	public var specularPower:Float;
-	public var emissiveColor:Color3;
+    public var diffuseTexture:Texture = null;
+    public var ambientTexture:Texture = null;
+    public var opacityTexture:Texture = null;
+    public var reflectionTexture:Texture = null;
+    public var emissiveTexture:Texture = null;
+    public var specularTexture:Texture = null;
+    public var bumpTexture:Texture = null;
 
-	public var _cachedDefines:String;					
+    public var ambientColor:Color3;
+    public var diffuseColor:Color3;
+    public var specularColor:Color3;
+    public var specularPower:Float;
+    public var emissiveColor:Color3;
 
-	public var _renderTargets:SmartArray;
+    public var _cachedDefines:String;
 
-	// Internals
-	public var _worldViewProjectionMatrix:Matrix;
-	public var _lightMatrix:Matrix;
-	public var _globalAmbientColor:Color3;
-	public var _baseColor:Color3;
-	public var _scaledDiffuse:Color3;
-	public var _scaledSpecular:Color3;
+    public var _renderTargets:SmartArray;
 
-	public function new(name:String, scene:Scene) {
-		super(name, scene);
-		
+    // Internals
+    public var _worldViewProjectionMatrix:Matrix;
+    public var _lightMatrix:Matrix;
+    public var _globalAmbientColor:Color3;
+    public var _baseColor:Color3;
+    public var _scaledDiffuse:Color3;
+    public var _scaledSpecular:Color3;
+
+    public function new(name:String, scene:Scene) {
+        super(name, scene);
+
         this.ambientColor = new Color3(0, 0, 0);
         this.diffuseColor = new Color3(1, 1, 1);
         this.specularColor = new Color3(1, 1, 1);
@@ -70,17 +70,17 @@ class StandardMaterial extends Material {
         this._baseColor = new Color3();
         this._scaledDiffuse = new Color3();
         this._scaledSpecular = new Color3();
-	}
-	
-	override public function needAlphaBlending():Bool {
+    }
+
+    override public function needAlphaBlending():Bool {
         return (this.alpha < 1.0) || (this.opacityTexture != null);
     }
-	
-	override public function needAlphaTesting():Bool {
+
+    override public function needAlphaTesting():Bool {
         return this.diffuseTexture != null && this.diffuseTexture.hasAlpha;
     }
-	
-	override public function isReady(mesh:Mesh = null):Bool {
+
+    override public function isReady(mesh:Mesh = null):Bool {
         if (this.checkReadyOnlyOnce) {
             if (this._wasPreviouslyReady) {
                 return true;
@@ -91,7 +91,7 @@ class StandardMaterial extends Material {
             if (this._renderId == this._scene.getRenderId()) {
                 return true;
             }
-        }       
+        }
 
         var engine:Engine = this._scene.getEngine();
         var defines:Array<String> = [];
@@ -256,7 +256,7 @@ class StandardMaterial extends Material {
                 optionalDefines.push(defines[defines.length - 1]);
             }
         }
-		
+
         // Get correct effect      
         var join:String = defines.join("\n");
         if (this._cachedDefines != join) {
@@ -264,22 +264,9 @@ class StandardMaterial extends Material {
 
             // IE patch
             var shaderName:String = "default";
-			
-            this._effect = this._scene.getEngine().createEffect(shaderName,
-                attribs,
-                ["world", "view", "viewProjection", "vEyePosition", "vLightsType", "vAmbientColor", "vDiffuseColor", "vSpecularColor", "vEmissiveColor",
-                "vLightData0", "vLightDiffuse0", "vLightSpecular0", "vLightDirection0", "vLightGround0", "lightMatrix0",
-                "vLightData1", "vLightDiffuse1", "vLightSpecular1", "vLightDirection1", "vLightGround1", "lightMatrix1",
-                "vLightData2", "vLightDiffuse2", "vLightSpecular2", "vLightDirection2", "vLightGround2", "lightMatrix2",
-                "vLightData3", "vLightDiffuse3", "vLightSpecular3", "vLightDirection3", "vLightGround3", "lightMatrix3",
-                "vFogInfos", "vFogColor",
-                 "vDiffuseInfos", "vAmbientInfos", "vOpacityInfos", "vReflectionInfos", "vEmissiveInfos", "vSpecularInfos", "vBumpInfos",
-                 "mBones",
-                 "vClipPlane", "diffuseMatrix", "ambientMatrix", "opacityMatrix", "reflectionMatrix", "emissiveMatrix", "specularMatrix", "bumpMatrix"],
-                ["diffuseSampler", "ambientSampler", "opacitySampler", "reflectionCubeSampler", "reflection2DSampler", "emissiveSampler", "specularSampler", "bumpSampler",
-                 "shadowSampler0", "shadowSampler1", "shadowSampler2", "shadowSampler3"
-                ],
-                join, optionalDefines);
+
+            this._effect = this._scene.getEngine().createEffect(shaderName, attribs, ["world", "view", "viewProjection", "vEyePosition", "vLightsType", "vAmbientColor", "vDiffuseColor", "vSpecularColor", "vEmissiveColor", "vLightData0", "vLightDiffuse0", "vLightSpecular0", "vLightDirection0", "vLightGround0", "lightMatrix0", "vLightData1", "vLightDiffuse1", "vLightSpecular1", "vLightDirection1", "vLightGround1", "lightMatrix1", "vLightData2", "vLightDiffuse2", "vLightSpecular2", "vLightDirection2", "vLightGround2", "lightMatrix2", "vLightData3", "vLightDiffuse3", "vLightSpecular3", "vLightDirection3", "vLightGround3", "lightMatrix3", "vFogInfos", "vFogColor", "vDiffuseInfos", "vAmbientInfos", "vOpacityInfos", "vReflectionInfos", "vEmissiveInfos", "vSpecularInfos", "vBumpInfos", "mBones", "vClipPlane", "diffuseMatrix", "ambientMatrix", "opacityMatrix", "reflectionMatrix", "emissiveMatrix", "specularMatrix", "bumpMatrix"], ["diffuseSampler", "ambientSampler", "opacitySampler", "reflectionCubeSampler", "reflection2DSampler", "emissiveSampler", "specularSampler", "bumpSampler", "shadowSampler0", "shadowSampler1", "shadowSampler2", "shadowSampler3"
+            ], join, optionalDefines);
         }
         if (!this._effect.isReady()) {
             return false;
@@ -287,10 +274,10 @@ class StandardMaterial extends Material {
 
         this._renderId = this._scene.getRenderId();
         this._wasPreviouslyReady = true;
-        return true;    
-	}
-	
-	public function getRenderTargetTextures():SmartArray {
+        return true;
+    }
+
+    public function getRenderTargetTextures():SmartArray {
         this._renderTargets.reset();
 
         if (this.reflectionTexture != null && Reflect.field(this.reflectionTexture, "isRenderTarget") != null) {
@@ -299,14 +286,14 @@ class StandardMaterial extends Material {
 
         return this._renderTargets;
     }
-	
-	override public function unbind() {
+
+    override public function unbind() {
         if (this.reflectionTexture != null && Reflect.field(this.reflectionTexture, "isRenderTarget") != null) {
             this._effect.setTexture("reflection2DSampler", null);
         }
     }
-	
-	inline override public function bind(world:Matrix, ?mesh:Mesh) {
+
+    inline override public function bind(world:Matrix, ?mesh:Mesh) {
         this._baseColor.copyFrom(this.diffuseColor);
 
         // Matrices        
@@ -343,16 +330,13 @@ class StandardMaterial extends Material {
 
         if (this.reflectionTexture != null) {
             if (Std.is(this.reflectionTexture, CubeTexture)) {
-                //trace('this is a cubetexture');
                 this._effect.setTexture("reflectionCubeSampler", this.reflectionTexture);
             } else {
                 this._effect.setTexture("reflection2DSampler", this.reflectionTexture);
             }
 
             this._effect.setMatrix("reflectionMatrix", this.reflectionTexture._computeReflectionTextureMatrix());
-            //trace(this.reflectionTexture.coordinatesMode + ' == reflectionTexture');
-            //trace(Reflect.field(this.reflectionTexture, "isCube"));
-            this._effect.setFloat3("vReflectionInfos", this.reflectionTexture.coordinatesMode, this.reflectionTexture.level, Reflect.field(this.reflectionTexture, "isCube") != null ? 1.0 : 0.0);	
+            this._effect.setFloat3("vReflectionInfos", this.reflectionTexture.coordinatesMode, this.reflectionTexture.level, Reflect.field(this.reflectionTexture, "isCube") != null ? 1.0 : 0.0);
         }
 
         if (this.emissiveTexture != null) {
@@ -384,7 +368,7 @@ class StandardMaterial extends Material {
         this._effect.setColor4("vDiffuseColor", this._baseColor, this.alpha * mesh.visibility);
         this._effect.setColor4("vSpecularColor", this.specularColor, this.specularPower);
         this._effect.setColor3("vEmissiveColor", this.emissiveColor);
-				
+
 
         if (this._scene.lightsEnabled) {
             var lightIndex:Int = 0;
@@ -412,12 +396,12 @@ class StandardMaterial extends Material {
                     // Hemispheric Light
                     light.transferToEffect(this._effect, "vLightData" + lightIndex, "vLightGround" + lightIndex);
                 }
-				
+
                 light.diffuse.scaleToRef(light.intensity, this._scaledDiffuse);
                 light.specular.scaleToRef(light.intensity, this._scaledSpecular);
                 this._effect.setColor3("vLightDiffuse" + lightIndex, this._scaledDiffuse);
                 this._effect.setColor3("vLightSpecular" + lightIndex, this._scaledSpecular);
-				
+
                 // Shadows
                 var shadowGenerator = light.getShadowGenerator();
                 if (mesh.receiveShadows && shadowGenerator != null) {
@@ -448,8 +432,8 @@ class StandardMaterial extends Material {
             this._effect.setColor3("vFogColor", this._scene.fogColor);
         }
     }
-	
-	public function getAnimatables():Array<Texture> {
+
+    public function getAnimatables():Array<Texture> {
         var results:Array<Texture> = [];
 
         if (this.diffuseTexture != null && this.diffuseTexture.animations != null && this.diffuseTexture.animations.length > 0) {
@@ -482,8 +466,8 @@ class StandardMaterial extends Material {
 
         return results;
     }
-	
-	override public function dispose() {
+
+    override public function dispose() {
         if (this.diffuseTexture != null) {
             this.diffuseTexture.dispose();
         }
@@ -514,8 +498,8 @@ class StandardMaterial extends Material {
 
         this.baseDispose();
     }
-	
-	public function clone(name:String):StandardMaterial {
+
+    public function clone(name:String):StandardMaterial {
         var newStandardMaterial:StandardMaterial = new StandardMaterial(name, this._scene);
 
         // Base material
@@ -555,5 +539,5 @@ class StandardMaterial extends Material {
 
         return newStandardMaterial;
     }
-	
+
 }

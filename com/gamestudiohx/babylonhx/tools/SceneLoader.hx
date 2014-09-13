@@ -44,7 +44,7 @@ import haxe.Json;
 
 class SceneLoader {
 
-	public static function loadCubeTexture(rootUrl:String, parsedTexture:Dynamic, scene:Scene):CubeTexture {
+    public static function loadCubeTexture(rootUrl:String, parsedTexture:Dynamic, scene:Scene):CubeTexture {
         var texture = new CubeTexture(rootUrl + parsedTexture.name, scene);
 
         texture.name = parsedTexture.name;
@@ -54,8 +54,8 @@ class SceneLoader {
 
         return texture;
     }
-	
-	public static function loadTexture(rootUrl:String, parsedTexture:Dynamic, scene:Scene):Dynamic {
+
+    public static function loadTexture(rootUrl:String, parsedTexture:Dynamic, scene:Scene):Dynamic {
         if (parsedTexture.name != null && parsedTexture.isRenderTarget == true) {
             return null;
         }
@@ -77,23 +77,23 @@ class SceneLoader {
             texture = new Texture(rootUrl + parsedTexture.name, scene);
         }
 
-        texture.name = parsedTexture.name;								
-        texture.hasAlpha = parsedTexture.hasAlpha;						
-        texture.level = parsedTexture.level;							
+        texture.name = parsedTexture.name;
+        texture.hasAlpha = parsedTexture.hasAlpha;
+        texture.level = parsedTexture.level;
 
-        texture.coordinatesIndex = parsedTexture.coordinatesIndex;	    
-        texture.coordinatesMode = parsedTexture.coordinatesMode;		
-        texture.uOffset = parsedTexture.uOffset;						
-        texture.vOffset = parsedTexture.vOffset;						
-        texture.uScale = parsedTexture.uScale;							
-        texture.vScale = parsedTexture.vScale;							
-        texture.uAng = parsedTexture.uAng;								
-        texture.vAng = parsedTexture.vAng;								
-        texture.wAng = parsedTexture.wAng;								
+        texture.coordinatesIndex = parsedTexture.coordinatesIndex;
+        texture.coordinatesMode = parsedTexture.coordinatesMode;
+        texture.uOffset = parsedTexture.uOffset;
+        texture.vOffset = parsedTexture.vOffset;
+        texture.uScale = parsedTexture.uScale;
+        texture.vScale = parsedTexture.vScale;
+        texture.uAng = parsedTexture.uAng;
+        texture.vAng = parsedTexture.vAng;
+        texture.wAng = parsedTexture.wAng;
 
-        texture.wrapU = parsedTexture.wrapU;							
+        texture.wrapU = parsedTexture.wrapU;
         texture.wrapV = parsedTexture.wrapV;
-		
+
         // Animations
         if (parsedTexture.animations != null) {
             for (animationIndex in 0...parsedTexture.animations.length) {
@@ -102,11 +102,11 @@ class SceneLoader {
                 texture.animations.push(parseAnimation(parsedAnimation));
             }
         }
-		
+
         return texture;
     }
-	
-	public static function parseSkeleton(parsedSkeleton:Dynamic, scene:Scene):Skeleton {
+
+    public static function parseSkeleton(parsedSkeleton:Dynamic, scene:Scene):Skeleton {
         var skeleton = new Skeleton(parsedSkeleton.name, parsedSkeleton.id, scene);
 
         for (index in 0...parsedSkeleton.bones.length) {
@@ -126,10 +126,10 @@ class SceneLoader {
 
         return skeleton;
     }
-	
-	public static function parseMaterial(parsedMaterial:Dynamic, scene:Scene, rootUrl:String):Material {
+
+    public static function parseMaterial(parsedMaterial:Dynamic, scene:Scene, rootUrl:String):Material {
         var material = new StandardMaterial(parsedMaterial.name, scene);
-		
+
         material.ambientColor = Color3.FromArray(parsedMaterial.ambient);
         material.diffuseColor = Color3.FromArray(parsedMaterial.diffuse);
         material.specularColor = Color3.FromArray(parsedMaterial.specular);
@@ -171,8 +171,8 @@ class SceneLoader {
 
         return material;
     }
-	
-	public static function parseMaterialById(id:String, parsedData:Dynamic, scene:Scene, rootUrl:String):Material {
+
+    public static function parseMaterialById(id:String, parsedData:Dynamic, scene:Scene, rootUrl:String):Material {
         for (index in 0...parsedData.materials.length) {
             var parsedMaterial = parsedData.materials[index];
             if (parsedMaterial.id == id) {
@@ -182,8 +182,8 @@ class SceneLoader {
 
         return null;
     }
-	
-	public static function parseMultiMaterial(parsedMultiMaterial:Dynamic, scene:Scene):MultiMaterial {
+
+    public static function parseMultiMaterial(parsedMultiMaterial:Dynamic, scene:Scene):MultiMaterial {
         var multiMaterial = new MultiMaterial(parsedMultiMaterial.name, scene);
 
         multiMaterial.id = parsedMultiMaterial.id;
@@ -200,13 +200,13 @@ class SceneLoader {
 
         return multiMaterial;
     }
-	
-	public static function parseLensFlareSystem(parsedLensFlareSystem:Dynamic, scene:Scene, rootUrl:String):LensFlareSystem {
+
+    public static function parseLensFlareSystem(parsedLensFlareSystem:Dynamic, scene:Scene, rootUrl:String):LensFlareSystem {
         var emitter = scene.getLastEntryByID(parsedLensFlareSystem.emitterId);
 
         var lensFlareSystem = new LensFlareSystem("lensFlareSystem#" + parsedLensFlareSystem.emitterId, emitter, scene);
         lensFlareSystem.borderLimit = parsedLensFlareSystem.borderLimit;
-        
+
         for (index in 0...parsedLensFlareSystem.flares.length) {
             var parsedFlare = parsedLensFlareSystem.flares[index];
             var flare = new LensFlare(parsedFlare.size, parsedFlare.position, Color3.FromArray(parsedFlare.color), rootUrl + parsedFlare.textureName, lensFlareSystem);
@@ -214,9 +214,12 @@ class SceneLoader {
 
         return lensFlareSystem;
     }
-	
-	public static function parseParticleSystem(parsedParticleSystem:Dynamic, scene:Scene, rootUrl:String):ParticleSystem {
+
+    public static function parseParticleSystem(parsedParticleSystem:Dynamic, scene:Scene, rootUrl:String):ParticleSystem {
         var emitter = scene.getLastMeshByID(parsedParticleSystem.emitterId);
+        //var emitter = scene.getMeshByID(parsedParticleSystem.emitterId);
+
+        trace(emitter + ' --Emitter');
         //todo chcek
         var particleSystem = new ParticleSystem("particles_" + emitter.name, parsedParticleSystem.capacity, scene);
         if (parsedParticleSystem.textureName != null && parsedParticleSystem.textureName != "") {
@@ -243,11 +246,11 @@ class SceneLoader {
         particleSystem.textureMask = Color4.FromArray(parsedParticleSystem.textureMask);
         particleSystem.blendMode = parsedParticleSystem.blendMode;
         particleSystem.start();
-		
+
         return particleSystem;
     }
-	
-	public static function parseShadowGenerator(parsedShadowGenerator:Dynamic, scene:Scene):ShadowGenerator {
+
+    public static function parseShadowGenerator(parsedShadowGenerator:Dynamic, scene:Scene):ShadowGenerator {
         var light = scene.getLightByID(parsedShadowGenerator.lightId);
         var shadowGenerator = new ShadowGenerator(parsedShadowGenerator.mapSize, light);
 
@@ -261,8 +264,8 @@ class SceneLoader {
 
         return shadowGenerator;
     }
-	
-	public static function parseAnimation(parsedAnimation:Dynamic):Animation {
+
+    public static function parseAnimation(parsedAnimation:Dynamic):Animation {
         var animation = new Animation(parsedAnimation.name, parsedAnimation.property, parsedAnimation.framePerSecond, parsedAnimation.dataType, parsedAnimation.loopBehavior);
 
         var dataType = parsedAnimation.dataType;
@@ -275,24 +278,23 @@ class SceneLoader {
             switch (dataType) {
                 case Animation.ANIMATIONTYPE_FLOAT:
                     data = key.values[0];
-                
+
                 case Animation.ANIMATIONTYPE_QUATERNION:
                     data = Quaternion.FromArray(key.values);
-              
+
                 case Animation.ANIMATIONTYPE_MATRIX:
                     data = Matrix.FromArray(key.values);
-                
+
                 case Animation.ANIMATIONTYPE_VECTOR3:
                     data = Vector3.FromArray(key.values);
 
                 default:
                     data = Vector3.FromArray(key.values);
-                
+
             }
 
             keys.push({
-                frame: key.frame,
-                value: data
+            frame: key.frame, value: data
             });
         }
 
@@ -300,25 +302,25 @@ class SceneLoader {
 
         return animation;
     }
-	
-	public static function parseLight(parsedLight:Dynamic, scene:Scene):Light {
+
+    public static function parseLight(parsedLight:Dynamic, scene:Scene):Light {
         var light:Light = null;
 
         switch (parsedLight.type) {
             case 0:
                 light = new PointLight(parsedLight.name, Vector3.FromArray(parsedLight.position), scene);
-                
+
             case 1:
                 light = new DirectionalLight(parsedLight.name, Vector3.FromArray(parsedLight.direction), scene);
                 light.position = Vector3.FromArray(parsedLight.position);
-            
+
             case 2:
                 light = new SpotLight(parsedLight.name, Vector3.FromArray(parsedLight.position), Vector3.FromArray(parsedLight.direction), parsedLight.angle, parsedLight.exponent, scene);
-            
+
             case 3:
                 light = new HemisphericLight(parsedLight.name, Vector3.FromArray(parsedLight.direction), scene);
                 cast(light, HemisphericLight).groundColor = Color3.FromArray(parsedLight.groundColor);
-            
+
         }
 
         light.id = parsedLight.id;
@@ -328,11 +330,11 @@ class SceneLoader {
         }
         light.diffuse = Color3.FromArray(parsedLight.diffuse);
         light.specular = Color3.FromArray(parsedLight.specular);
-				
-		return light;
+
+        return light;
     }
-	
-	public static function parseCamera(parsedCamera:Dynamic, scene:Scene):FreeCamera {
+
+    public static function parseCamera(parsedCamera:Dynamic, scene:Scene):FreeCamera {
         var camera:FreeCamera = new FreeCamera(parsedCamera.name, Vector3.FromArray(parsedCamera.position), scene);
         camera.id = parsedCamera.id;
 
@@ -380,11 +382,11 @@ class SceneLoader {
         }
         return camera;
     }
-	
-	public static function parseMesh(parsedMesh:Dynamic, scene:Scene, rootUrl:String):Mesh {
+
+    public static function parseMesh(parsedMesh:Dynamic, scene:Scene, rootUrl:String):Mesh {
         var mesh = new Mesh(parsedMesh.name, scene);
         mesh.id = parsedMesh.id;
-		
+
         mesh.position = Vector3.FromArray(parsedMesh.position);
         if (parsedMesh.rotation != null) {
             mesh.rotation = Vector3.FromArray(parsedMesh.rotation);
@@ -400,7 +402,7 @@ class SceneLoader {
         mesh.setEnabled(parsedMesh.isEnabled);
         mesh.isVisible = parsedMesh.isVisible;
         mesh.infiniteDistance = parsedMesh.infiniteDistance;
-        
+
         mesh.receiveShadows = parsedMesh.receiveShadows;
 
         mesh.billboardMode = parsedMesh.billboardMode;
@@ -413,7 +415,8 @@ class SceneLoader {
 
         // Parent
         if (parsedMesh.parentId != null && parsedMesh.parentId != "") {
-            mesh.parent = scene.getLastEntryByID(parsedMesh.parentId);
+            // todo inspect this
+            mesh.parent = scene.getLastEntryByID(Reflect.field(parsedMesh, "parentId"));
         }
 
         // Geometry
@@ -444,7 +447,7 @@ class SceneLoader {
             }
 
         } else {*/
-            SceneLoader._ImportGeometry(parsedMesh, mesh);
+        SceneLoader._ImportGeometry(parsedMesh, mesh);
         //}
         // Material
         if (parsedMesh.materialId != null) {
@@ -457,9 +460,9 @@ class SceneLoader {
         if (parsedMesh.skeletonId > -1) {
             mesh.skeleton = scene.getLastSkeletonByID(parsedMesh.skeletonId);
         }
-        
+
         // Physics
-		// TODO
+        // TODO
         /*if (parsedMesh.physicsImpostor != null) {
             if (!scene.isPhysicsEnabled()) {
                 scene.enablePhysics();
@@ -489,8 +492,8 @@ class SceneLoader {
         //trace('_ImportGeometry end mesh');
         return mesh;
     }
-	
-	public static function isDescendantOf(mesh:Dynamic, name:String, hierarchyIds:Array<String>):Bool {
+
+    public static function isDescendantOf(mesh:Dynamic, name:String, hierarchyIds:Array<String>):Bool {
         if (mesh.name == name) {
             hierarchyIds.push(mesh.id);
             return true;
@@ -503,280 +506,285 @@ class SceneLoader {
 
         return false;
     }
-	
-	public static function _ImportGeometry(parsedGeometry:Dynamic, mesh:Mesh) {
-		// Geometry
-		if (parsedGeometry.positions != null && parsedGeometry.normals != null && parsedGeometry.indices != null) {
-			mesh.setVerticesData(VertexBuffer.PositionKind, parsedGeometry.positions, false);
-			mesh.setVerticesData(VertexBuffer.NormalKind, parsedGeometry.normals, false);
 
-			if (parsedGeometry.uvs != null) {
-				mesh.setVerticesData(VertexBuffer.UVKind, parsedGeometry.uvs, false);
-			}
+    public static function _ImportGeometry(parsedGeometry:Dynamic, mesh:Mesh) {
+        // Geometry
+        var scene = mesh.getScene();
+        //var geometryId = parsedGeometry.geometryId;
+        if (parsedGeometry.geometryId != null) {
+            var geometry = scene.getGeometryByID(parsedGeometry.geometryId);
+            if (geometry != null) {
+                geometry.applyToMesh(mesh);
+            }
+        } else if (parsedGeometry.positions != null && parsedGeometry.normals != null && parsedGeometry.indices != null) {
+            mesh.setVerticesData(VertexBuffer.PositionKind, parsedGeometry.positions, false);
+            mesh.setVerticesData(VertexBuffer.NormalKind, parsedGeometry.normals, false);
 
-			if (parsedGeometry.uvs2 != null) {
-				mesh.setVerticesData(VertexBuffer.UV2Kind, parsedGeometry.uvs2, false);
-			}
+            if (parsedGeometry.uvs != null) {
+                mesh.setVerticesData(VertexBuffer.UVKind, parsedGeometry.uvs, false);
+            }
 
-			if (parsedGeometry.colors != null) {
-				mesh.setVerticesData(VertexBuffer.ColorKind, parsedGeometry.colors, false);
-			}
+            if (parsedGeometry.uvs2 != null) {
+                mesh.setVerticesData(VertexBuffer.UV2Kind, parsedGeometry.uvs2, false);
+            }
 
-			if (parsedGeometry.matricesIndices != null) {
-				var floatIndices:Array<Float> = [];
+            if (parsedGeometry.colors != null) {
+                mesh.setVerticesData(VertexBuffer.ColorKind, parsedGeometry.colors, false);
+            }
 
-				for (i in 0...parsedGeometry.matricesIndices.length) {
-					var matricesIndex:Int = parsedGeometry.matricesIndices[i];
+            if (parsedGeometry.matricesIndices != null) {
+                var floatIndices:Array<Float> = [];
 
-					floatIndices.push(matricesIndex & 0x000000FF);
-					floatIndices.push((matricesIndex & 0x0000FF00) >> 8);
-					floatIndices.push((matricesIndex & 0x00FF0000) >> 16);
-					floatIndices.push(matricesIndex >> 24);
-				}
+                for (i in 0...parsedGeometry.matricesIndices.length) {
+                    var matricesIndex:Int = parsedGeometry.matricesIndices[i];
 
-				mesh.setVerticesData(VertexBuffer.MatricesIndicesKind, floatIndices, false);
-			}
+                    floatIndices.push(matricesIndex & 0x000000FF);
+                    floatIndices.push((matricesIndex & 0x0000FF00) >> 8);
+                    floatIndices.push((matricesIndex & 0x00FF0000) >> 16);
+                    floatIndices.push(matricesIndex >> 24);
+                }
 
-			if (parsedGeometry.matricesWeights != null) {
-				mesh.setVerticesData(VertexBuffer.MatricesWeightsKind, parsedGeometry.matricesWeights, false);
-			}
-			mesh.setIndices(parsedGeometry.indices);
-		}
+                mesh.setVerticesData(VertexBuffer.MatricesIndicesKind, floatIndices, false);
+            }
 
-		// SubMeshes
-		if (parsedGeometry.subMeshes != null) {
-			mesh.subMeshes = [];
-			for (subIndex in 0...parsedGeometry.subMeshes.length) {
-				var parsedSubMesh = parsedGeometry.subMeshes[subIndex];
+            if (parsedGeometry.matricesWeights != null) {
+                mesh.setVerticesData(VertexBuffer.MatricesWeightsKind, parsedGeometry.matricesWeights, false);
+            }
+            mesh.setIndices(parsedGeometry.indices);
+        }
 
-				var subMesh = new SubMesh(parsedSubMesh.materialIndex, parsedSubMesh.verticesStart, parsedSubMesh.verticesCount, parsedSubMesh.indexStart, parsedSubMesh.indexCount, mesh);
-			}
-		}
+        // SubMeshes
+        if (parsedGeometry.subMeshes != null) {
+            mesh.subMeshes = [];
+            for (subIndex in 0...parsedGeometry.subMeshes.length) {
+                var parsedSubMesh = parsedGeometry.subMeshes[subIndex];
 
-		// Update
-		mesh.computeWorldMatrix(true);
+                var subMesh = new SubMesh(parsedSubMesh.materialIndex, parsedSubMesh.verticesStart, parsedSubMesh.verticesCount, parsedSubMesh.indexStart, parsedSubMesh.indexCount, mesh);
+            }
+        }
 
-		var scene:Scene = mesh.getScene();
-		if (scene._selectionOctree != null) {
-			scene._selectionOctree.addMesh(mesh);
-		}
-	}
-    
-	
-	public static function ImportMesh(?meshName:String, ?rootUrl:String, ?sceneFilename:String, ?scene:Scene, ?then:Array<Dynamic>->Array<Dynamic>->Array<Dynamic>->Void, ?progressCallBack:String->Void) {
-		
-		Tools.LoadFile(rootUrl + sceneFilename, function(data:String) {
-			var parsedData = Json.parse(data);
+        // Update
+        mesh.computeWorldMatrix(true);
 
-			// Meshes
-			var meshes:Array<Mesh> = [];
-			var particleSystems:Array<ParticleSystem> = [];
-			var skeletons:Array<Skeleton> = [];
-			var loadedSkeletonsIds:Array<String> = [];
-			var loadedMaterialsIds:Array<String> = [];
-			var hierarchyIds:Array<String> = [];
-			
-			var _meshes:Array<Dynamic> = cast parsedData.meshes;
-			for (index in 0..._meshes.length) {
-				var parsedMesh:Dynamic = _meshes[index];
+        if (scene._selectionOctree != null) {
+            scene._selectionOctree.addMesh(mesh);
+        }
+    }
 
-				if (meshName == null || isDescendantOf(parsedMesh, meshName, hierarchyIds)) {
-					// Material ?
-					if (parsedMesh.materialId != null) {
-						var materialFound = Lambda.indexOf(loadedMaterialsIds, parsedMesh.materialId) != -1;
 
-						if (!materialFound) {
-							var _multiMaterials:Array<Dynamic> = cast parsedData.multiMaterials;
-							for (multimatIndex in 0..._multiMaterials.length) {
-								var parsedMultiMaterial = _multiMaterials[multimatIndex];
-								if (parsedMultiMaterial.id == parsedMesh.materialId) {
-									var _materials:Array<Dynamic> = cast parsedMultiMaterial.materials;
-									for (matIndex in 0..._materials.length) {
-										var subMatId = _materials[matIndex];
-										loadedMaterialsIds.push(subMatId);
-										parseMaterialById(subMatId, parsedData, scene, rootUrl);
-									}
+    public static function ImportMesh(?meshName:String, ?rootUrl:String, ?sceneFilename:String, ?scene:Scene, ?then:Array<Dynamic> -> Array<Dynamic> -> Array<Dynamic> -> Void, ?progressCallBack:String -> Void) {
 
-									loadedMaterialsIds.push(parsedMultiMaterial.id);
-									parseMultiMaterial(parsedMultiMaterial, scene);
-									materialFound = true;
-									break;
-								}
-							}
-						}
-						if (!materialFound) {
-							loadedMaterialsIds.push(parsedMesh.materialId);
-							parseMaterialById(parsedMesh.materialId, parsedData, scene, rootUrl);
-						}
-					}
+        Tools.LoadFile(rootUrl + sceneFilename, function(data:String) {
+            var parsedData = Json.parse(data);
 
-					// Skeleton ?
-					if (parsedMesh.skeletonId > -1 && scene.skeletons != null) {
-						var skeletonAlreadyLoaded = Lambda.indexOf(loadedSkeletonsIds, parsedMesh.skeletonId) > -1;
+            // Meshes
+            var meshes:Array<Mesh> = [];
+            var particleSystems:Array<ParticleSystem> = [];
+            var skeletons:Array<Skeleton> = [];
+            var loadedSkeletonsIds:Array<String> = [];
+            var loadedMaterialsIds:Array<String> = [];
+            var hierarchyIds:Array<String> = [];
+            var _meshes:Array<Dynamic> = cast parsedData.meshes;
+            for (index in 0..._meshes.length) {
+                var parsedMesh:Dynamic = _meshes[index];
 
-						if (!skeletonAlreadyLoaded) {
-							var _skeletons:Array<Dynamic> = cast parsedData.skeletons;
-							for (skeletonIndex in 0..._skeletons.length) {
-								var parsedSkeleton = _skeletons[skeletonIndex];
+                if (meshName == null || isDescendantOf(parsedMesh, meshName, hierarchyIds)) {
+                    // Material ?
+                    if (parsedMesh.materialId != null) {
+                        var materialFound = Lambda.indexOf(loadedMaterialsIds, parsedMesh.materialId) != -1;
 
-								if (parsedSkeleton.id == parsedMesh.skeletonId) {
-									skeletons.push(parseSkeleton(parsedSkeleton, scene));
-									loadedSkeletonsIds.push(parsedSkeleton.id);
-								}
-							}
-						}
-					}
-					var mesh = parseMesh(parsedMesh, scene, rootUrl);
-					meshes.push(mesh);
-				}
-			}
+                        if (!materialFound) {
+                            var _multiMaterials:Array<Dynamic> = cast parsedData.multiMaterials;
+                            for (multimatIndex in 0..._multiMaterials.length) {
+                                var parsedMultiMaterial = _multiMaterials[multimatIndex];
+                                if (parsedMultiMaterial.id == parsedMesh.materialId) {
+                                    var _materials:Array<Dynamic> = cast parsedMultiMaterial.materials;
+                                    for (matIndex in 0..._materials.length) {
+                                        var subMatId = _materials[matIndex];
+                                        loadedMaterialsIds.push(subMatId);
+                                        parseMaterialById(subMatId, parsedData, scene, rootUrl);
+                                    }
 
-			// Particles
-			if (parsedData.particleSystems != null) {
-				var ps:Array<ParticleSystem> = cast parsedData.particleSystems;
-				for (index in 0...ps.length) {
-					var parsedParticleSystem:ParticleSystem = ps[index];
+                                    loadedMaterialsIds.push(parsedMultiMaterial.id);
+                                    parseMultiMaterial(parsedMultiMaterial, scene);
+                                    materialFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!materialFound) {
+                            loadedMaterialsIds.push(parsedMesh.materialId);
+                            parseMaterialById(parsedMesh.materialId, parsedData, scene, rootUrl);
+                        }
+                    }
 
-					if (Lambda.indexOf(hierarchyIds, parsedParticleSystem.emitterId) != -1) {
-						particleSystems.push(parseParticleSystem(parsedParticleSystem, scene, rootUrl));
-					}
-				}
-			}
+                    // Skeleton ?
+                    if (parsedMesh.skeletonId > -1 && scene.skeletons != null) {
+                        var skeletonAlreadyLoaded = Lambda.indexOf(loadedSkeletonsIds, parsedMesh.skeletonId) > -1;
 
-			if (then != null) {
-				then(meshes, particleSystems, skeletons);
-			}
-		});
-	}
-	
-	public static function Load(rootUrl:String, sceneFilename:String, engine:Engine, ?then:Scene->Void) {
-		function loadSceneFromData(data:String) {		
-			var parsedData = Json.parse(data);			
-						
-			var scene = new Scene(engine);
-			//scene.database = database;
+                        if (!skeletonAlreadyLoaded) {
+                            var _skeletons:Array<Dynamic> = cast parsedData.skeletons;
+                            for (skeletonIndex in 0..._skeletons.length) {
+                                var parsedSkeleton = _skeletons[skeletonIndex];
 
-			// Scene
-			scene.useDelayedTextureLoading = parsedData.useDelayedTextureLoading;
-			scene.autoClear = parsedData.autoClear;
-			scene.clearColor = Color4.FromArray(parsedData.clearColor);
-			scene.ambientColor = Color3.FromArray(parsedData.ambientColor);
-			scene.gravity = Vector3.FromArray(parsedData.gravity);
-			
-			// Fog
-			var fogMode : Null<Int> = parsedData.fogMode;
-			if (fogMode != null && fogMode != 0) {
-				scene.fogMode = fogMode;
-				scene.fogColor = Color3.FromArray(parsedData.fogColor);
-				scene.fogStart = parsedData.fogStart;
-				scene.fogEnd = parsedData.fogEnd;
-				scene.fogDensity = parsedData.fogDensity;
-			}
+                                if (parsedSkeleton.id == parsedMesh.skeletonId) {
+                                    skeletons.push(parseSkeleton(parsedSkeleton, scene));
+                                    loadedSkeletonsIds.push(parsedSkeleton.id);
+                                }
+                            }
+                        }
+                    }
+                    var mesh = parseMesh(parsedMesh, scene, rootUrl);
+                    meshes.push(mesh);
+                }
+            }
 
-			
-			// Lights
-			var _lights:Array<Dynamic> = cast parsedData.lights;
-			for (index in 0..._lights.length) {
-				var parsedLight = _lights[index];				
-				parseLight(parsedLight, scene);				
-			}
+            // Particles
+            if (parsedData.particleSystems != null) {
+                var ps:Array<ParticleSystem> = cast parsedData.particleSystems;
+                for (index in 0...ps.length) {
+                    var parsedParticleSystem:ParticleSystem = ps[index];
 
-			// Cameras
-			var _cameras:Array<Dynamic> = cast parsedData.cameras;
-			for (index in 0..._cameras.length) {
-				var parsedCamera = _cameras[index];		
-				parseCamera(parsedCamera, scene);				
-			}
+                    if (Lambda.indexOf(hierarchyIds, parsedParticleSystem.emitterId) != -1) {
+                        particleSystems.push(parseParticleSystem(parsedParticleSystem, scene, rootUrl));
+                    }
+                }
+            }
+
+            if (then != null) {
+                then(meshes, particleSystems, skeletons);
+            }
+        });
+    }
+
+    public static function Load(rootUrl:String, sceneFilename:String, engine:Engine, ?then:Scene -> Void) {
+        function loadSceneFromData(data:String) {
+            var parsedData = Json.parse(data);
+
+            var scene = new Scene(engine);
+            //scene.database = database;
+
+            // Scene
+            scene.useDelayedTextureLoading = parsedData.useDelayedTextureLoading;
+            scene.autoClear = parsedData.autoClear;
+            scene.clearColor = Color4.FromArray(parsedData.clearColor);
+            scene.ambientColor = Color3.FromArray(parsedData.ambientColor);
+            scene.gravity = Vector3.FromArray(parsedData.gravity);
+
+            // Fog
+            var fogMode:Null<Int> = parsedData.fogMode;
+            if (fogMode != null && fogMode != 0) {
+                scene.fogMode = fogMode;
+                scene.fogColor = Color3.FromArray(parsedData.fogColor);
+                scene.fogStart = parsedData.fogStart;
+                scene.fogEnd = parsedData.fogEnd;
+                scene.fogDensity = parsedData.fogDensity;
+            }
+
+
+            // Lights
+            var _lights:Array<Dynamic> = cast parsedData.lights;
+            for (index in 0..._lights.length) {
+                var parsedLight = _lights[index];
+                parseLight(parsedLight, scene);
+            }
+
+            // Cameras
+            var _cameras:Array<Dynamic> = cast parsedData.cameras;
+            for (index in 0..._cameras.length) {
+                var parsedCamera = _cameras[index];
+                parseCamera(parsedCamera, scene);
+            }
 
             //trace('cam array length =' + _cameras.length);
-			if (parsedData.activeCameraID != null) {
+            if (parsedData.activeCameraID != null) {
                 //trace( 'active id = '  + parsedData.activeCameraID);
-				scene.activeCameraByID(parsedData.activeCameraID);
-			}
+                scene.activeCameraByID(parsedData.activeCameraID);
+            }
 
-			// Materials
-			if (parsedData.materials != null) {
-				var _materials:Array<Dynamic> = cast parsedData.materials;
-				for (index in 0..._materials.length) {
-					var parsedMaterial = _materials[index];
-					parseMaterial(parsedMaterial, scene, rootUrl);
-				}
-			}
+            // Materials
+            if (parsedData.materials != null) {
+                var _materials:Array<Dynamic> = cast parsedData.materials;
+                for (index in 0..._materials.length) {
+                    var parsedMaterial = _materials[index];
+                    parseMaterial(parsedMaterial, scene, rootUrl);
+                }
+            }
 
-			if (parsedData.multiMaterials != null) {
-				var _multiMaterials:Array<Dynamic> = cast parsedData.multiMaterials;
-				for (index in 0..._multiMaterials.length) {
-					var parsedMultiMaterial = parsedData.multiMaterials[index];
-					parseMultiMaterial(parsedMultiMaterial, scene);
-				}
-			}
+            if (parsedData.multiMaterials != null) {
+                var _multiMaterials:Array<Dynamic> = cast parsedData.multiMaterials;
+                for (index in 0..._multiMaterials.length) {
+                    var parsedMultiMaterial = parsedData.multiMaterials[index];
+                    parseMultiMaterial(parsedMultiMaterial, scene);
+                }
+            }
 
-			// Skeletons
-			if (parsedData.skeletons != null) {
-				var _skeletons:Array<Dynamic> = cast parsedData.skeletons;
-				for (index in 0..._skeletons.length) {
-					var parsedSkeleton = parsedData.skeletons[index];
-					parseSkeleton(parsedSkeleton, scene);
-				}
-			}
+            // Skeletons
+            if (parsedData.skeletons != null) {
+                var _skeletons:Array<Dynamic> = cast parsedData.skeletons;
+                for (index in 0..._skeletons.length) {
+                    var parsedSkeleton = parsedData.skeletons[index];
+                    parseSkeleton(parsedSkeleton, scene);
+                }
+            }
 
-			// Meshes
-			var _meshes:Array<Dynamic> = cast parsedData.meshes;
-			for (index in 0..._meshes.length) {
-				var parsedMesh = _meshes[index];
-				parseMesh(parsedMesh, scene, rootUrl);
-			}
+            // Meshes
+            var _meshes:Array<Dynamic> = cast parsedData.meshes;
+            for (index in 0..._meshes.length) {
+                var parsedMesh = _meshes[index];
+                parseMesh(parsedMesh, scene, rootUrl);
+            }
 
-			// Connecting cameras parents and locked target
+            // Connecting cameras parents and locked target
 
-			for (index in 0...scene.cameras.length) {
-				var camera = scene.cameras[index];
-				if (Reflect.field(camera, "_waitingParentId") != null) {
+            for (index in 0...scene.cameras.length) {
+                var camera = scene.cameras[index];
+                if (Reflect.field(camera, "_waitingParentId") != null) {
                     var _target = scene.getLastEntryByID(Reflect.field(camera, "_waitingParentId"));
-					camera.parent = scene.getLastEntryByID(Reflect.field(camera, "_waitingParentId"));
-					Reflect.setField(camera, "_waitingParentId", null);
-				}
+                    camera.parent = scene.getLastEntryByID(Reflect.field(camera, "_waitingParentId"));
+                    Reflect.setField(camera, "_waitingParentId", null);
+                }
 
-				if (Reflect.field(camera, "_waitingLockedTargetId") != null) {
-					Reflect.setField(camera, "lockedTarget", scene.getLastEntryByID(Reflect.field(camera, "_waitingLockedTargetId")));
-					Reflect.setField(camera, "_waitingLockedTargetId", null);
-				}
-			}
+                if (Reflect.field(camera, "_waitingLockedTargetId") != null) {
+                    Reflect.setField(camera, "lockedTarget", scene.getLastEntryByID(Reflect.field(camera, "_waitingLockedTargetId")));
+                    Reflect.setField(camera, "_waitingLockedTargetId", null);
+                }
+            }
 
-			// Particles Systems
-			if (parsedData.particleSystems != null) {
-				var _particleSystems:Array<Dynamic> = cast parsedData.particleSystems;
-				for (index in 0..._particleSystems.length) {
-					var parsedParticleSystem = _particleSystems[index];
-					parseParticleSystem(parsedParticleSystem, scene, rootUrl);
-				}
-			}
+            // Particles Systems
+            if (parsedData.particleSystems != null) {
+                var _particleSystems:Array<Dynamic> = cast parsedData.particleSystems;
+                for (index in 0..._particleSystems.length) {
+                    var parsedParticleSystem = _particleSystems[index];
+                    parseParticleSystem(parsedParticleSystem, scene, rootUrl);
+                }
+            }
 
-			// Lens flares
-			if (parsedData.lensFlareSystems != null) {
-				var _lensFlareSystems:Array<Dynamic> = cast parsedData.lensFlareSystems;
-				for (index in 0..._lensFlareSystems.length) {
-					var parsedLensFlareSystem = _lensFlareSystems[index];
-					parseLensFlareSystem(parsedLensFlareSystem, scene, rootUrl);
-				}
-			}
+            // Lens flares
+            if (parsedData.lensFlareSystems != null) {
+                var _lensFlareSystems:Array<Dynamic> = cast parsedData.lensFlareSystems;
+                for (index in 0..._lensFlareSystems.length) {
+                    var parsedLensFlareSystem = _lensFlareSystems[index];
+                    parseLensFlareSystem(parsedLensFlareSystem, scene, rootUrl);
+                }
+            }
 
-			// Shadows
-			if (parsedData.shadowGenerators != null) {
-				var _shadowGenerators:Array<Dynamic> = cast parsedData.shadowGenerators;
-				for (index in 0..._shadowGenerators.length) {
-					var parsedShadowGenerator = _shadowGenerators[index];
-					parseShadowGenerator(parsedShadowGenerator, scene);
-				}
-			}
-						
-			// Finish
-			if (then != null) {
-				then(scene);
-			}
-		}
+            // Shadows
+            if (parsedData.shadowGenerators != null) {
+                var _shadowGenerators:Array<Dynamic> = cast parsedData.shadowGenerators;
+                for (index in 0..._shadowGenerators.length) {
+                    var parsedShadowGenerator = _shadowGenerators[index];
+                    parseShadowGenerator(parsedShadowGenerator, scene);
+                }
+            }
 
-		Tools.LoadFile(rootUrl + sceneFilename, loadSceneFromData);		
-	}
-	
+            // Finish
+            if (then != null) {
+                then(scene);
+            }
+        }
+
+        Tools.LoadFile(rootUrl + sceneFilename, loadSceneFromData);
+    }
+
 }

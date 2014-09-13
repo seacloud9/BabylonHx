@@ -24,12 +24,11 @@ import sys.io.FileInput;
  */
 
 typedef BabylonMinMax = {
-	minimum: Vector3,
-	maximum: Vector3
+minimum:Vector3, maximum:Vector3
 }
 
 interface IAnimatable {
-        public var animations:Array<Animation>;
+    public var animations:Array<Animation>;
 }
 
 enum Space {
@@ -38,16 +37,17 @@ enum Space {
 }
 
 class Axis {
-    public static var X: Vector3 = new Vector3(1, 0, 0);
-    public static var Y: Vector3 = new Vector3(0, 1, 0);
-    public static var Z: Vector3 =new Vector3(0, 0, 1);
+    public static var X:Vector3 = new Vector3(1, 0, 0);
+    public static var Y:Vector3 = new Vector3(0, 1, 0);
+    public static var Z:Vector3 = new Vector3(0, 0, 1);
 }
 
-class Tools {
-	
-	public static var timer:Timer;
 
-	public static inline function ExtractMinAndMax(positions:Array<Float>, start:Int, count:Int):BabylonMinMax {
+class Tools {
+    public static var isDebug:Bool = false;
+    public static var timer:Timer;
+
+    public static inline function ExtractMinAndMax(positions:Array<Float>, start:Int, count:Int):BabylonMinMax {
         var minimum:Vector3 = new Vector3(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY);
         var maximum:Vector3 = new Vector3(Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY);
 
@@ -59,47 +59,48 @@ class Tools {
         }
 
         return {
-            minimum: minimum,
-            maximum: maximum
+        minimum: minimum, maximum: maximum
         };
     }
-	
-	public static inline function randomNumber(min:Float, max:Float):Float {
-		var ret:Float = min;
+
+    public static inline function randomNumber(min:Float, max:Float):Float {
+        var ret:Float = min;
         if (min == max) {
             ret = min;
         } else {
-			var random = Math.random();
-			ret = ((random * (max - min)) + min);
-		}
-		return ret;
+            var random = Math.random();
+            ret = ((random * (max - min)) + min);
+        }
+        return ret;
     }
-	
-	public static inline function WithinEpsilon(a:Float, b:Float):Bool {
+
+    public static inline function WithinEpsilon(a:Float, b:Float):Bool {
         var num:Float = a - b;
         return -1.401298E-45 <= num && num <= 1.401298E-45;
     }
 
-     public static function LoadFile(url:String , ?callbackFn:String->Void, ?progressCallBack:Dynamic, ?database:Dynamic, useArrayBuffer:Bool = false): Void {
-            trace('LoadFile URL - '+ url);
-            //url = Tools.CleanUrl(url);
-            // 
-            #if html5       // Assets.getText doesn't work in html5 -> Chrome ????
+    public static function LoadFile(url:String, ?callbackFn:String -> Void, ?progressCallBack:Dynamic, ?database:Dynamic, useArrayBuffer:Bool = false):Void {
+        if (Tools.isDebug) {
+            trace('LoadFile URL - ' + url);
+        }
+
+        //url = Tools.CleanUrl(url);
+        #if html5       // Assets.getText doesn't work in html5 -> Chrome ????
             var loader:URLLoader = new URLLoader();
             loader.addEventListener(Event.COMPLETE, function(data) {
                 callbackFn(loader.data);
             });
             loader.load(new URLRequest(url));
             #else
-            if (Assets.exists(url)) {
-                var file:String = Assets.getText(url);
-                callbackFn(file);
-            } else {
-                trace("File: " + url + " doesn't exist !");
-            }
-            #end
+        if (Assets.exists(url)) {
+            var file:String = Assets.getText(url);
+            callbackFn(file);
+        } else {
+            trace("File: " + url + " doesn't exist !");
+        }
+        #end
 
-            /*
+        /*
             var noIndexedDB = () => {
                 var request = new XMLHttpRequest();
                 var loadUrl = Tools.BaseUrl + url;
@@ -136,28 +137,27 @@ class Tools {
                 noIndexedDB();
             }*/
     }
-	
-	public static function LoadImage(url:String, onload:BitmapData->Void) {  
-        if(url != null){
+
+    public static function LoadImage(url:String, onload:BitmapData -> Void) {
+        if (url != null) {
             if (Assets.exists(url)) {
                 var img:BitmapData = Assets.getBitmapData(url);
-                trace(img);
                 onload(img);
             } else {
                 trace("Error: Image '" + url + "' doesn't exist !");
             }
         }
-		
+
     }
-	
-	public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
-        //trace('=== type Dest - ' +  Type.typeof(destination));
-        //trace('=== type source - ' +  Type.typeof(source));
-        var i=0;
+
+    public static function DeepCopy(source:Dynamic, destination:Dynamic, doNotCopyList:Array<String> = null, mustCopyList:Array<String> = null) {
+        var i = 0;
         for (prop in Reflect.fields(source)) {
             i++;
-            trace('DeepCopy - PROP = ' +  Type.typeof(prop));
-            trace('DeepCopy - int ' + i);
+            if (Tools.isDebug) {
+                trace('DeepCopy - PROP = ' + Type.typeof(prop));
+                trace('DeepCopy - int ' + i);
+            }
             if (prop.charAt(0) == "_" && (mustCopyList == null || Lambda.indexOf(mustCopyList, prop) == -1)) {
                 continue;
             }
@@ -165,38 +165,43 @@ class Tools {
             if (doNotCopyList != null && Lambda.indexOf(doNotCopyList, prop) != -1) {
                 continue;
             }
-            trace('=== DeepCopy hitCount ' + i);
-            trace('=== DeepCopy hitCount ' + prop);
+            if (Tools.isDebug) {
+                trace('=== DeepCopy hitCount ' + i);
+                trace('=== DeepCopy hitCount ' + prop);
+            }
             //try{
             var sourceValue = Reflect.field(source, prop);
             //}catch(e:String){
-              //  trace("Error: " +e);
-           // }
+            //  trace("Error: " +e);
+            // }
 
 
             if (Reflect.isFunction(sourceValue)) {
-                trace('=== DeepCopy - sourcevalue and prop  ' + sourceValue  + '  ' + prop);
-                trace('=== DeepCopy - int ' + i);
+                if (Tools.isDebug) {
+                    trace('=== DeepCopy - sourcevalue and prop  ' + sourceValue + '  ' + prop);
+                    trace('=== DeepCopy - int ' + i);
+                }
                 continue;
             }
-			trace('DeepCopy - sourcevalue and prop ' + sourceValue  + '  ' + prop);
-            trace('DeepCopy  ' + i);
-            trace('DeepCopy type ' + Type.typeof(sourceValue));
-            trace('DeepCopy -' + sourceValue + '>>>>>PROP>>>> ' + prop);
-            trace('________________');
-            try{
-                //Reflect.setField(destination, prop, Reflect.copy(sourceValue)); 
-                Reflect.setField(destination, prop, sourceValue); 
-                }catch(e:String){
-                trace("Error: " +e);
+            if (Tools.isDebug) {
+                trace('DeepCopy - sourcevalue and prop ' + sourceValue + '  ' + prop);
+                trace('DeepCopy  ' + i);
+                trace('DeepCopy type ' + Type.typeof(sourceValue));
+                trace('DeepCopy -' + sourceValue + '>>>>>PROP>>>> ' + prop);
+                trace('________________');
             }
-					
+            try {
+                //Reflect.setField(destination, prop, Reflect.copy(sourceValue)); 
+                Reflect.setField(destination, prop, sourceValue);
+            } catch (e:String) {
+                trace("Error: " + e);
+            }
+
         }
     }
-	
-	
-	
-	// FPS
+
+
+    // FPS
     public static var fpsRange:Float = 60.0;
     public static var previousFramesDuration:Array<Float> = [];
     public static var fps:Float = 60.0;
@@ -233,5 +238,5 @@ class Tools {
             fps = 1000.0 / (sum / (length - 1));
         }
     }
-	
+
 }

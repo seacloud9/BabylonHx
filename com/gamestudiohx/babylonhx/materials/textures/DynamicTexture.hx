@@ -10,43 +10,43 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 
 
-class DynamicTexture extends Texture{
-        private var _generateMipMaps:Bool;
-        //private var _context : CanvasRenderingContext2D;
+class DynamicTexture extends Texture {
+    private var _generateMipMaps:Bool;
+    //private var _context : CanvasRenderingContext2D;
 
-        public function new(name:String, options:Dynamic, scene:Scene, generateMipMaps:Bool) {
-            super(null, scene, !generateMipMaps);
+    public function new(name:String, options:Dynamic, scene:Scene, generateMipMaps:Bool) {
+        super(null, scene, !generateMipMaps);
 
-            this.name = name;
-            this.wrapU = Texture.CLAMP_ADDRESSMODE;
-            this.wrapV = Texture.CLAMP_ADDRESSMODE;
-            this._generateMipMaps = generateMipMaps;
+        this.name = name;
+        this.wrapU = Texture.CLAMP_ADDRESSMODE;
+        this.wrapV = Texture.CLAMP_ADDRESSMODE;
+        this._generateMipMaps = generateMipMaps;
 
-            if (options.getContext) {
-                this._canvas = options;
+        if (options.getContext) {
+            this._canvas = options;
+            this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
+        } else {
+            this._canvas = new BitmapData(options.width, options.height, false, 0xFFFFFFFF);
+            if (options.width != null) {
                 this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
             } else {
-                this._canvas = new BitmapData(options.width, options.height, false, 0xFFFFFFFF);
-                if (options.width != null) {
-                    this._texture = scene.getEngine().createDynamicTexture(options.width, options.height, generateMipMaps);
-                } else {
-                    this._texture = scene.getEngine().createDynamicTexture(options, options, generateMipMaps);
-                }
+                this._texture = scene.getEngine().createDynamicTexture(options, options, generateMipMaps);
             }
-
-            var textureSize = this.getSize();
         }
 
+        var textureSize = this.getSize();
+    }
 
-        public function getCanvas():BitmapData{
-            return this._canvas;
-        }
 
-        override public function update(invertY:Int = 1):Void{
-            this.getScene().getEngine().updateDynamicTexture(this._texture, this._canvas, invertY);
-        }
+    public function getCanvas():BitmapData {
+        return this._canvas;
+    }
 
-        /* todo: create drawText
+    override public function update(invertY:Int = 1):Void {
+        this.getScene().getEngine().updateDynamicTexture(this._texture, this._canvas, invertY);
+    }
+
+    /* todo: create drawText
         public function drawText(text:String,  x:number,y:Float, font:String, color:String, clearColor:String, ?invertY:boolean ) {
             var size = this.getSize();
             if (clearColor) {
@@ -67,19 +67,19 @@ class DynamicTexture extends Texture{
         }
         */
 
-        override public function clone():Texture {
-            var textureSize = this.getSize();
-            var newTexture = new DynamicTexture(this.name, textureSize, this.getScene(), this._generateMipMaps);
+    override public function clone():Texture {
+        var textureSize = this.getSize();
+        var newTexture = new DynamicTexture(this.name, textureSize, this.getScene(), this._generateMipMaps);
 
-            // Base texture
-            newTexture.hasAlpha = this.hasAlpha;
-            newTexture.level = this.level;
+        // Base texture
+        newTexture.hasAlpha = this.hasAlpha;
+        newTexture.level = this.level;
 
-            // Dynamic Texture
-            newTexture.wrapU = this.wrapU;
-            newTexture.wrapV = this.wrapV;
+        // Dynamic Texture
+        newTexture.wrapU = this.wrapU;
+        newTexture.wrapV = this.wrapV;
 
-            return newTexture;
-        }
+        return newTexture;
     }
+}
  

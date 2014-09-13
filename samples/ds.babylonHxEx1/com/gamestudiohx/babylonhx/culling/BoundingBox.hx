@@ -11,24 +11,24 @@ import com.gamestudiohx.babylonhx.tools.math.Plane;
  */
 
 class BoundingBox {
-	
-	public var minimum:Vector3;
-	public var maximum:Vector3;
-	public var vectors:Array<Vector3>;
-	public var vectorsWorld:Array<Vector3>;
-	
-	public var center:Vector3;
-	public var _extends:Vector3;
-	public var directions:Array<Vector3>;
-	
-	public var minimumWorld:Vector3;
-	public var maximumWorld:Vector3;
-	
 
-	public function new(minimum:Vector3, maximum:Vector3) {
-		this.minimum = minimum;
+    public var minimum:Vector3;
+    public var maximum:Vector3;
+    public var vectors:Array<Vector3>;
+    public var vectorsWorld:Array<Vector3>;
+
+    public var center:Vector3;
+    public var _extends:Vector3;
+    public var directions:Array<Vector3>;
+
+    public var minimumWorld:Vector3;
+    public var maximumWorld:Vector3;
+
+
+    public function new(minimum:Vector3, maximum:Vector3) {
+        this.minimum = minimum;
         this.maximum = maximum;
-        
+
         // Bounding vectors
         this.vectors = [];
 
@@ -67,9 +67,9 @@ class BoundingBox {
         this.maximumWorld = Vector3.Zero();
 
         this._update(Matrix.Identity());
-	}
-	
-	public function _update(world:Matrix) {
+    }
+
+    public function _update(world:Matrix) {
         Vector3.FromFloatsToRef(Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, this.minimumWorld);
         Vector3.FromFloatsToRef(Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, this.maximumWorld);
 
@@ -100,12 +100,12 @@ class BoundingBox {
         Vector3.FromArrayToRef(world.m, 4, this.directions[1]);
         Vector3.FromArrayToRef(world.m, 8, this.directions[2]);
     }
-	
-	public function _isInFrustrum(frustumPlanes:Array<Plane>):Bool { 
+
+    public function _isInFrustrum(frustumPlanes:Array<Plane>):Bool {
         return BoundingBox.IsInFrustum(this.vectorsWorld, frustumPlanes);
     }
-	
-	public function intersectsPoint(point:Vector3):Bool {
+
+    public function intersectsPoint(point:Vector3):Bool {
         if (this.maximumWorld.x < point.x || this.minimumWorld.x > point.x)
             return false;
 
@@ -117,14 +117,14 @@ class BoundingBox {
 
         return true;
     }
-	
-	public function intersectsSphere(sphere:BoundingSphere):Bool {
+
+    public function intersectsSphere(sphere:BoundingSphere):Bool {
         var vector = Vector3.Clamp(sphere.centerWorld, this.minimumWorld, this.maximumWorld);
         var num = Vector3.DistanceSquared(sphere.centerWorld, vector);
         return (num <= (sphere.radiusWorld * sphere.radiusWorld));
     }
-	
-	public function intersectsMinMax(min:Vector3, max:Vector3):Bool {
+
+    public function intersectsMinMax(min:Vector3, max:Vector3):Bool {
         if (this.maximumWorld.x < min.x || this.minimumWorld.x > max.x)
             return false;
 
@@ -136,8 +136,8 @@ class BoundingBox {
 
         return true;
     }
-	
-	public static function intersects(box0:BoundingBox, box1:BoundingBox):Bool {
+
+    public static function intersects(box0:BoundingBox, box1:BoundingBox):Bool {
         if (box0.maximumWorld.x < box1.minimumWorld.x || box0.minimumWorld.x > box1.maximumWorld.x)
             return false;
 
@@ -149,8 +149,8 @@ class BoundingBox {
 
         return true;
     }
-	
-	public static function IsInFrustum(boundingVectors:Array<Vector3>, frustumPlanes:Array<Plane>):Bool {
+
+    public static function IsInFrustum(boundingVectors:Array<Vector3>, frustumPlanes:Array<Plane>):Bool {
         for (p in 0...6) {
             var inCount:Int = 8;
 
@@ -166,5 +166,5 @@ class BoundingBox {
         }
         return true;
     }
-	
+
 }

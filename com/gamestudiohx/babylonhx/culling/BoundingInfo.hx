@@ -12,33 +12,32 @@ import com.gamestudiohx.babylonhx.tools.math.Plane;
  */
 
 typedef BoundingInfoMinMax = {
-	min: Float,
-	max: Float
+min:Float, max:Float
 }
 
 class BoundingInfo {
-	public var minimum:Vector3;
+    public var minimum:Vector3;
     public var maximum:Vector3;
-	public var boundingBox:BoundingBox;
-	public var boundingSphere:BoundingSphere;
+    public var boundingBox:BoundingBox;
+    public var boundingSphere:BoundingSphere;
 
-	public function new(minimum:Vector3, maximum:Vector3) {
+    public function new(minimum:Vector3, maximum:Vector3) {
         this.minimum = minimum;
         this.maximum = maximum;
-		this.boundingBox = new BoundingBox(minimum, maximum);
+        this.boundingBox = new BoundingBox(minimum, maximum);
         this.boundingSphere = new BoundingSphere(minimum, maximum);
-	}
-	
-	public function _update(world:Matrix, scale:Float) {
+    }
+
+    public function _update(world:Matrix, scale:Float) {
         this.boundingBox._update(world);
         this.boundingSphere._update(world, scale);
     }
-	
-	function extentsOverlap(min0:Float, max0:Float, min1:Float, max1:Float):Bool {
+
+    function extentsOverlap(min0:Float, max0:Float, min1:Float, max1:Float):Bool {
         return !(min0 > max1 || min1 > max0);
     }
-	
-	function computeBoxExtents(axis:Vector3, box:BoundingBox):BoundingInfoMinMax {
+
+    function computeBoxExtents(axis:Vector3, box:BoundingBox):BoundingInfoMinMax {
         var p = Vector3.Dot(box.center, axis);
 
         var r0 = Math.abs(Vector3.Dot(box.directions[0], axis)) * box._extends.x;
@@ -47,30 +46,29 @@ class BoundingInfo {
 
         var r = r0 + r1 + r2;
         return {
-            min: p - r,
-            max: p + r
+        min: p - r, max: p + r
         };
     }
-	
-	function axisOverlap(axis:Vector3, box0:BoundingBox, box1:BoundingBox):Bool {
+
+    function axisOverlap(axis:Vector3, box0:BoundingBox, box1:BoundingBox):Bool {
         var result0 = computeBoxExtents(axis, box0);
         var result1 = computeBoxExtents(axis, box1);
 
         return extentsOverlap(result0.min, result0.max, result1.min, result1.max);
     }
-	
-	public function isInFrustrum(frustumPlanes:Array<Plane>):Bool {
+
+    public function isInFrustrum(frustumPlanes:Array<Plane>):Bool {
         if (!this.boundingSphere.isInFrustrum(frustumPlanes))
             return false;
 
         return this.boundingBox.isInFrustrum(frustumPlanes);
     }
-	
-	public function _checkCollision(collider:Collider):Bool {
+
+    public function _checkCollision(collider:Collider):Bool {
         return collider._canDoCollision(this.boundingSphere.centerWorld, this.boundingSphere.radiusWorld, this.boundingBox.minimumWorld, this.boundingBox.maximumWorld);
     }
-	
-	public function intersectsPoint(point:Vector3):Bool {
+
+    public function intersectsPoint(point:Vector3):Bool {
         if (this.boundingSphere.centerWorld == null) {
             return false;
         }
@@ -86,16 +84,16 @@ class BoundingInfo {
         return true;
     }
 
-    public function isInFrustum(frustumPlanes: Array<Plane>):Bool {
-            if (!this.boundingSphere.isInFrustrum(frustumPlanes)){
-                return false;
-            }
-                
+    public function isInFrustum(frustumPlanes:Array<Plane>):Bool {
+        if (!this.boundingSphere.isInFrustrum(frustumPlanes)) {
+            return false;
+        }
 
-            return this.boundingBox.isInFrustrum(frustumPlanes);
+
+        return this.boundingBox.isInFrustrum(frustumPlanes);
     }
-	
-	public function intersects(boundingInfo:BoundingInfo, precise:Bool) {
+
+    public function intersects(boundingInfo:BoundingInfo, precise:Bool) {
         if (this.boundingSphere.centerWorld == null || boundingInfo.boundingSphere.centerWorld == null) {
             return false;
         }
@@ -133,5 +131,5 @@ class BoundingInfo {
 
         return true;
     }
-	
+
 }

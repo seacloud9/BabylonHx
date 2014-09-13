@@ -11,8 +11,8 @@ import com.gamestudiohx.babylonhx.cameras.Camera;
 
 class BlackAndWhitePostProcess extends PostProcess {
 
-	public function new(name:String, ratio:Float, camera:Camera, samplingMode:Int) {
-		super(name, "blackAndWhite", null, null, ratio, camera, samplingMode);
-	}
-	
+    public function new(name:String, ratio:Float, camera:Camera, samplingMode:Int) {
+        super(name, "blackAndWhite", null, null, ratio, camera, samplingMode);
+    }
+
 }

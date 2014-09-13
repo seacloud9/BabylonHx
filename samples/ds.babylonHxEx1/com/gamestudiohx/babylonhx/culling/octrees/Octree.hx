@@ -12,32 +12,32 @@ import com.gamestudiohx.babylonhx.tools.SmartArray;
  */
 
 class Octree {
-	
-	public var blocks:Array<OctreeBlock>;
-	public var _maxBlockCapacity:Int;
-	public var _selection:Array<OctreeBlock>;// SmartArray;			// TODO: check what this could be ?? Array<OctreeBlock>
-	
 
-	public function new(maxBlockCapacity:Int = 64) {
-		this.blocks = [];
+    public var blocks:Array<OctreeBlock>;
+    public var _maxBlockCapacity:Int;
+    public var _selection:Array<OctreeBlock>;// SmartArray;			// TODO: check what this could be ?? Array<OctreeBlock>
+
+
+    public function new(maxBlockCapacity:Int = 64) {
+        this.blocks = [];
         this._maxBlockCapacity = maxBlockCapacity;
         this._selection = [];// new SmartArray(); // (256);
-	}
-	
-	public function update(worldMin:Vector3, worldMax:Vector3, meshes:Array<Mesh>) {
+    }
+
+    public function update(worldMin:Vector3, worldMax:Vector3, meshes:Array<Mesh>) {
         _CreateBlocks(worldMin, worldMax, meshes, this._maxBlockCapacity, this);
     }
-	
-	public function addMesh(mesh:Mesh) {
+
+    public function addMesh(mesh:Mesh) {
         for (index in 0...this.blocks.length) {
             var block:OctreeBlock = this.blocks[index];
             block.addMesh(mesh);
         }
     }
-	
-	public function select(frustumPlanes:Array<Plane>):Array<OctreeBlock> { //SmartArray {
+
+    public function select(frustumPlanes:Array<Plane>):Array<OctreeBlock> { //SmartArray {
         // TODO - this should be SmartArray
-		//this._selection.reset();
+        //this._selection.reset();
 
         for (index in 0...this.blocks.length) {
             var block:OctreeBlock = this.blocks[index];
@@ -46,8 +46,8 @@ class Octree {
 
         return this._selection;
     }
-	
-	public static function _CreateBlocks(worldMin:Vector3, worldMax:Vector3, meshes:Array<Mesh>, maxBlockCapacity:Int, target:Dynamic) {
+
+    public static function _CreateBlocks(worldMin:Vector3, worldMax:Vector3, meshes:Array<Mesh>, maxBlockCapacity:Int, target:Dynamic) {
         target.blocks = [];
         var blockSize = new Vector3((worldMax.x - worldMin.x) / 2, (worldMax.y - worldMin.y) / 2, (worldMax.z - worldMin.z) / 2);
 
@@ -65,5 +65,5 @@ class Octree {
             }
         }
     }
-	
+
 }

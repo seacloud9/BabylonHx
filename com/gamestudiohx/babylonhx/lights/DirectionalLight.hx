@@ -13,25 +13,25 @@ import com.gamestudiohx.babylonhx.tools.math.Vector3;
  */
 
 class DirectionalLight extends Light {
-	
-	public var direction:Vector3;
-	
-	public var _worldMatrix:Matrix;
-	public var _transformedPosition:Vector3;
-	public var _transformedDirection:Vector3;
-	
 
-	public function new(name:String, direction:Vector3, scene:Scene) {
-		super(name, scene);
-		
-		this.position = direction.scale(-1);
+    public var direction:Vector3;
+
+    public var _worldMatrix:Matrix;
+    public var _transformedPosition:Vector3;
+    public var _transformedDirection:Vector3;
+
+
+    public function new(name:String, direction:Vector3, scene:Scene) {
+        super(name, scene);
+
+        this.position = direction.scale(-1);
         this.direction = direction;
         this.diffuse = new Color3(1.0, 1.0, 1.0);
         this.specular = new Color3(1.0, 1.0, 1.0);
-	}
-	
-	inline public function _computeTransformedPosition():Bool {
-		var ret = false;
+    }
+
+    inline public function _computeTransformedPosition():Bool {
+        var ret = false;
         if (this.parent != null && this.parent.getWorldMatrix() != null) {
             if (this._transformedPosition == null) {
                 this._transformedPosition = Vector3.Zero();
@@ -43,21 +43,21 @@ class DirectionalLight extends Light {
 
         return ret;
     }
-	
-	override inline public function transferToEffect(effect:Effect, positionUniformName:String = "", directionUniformName:String = "") {
+
+    override inline public function transferToEffect(effect:Effect, positionUniformName:String = "", directionUniformName:String = "") {
         if (this.parent != null && this.parent.getWorldMatrix() != null) {
             if (this._transformedDirection == null) {
                 this._transformedDirection = Vector3.Zero();
             }
 
-            Vector3.TransformNormalToRef(this.direction, this.parent.getWorldMatrix(), this._transformedDirection);			
+            Vector3.TransformNormalToRef(this.direction, this.parent.getWorldMatrix(), this._transformedDirection);
             effect.setFloat4(directionUniformName, this._transformedDirection.x, this._transformedDirection.y, this._transformedDirection.z, 1);
         } else {
-			effect.setFloat4(directionUniformName, this.direction.x, this.direction.y, this.direction.z, 1);
-		}
+            effect.setFloat4(directionUniformName, this.direction.x, this.direction.y, this.direction.z, 1);
+        }
     }
-	
-	override inline public function _getWorldMatrix():Matrix {
+
+    override inline public function _getWorldMatrix():Matrix {
         if (this._worldMatrix == null) {
             this._worldMatrix = Matrix.Identity();
         }
@@ -66,5 +66,5 @@ class DirectionalLight extends Light {
 
         return this._worldMatrix;
     }
-	
+
 }

@@ -44,8 +44,10 @@ Visit http://babylonjs.com/ for more info about the engine.
 
 **TODO:**
 
-  * Fix all mesh classes starting with AbstractMesh
-  * Remove debugging info / trace
+  * Fix computeWorldMatrix seems to affect parent child relationships 
+  * Fix issue with textures for some reason most examples require a texture to properly display in native devices
+  * Fix issue html5 postprocessing and lights 
+  * Create a Blender3D plugin to autogenerate a Babylon file export and have a viewer via Blender3d.
   * Speedup the code and Optimize 
   * Add the vertex class aka babylon.csg.ts
   * Instanced Material Rendering

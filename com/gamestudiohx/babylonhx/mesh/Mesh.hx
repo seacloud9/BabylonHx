@@ -23,442 +23,435 @@ import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 
 
-    class InstancesBatch {
-        public var mustReturn:Bool = false;
-        public var visibleInstances : Array<InstancedMesh>;
-        public var renderSelf:Bool = true;
-        public function new(){}
+class InstancesBatch {
+    public var mustReturn:Bool = false;
+    public var visibleInstances:Array<InstancedMesh>;
+    public var renderSelf:Bool = true;
+
+    public function new() {}
+}
+
+class Mesh extends AbstractMesh implements IGetSetVerticesData {
+    // Members
+    public var delayLoadState:Int = Engine.DELAYLOADSTATE_NONE;
+    public var instances = new Array<InstancedMesh>();
+    public var delayLoadingFile:String;
+
+    //
+    // public var Private
+    public var _geometry:Geometry;
+    private var _onBeforeRenderCallbacks = new Array<Dynamic>();
+    //private var _delayInfo:Dynamic; //ANY
+    //private var _delayLoadingFunction: (any, Mesh) => void;
+    private var _delayLoadingFunction:String;
+    public var _visibleInstances:Dynamic;
+    public var _renderIdForInstances:Int = -1;
+    private var _preActivateId: Int;
+    private var _batchCache:InstancesBatch = new InstancesBatch();
+    private var _worldMatricesInstancesBuffer:BabylonGLBuffer;
+    private var _worldMatricesInstancesArray:Float32Array;
+    private var _instancesBufferSize:Int = 32 * 16 * 4; // let's start with a maximum of 32 instances
+
+    public function new(name:String, scene:Scene) {
+        super(name, scene);
     }
 
-    class Mesh extends AbstractMesh implements IGetSetVerticesData {
-        // Members
-        public var delayLoadState:Int = Engine.DELAYLOADSTATE_NONE;
-        public var instances = new Array<InstancedMesh>();
-        public var delayLoadingFile : String;
-
-        //
-        // public var Private
-        public var _geometry : Geometry;
-        private var _onBeforeRenderCallbacks = new Array<Dynamic>();
-        //private var _delayInfo:Dynamic; //ANY
-        //private var _delayLoadingFunction: (any, Mesh) => void;
-        private var _delayLoadingFunction:String;
-        public var _visibleInstances : Dynamic;
-        public var _renderIdForInstances:Int = -1;
-        private var _batchCache:InstancesBatch = new InstancesBatch();
-        private var _worldMatricesInstancesBuffer : BabylonGLBuffer;
-        private var _worldMatricesInstancesArray : Float32Array;
-        private var _instancesBufferSize:Int = 32 * 16 * 4; // let's start with a maximum of 32 instances
-
-        public function new(name:String, scene:Scene ) {
-            super(name, scene);
+    override function getTotalVertices():Int {
+        if (this._geometry == null) {
+            return 0;
         }
+        return this._geometry.getTotalVertices();
+    }
 
-        override function getTotalVertices() :Int {
-            if (this._geometry == null) {
-                return 0;
+    override function getVerticesData(kind:String):Array<Float> {
+        if (this._geometry == null) {
+            return null;
+        }
+        return this._geometry.getVerticesData(kind);
+    }
+
+    public function getVertexBuffer(kind):VertexBuffer {
+        if (this._geometry == null) {
+            return null;
+        }
+        return this._geometry.getVertexBuffer(kind);
+    }
+
+    override function isVerticesDataPresent(kind:String):Bool {
+        if (this._geometry == null) {
+            if (this._delayInfo.length > 0) {
+                return this._delayInfo.indexOf(kind) != -1;
             }
-            return this._geometry.getTotalVertices();
+            return false;
         }
+        return this._geometry.isVerticesDataPresent(kind);
+    }
 
-        override function getVerticesData(kind:String ) : Array<Float> {
-            if (this._geometry == null) {
-                return null;
-            }
-            return this._geometry.getVerticesData(kind);
-        }
-
-        public function getVertexBuffer(kind) : VertexBuffer {
-            if (this._geometry == null) {
-                return null;
-            }
-            return this._geometry.getVertexBuffer(kind);
-        }
-
-        override function isVerticesDataPresent(kind:String ) : Bool {
-            if (this._geometry == null) {
-                if (this._delayInfo.length > 0) {
-                    return this._delayInfo.indexOf(kind) != -1;
-                }
-                return false;
-            }
-            return this._geometry.isVerticesDataPresent(kind);
-        }
-
-        public function getVerticesDataKinds() : Array<String> {
-            if (this._geometry == null) {
-                var result = new Array<String>();
-                if (this._delayInfo.length > 0) {
-                    // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-                    //  for (var kind in this._delayInfo)
-                    for(kind in this._delayInfo) {
-                        result.push(kind);
+    public function getVerticesDataKinds():Array<String> {
+        if (this._geometry == null) {
+            var result = new Array<String>();
+            if (this._delayInfo.length > 0) {
+                // haxe does not support for loops with C/JS syntaxt ... unfolding :
+                //  for (var kind in this._delayInfo)
+                for (kind in this._delayInfo) {
+                    result.push(kind);
                 }
 
-                }
-                return result;
             }
-            return this._geometry.getVerticesDataKinds();
+            return result;
         }
+        return this._geometry.getVerticesDataKinds();
+    }
 
-        public function getTotalIndices() : Int {
-            if (this._geometry == null) {
-                return 0;
-            }
-            return this._geometry.getTotalIndices();
+    public function getTotalIndices():Int {
+        if (this._geometry == null) {
+            return 0;
         }
+        return this._geometry.getTotalIndices();
+    }
 
-        override function getIndices() :Array<Int> {
-            if (this._geometry == null) {
-                return new Array<Int>();
-            }
-            return this._geometry.getIndices();
+    override function getIndices():Array<Int> {
+        if (this._geometry == null) {
+            return new Array<Int>();
         }
+        return this._geometry.getIndices();
+    }
 
-        override function isReady() : Bool {
-            if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
-                return false;
-            }
-            return super.isReady();
+    override function isReady():Bool {
+        if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
+            return false;
         }
+        return super.isReady();
+    }
 
-        /*
+    /*
         public function isDisposed() : Bool {
             return this._isDisposed;
         }*/
 
-        // Methods
+    // Methods
 
-        override function _preActivate() : Void {
-            this._visibleInstances = null;
+    override function _preActivate():Void {
+        var sceneRenderId = this.getScene().getRenderId();
+        if (this._preActivateId == sceneRenderId) {
+            return;
         }
 
-        public function _registerInstanceForRenderId(instance:InstancedMesh, renderId:Int ) {
-            if (this._visibleInstances != null) {
-                this._visibleInstances = {};
-                this._visibleInstances.defaultRenderId = renderId;
-                this._visibleInstances.selfDefaultRenderId = this._renderId;
-            }
+        this._preActivateId = sceneRenderId;
 
-            if (this._visibleInstances[renderId] == null) {
-                this._visibleInstances[renderId] = new Array<InstancedMesh>();
-            }
+        this._visibleInstances = null;
+    }
 
-            this._visibleInstances[renderId].push(instance);
+    public function _registerInstanceForRenderId(instance:InstancedMesh, renderId:Int) {
+        if (this._visibleInstances != null) {
+            this._visibleInstances = {};
+            this._visibleInstances.defaultRenderId = renderId;
+            this._visibleInstances.selfDefaultRenderId = this._renderId;
         }
 
-        public function refreshBoundingInfo() : Void {
-            var data = this.getVerticesData(VertexBuffer.PositionKind);
-
-            if (data.length > 0) {
-                var extend = Tools.ExtractMinAndMax(data, 0, this.getTotalVertices());
-                this._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
-            }
-
-            if (this.subMeshes.length > 0) {
-                // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-                //  for (var index = 0; index < this.subMeshes.length; index++)
-                var index = 0;
-                while( index < this.subMeshes.length)  {
-                    this.subMeshes[index].refreshBoundingInfo();
-                 index++;
-
-                }
-            }
-
-            this._updateBoundingInfo();
+        if (this._visibleInstances[renderId] == null) {
+            this._visibleInstances[renderId] = new Array<InstancedMesh>();
         }
 
-        public function _createGlobalSubMesh() : SubMesh {
-            trace('_createGlobalSubMesh');
-            var totalVertices = this.getTotalVertices();
-            //todo
-            // 
-            //trace('totalVertices >> ' + totalVertices);
-            //trace('getIndices >> ' + this.getIndices());
-            if (totalVertices == 0 || this.getIndices().length == 0) {
-                return null;
-            }
+        this._visibleInstances[renderId].push(instance);
+    }
 
-            this.releaseSubMeshes();
-            return new SubMesh(0, 0, totalVertices, 0, this.getTotalIndices(), this);
+    public function refreshBoundingInfo():Void {
+        var data = this.getVerticesData(VertexBuffer.PositionKind);
+
+        if (data.length > 0) {
+            var extend = Tools.ExtractMinAndMax(data, 0, this.getTotalVertices());
+            this._boundingInfo = new BoundingInfo(extend.minimum, extend.maximum);
         }
 
-        public function subdivide(count:Float ) : Void {
-            if (count < 1) {
-                return;
-            }
-
-            var totalIndices = this.getTotalIndices();
-            var subdivisionSize = Std.int(totalIndices / count) | 0;
-            var offset = 0;
-
-            // Ensure that subdivisionSize is a multiple of 3
-            while (subdivisionSize % 3 != 0) {
-                subdivisionSize++;
-            }
-
-            this.releaseSubMeshes();
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < count; index++)
+        if (this.subMeshes.length > 0) {
+            // haxe does not support for loops with C/JS syntaxt ... unfolding :
+            //  for (var index = 0; index < this.subMeshes.length; index++)
             var index = 0;
-            while( index < count)  {
-                if (offset >= totalIndices) {
-                    break;
-                }
+            while (index < this.subMeshes.length) {
+                this.subMeshes[index].refreshBoundingInfo();
+                index++;
 
-                SubMesh.CreateFromIndices(0, offset, Std.int(Math.min(subdivisionSize, totalIndices - offset)), this);
-
-                offset += subdivisionSize;
-             index++;
-
-            }
-
-            this.synchronizeInstances();
-        }
-
-        public function setVerticesData(kind:Dynamic, data:Dynamic, ?updatable:Bool ) : Void {
-            if (Std.is(kind, Array)) {
-                var temp = data;
-                data = kind;
-                kind = temp;
-
-                trace("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).");
-            }
-
-            if (this._geometry == null) {
-                var vertexData = new VertexData();
-                vertexData.set(data, kind);
-
-                var scene = this.getScene();
-                //new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
-                this._geometry = new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
-            }
-            else {
-                //trace('mac support');
-                this._geometry.setVerticesData(kind, data, updatable);
             }
         }
 
-        public function updateVerticesData(kind:String, data:Array<Float>, ?updateExtends:Bool, ?makeItUnique:Bool ) : Void {
-            if (this._geometry == null) {
-                return;
-            }
-            if (!makeItUnique) {
-                this._geometry.updateVerticesData(kind, data, updateExtends);
-            }
-            else {
-                this.makeGeometryUnique();
-                this.updateVerticesData(kind, data, updateExtends, false);
-            }
+        this._updateBoundingInfo();
+    }
+
+    public function _createGlobalSubMesh():SubMesh {
+        var totalVertices = this.getTotalVertices();
+        //todo
+        //
+        if (totalVertices == 0 || this.getIndices().length == 0) {
+            return null;
         }
 
-        public function makeGeometryUnique() {
-            if (this._geometry == null) {
-                return;
-            }
-            var geometry = this._geometry.copy(Geometry.RandomId());
-            geometry.applyToMesh(this);
+        this.releaseSubMeshes();
+        return new SubMesh(0, 0, totalVertices, 0, this.getTotalIndices(), this);
+    }
+
+    public function subdivide(count:Float):Void {
+        if (count < 1) {
+            return;
         }
 
-        public function setIndices(indices:Array<Int> ) : Void {
-            if (this._geometry == null) {
-                var vertexData = new VertexData();
-                vertexData.indices = indices;
-                var scene = this.getScene();
+        var totalIndices = this.getTotalIndices();
+        var subdivisionSize = Std.int(totalIndices / count) | 0;
+        var offset = 0;
 
-                new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, false, this);
-            }
-            else {
-                this._geometry.setIndices(indices);
-            }
+        // Ensure that subdivisionSize is a multiple of 3
+        while (subdivisionSize % 3 != 0) {
+            subdivisionSize++;
         }
 
-        public function _bind(subMesh:SubMesh, effect:Effect, ?wireframe:Bool ) : Void {
-            
-            var engine = this.getScene().getEngine();
-
-            // Wireframe
-            var indexToBind = this._geometry.getIndexBuffer();
-
-            if (wireframe) {
-                indexToBind = subMesh.getLinesIndexBuffer(this.getIndices(), engine);
+        this.releaseSubMeshes();
+        var index = 0;
+        while (index < count) {
+            if (offset >= totalIndices) {
+                break;
             }
 
-            // VBOs
-            engine.bindMultiBuffers(this._geometry.getVertexBuffers(), indexToBind, effect);
+            SubMesh.CreateFromIndices(0, offset, Std.int(Math.min(subdivisionSize, totalIndices - offset)), this);
+
+            offset += subdivisionSize;
+            index++;
+
         }
 
-        public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Int ) : Void {
-            // todo double check this call breaks mac issue with this._geometry.getIndexBuffer this._geometry.getIndexBuffer() == null
-            //trace('mesh _draw: ' + (this._geometry.getIndexBuffer() == 0));
-            if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == null) {
-                return;
-            }
+        this.synchronizeInstances();
+    }
 
-            var engine = this.getScene().getEngine();
+    public function setVerticesData(kind:Dynamic, data:Dynamic, ?updatable:Bool):Void {
+        if (Std.is(kind, Array)) {
+            var temp = data;
+            data = kind;
+            kind = temp;
 
-            // Draw order
-            engine.draw(useTriangles, useTriangles ? subMesh.indexStart : 0, useTriangles ? subMesh.indexCount : subMesh.linesIndexCount, instancesCount);
+            trace("Deprecated usage of setVerticesData detected (since v1.12). Current signature is setVerticesData(kind, data, updatable).");
         }
 
-        public function registerBeforeRender(func:Dynamic) : Void {
-            this._onBeforeRenderCallbacks.push(func);
-        }
+        if (this._geometry == null) {
+            var vertexData = new VertexData();
+            vertexData.set(data, kind);
 
-        public function unregisterBeforeRender(func:Dynamic) : Void {
-            var index = this._onBeforeRenderCallbacks.indexOf(func);
-
-            if (index > -1) {
-                this._onBeforeRenderCallbacks.splice(index, 1);
-            }
-        }
-
-        public function _getInstancesRenderList() : InstancesBatch {
             var scene = this.getScene();
-            this._batchCache.mustReturn = false;
-            this._batchCache.renderSelf = true;
-            this._batchCache.visibleInstances = null;
+            //new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
+            this._geometry = new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, updatable, this);
+        } else {
+            this._geometry.setVerticesData(kind, data, updatable);
+        }
+    }
 
-            if (this._visibleInstances) {
-                var currentRenderId = scene.getRenderId();
-                this._batchCache.visibleInstances = this._visibleInstances[currentRenderId];
-                var selfRenderId = this._renderId;
+    public function updateVerticesData(kind:String, data:Array<Float>, ?updateExtends:Bool, ?makeItUnique:Bool):Void {
+        if (this._geometry == null) {
+            return;
+        }
+        if (!makeItUnique) {
+            this._geometry.updateVerticesData(kind, data, updateExtends);
+        } else {
+            this.makeGeometryUnique();
+            this.updateVerticesData(kind, data, updateExtends, false);
+        }
+    }
 
-                if (this._batchCache.visibleInstances == null && this._visibleInstances.defaultRenderId) {
-                    this._batchCache.visibleInstances = this._visibleInstances[this._visibleInstances.defaultRenderId];
-                    currentRenderId = this._visibleInstances.defaultRenderId;
-                    selfRenderId = this._visibleInstances.selfDefaultRenderId;
-                }
+    public function makeGeometryUnique() {
+        if (this._geometry == null) {
+            return;
+        }
+        var geometry = this._geometry.copy(Geometry.RandomId());
+        geometry.applyToMesh(this);
+    }
 
-                if (this._batchCache.visibleInstances != null && this._batchCache.visibleInstances.length > 0) {
-                    if (this._renderIdForInstances == currentRenderId) {
-                        this._batchCache.mustReturn = true;
-                        return this._batchCache;
-                    }
+    public function setIndices(indices:Array<Int>):Void {
+        if (this._geometry == null) {
+            var vertexData = new VertexData();
+            vertexData.indices = indices;
+            var scene = this.getScene();
 
-                    if (currentRenderId != selfRenderId) {
-                        this._batchCache.renderSelf = false;
-                    }
+            new Geometry(Geometry.RandomId(), scene.getEngine(), vertexData, false, this);
+        } else {
+            this._geometry.setIndices(indices);
+        }
+    }
 
-                }
-                this._renderIdForInstances = currentRenderId;
-            }
+    public function _bind(subMesh:SubMesh, effect:Effect, ?wireframe:Bool):Void {
 
-            return this._batchCache;
+        var engine = this.getScene().getEngine();
+
+        // Wireframe
+        var indexToBind = this._geometry.getIndexBuffer();
+
+        if (wireframe) {
+            indexToBind = subMesh.getLinesIndexBuffer(this.getIndices(), engine);
         }
 
-        public function _renderWithInstances(subMesh:SubMesh, wireFrame:Bool, batch:InstancesBatch, effect:Effect, engine:Engine ) : Void {
-            var matricesCount = this.instances.length + 1;
-            var bufferSize = matricesCount * 16 * 4;
+        // VBOs
+        engine.bindMultiBuffers(this._geometry.getVertexBuffers(), indexToBind, effect);
+    }
 
-            while (this._instancesBufferSize < bufferSize) {
-                this._instancesBufferSize *= 2;
+    public function _draw(subMesh:SubMesh, useTriangles:Bool, ?instancesCount:Int):Void {
+        // todo double check this call breaks mac issue with this._geometry.getIndexBuffer this._geometry.getIndexBuffer() == null
+        if (this._geometry == null || Lambda.count(this._geometry.getVertexBuffers()) == 0 || this._geometry.getIndexBuffer() == null) {
+            return;
+        }
+
+        var engine = this.getScene().getEngine();
+
+        // Draw order
+        engine.draw(useTriangles, useTriangles ? subMesh.indexStart : 0, useTriangles ? subMesh.indexCount : subMesh.linesIndexCount, instancesCount);
+    }
+
+    public function registerBeforeRender(func:Dynamic):Void {
+        this._onBeforeRenderCallbacks.push(func);
+    }
+
+    public function unregisterBeforeRender(func:Dynamic):Void {
+        var index = this._onBeforeRenderCallbacks.indexOf(func);
+
+        if (index > -1) {
+            this._onBeforeRenderCallbacks.splice(index, 1);
+        }
+    }
+
+    public function _getInstancesRenderList():InstancesBatch {
+        var scene = this.getScene();
+        this._batchCache.mustReturn = false;
+        this._batchCache.renderSelf = true;
+        this._batchCache.visibleInstances = null;
+
+        if (this._visibleInstances) {
+            var currentRenderId = scene.getRenderId();
+            this._batchCache.visibleInstances = this._visibleInstances[currentRenderId];
+            var selfRenderId = this._renderId;
+
+            if (this._batchCache.visibleInstances == null && this._visibleInstances.defaultRenderId) {
+                this._batchCache.visibleInstances = this._visibleInstances[this._visibleInstances.defaultRenderId];
+                currentRenderId = this._visibleInstances.defaultRenderId;
+                selfRenderId = this._visibleInstances.selfDefaultRenderId;
             }
 
-            if (this._worldMatricesInstancesBuffer == null || this._worldMatricesInstancesBuffer.capacity < this._instancesBufferSize) {
-                if (this._worldMatricesInstancesBuffer != null) {
-                    engine._releaseBuffer(this._worldMatricesInstancesBuffer);
+            if (this._batchCache.visibleInstances != null && this._batchCache.visibleInstances.length > 0) {
+                if (this._renderIdForInstances == currentRenderId) {
+                    this._batchCache.mustReturn = true;
+                    return this._batchCache;
                 }
 
-                this._worldMatricesInstancesBuffer = engine.createDynamicVertexBuffer(this._instancesBufferSize);
-                #if html5 
+                if (currentRenderId != selfRenderId) {
+                    this._batchCache.renderSelf = false;
+                }
+
+            }
+            this._renderIdForInstances = currentRenderId;
+        }
+
+        return this._batchCache;
+    }
+
+    public function _renderWithInstances(subMesh:SubMesh, wireFrame:Bool, batch:InstancesBatch, effect:Effect, engine:Engine):Void {
+        var matricesCount = this.instances.length + 1;
+        var bufferSize = matricesCount * 16 * 4;
+
+        while (this._instancesBufferSize < bufferSize) {
+            this._instancesBufferSize *= 2;
+        }
+
+        if (this._worldMatricesInstancesBuffer == null || this._worldMatricesInstancesBuffer.capacity < this._instancesBufferSize) {
+            if (this._worldMatricesInstancesBuffer != null) {
+                engine._releaseBuffer(this._worldMatricesInstancesBuffer);
+            }
+
+            this._worldMatricesInstancesBuffer = engine.createDynamicVertexBuffer(this._instancesBufferSize);
+            #if html5
                 this._worldMatricesInstancesArray = new Float32Array(cast this._instancesBufferSize / 4); 
                 #else
-                this._worldMatricesInstancesArray = new Float32Array(this._instancesBufferSize / 4);
-                #end 
-                
-            }
+            this._worldMatricesInstancesArray = new Float32Array(this._instancesBufferSize / 4);
+            #end
 
-            var offset = 0;
-            var instancesCount = 0;
-
-            var world = this.getWorldMatrix();
-            if (batch.renderSelf) {
-                world.copyToArray(this._worldMatricesInstancesArray, offset);
-                offset += 16;
-                instancesCount++;
-            }
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var instanceIndex = 0; instanceIndex < batch.visibleInstances.length; instanceIndex++)
-            var instanceIndex = 0;
-            while( instanceIndex < batch.visibleInstances.length)  {
-                var instance = batch.visibleInstances[instanceIndex];
-                instance.getWorldMatrix().copyToArray(this._worldMatricesInstancesArray, offset);
-                offset += 16;
-                instancesCount++;
-             instanceIndex++;
-
-            }
-
-            var offsetLocation0 = effect.getAttributeLocationByName("world0");
-            var offsetLocation1 = effect.getAttributeLocationByName("world1");
-            var offsetLocation2 = effect.getAttributeLocationByName("world2");
-            var offsetLocation3 = effect.getAttributeLocationByName("world3");
-
-            var offsetLocations = [offsetLocation0, offsetLocation1, offsetLocation2, offsetLocation3];
-
-            engine.updateAndBindInstancesBuffer(this._worldMatricesInstancesBuffer, this._worldMatricesInstancesArray, offsetLocations);
-
-            this._draw(subMesh, !wireFrame, instancesCount);
-
-            engine.unBindInstancesBuffer(this._worldMatricesInstancesBuffer, offsetLocations);
         }
 
-        public function render(subMesh:SubMesh ) : Void {
-            var scene = this.getScene();
+        var offset = 0;
+        var instancesCount = 0;
 
-            // Managing instances
-            var batch = this._getInstancesRenderList();
+        var world = this.getWorldMatrix();
+        if (batch.renderSelf) {
+            world.copyToArray(this._worldMatricesInstancesArray, offset);
+            offset += 16;
+            instancesCount++;
+        }
+        var instanceIndex = 0;
+        while (instanceIndex < batch.visibleInstances.length) {
+            var instance = batch.visibleInstances[instanceIndex];
+            instance.getWorldMatrix().copyToArray(this._worldMatricesInstancesArray, offset);
+            offset += 16;
+            instancesCount++;
+            instanceIndex++;
 
-            if (batch.mustReturn) {
-                return;
-            }
+        }
 
-            // Checking geometry state
-            if (this._geometry == null || this._geometry.getVertexBuffers() == null || this._geometry.getIndexBuffer() == null) {
-                return;
-            }
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var callbackIndex = 0; callbackIndex < this._onBeforeRenderCallbacks.length; callbackIndex++)
-            for (callbackIndex in 0...this._onBeforeRenderCallbacks.length) {
-                this._onBeforeRenderCallbacks[callbackIndex]();
-            }
+        var offsetLocation0 = effect.getAttributeLocationByName("world0");
+        var offsetLocation1 = effect.getAttributeLocationByName("world1");
+        var offsetLocation2 = effect.getAttributeLocationByName("world2");
+        var offsetLocation3 = effect.getAttributeLocationByName("world3");
 
-            var engine = scene.getEngine();
-            var hardwareInstancedRendering = (engine.getCaps().instancedArrays != null) && (batch.visibleInstances != null); 
+        var offsetLocations = [offsetLocation0, offsetLocation1, offsetLocation2, offsetLocation3];
 
-            // Material
-            var effectiveMaterial = subMesh.getMaterial();
+        engine.updateAndBindInstancesBuffer(this._worldMatricesInstancesBuffer, this._worldMatricesInstancesArray, offsetLocations);
 
+        this._draw(subMesh, !wireFrame, instancesCount);
 
-            // to do hardwareInstancedRendering  effectiveMaterial.isReady(this, hardwareInstancedRendering)
-            if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
-                return;
-            }
+        engine.unBindInstancesBuffer(this._worldMatricesInstancesBuffer, offsetLocations);
+    }
 
-            // World
-            var world:Matrix = this.getWorldMatrix();
+    public function render(subMesh:SubMesh):Void {
+        var scene = this.getScene();
 
-            // Material
-            //var effectiveMaterial = subMesh.getMaterial();
-            //if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
-              //  return;
-            //}
-            var effect = effectiveMaterial.getEffect();
-            var wireFrame = engine.forceWireframe || effectiveMaterial.wireframe;
-            this._bind(subMesh, effect, wireFrame);
+        // Managing instances
+        var batch = this._getInstancesRenderList();
 
-            if(Std.is(effectiveMaterial, Material)) {
-                effectiveMaterial._preBind();
-                effectiveMaterial.bind(world, this);
-            }
+        if (batch.mustReturn) {
+            return;
+        }
 
-            
+        // Checking geometry state
+        if (this._geometry == null || this._geometry.getVertexBuffers() == null || this._geometry.getIndexBuffer() == null) {
+            return;
+        }
+
+        for (callbackIndex in 0...this._onBeforeRenderCallbacks.length) {
+            this._onBeforeRenderCallbacks[callbackIndex]();
+        }
+
+        var engine = scene.getEngine();
+        var hardwareInstancedRendering = (engine.getCaps().instancedArrays != null) && (batch.visibleInstances != null);
+
+        // Material
+        var effectiveMaterial = subMesh.getMaterial();
 
 
+        // todo hardwareInstancedRendering  effectiveMaterial.isReady(this, hardwareInstancedRendering)
+        if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
+            return;
+        }
 
-            /*
+        // World
+        var world:Matrix = this.getWorldMatrix();
+
+        // Material
+        //var effectiveMaterial = subMesh.getMaterial();
+        //if (effectiveMaterial == null || !effectiveMaterial.isReady(this)) {
+        //  return;
+        //}
+        var effect = effectiveMaterial.getEffect();
+        var wireFrame = engine.forceWireframe || effectiveMaterial.wireframe;
+        this._bind(subMesh, effect, wireFrame);
+
+        if (Std.is(effectiveMaterial, Material)) {
+            effectiveMaterial._preBind();
+            effectiveMaterial.bind(world, this);
+        }
+
+
+        /*
             // Bind
             var wireFrame = engine.forceWireframe || effectiveMaterial.wireframe;
             this._bind(subMesh, effect, wireFrame);
@@ -467,112 +460,104 @@ import openfl.utils.Float32Array;
             effectiveMaterial.bind(world, this);
             */
 
-            // Instances rendering
-            if (hardwareInstancedRendering) {
-                this._renderWithInstances(subMesh, wireFrame, batch, effect, engine);
-            } else {
-                if (batch.renderSelf) {
+        // Instances rendering
+        if (hardwareInstancedRendering) {
+            this._renderWithInstances(subMesh, wireFrame, batch, effect, engine);
+        } else {
+            if (batch.renderSelf) {
+                // Draw
+                this._draw(subMesh, !wireFrame);
+            }
+            if (batch.visibleInstances != null) {
+                var instanceIndex = 0;
+                while (instanceIndex < batch.visibleInstances.length) {
+                    var instance = batch.visibleInstances[instanceIndex];
+
+                    // World
+                    world = instance.getWorldMatrix();
+                    effectiveMaterial.bindOnlyWorldMatrix(world);
+
                     // Draw
                     this._draw(subMesh, !wireFrame);
-                }
-                if (batch.visibleInstances != null) {
-                    // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-                    //  for (var instanceIndex = 0; instanceIndex < batch.visibleInstances.length; instanceIndex++)
-                    var instanceIndex = 0;
-                    while( instanceIndex < batch.visibleInstances.length)  {
-                        var instance = batch.visibleInstances[instanceIndex];
+                    instanceIndex++;
 
-                        // World
-                        world = instance.getWorldMatrix();
-                        effectiveMaterial.bindOnlyWorldMatrix(world);
-
-                        // Draw
-                        this._draw(subMesh, !wireFrame);
-                     instanceIndex++;
-
-            }
                 }
             }
-            // Unbind
-            effectiveMaterial.unbind();
+        }
+        // Unbind
+        effectiveMaterial.unbind();
+    }
+
+    public function getEmittedParticleSystems():Array<ParticleSystem> {
+        var results = new Array<ParticleSystem>();
+        var index = 0;
+        while (index < this.getScene().particleSystems.length) {
+            var particleSystem = this.getScene().particleSystems[index];
+            if (particleSystem.emitter == this) {
+                results.push(particleSystem);
+            }
+            index++;
+
         }
 
-        public function getEmittedParticleSystems() : Array<ParticleSystem> {
-            var results = new Array<ParticleSystem>();
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < this.getScene().particleSystems.length; index++)
-            var index = 0;
-            while( index < this.getScene().particleSystems.length)  {
-                var particleSystem = this.getScene().particleSystems[index];
-                if (particleSystem.emitter == this) {
-                    results.push(particleSystem);
-                }
-             index++;
+        return results;
+    }
 
+    public function getHierarchyEmittedParticleSystems():Array<ParticleSystem> {
+        var results = new Array<ParticleSystem>();
+        var descendants = this.getDescendants();
+        descendants.push(this);
+        var index = 0;
+        while (index < this.getScene().particleSystems.length) {
+            var particleSystem = this.getScene().particleSystems[index];
+            if (descendants.indexOf(particleSystem.emitter) != -1) {
+                results.push(particleSystem);
             }
+            index++;
 
-            return results;
         }
 
-        public function getHierarchyEmittedParticleSystems() : Array<ParticleSystem> {
-            var results = new Array<ParticleSystem>();
-            var descendants = this.getDescendants();
-            descendants.push(this);
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < this.getScene().particleSystems.length; index++)
-            var index = 0;
-            while( index < this.getScene().particleSystems.length)  {
-                var particleSystem = this.getScene().particleSystems[index];
-                if (descendants.indexOf(particleSystem.emitter) != -1) {
-                    results.push(particleSystem);
-                }
-             index++;
+        return results;
+    }
 
+    public function getChildren():Array<Node> {
+        var results = new Array<Node>();
+        var index = 0;
+        while (index < this.getScene().meshes.length) {
+            var mesh = this.getScene().meshes[index];
+            if (mesh.parent == this) {
+                results.push(mesh);
             }
+            index++;
 
-            return results;
         }
 
-        public function getChildren() : Array<Node> {
-            var results = new Array<Node>();
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < this.getScene().meshes.length; index++)
-            var index = 0;
-            while( index < this.getScene().meshes.length)  {
-                var mesh = this.getScene().meshes[index];
-                if (mesh.parent == this) {
-                    results.push(mesh);
-                }
-             index++;
+        return results;
+    }
 
-            }
+    public function _checkDelayState():Void {
+        var that = this;
+        var scene = this.getScene();
+        if (this._geometry != null) {
+            this._geometry.load(scene);
+        } else if (that.delayLoadState == Engine.DELAYLOADSTATE_NOTLOADED) {
+            that.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
 
-            return results;
-        }
+            scene._addPendingData(that);
 
-        public function _checkDelayState() : Void {
-            var that = this;
-            var scene = this.getScene();
-            if (this._geometry != null) {
-                this._geometry.load(scene);
-            }
-            else if (that.delayLoadState == Engine.DELAYLOADSTATE_NOTLOADED) {
-                that.delayLoadState = Engine.DELAYLOADSTATE_LOADING;
-
-                scene._addPendingData(that);
-
-                /*
+            /*
                 Tools.LoadFile(this.delayLoadingFile, data => {
                     this._delayLoadingFunction(JSON.parse(data), this);
                     this.delayLoadState = Engine.DELAYLOADSTATE_LOADED;
                     scene._removePendingData(this);
                 }, () => { }, scene.database);*/
-                
-                Tools.LoadFile(_delayLoadingFunction);
-            }
-        }
 
-        /*
+            Tools.LoadFile(_delayLoadingFunction);
+        }
+    }
+
+    /*
+        todo check this
         public function isInFrustum(frustumPlanes:Array<Plane>):Bool {
             if (this._boundingInfo.isInFrustum(frustumPlanes) == null) {
                 return false;
@@ -581,216 +566,198 @@ import openfl.utils.Float32Array;
             return true;
         }*/
 
-        
 
-        override function isInFrustum(frustumPlanes:Array<Plane> ) : Bool {
-            if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
-                return false;
-            }
-
-            if (!super.isInFrustum(frustumPlanes)) {
-                return false;
-            }
-
-            this._checkDelayState();
-
-            return true;
+    override function isInFrustum(frustumPlanes:Array<Plane>):Bool {
+        if (this.delayLoadState == Engine.DELAYLOADSTATE_LOADING) {
+            return false;
         }
 
-        public function setMaterialByID(id:String ) : Void {
-            var materials = this.getScene().materials;
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < materials.length; index++)
-            var index = 0;
-            while( index < materials.length)  {
-                if (materials[index].id == id) {
-                    this.material = materials[index];
-                    return;
-                }
-             index++;
-
-            }
-
-            // Multi
-            var multiMaterials = this.getScene().multiMaterials;
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (index = 0; index < multiMaterials.length; index++)
-            index = 0;
-            while( index < multiMaterials.length)  {
-                if (multiMaterials[index].id == id) {
-                    this.material = multiMaterials[index];
-                    return;
-                }
-             index++;
-
-            }
+        if (!super.isInFrustum(frustumPlanes)) {
+            return false;
         }
 
-        public function getAnimatables() : Array<IAnimatable> {
-            var results = new Array<IAnimatable>();
+        this._checkDelayState();
 
-            if (this.material != null) {
-                results.push(this.material);
-            }
+        return true;
+    }
 
-            return results;
-        }
-
-        // Geometry
-
-        public function bakeTransformIntoVertices(transform:Matrix ) : Void {
-            // Position
-            if (!this.isVerticesDataPresent(VertexBuffer.PositionKind)) {
+    public function setMaterialByID(id:String):Void {
+        var materials = this.getScene().materials;
+        var index = 0;
+        while (index < materials.length) {
+            if (materials[index].id == id) {
+                this.material = materials[index];
                 return;
             }
+            index++;
 
-            this._resetPointsArrayCache();
-
-            var data = this.getVerticesData(VertexBuffer.PositionKind);
-            var temp = [];
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < data.length; index += 3)
-            var index = 0;
-            while( index < data.length)  {
-                Vector3.TransformCoordinates(Vector3.FromArray(data, index), transform).toArray(temp, index);
-             index += 3;
-
-            }
-
-            this.setVerticesData(VertexBuffer.PositionKind, temp, this.getVertexBuffer(VertexBuffer.PositionKind).isUpdatable());
-
-            // Normals
-            if (!this.isVerticesDataPresent(VertexBuffer.NormalKind)) {
-                return;
-            }
-
-            data = this.getVerticesData(VertexBuffer.NormalKind);
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (index = 0; index < data.length; index += 3)
-            index = 0;
-            while( index < data.length)  {
-                Vector3.TransformNormal(Vector3.FromArray(data, index), transform).toArray(temp, index);
-             index += 3;
-
-            }
-
-            this.setVerticesData(VertexBuffer.NormalKind, temp, this.getVertexBuffer(VertexBuffer.NormalKind).isUpdatable());
         }
 
+        // Multi
+        var multiMaterials = this.getScene().multiMaterials;
+        index = 0;
+        while (index < multiMaterials.length) {
+            if (multiMaterials[index].id == id) {
+                this.material = multiMaterials[index];
+                return;
+            }
+            index++;
+
+        }
+    }
+
+    public function getAnimatables():Array<IAnimatable> {
+        var results = new Array<IAnimatable>();
+
+        if (this.material != null) {
+            results.push(this.material);
+        }
+
+        return results;
+    }
+
+    // Geometry
+
+    public function bakeTransformIntoVertices(transform:Matrix):Void {
+        // Position
+        if (!this.isVerticesDataPresent(VertexBuffer.PositionKind)) {
+            return;
+        }
+
+        this._resetPointsArrayCache();
+
+        var data = this.getVerticesData(VertexBuffer.PositionKind);
+        var temp = [];
+        var index = 0;
+        while (index < data.length) {
+            Vector3.TransformCoordinates(Vector3.FromArray(data, index), transform).toArray(temp, index);
+            index += 3;
+
+        }
+
+        this.setVerticesData(VertexBuffer.PositionKind, temp, this.getVertexBuffer(VertexBuffer.PositionKind).isUpdatable());
+
+        // Normals
+        if (!this.isVerticesDataPresent(VertexBuffer.NormalKind)) {
+            return;
+        }
+
+        data = this.getVerticesData(VertexBuffer.NormalKind);
+        index = 0;
+        while (index < data.length) {
+            Vector3.TransformNormal(Vector3.FromArray(data, index), transform).toArray(temp, index);
+            index += 3;
+
+        }
+
+        this.setVerticesData(VertexBuffer.NormalKind, temp, this.getVertexBuffer(VertexBuffer.NormalKind).isUpdatable());
+    }
 
 
-        // Cache
-        /*
+    // Cache
+    /* todo
         public function _resetPointsArrayCache() : Void {
             this._positions = null;
         }*/
 
-        override function _generatePointsArray() : Bool {
-            if (this._positions != null){
-                return true;
-            }
-                
-
-            this._positions = new Array<Vector3>();
-
-            var data = this.getVerticesData(VertexBuffer.PositionKind);
-
-            if (data == null) {
-                return false;
-            }
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var index = 0; index < data.length; index += 3)
-            var index = 0;
-            while( index < data.length)  {
-                this._positions.push(Vector3.FromArray(data, index));
-             index += 3;
-
-            }
-
+    override function _generatePointsArray():Bool {
+        if (this._positions != null) {
             return true;
         }
 
-        // Clone
 
-        override function clone(name:String, newParent:Node = null, doNotCloneChildren:Bool = false ) : Mesh {
-            var resultMesh = new Mesh(name, this.getScene());
-            var index = 0;
+        this._positions = new Array<Vector3>();
 
-            // Geometry
-            this._geometry.applyToMesh(resultMesh);
+        var data = this.getVerticesData(VertexBuffer.PositionKind);
 
-            // Deep copy
-            trace('Mesh:clone -- ');
-            Tools.DeepCopy(this, resultMesh, ["_onBeforeRenderCallbacks", "name", "material", "skeleton" ]);
+        if (data == null) {
+            return false;
+        }
+        var index = 0;
+        while (index < data.length) {
+            this._positions.push(Vector3.FromArray(data, index));
+            index += 3;
 
-            // Material
-            resultMesh.material = this.material;
-
-            // Parent
-            if (newParent != null) {
-                resultMesh.parent = newParent;
-            }
-
-            if (!doNotCloneChildren) {
-                // Children
-                // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-                //  for (var index = 0; index < this.getScene().meshes.length; index++)
-                
-                while( index < this.getScene().meshes.length)  {
-                    var mesh = this.getScene().meshes[index];
-
-                    if (mesh.parent == this) {
-                        mesh.clone(mesh.name, resultMesh);
-                    }
-                 index++;
-
-                }
-            }
-
-            // Particles
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (index = 0; index < this.getScene().particleSystems.length; index++)
-            index = 0;
-            while( index < this.getScene().particleSystems.length)  {
-                var system = this.getScene().particleSystems[index];
-
-                if (system.emitter == this) {
-                    system.clone(system.name, resultMesh);
-                }
-             index++;
-
-            }
-
-            resultMesh.computeWorldMatrix(true);
-
-            return resultMesh;
         }
 
-        // Dispose
+        return true;
+    }
 
-        override function dispose(doNotRecurse:Bool = false) : Void {
-            if (this._geometry != null) {
-                // todo investigate 
-               // this._geometry.releaseForMesh(this, true);
-                this._geometry.releaseForMesh(this);
-            }
+    // Clone
 
-            // Instances
-            if (this._worldMatricesInstancesBuffer != null) {
-                this.getScene().getEngine()._releaseBuffer(this._worldMatricesInstancesBuffer);
-                this._worldMatricesInstancesBuffer = null;
-            }
+    override function clone(name:String, newParent:Node = null, doNotCloneChildren:Bool = false):Mesh {
+        var resultMesh = new Mesh(name, this.getScene());
+        var index = 0;
 
-            while (this.instances.length > 0) {
-                this.instances[0].dispose();
-            }
+        // Geometry
+        this._geometry.applyToMesh(resultMesh);
 
-            super.dispose(doNotRecurse);
+        // Deep copy
+        Tools.DeepCopy(this, resultMesh, ["_onBeforeRenderCallbacks", "name", "material", "skeleton" ]);
+
+        // Material
+        resultMesh.material = this.material;
+
+        // Parent
+        if (newParent != null) {
+            resultMesh.parent = newParent;
         }
 
-        // Geometric tools
+        if (!doNotCloneChildren) {
+            // Children
+            while (index < this.getScene().meshes.length) {
+                var mesh = this.getScene().meshes[index];
 
-        public function convertToFlatShadedMesh() {
+                if (mesh.parent == this) {
+                    mesh.clone(mesh.name, resultMesh);
+                }
+                index++;
+
+            }
+        }
+
+        // Particles
+        index = 0;
+        while (index < this.getScene().particleSystems.length) {
+            var system = this.getScene().particleSystems[index];
+
+            if (system.emitter == this) {
+                system.clone(system.name, resultMesh);
+            }
+            index++;
+
+        }
+
+        resultMesh.computeWorldMatrix(true);
+
+        return resultMesh;
+    }
+
+    // Dispose
+
+    override function dispose(doNotRecurse:Bool = false):Void {
+        if (this._geometry != null) {
+            // todo investigate
+            // this._geometry.releaseForMesh(this, true);
+            this._geometry.releaseForMesh(this);
+        }
+
+        // Instances
+        if (this._worldMatricesInstancesBuffer != null) {
+            this.getScene().getEngine()._releaseBuffer(this._worldMatricesInstancesBuffer);
+            this._worldMatricesInstancesBuffer = null;
+        }
+
+        while (this.instances.length > 0) {
+            this.instances[0].dispose();
+        }
+
+        super.dispose(doNotRecurse);
+    }
+
+    // Geometric tools
+
+    public function convertToFlatShadedMesh() {
         /// <summary>Update normals and vertices to get a flat shading rendering.</summary>
         /// <summary>Warning: This may imply adding vertices to the mesh in order to get exactly 3 vertices per face</summary>
 
@@ -799,7 +766,7 @@ import openfl.utils.Float32Array;
         var data:Map<String, Array<Float>> = new Map();
         var newdata:Map<String, Array<Float>> = new Map();
         var updatableNormals:Bool = false;
-        for(kindIndex in 0...kinds.length) {
+        for (kindIndex in 0...kinds.length) {
             var kind = kinds[kindIndex];
 
             if (kind == VertexBuffer.NormalKind) {
@@ -808,7 +775,7 @@ import openfl.utils.Float32Array;
                 continue;
             }
         }
-        for(kind in kinds) {
+        for (kind in kinds) {
             vbs.set(kind, this.getVertexBuffer(kind));
             data.set(kind, vbs.get(kind).getData());
             newdata.set(kind, []);
@@ -837,7 +804,7 @@ import openfl.utils.Float32Array;
         var normals:Array<Float> = [];
         var positions = newdata[VertexBuffer.PositionKind];
         var index:Int = 0;
-        while(index < indices.length) {
+        while (index < indices.length) {
             indices[index] = index;
             indices[index + 1] = index + 1;
             indices[index + 2] = index + 2;
@@ -857,7 +824,7 @@ import openfl.utils.Float32Array;
                 normals.push(normal.y);
                 normals.push(normal.z);
             }
-            
+
             index += 3;
         }
 
@@ -879,87 +846,85 @@ import openfl.utils.Float32Array;
         }
     }
 
-        // Instances
+    // Instances
 
-        public function createInstance(name:String ) : InstancedMesh {
-            return new InstancedMesh(name, this);
+    public function createInstance(name:String):InstancedMesh {
+        return new InstancedMesh(name, this);
+    }
+
+    public function synchronizeInstances():Void {
+        var instanceIndex = 0;
+        while (instanceIndex < this.instances.length) {
+            var instance = this.instances[instanceIndex];
+            instance._syncSubMeshes();
+            instanceIndex++;
+
         }
+    }
 
-        public function synchronizeInstances() : Void {
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var instanceIndex = 0; instanceIndex < this.instances.length; instanceIndex++)
-            var instanceIndex = 0;
-            while( instanceIndex < this.instances.length)  {
-                var instance = this.instances[instanceIndex];
-                instance._syncSubMeshes();
-             instanceIndex++;
+    // Statics
 
-            }
-        }
+    public static function CreateBox(name:String, size:Float, scene:Scene, ?updatable:Bool):Mesh {
+        var box = new Mesh(name, scene);
+        var vertexData = VertexData.CreateBox(size);
 
-        // Statics
+        vertexData.applyToMesh(box, updatable);
 
-        public static function CreateBox(name:String, size:Float, scene:Scene, ?updatable:Bool ) : Mesh {
-            var box = new Mesh(name, scene);
-            var vertexData = VertexData.CreateBox(size);
+        return box;
+    }
 
-            vertexData.applyToMesh(box, updatable);
+    public static function CreateSphere(name:String, segments:Float, diameter:Float, scene:Scene, ?updatable:Bool):Mesh {
+        var sphere = new Mesh(name, scene);
+        var vertexData = VertexData.CreateSphere(segments, diameter);
 
-            return box;
-        }
+        vertexData.applyToMesh(sphere, updatable);
 
-        public static function CreateSphere(name:String, segments:Float, diameter:Float, scene:Scene, ?updatable:Bool ) : Mesh {
-            var sphere = new Mesh(name, scene);
-            var vertexData = VertexData.CreateSphere(segments, diameter);
+        return sphere;
+    }
 
-            vertexData.applyToMesh(sphere, updatable);
+    // Cylinder and
 
-            return sphere;
-        }
+    public static function CreateCylinder(name:String, height:Int, diameterTop:Float, diameterBottom:Float, tessellation:Int, scene:Scene, ?updatable:Bool):Mesh {
+        var cylinder = new Mesh(name, scene);
+        var vertexData = VertexData.CreateCylinder(height, diameterTop, diameterBottom, tessellation);
 
-        // Cylinder and
+        vertexData.applyToMesh(cylinder, updatable);
 
-        public static function CreateCylinder(name:String,height:Int,diameterTop:Float,diameterBottom:Float,tessellation:Int,scene:Scene,?updatable:Bool):Mesh {
-            var cylinder = new Mesh(name, scene);
-            var vertexData = VertexData.CreateCylinder(height, diameterTop, diameterBottom, tessellation);
+        return cylinder;
+    }
 
-            vertexData.applyToMesh(cylinder, updatable);
+    //
 
-            return cylinder;
-        }
+    public static function CreateTorus(name:String, diameter:Float, thickness:Float, tessellation:Int, scene:Scene, ?updatable:Bool):Mesh {
+        var torus = new Mesh(name, scene);
+        var vertexData = VertexData.CreateTorus(diameter, thickness, tessellation);
 
-        //
+        vertexData.applyToMesh(torus, updatable);
 
-        public static function CreateTorus(name:String,diameter:Float, thickness:Float, tessellation:Int, scene:Scene, ?updatable:Bool):Mesh {
-            var torus = new Mesh(name, scene);
-            var vertexData = VertexData.CreateTorus(diameter, thickness, tessellation);
+        return torus;
+    }
 
-            vertexData.applyToMesh(torus, updatable);
+    public static function CreateTorusKnot(name:String, radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float, p:Float, q:Float, scene:Scene, ?updatable:Bool):Mesh {
+        var torusKnot = new Mesh(name, scene);
+        var vertexData = VertexData.CreateTorusKnot(radius, tube, radialSegments, tubularSegments, p, q);
 
-            return torus;
-        }
+        vertexData.applyToMesh(torusKnot, updatable);
 
-        public static function CreateTorusKnot(name:String, radius:Float, tube:Float, radialSegments:Float, tubularSegments:Float,  p:Float ,q:Float, scene:Scene, ?updatable:Bool ) : Mesh {
-            var torusKnot = new Mesh(name, scene);
-            var vertexData = VertexData.CreateTorusKnot(radius, tube, radialSegments, tubularSegments, p, q);
+        return torusKnot;
+    }
 
-            vertexData.applyToMesh(torusKnot, updatable);
+    // Plane & ground
 
-            return torusKnot;
-        }
+    public static function CreatePlane(name:String, size:Float, scene:Scene, ?updatable:Bool):Mesh {
+        var plane = new Mesh(name, scene);
+        var vertexData = VertexData.CreatePlane(size);
 
-        // Plane & ground
+        vertexData.applyToMesh(plane, updatable);
 
-        public static function CreatePlane(name:String, size:Float, scene:Scene, ?updatable:Bool ) : Mesh {
-            var plane = new Mesh(name, scene);
-            var vertexData = VertexData.CreatePlane(size);
+        return plane;
+    }
 
-            vertexData.applyToMesh(plane, updatable);
-
-            return plane;
-        }
-
-        /*
+    /*
         public static function CreateGround(name:String, width:Float, height:Float, subdivisions:Float, scene:Scene, ?updatable:Bool ) : Mesh {
             var ground = new GroundMesh(name, scene);
             ground._setReady(false);
@@ -1009,42 +974,42 @@ import openfl.utils.Float32Array;
 
         }*/
 
-            //Tools.
+    //Tools.
 
-        /*public function LoadImage(url, onload, () : => { }, scene.database);
+    /*public function LoadImage(url, onload, () : => { }, scene.database);
 
             return ground;
         }*/
 
-        // Tools
+    // Tools
 
-        public static function MinMax(meshes:Array<AbstractMesh>):Dynamic {
-            //var min : Vector3;
-            //var max : Vector3;
-            var _MinMax:Dynamic = {min:new Vector3(0,0,0), max:new Vector3(0,0,0)};
-            var minVector:Vector3 = new Vector3(0,0,0);
-            var maxVector:Vector3 = new Vector3(0,0,0);
-            // haxe does not support for loops with C/JS syntaxt ... unfolding : 
-            //  for (var i in meshes)
-            for( i in 0...meshes.length){
-                var mesh = meshes[i];
-                var boundingBox = mesh.getBoundingInfo().boundingBox;
-                if (minVector == null) {
-                    minVector = boundingBox.minimumWorld;
-                    maxVector = boundingBox.maximumWorld;
-                    continue;
-                }
-                minVector.MinimizeInPlace(boundingBox.minimumWorld);
-                maxVector.MaximizeInPlace(boundingBox.maximumWorld);
+    public static function MinMax(meshes:Array<AbstractMesh>):Dynamic {
+        //var min : Vector3;
+        //var max : Vector3;
+        var _MinMax:Dynamic = {min:new Vector3(0, 0, 0), max:new Vector3(0, 0, 0)};
+        var minVector:Vector3 = new Vector3(0, 0, 0);
+        var maxVector:Vector3 = new Vector3(0, 0, 0);
+        // haxe does not support for loops with C/JS syntaxt ... unfolding :
+        //  for (var i in meshes)
+        for (i in 0...meshes.length) {
+            var mesh = meshes[i];
+            var boundingBox = mesh.getBoundingInfo().boundingBox;
+            if (minVector == null) {
+                minVector = boundingBox.minimumWorld;
+                maxVector = boundingBox.maximumWorld;
+                continue;
             }
-            _MinMax.min = minVector;
-            _MinMax.max = maxVector;
-            return  _MinMax;
+            minVector.MinimizeInPlace(boundingBox.minimumWorld);
+            maxVector.MaximizeInPlace(boundingBox.maximumWorld);
         }
-
-        public static function Center(meshesOrMinMaxVector:Dynamic) : Vector3 {
-            var minMaxVector = meshesOrMinMaxVector.min != null ? meshesOrMinMaxVector : Mesh.MinMax(meshesOrMinMaxVector);
-            return Vector3.Center(minMaxVector.min, minMaxVector.max);
-        }
+        _MinMax.min = minVector;
+        _MinMax.max = maxVector;
+        return _MinMax;
     }
+
+    public static function Center(meshesOrMinMaxVector:Dynamic):Vector3 {
+        var minMaxVector = meshesOrMinMaxVector.min != null ? meshesOrMinMaxVector : Mesh.MinMax(meshesOrMinMaxVector);
+        return Vector3.Center(minMaxVector.min, minMaxVector.max);
+    }
+}
  

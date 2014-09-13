@@ -37,61 +37,62 @@ import net.hires.debug.Stats;
 
 class Main extends Sprite {
 
-  var inited:Bool;
-  var scene:Scene;
-  
-  function resize(e) {
-    if (!inited) init();
-    // else (resize or orientation change)
-  }
+    var inited:Bool;
+    var scene:Scene;
 
-  function init() {
-    if (inited) return;
-    inited = true;
+    function resize(e) {
+        if (!inited) init();
+        // else (resize or orientation change)
+    }
 
-    var engine = new Engine(this, true);    
-    SceneLoader.Load("assets/scenes/Heart/", "Heart.babylon", engine, function(newScene:Scene) {
-      this.scene = newScene;
+    function init() {
+        if (inited) return;
+        inited = true;
 
-      scene.activeCamera = scene.cameras[0];
-      if (scene.activeCamera != null) {
-        scene.activeCamera.attachControl(this);
+        var engine = new Engine(this, true);
+        SceneLoader.Load("assets/scenes/Heart/", "Heart.babylon", engine, function(newScene:Scene) {
+            this.scene = newScene;
 
-        var _c:FreeCamera = cast scene.activeCamera;
+            scene.activeCamera = scene.cameras[0];
+            if (scene.activeCamera != null) {
+                scene.activeCamera.attachControl(this);
 
-        _c.keysUp.push(87); // W
-        _c.keysDown.push(83); // S
-        _c.keysLeft.push(65); // A
-        _c.keysRight.push(68); // D
-      }
+                var _c:FreeCamera = cast scene.activeCamera;
 
-      scene.executeWhenReady(function() {
-        engine.runRenderLoop(scene.render);
-        addChild(new Stats());
-      });
-    });
-  }
+                _c.keysUp.push(87); // W
+                _c.keysDown.push(83); // S
+                _c.keysLeft.push(65); // A
+                _c.keysRight.push(68); // D
+            }
 
-  /* SETUP */
-  public function new() {
-    super();    
-    addEventListener(Event.ADDED_TO_STAGE, added);
-  }
+            scene.executeWhenReady(function() {
+                engine.runRenderLoop(scene.render);
+                addChild(new Stats());
+            });
+        });
+    }
 
-  function added(e) {
-    removeEventListener(Event.ADDED_TO_STAGE, added);
-    stage.addEventListener(Event.RESIZE, resize);
-    #if ios
+    /* SETUP */
+
+    public function new() {
+        super();
+        addEventListener(Event.ADDED_TO_STAGE, added);
+    }
+
+    function added(e) {
+        removeEventListener(Event.ADDED_TO_STAGE, added);
+        stage.addEventListener(Event.RESIZE, resize);
+        #if ios
     haxe.Timer.delay(init, 100); // iOS 6
     #else
-    init();
-    #end
-  }
+        init();
+        #end
+    }
 
-  public static function main() {
-    // static entry point
-    Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-    Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-    Lib.current.addChild(new Main());
-  }
+    public static function main() {
+        // static entry point
+        Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
+        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        Lib.current.addChild(new Main());
+    }
 }

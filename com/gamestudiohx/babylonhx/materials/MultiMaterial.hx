@@ -11,42 +11,42 @@ import com.gamestudiohx.babylonhx.Scene;
  */
 
 class MultiMaterial {
-	
-	public var name:String;
-	public var id:String;
-	
-	private var _scene:Scene;
-	
-	public var subMaterials:Array<Material>;
 
-	public function new(name:String, scene:Scene) {
-		this.name = name;
+    public var name:String;
+    public var id:String;
+
+    private var _scene:Scene;
+
+    public var subMaterials:Array<Material>;
+
+    public function new(name:String, scene:Scene) {
+        this.name = name;
         this.id = name;
-        
+
         this._scene = scene;
         scene.multiMaterials.push(this);
 
         this.subMaterials = [];
-	}
-	
-	public function getSubMaterial(index:Int):Material {
+    }
+
+    public function getSubMaterial(index:Int):Material {
         if (index < 0 || index >= this.subMaterials.length) {
             return this._scene.defaultMaterial;
         }
 
         return this.subMaterials[index];
     }
-	
-	public function isReady(mesh:Mesh):Bool {
+
+    public function isReady(mesh:Mesh):Bool {
         var result:Bool = true;
         for (index in 0...this.subMaterials.length) {
             var subMaterial = this.subMaterials[index];
             //if (subMaterial != null) {
-                result = result && this.subMaterials[index].isReady(mesh);
+            result = result && this.subMaterials[index].isReady(mesh);
             //}
         }
 
         return result;
     }
-	
+
 }

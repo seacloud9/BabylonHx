@@ -10,17 +10,17 @@ import com.gamestudiohx.babylonhx.tools.math.Vector3;
  */
 
 class PickingInfo {
-	
-	public var hit:Bool = false;
+
+    public var hit:Bool = false;
     public var distance:Float;
     public var pickedPoint:Vector3;
     public var pickedMesh:Mesh;
 
-	public function new() {
-		this.hit = false;
-		this.distance = 0;
-		this.pickedPoint = null;
-		this.pickedMesh = null;
-	}
-	
+    public function new() {
+        this.hit = false;
+        this.distance = 0;
+        this.pickedPoint = null;
+        this.pickedMesh = null;
+    }
+
 }
