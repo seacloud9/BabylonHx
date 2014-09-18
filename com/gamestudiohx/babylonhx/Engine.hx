@@ -640,11 +640,9 @@ class Engine {
         var shaderProgram = GL.createProgram();
         GL.attachShader(shaderProgram, vertexShader);
         GL.attachShader(shaderProgram, fragmentShader);
-
         GL.linkProgram(shaderProgram);
-
         var error:String = GL.getProgramInfoLog(shaderProgram);
-        if (error != "") {
+        if (error != "" && error.indexOf('Link was successful.') == -1) {
 
             throw(error);
         }

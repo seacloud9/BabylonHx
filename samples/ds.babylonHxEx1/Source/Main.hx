@@ -14,6 +14,7 @@ import com.gamestudiohx.babylonhx.materials.textures.Texture;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
 import com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess;
+import com.gamestudiohx.babylonhx.tools.Tools;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Color3;
@@ -51,6 +52,7 @@ class Main extends Sprite {
         var engine = new Engine(this, true);
         var scene = new Scene(engine);
         var camera = new ArcRotateCamera("Camera", 0, 0, 10, Vector3.Zero(), scene);
+        Tools.isDebug = true;
         camera.attachControl(this);
         var light0 = new PointLight("Omni0", new Vector3(0, 10, 0), scene);
         var light1 = new PointLight("Omni1", new Vector3(0, -10, 0), scene);
@@ -131,8 +133,8 @@ class Main extends Sprite {
 
         scene.executeWhenReady(function() {
             engine.runRenderLoop(scene.render);
-            addChild(new openfl.display.FPS(20, 20));
         });
+        addChild(new openfl.display.FPS(20, 20));
     }
 
     /* SETUP */

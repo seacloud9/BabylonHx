@@ -13,7 +13,6 @@ import com.gamestudiohx.babylonhx.materials.textures.CubeTexture;
 import com.gamestudiohx.babylonhx.materials.textures.Texture;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
-import com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Color3;

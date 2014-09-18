@@ -15,7 +15,6 @@ import com.gamestudiohx.babylonhx.materials.textures.Texture;
 import com.gamestudiohx.babylonhx.materials.textures.DynamicTexture;
 import com.gamestudiohx.babylonhx.mesh.SubMesh;
 import com.gamestudiohx.babylonhx.particles.ParticleSystem;
-import com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess;
 import com.gamestudiohx.babylonhx.tools.math.Color4;
 import com.gamestudiohx.babylonhx.tools.math.Vector3;
 import com.gamestudiohx.babylonhx.tools.math.Color3;
@@ -66,19 +65,19 @@ class Main extends Sprite {
         camera.minZ = 1;
         camera.maxZ = 3000;
         //camera.attachControl(this);
-        /*
-    background = new Layer("back0", null, scene);
-    background.texture = new DynamicTexture("dynamic texture", {width:1024, height:1024}, scene, true);
-    var size = background.texture.getSize();
-    var shape:Shape = new Shape();
-    var m:openfl.geom.Matrix = new openfl.geom.Matrix();
-    var bounds:Rectangle = shape.getBounds(shape);
-    m.translate(-bounds.left, -bounds.top);
-    shape.graphics.beginFill(0x4584b4);
-    shape.graphics.drawRect( 0, 0, size.width, size.height);
-    shape.graphics.endFill();
-    background.texture._canvas.draw(shape, m);
-    background.texture.update(0);*/
+       
+        background = new Layer("back0", null, scene);
+        background.texture = new DynamicTexture("dynamic texture", {width:1024, height:1024}, scene, true);
+        var size = background.texture.getSize();
+        var shape:Shape = new Shape();
+        var m:openfl.geom.Matrix = new openfl.geom.Matrix();
+        var bounds:Rectangle = shape.getBounds(shape);
+        m.translate(-bounds.left, -bounds.top);
+        shape.graphics.beginFill(0x4584b4);
+        shape.graphics.drawRect( 0, 0, size.width, size.height);
+        shape.graphics.endFill();
+        background.texture._canvas.draw(shape, m);
+        background.texture.update(0);
 
         var light = new PointLight("Omni", new Vector3(20, 100, 2), scene);
         var sphere0 = Mesh.CreateSphere("Sphere0", 16, 3, scene);
@@ -121,9 +120,8 @@ class Main extends Sprite {
 
         scene.executeWhenReady(function() {
             engine.runRenderLoop(scene.render);
-            addStats();
         });
-
+        addStats();
     }
 
     private function addStats() {

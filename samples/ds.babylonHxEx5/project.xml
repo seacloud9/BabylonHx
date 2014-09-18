@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-    <meta title="BabylonHx" package="com.example.ds.babylonhx" version="1.0.0" company="Company Name"/>
-    <app main="Main" path="Export" file="BabylonHx"/>
+    <meta title="BabylonHx5" package="com.example.ds.babylonhx5" version="1.0.0" company="Company Name"/>
+    <app main="Main" path="Export" file="BabylonHx5"/>
     <haxelib name="openfl"/>
     <source path="../../"/>
     <source path="Source"/>

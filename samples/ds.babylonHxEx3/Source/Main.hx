@@ -67,8 +67,8 @@ class Main extends Sprite {
         m.translate(-bounds.left, -bounds.top);
         //m.createGradientBox(size.width, size.height,toRad(-90));
         #if html5
-    shape.graphics.beginFill(0x4584b4);
-    #else
+        shape.graphics.beginFill(0x4584b4);
+        #else
         shape.graphics.beginGradientFill(GradientType.LINEAR, [0x1e4877, 0x4584b4], [1, 1], [0, 255], m);
         #end
 

@@ -1147,7 +1147,7 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 	}
 	,init: function() {
 		var _g = this;
-		haxe.Log.trace("in init",{ fileName : "Main.hx", lineNumber : 58, className : "Main", methodName : "init"});
+		haxe.Log.trace("in init",{ fileName : "Main.hx", lineNumber : 57, className : "Main", methodName : "init"});
 		if(this.inited) return;
 		this.inited = true;
 		this.engine = new com.gamestudiohx.babylonhx.Engine(this,true);
@@ -1156,6 +1156,18 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 		camera.fov = 30;
 		camera.minZ = 1;
 		camera.maxZ = 3000;
+		this.background = new com.gamestudiohx.babylonhx.layer.Layer("back0",null,scene);
+		this.background.texture = new com.gamestudiohx.babylonhx.materials.textures.DynamicTexture("dynamic texture",{ width : 1024, height : 1024},scene,true);
+		var size = this.background.texture.getSize();
+		var shape = new openfl.display.Shape();
+		var m = new openfl.geom.Matrix();
+		var bounds = shape.getBounds(shape);
+		m.translate(-bounds.get_left(),-bounds.get_top());
+		shape.get_graphics().beginFill(4555956);
+		shape.get_graphics().drawRect(0,0,size.width,size.height);
+		shape.get_graphics().endFill();
+		this.background.texture._canvas.draw(shape,m);
+		this.background.texture.update(0);
 		var light = new com.gamestudiohx.babylonhx.lights.PointLight("Omni",new com.gamestudiohx.babylonhx.tools.math.Vector3(20,100,2),scene);
 		var sphere0 = com.gamestudiohx.babylonhx.mesh.Mesh.CreateSphere("Sphere0",16,3,scene);
 		var sphere1 = com.gamestudiohx.babylonhx.mesh.Mesh.CreateSphere("Sphere1",16,3,scene);
@@ -1187,8 +1199,8 @@ Main.prototype = $extend(openfl.display.Sprite.prototype,{
 		});
 		scene.executeWhenReady(function() {
 			_g.engine.runRenderLoop($bind(scene,scene.render));
-			_g.addStats();
 		});
+		this.addStats();
 	}
 	,addStats: function() {
 		this.engine._renderingCanvas.addChild(new net.hires.debug.Stats());
@@ -9445,30 +9457,6 @@ com.gamestudiohx.babylonhx.postprocess.PostProcessManager.prototype = {
 	}
 	,__class__: com.gamestudiohx.babylonhx.postprocess.PostProcessManager
 };
-com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess = function(name,refractionTextureUrl,color,depth,colorLevel,ratio,camera,samplingMode) {
-	if(samplingMode == null) samplingMode = 1;
-	var _g = this;
-	com.gamestudiohx.babylonhx.postprocess.PostProcess.call(this,name,"refraction",["baseColor","depth","colorLevel"],["refractionSampler"],ratio,camera,samplingMode);
-	this.color = color;
-	this.depth = depth;
-	this.colorLevel = colorLevel;
-	this._refTexture = new com.gamestudiohx.babylonhx.materials.textures.Texture(refractionTextureUrl,camera.getScene());
-	this.onApply = function(effect) {
-		effect.setColor3("baseColor",_g.color);
-		effect.setFloat("depth",_g.depth);
-		effect.setFloat("colorLevel",_g.colorLevel);
-		effect.setTexture("refractionSampler",_g._refTexture);
-	};
-	this._onDispose = function() {
-		if(_g._refTexture != null) _g._refTexture.dispose();
-	};
-};
-$hxClasses["com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess"] = com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess;
-com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess.__name__ = ["com","gamestudiohx","babylonhx","postprocess","RefractionPostProcess"];
-com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess.__super__ = com.gamestudiohx.babylonhx.postprocess.PostProcess;
-com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess.prototype = $extend(com.gamestudiohx.babylonhx.postprocess.PostProcess.prototype,{
-	__class__: com.gamestudiohx.babylonhx.postprocess.RefractionPostProcess
-});
 com.gamestudiohx.babylonhx.rendering = {};
 com.gamestudiohx.babylonhx.rendering.BoundingBoxRenderer = function(scene) {
 	this.renderList = new com.gamestudiohx.babylonhx.tools.SmartArray();

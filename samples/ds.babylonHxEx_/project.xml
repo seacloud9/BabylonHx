@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+    <meta title="BabylonHx" package="com.example.ds.babylonhx" version="1.0.0" company="Company Name"/>
+    <app main="Main" path="Export" file="BabylonHx"/>
+    <haxelib name="openfl"/>
+    <source path="path to BabylonHx source"/>
+    <source path="Source"/>
+
+
+    <assets path="Assets" rename="assets" exclude="openfl.svg"/>
+
+    <icon path="Assets/openfl.svg"/>
+
+</project>

@@ -13,7 +13,7 @@
 -D html5
 -D web
 --remap flash:openfl
--js Export/html5/bin/BabylonHx.js
+-js Export/html5/bin/BabylonHx4.js
 -cp Export/html5/haxe
 -D html5
 --macro allowPackage("flash")

@@ -220,11 +220,15 @@ class Effect {
             var index:Int = 0;
             while (index < this._samplers.length) {
                 var sampler = this.getUniform(this._samplers[index]);
+                if (Tools.isDebug) {
+                	trace('sampler -> ' + sampler);
+            	}
                 #if html5
 				if (sampler == null) {
 				#else
                 if (sampler < 0) {
-                    #end
+                #end
+                
                     this._samplers.splice(index, 1);
                     index--;
                 }
